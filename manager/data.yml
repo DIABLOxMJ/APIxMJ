@@ -1,0 +1,476 @@
+data:
+    button:
+        installer:
+            name: data.button.installer.name
+            slot: 12
+        update:
+            name: data.button.update.name
+            slot: 14
+        uninstalled:
+            name: data.button.uninstalled.name
+            slot: 21
+        request:
+            confirm:
+                name: data.button.request.confirm.name
+                slot: 11
+            cancel:
+                name: data.button.request.cancel.name
+                slot: 15
+    main:
+        extension:
+            name: data.main.extension.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': none
+            folder: extension
+            slot: 16
+            kick: false
+            open_gui: menu
+            skript:
+                '1': none
+            yml:
+                '1': config
+            file:
+                '1': none
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: chest
+            gui_background:
+                item: green stained glass pane
+        settings:
+            name: data.main.settings.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': none
+            folder: settings
+            slot: 43
+            kick: false
+            open_gui: settings
+            skript:
+                '1': none
+            yml:
+                '1': config
+            file:
+                '1': none
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: command block
+            gui_background:
+                item: black stained glass pane
+        manager:
+            name: data.main.manager.name
+            version: 2022.05.21.0001
+            installed: true
+            depends:
+                '1': none
+            folder: manager
+            slot: 10
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_manager
+            yml:
+                '1': config
+                '2': data
+            file:
+                '1': mj.manager.config
+                '2': mj.manager.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: command block
+            gui_background:
+                item: yellow stained glass pane
+        ranker:
+            name: data.main.ranker.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': manager
+                '2': core
+            folder: ranker
+            slot: 41
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_ranker
+            yml:
+                '1': config
+                '2': data
+            file:
+                '1': mj.config
+                '2': mj.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: iron chestplate
+            gui_background:
+                item: blue stained glass pane
+        core:
+            name: data.main.core.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': manager
+            folder: core
+            slot: 19
+            kick: true
+            open_gui: manager
+            skript:
+                '1': apixmj
+            yml:
+                '1': config
+            file:
+                '1': mj.config
+                '2': mj.data
+                '3': mj.log
+                '4': mj.temp
+                '5': mj.timer
+                '6': mj.stats
+                '7': mj.inventory
+                '8': mj.userdata
+            reset:
+                '1':
+                    file: mj.temp
+                    data: data
+                '2':
+                    file: mj.timer
+                    data: data
+                '3':
+                    file: mj.stats
+                    data: data
+                '4':
+                    file: mj.inventory
+                    data: data
+                '5':
+                    file: mj.userdata
+                    data: data
+            item: command block
+            gui_background:
+                item: purple stained glass pane
+        essentials:
+            name: data.main.essentials.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': manager
+                '2': core
+            folder: essentials
+            slot: 37
+            kick: true
+            open_gui: manager
+            skript:
+                '1': apixmj_essentials
+            yml:
+                '1': config
+                '2': data
+            file:
+                '1': mj.essentials.config
+                '2': mj.essentials.data
+                '3': mj.essentials.log
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: command block
+            gui_background:
+                item: light blue stained glass pane
+        faction:
+            name: data.main.faction.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': manager
+                '2': core
+                '3': essentials
+            folder: faction
+            slot: 12
+            kick: true
+            open_gui: manager
+            skript:
+                '1': apixmj_faction
+            yml:
+                '1': config
+            file:
+                '1': mj.faction.config
+                '2': mj.faction.data
+            reset:
+                '1':
+                    file: mj.faction.data
+                    data: data
+            item: iron sword
+            gui_background:
+                item: red stained glass pane
+    extension:
+        duel:
+            name: data.extension.duel.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': core
+            folder: duel
+            slot: 10
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_duel
+            yml:
+                '1': config
+            file:
+                '1': mj.duel.config
+                '2': mj.duel.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: shield
+            gui_background:
+                item: red stained glass pane
+        expbank:
+            name: data.extension.expbank.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': core
+            folder: expbank
+            slot: 11
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_expbank
+            yml:
+                '1': config
+            file:
+                '1': mj.expbank.config
+                '2': mj.expbank.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: bottle o' enchanting
+            gui_background:
+                item: lime stained glass pane
+        hdv:
+            name: data.extension.hdv.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': core
+            folder: hdv
+            slot: 12
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_hdv
+            yml:
+                '1': config
+            file:
+                '1': mj.hdv.config
+                '2': mj.hdv.data
+            reset:
+                '1':
+                    file: mj.hdv.data
+                    data: data
+            item: emerald
+            gui_background:
+                item: gray stained glass pane
+        lootbox:
+            name: data.extension.lootbox.name
+            version: 0000.00.00.0000
+            depends:
+                '1': core
+            installed: false
+            folder: lootbox
+            slot: 13
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_lootbox
+            yml:
+                '1': config
+            file:
+                '1': mj.lootbox.config
+                '2': mj.lootbox.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: leather
+            gui_background:
+                item: light blue stained glass pane
+        menu:
+            name: data.extension.menu.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': core
+            folder: menu
+            slot: 14
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_menu
+            yml:
+                '1': config
+            file:
+                '1': mj.menu.config
+                '2': mj.menu.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: paper
+            gui_background:
+                item: black stained glass pane
+        portal:
+            name: data.extension.portal.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': core
+            folder: portal
+            slot: 15
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_portal
+            yml:
+                '1': config
+            file:
+                '1': mj.portal.config
+                '2': mj.portal.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: obsidian
+            gui_background:
+                item: purple stained glass pane
+        rankup:
+            name: data.extension.rankup.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': core
+            folder: rankup
+            slot: 16
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_rankup
+            yml:
+                '1': config
+            file:
+                '1': mj.rankup.config
+                '2': mj.rankup.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: netherite ingot
+            gui_background:
+                item: lime stained glass pane
+        server:
+            name: data.extension.server.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': core
+            folder: server
+            slot: 19
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_server
+            yml:
+                '1': config
+            file:
+                '1': mj.server.config
+                '2': mj.server.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: oak log
+            gui_background:
+                item: light gray stained glass pane
+        shop:
+            name: data.extension.shop.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': core
+            folder: shop
+            slot: 20
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_shop
+            yml:
+                '1': config
+            file:
+                '1': mj.shop.config
+                '2': mj.shop.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: gold ingot
+            gui_background:
+                item: lime stained glass pane
+        spawner:
+            name: data.extension.spawner.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': core
+            folder: spawner
+            slot: 21
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_spawner
+            yml:
+                '1': config
+            file:
+                '1': mj.spawner.config
+                '2': mj.spawner.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: mob spawner
+            gui_background:
+                item: black stained glass pane
+        store:
+            name: data.extension.store.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': core
+            folder: store
+            slot: 22
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_store
+            yml:
+                '1': config
+            file:
+                '1': mj.store.config
+                '2': mj.store.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: gold nugget
+            gui_background:
+                item: green stained glass pane

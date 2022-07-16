@@ -1,0 +1,91 @@
+# =====================================================================================================================
+# APIxMJ - Installer
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	send "[APIxMJ] Installing language..." to console
+	send "[APIxMJ] Setup..." to console
+	set {_type} to "manager"
+	mj_install_config({_type})
+	mj_install_data({_type})
+	send "[APIxMJ] Finish..." to console
+	delete file "plugins/Skript/scripts/apixmj_update.sk"
+	unload script file "apixmj_update.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Installer
+# =====================================================================================================================
+# APIxMJ - Config
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_install_config(type: text):
+	set {_source} to "mj.%{_type}%.config"
+	set {_01} to yaml value "data.backup" from "%{_source}%"
+	set {_02} to yaml value "data.auto_whitelist" from "%{_source}%"
+	set {_03} to yaml value "data.auto_update" from "%{_source}%"
+	set {_04} to yaml value "data.bungeecord.condition" from "%{_source}%"
+	set {_05} to yaml value "data.bungeecord.server" from "%{_source}%"
+	set {_06} to yaml value "data.language.use" from "%{_source}%"
+	set {_07::*} to yaml list "data.language.list" from "%{_source}%"
+	set {_08} to yaml value "data.gui_background.item" from "%{_source}%"
+	wait 5 ticks
+	mj_manager_file_reset("manager", "main", {_source})
+	wait 5 ticks
+	set yaml value "data.backup" from "%{_source}%" to {_01}
+	set yaml value "data.auto_whitelist" from "%{_source}%" to {_02}
+	set yaml value "data.auto_update" from "%{_source}%" to {_03}
+	set yaml value "data.bungeecord.condition" from "%{_source}%" to {_04}
+	set yaml value "data.bungeecord.server" from "%{_source}%" to {_05}
+	set yaml value "data.language.use" from "%{_source}%" to {_06}
+	set yaml list "data.language.list" from "%{_source}%" to {_07::*}
+	set yaml value "data.gui_background.item" from "%{_source}%" to {_08}
+	save yaml "%{_source}%"
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Config
+# =====================================================================================================================
+# APIxMJ - Data
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_install_data(type: text):
+	set {_source} to "mj.%{_type}%.data"
+	set {_01} to yaml value "data.main.extension.installed" from "%{_source}%"
+	set {_02} to yaml value "data.main.settings.installed" from "%{_source}%"
+	set {_03} to yaml value "data.main.manager.installed" from "%{_source}%"
+	set {_04} to yaml value "data.main.ranker.installed" from "%{_source}%"
+	set {_05} to yaml value "data.main.core.installed" from "%{_source}%"
+	set {_06} to yaml value "data.main.essentials.installed" from "%{_source}%"
+	set {_07} to yaml value "data.main.faction.installed" from "%{_source}%"
+	set {_21} to yaml value "data.extension.duel.installed" from "%{_source}%"
+	set {_22} to yaml value "data.extension.expbank.installed" from "%{_source}%"
+	set {_23} to yaml value "data.extension.hdv.installed" from "%{_source}%"
+	set {_24} to yaml value "data.extension.lootbox.installed" from "%{_source}%"
+	set {_25} to yaml value "data.extension.menu.installed" from "%{_source}%"
+	set {_26} to yaml value "data.extension.portal.installed" from "%{_source}%"
+	set {_27} to yaml value "data.extension.rankup.installed" from "%{_source}%"
+	set {_28} to yaml value "data.extension.server.installed" from "%{_source}%"
+	set {_29} to yaml value "data.extension.shop.installed" from "%{_source}%"
+	set {_30} to yaml value "data.extension.spawner.installed" from "%{_source}%"
+	set {_31} to yaml value "data.extension.store.installed" from "%{_source}%"
+	wait 5 ticks
+	mj_manager_file_reset("manager", "main", {_source})
+	wait 5 ticks
+	set yaml value "data.main.extension.installed" from "%{_source}%" to {_01}
+	set yaml value "data.main.settings.installed" from "%{_source}%" to {_02}
+	set yaml value "data.main.manager.installed" from "%{_source}%" to {_03}
+	set yaml value "data.main.ranker.installed" from "%{_source}%" to {_04}
+	set yaml value "data.main.core.installed" from "%{_source}%" to {_05}
+	set yaml value "data.main.essentials.installed" from "%{_source}%" to {_06}
+	set yaml value "data.main.faction.installed" from "%{_source}%" to {_07}
+	set yaml value "data.extension.duel.installed" from "%{_source}%" to {_21}
+	set yaml value "data.extension.expbank.installed" from "%{_source}%" to {_22}
+	set yaml value "data.extension.hdv.installed" from "%{_source}%" to {_23}
+	set yaml value "data.extension.lootbox.installed" from "%{_source}%" to {_24}
+	set yaml value "data.extension.menu.installed" from "%{_source}%" to {_25}
+	set yaml value "data.extension.portal.installed" from "%{_source}%" to {_26}
+	set yaml value "data.extension.rankup.installed" from "%{_source}%" to {_27}
+	set yaml value "data.extension.server.installed" from "%{_source}%" to {_28}
+	set yaml value "data.extension.shop.installed" from "%{_source}%" to {_29}
+	set yaml value "data.extension.spawner.installed" from "%{_source}%" to {_30}
+	set yaml value "data.extension.store.installed" from "%{_source}%" to {_31}
+	save yaml "%{_source}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Data
+# =====================================================================================================================

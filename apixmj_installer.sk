@@ -1,0 +1,21 @@
+# =====================================================================================================================
+# APIxMJ - Installer
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	send "[APIxMJ] Installing manager..." to console
+	send "[APIxMJ] Setup..." to console
+	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
+	download file from "%{_link}%/manager/config.yml" to file "plugins/APIxMJ/manager/config.yml"
+	download file from "%{_link}%/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
+	download file from "%{_link}%/manager/help/fr.yml" to file "plugins/APIxMJ/manager/help/fr.yml"
+	download file from "%{_link}%/manager/language/fr.yml" to file "plugins/APIxMJ/manager/language/fr.yml"
+	download file from "%{_link}%/manager/apixmj_manager.sk" to file "plugins/Skript/scripts/apixmj_manager.sk"
+	wait 1 seconds
+	reload script "apixmj_manager"
+	send "[APIxMJ] Finish..." to console
+	delete file "plugins/Skript/scripts/apixmj_installer.sk"
+	unload script file "apixmj_installer.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Installer
+# =====================================================================================================================

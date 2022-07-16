@@ -1,0 +1,746 @@
+data:
+    help:
+        name: Aide
+        description: "&aIl permet de trouver et d'apprendre des choses."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/help <name>"
+            '2': "   &7Récupérer des informations."
+        permission:
+            '1': "&6- &7aucun"
+    rule:
+        name: Règlement
+        description: "&aIl est important de connaître le règlement du serveur."
+        type: data.help.rule
+        access: true
+        info:
+            '1': "&6- &aCheat"
+            '2': "   &7C'EST LE MAL INCARNÉE !"
+        permission:
+            '1': "&6- &7aucun"
+    manager:
+        name: APIxMJ
+        description: "&aUn gestionnaire de Skript pour l'environnement d'APIxMJ."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/manager"
+            '2': "   &7Un menu complet pour faire un serveur, mise à jour etc.."
+        permission:
+            '1': "&6- &7aucun"
+    apixmj:
+        name: APIxMJ
+        description: "&aCommande centrale d'APIxMJ il contrôle tout le serveur."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/apixmj <argument>"
+            '2': "&6- &a/mj <argument>"
+            '3': "   &7Seul les personnes présentes dans la liste d'accès dans la configuration ont accès à la commande."
+        permission:
+            '1': "&6- &7aucun"
+    dataeditor:
+        name: Éditeur de données
+        description: "&aUne commande d'édition totale des fichiers yml."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/dataeditor <argument>"
+            '2': "&6- &a/dae <argument>"
+            '3': "   &7Une commande d'édition en jeu un outil indispensable !"
+        permission:
+            '1': "&6- &7aucun"
+    console:
+        name: Console
+        description: "&aUne commande émulatrice de la console directement en jeu."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/console <command>"
+            '2': "   &7Permet d'émuler des commandes restreint à la console."
+        permission:
+            '1': "&6- &7mj.console"
+    log:
+        name: Logger
+        description: "&aAjoute un log dans le chat de modération."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/log <message>"
+            '2': "   &7Envoie un message dans le chat de modération."
+            '3': "&6- &a/loglevel [<number>]"
+            '4': "   &7Change le niveau d'affichage des logs."
+        permission:
+            '1': "&6- &7aucun"
+    restart:
+        name: Redémarrer
+        description: "&aIl permet de redémarrer le serveur. (fonctionne avec certain hébergeur)"
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/restart"
+            '2': "   &7Redémarre le serveur."
+        permission:
+            '1': "&6- &7aucun"
+    reload:
+        name: Recharger
+        description: "&aIl permet de recharger le serveur."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/reload"
+            '2': "   &7Recharge le serveur."
+        permission:
+            '1': "&6- &7aucun"
+    operator:
+        name: Opérateur
+        description: "&aIl permet d'ajouter et de retirer un opérateur."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/op <player>"
+            '2': "   &7Ajoute une personne opérateur."
+            '3': "&6- &a/deop <player>"
+            '4': "   &7Retire la personne des opérateurs."
+        permission:
+            '1': "&6- &7aucun"
+    inventory:
+        name: Système de sauvegarde d'Inventaire
+        description: "&aIl permet de sauvegarder et de restaurer un inventaire."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/inventory <save/restore> <player> <name>"
+            '2': "   &7Sauvegarder où restaurer."
+        permission:
+            '1': "&6- &7mj.inventory"
+    playtime:
+        name: Temps des joueurs
+        description: "&aIl permet de voir la liste de joueurs connectés ces derniers jours."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/playtime [<number>]"
+            '2': "   &7Le nombre est optionnel, il permet de regarder plus loin dans les dates."
+        permission:
+            '1': "&6- &7aucun"
+    report:
+        name: Rapport
+        description: "&aIl permet de créer un rapport d'incident où même un signalement comme. (Bug/Erreur/Joueur/Idée..)"
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/report <message>"
+            '2': "   &7Permet de signaler au responsable quelque chose d'important."
+            '3': "&6- &a/reports"
+            '4': "   &7Voir les rapports."
+        permission:
+            '1': "&6- &7mj.report.admin"
+    storage:
+        name: Stockage
+        description: "&aIl permet de créer/éditer/donner des stocks personnalisés comme. (vote/kits/lootbox..)"
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/storage <create/edit/give/giveall> <name>"
+            '2': "   &7Un outil indispensable."
+        permission:
+            '1': "&6- &7mj.storage"
+    reward:
+        name: Récompense
+        description: "&aIl permet de récupérer les récompenses gagnées en attente de récupération."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/reward"
+            '2': "   &7Récupérer ces cadeaux."
+        permission:
+            '1': "&6- &7aucun"
+    essentials:
+        name: Essentiel
+        description: "&aCommande principale d'essentials."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/essentials [reload] [files]"
+            '2': "   &7Il permet de recharger essentials ou juste les fichiers."
+        permission:
+            '1': "&6- &7mj.essentials.admin"
+    maintenance:
+        name: Maintenance
+        description: "&aCommande pour limiter le serveur au membre de l'équipe seulement."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/maintenance"
+            '2': "   &7Change l'état d'accès au serveur."
+        permission:
+            '1': "&6- &7mj.essentials.maintenance"
+    broadcast:
+        name: Annonce
+        description: "&aCommande qui permet de faire des annonces sur le serveur."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/broadcast <message>"
+            '2': "&6- &a/bc <message>"
+            '3': "&6- &a/annonce <message>"
+            '4': "   &7Faire une annonce à tous les joueurs."
+        permission:
+            '1': "&6- &7mj.essentials.broadcast"
+    message:
+        name: Messagerie
+        description: "&aUn système de message privé."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/message <player> <message>"
+            '2': "&6- &a/msg <player> <message>"
+            '3': "&6- &a/m <player> <message>"
+            '4': "&6- &a/tell <player> <message>"
+            '5': "   &7Envoie un message à un autre joueur."
+            '6': " "
+            '7': "&6- &a/reply <message>"
+            '8': "&6- &a/r <message>"
+            '9': "   &7Répondre rapidement au dernier message privé."
+        permission:
+            '1': "&6- &7mj.essentials.message"
+    gamemode:
+        name: Gamemode
+        description: "&aCommande classique pour changer le mode de jeux."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/gamemode <argument> [<player>]"
+            '2': "&6- &a/gm <argument> [<player>]"
+            '3': "   &7Changer facilement de mode de jeux."
+        permission:
+            '1': "&6- &7mj.essentials.gamemode"
+            '2': "&6- &7mj.essentials.gamemode.other"
+    staffchat:
+        name: Chat de modération
+        description: "&aUn salon de conversation réservé à l'équipe de modération."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/staffchat <message>"
+            '2': "&6- &a/sc <message>"
+            '3': "&6- &a!<message>"
+            '4': "   &7Il permet d'envoyer des messages dans ce salon."
+        permission:
+            '1': "&6- &7mj.essentials.staffchat"
+    money:
+        name: Système d'économie
+        description: "&aUn système d'argent complet."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/money"
+            '2': "   &7Il permet de voir son argent."
+            '3': "&6- &a/money upgrade"
+            '4': "   &7Augmente la limite d'argent si l'option est activée."
+            '5': "&6- &a/money set <player> <number>"
+            '6': "   &7Définis une somme d'argent à un joueur."
+            '7': "&6- &a/money add <player> <number>"
+            '8': "   &7Ajoute une somme d'argent à un joueur."
+            '9': "&6- &a/money remove <player> <number>"
+            '10': "   &7Supprime une somme d'argent à un joueur."
+        permission:
+            '1': "&6- &7mj.essentials.money"
+            '2': "&6- &7mj.essentials.money.modify"
+    bank:
+        name: Économie bancaire
+        description: "&aUn système d'argent bancaire complet."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/bank"
+            '2': "   &7Il permet de voir son argent en banque."
+            '3': "&6- &a/bank upgrade"
+            '4': "   &7Augmente la limite d'argent si l'option est activée."
+            '5': "&6- &a/bank deposit <number>"
+            '6': "   &7Déposer une somme d'argent dans la banque."
+            '7': "&6- &a/bank withdraw <number>"
+            '8': "   &7Récupérer une somme d'argent de la banque."
+            '9': "&6- &a/bank set <player> <number>"
+            '10': "   &7Définis une somme d'argent à un joueur."
+            '11': "&6- &a/bank add <player> <number>"
+            '12': "   &7Ajoute une somme d'argent à un joueur."
+            '13': "&6- &a/bank remove <player> <number>"
+            '14': "   &7Supprime une somme d'argent à un joueur."
+        permission:
+            '1': "&6- &7mj.essentials.bank"
+            '2': "&6- &7mj.essentials.bank.modify"
+    pay:
+        name: Paiment
+        description: "&aUne simple commande pour payer un autre joueur."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/pay <player> <number>"
+            '2': "   &7Envoie de l'argent à un autre joueur."
+        permission:
+            '1': "&6- &7mj.essentials.money"
+    balance:
+        name: Classement économique
+        description: "&aUne commande pour voir le classement des joueurs les plus riches."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/balance"
+            '2': "&6- &a/balancetop"
+            '3': "&6- &a/bal"
+            '4': "&6- &a/baltop"
+            '5': "   &7Affiche un tableau."
+        permission:
+            '1': "&6- &7mj.essentials.money"
+    kits:
+        name: Kit
+        description: "&aVoir est récupérer le kit de jeu intéressent."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/kit <name>"
+            '2': "   &7Réclamé un kit disponible."
+            '3': "&6- &a/kits <name>"
+            '4': "   &7Regarder le contenu d'un kit."
+        permission:
+            '1': "&6- &7mj.essentials.kits"
+            '2': "&6- &7mj.essentials.kits.<name>"
+    ping:
+        name: Ping
+        description: "&aVoir votre ping de connexion ou celui d'un joueur."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/ping [<player>]"
+            '2': "   &7Affiche le ping."
+        permission:
+            '1': "&6- &7mj.essentials.ping"
+    tps:
+        name: Temps de réponse par seconde
+        description: "&aSavoir le temps de réponse du serveur."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/tps"
+            '2': "   &7Vérifie l'état de santé du serveur."
+        permission:
+            '1': "&6- &7mj.essentials.tps"
+    workbench:
+        name: Établi
+        description: "&aUn établi portatif."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/workbench"
+            '2': "&6- &a/wb"
+            '3': "&6- &a/craft"
+            '4': "   &7Ouvre une table de fabrication virtuelle."
+        permission:
+            '1': "&6- &7mj.essentials.workbench"
+    quiet:
+        name: Mode NE PAS DÉRANGER
+        description: "&aUn système qui va empêcher les joueurs d'interagir avec vous de façon directe."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/quiet"
+            '2': "   &7Change l'état du mode Ne Pas Déranger."
+        permission:
+            '1': "&6- &7mj.essentials.quiet"
+    heal:
+        name: Soin
+        description: "&aIl permet de soigner vous ou un autre joueur."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/heal [<player>]"
+            '2': "   &7Remets la barre de santé et nourriture au complet."
+        permission:
+            '1': "&6- &7mj.essentials.heal"
+            '2': "&6- &7mj.essentials.heal.other"
+    feed:
+        name: Nourriture
+        description: "&aPermet de rendre la barre de nourriture complet à vous ou un autre joueur."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/feed [<player>]"
+            '2': "   &7Remets la barre de nourriture au complet."
+        permission:
+            '1': "&6- &7mj.essentials.feed"
+            '2': "&6- &7mj.essentials.feed.other"
+    repair:
+        name: Réparation
+        description: "&aRépare un item ou un inventaire entier."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/repair [all]"
+            '2': "   &7Réparer un item ou l'inventaire. (all)"
+        permission:
+            '1': "&6- &7mj.essentials.repair"
+            '2': "&6- &7mj.essentials.repair.all"
+    fly:
+        name: Mode vol
+        description: "&aChange l'état du mode vol à vous ou un autre joueur."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/fly [<player>]"
+            '2': "   &7Change l'état du mode vol."
+        permission:
+            '1': "&6- &7mj.essentials.fly"
+            '2': "&6- &7mj.essentials.fly.other"
+    speed:
+        name: Vitesse de déplacement
+        description: "&aIl permet de changer la vitesse de marche ou de vol."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/speed [<argument>] [<number>]"
+            '2': "   &7Argument : 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, walk et fly."
+        permission:
+            '1': "&6- &7mj.essentials.speed"
+    clearlag:
+        name: Nettoyage d'entité
+        description: "&aPermet de nettoyer le serveur de tous les entités sauf ceux qui sont dans le spawn."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/clearlag [<argument>]"
+            '2': "   &7Forcer un clearlag où activer/désactiver le mode automatique."
+            '3': "&6- &a/cleartime"
+            '4': "   &7Voir le temps qui reste avant le prochain clearlag."
+        permission:
+            '1': "&6- &7mj.essentials.clearlag"
+    suicide:
+        name: Suicide
+        description: "&aSe donner la mort &cNE JAMAIS REPRODUIRE DANS LA VRAI VIE !!"
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/suicide"
+            '2': "   &7Mourir, c'est mal ne jamais faire ça !"
+        permission:
+            '1': "&6- &7mj.essentials.suicide"
+    disposal:
+        name: Poubelle virtuelle
+        description: "&aUne interface pour effacer des items définitivement."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/disposal"
+            '2': "   &7Ouvre une interface pour déposer les items à supprimer."
+        permission:
+            '1': "&6- &7mj.essentials.disposal"
+    time:
+        name: Manipulateur Temporel
+        description: "&aManipuler le temps Jour, Nuit ! .. Jour, Nuit !"
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/time <argument>"
+            '2': "   &7Simple en réalité. (day où night)"
+            '3': "   &7Également possible avec 00:00 pour minuit où 12:00 pour midi"
+        permission:
+            '1': "&6- &7mj.essentials.time"
+    skull:
+        name: Tête
+        description: "&aIl permet de récupérer des têtes de joueurs."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/skull <player>"
+            '2': "&6- &a/head <player>"
+            '3': "   &7Collection de tête à volonté."
+        permission:
+            '1': "&6- &7mj.essentials.skull"
+    editsign:
+        name: Éditeur de panneau
+        description: "&aUne petite commande qui va modifier les lignes sur un panneau."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/editsign <number> <message>"
+            '2': "   &7Modifie un texte sur un panneau."
+        permission:
+            '1': "&6- &7mj.essentials.editsign"
+    afk:
+        name: Mode absent
+        description: "&aIl permet d'indiquer qu'on est absent, attention toutefois, on peut être expulsé du jeu au bout d'un certain temps."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/afk"
+            '2': "   &7Change le mode."
+        permission:
+            '1': "&6- &7aucun"
+    godmode:
+        name: Mode invincible
+        description: "&aDevenir invincible, c'est bon d'avoir la puissance au creux de sa main !"
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/godmode [<player>]"
+            '2': "&6- &a/god [<player>]"
+            '3': "   &7Change le mode."
+        permission:
+            '1': "&6- &7mj.essentials.godmode"
+            '2': "&6- &7mj.essentials.godmode.other"
+    invsee:
+        name: Inventaire Interactive
+        description: "&aIl permet de voir est modifier les inventaires des joueurs."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/invsee <player>"
+            '2': "   &7Utile contre les cheaters où les joueurs qui ne veulent pas rendre un item volé."
+        permission:
+            '1': "&6- &7mj.essentials.invsee"
+    enderchest:
+        name: Coffre du néant Interactive
+        description: "&aIl permet de voir est modifier les coffres du néant à vous ou celui d'un joueur."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/enderchest [<player>]"
+            '2': "&6- &a/ec [<player>]"
+            '3': "   &7Pratique d'interagir avec sont coffre à distance ou celui d'un joueur."
+        permission:
+            '1': "&6- &7mj.essentials.enderchest"
+            '2': "&6- &7mj.essentials.enderchest.other"
+    spy:
+        name: Mode espion (message privé)
+        description: "&aIl permet d'observer les messages privés."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/spy"
+            '2': "   &7Change le mode."
+        permission:
+            '1': "&6- &7mj.essentials.spy"
+    vanish:
+        name: Mode invisible (déconnecté totale)
+        description: "&aIl permet de se déconnecter et d'être invisible de tous pour faire de la modération efficacement."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/vanish [<player>]"
+            '2': "   &7Se rendre invisible sur le serveur à quelque chose d'étrange est fascinent."
+        permission:
+            '1': "&6- &7mj.essentials.vanish"
+            '2': "&6- &7mj.essentials.vanish.other"
+    ban:
+        name: Bannissement
+        description: "&aCette commande bannit un joueur définitivement."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/ban <player> [<reason>]"
+            '2': "   &7Une décision difficile à prendre quand on doit bannir un joueur."
+            '3': "&6- &a/unban <player>"
+            '4': "   &7C'est tout l'inverse, on autorise un joueur à revenir. (à utiliser en cas d'erreur de ban)"
+        permission:
+            '1': "&6- &7mj.essentials.ban"
+            '2': "&6- &7mj.essentials.unban"
+    tempban:
+        name: Bannissement temporaire
+        description: "&aCette commande bannit un joueur pendant un délai."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/tempban <player> <time> [<reason>]"
+            '2': "   &7Plus approprié pour bannir, car le joueur a une chance de revenir."
+        permission:
+            '1': "&6- &7mj.essentials.tempban"
+    banlist:
+        name: Liste des bannis
+        description: "&aIl permet de voir la liste des bannis."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/banlist"
+            '2': "   &7Un affichage des joueurs bannis."
+        permission:
+            '1': "&6- &7mj.essentials.banlist"
+    mute:
+        name: Rendre muet
+        description: "&aIl permet de rendre muet un joueur. (chat global)"
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/mute <player> [<reason>]"
+            '2': "   &7Empêche le joueur de nuire dans le chat global."
+            '3': "&6- &a/unmute <player>"
+            '4': "   &7Parler de nouveau un bonheur une vraie bouffée d'air."
+        permission:
+            '1': "&6- &7mj.essentials.mute"
+            '2': "&6- &7mj.essentials.unmute"
+    tempmute:
+        name: Rendre muet temporairement
+        description: "&aIl permet de rendre muet un joueur pendant un délai."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/tempmute <player> <time> [<reason>]"
+            '2': "   &7Pratique pour calmer un joueur temporairement."
+        permission:
+            '1': "&6- &7mj.essentials.tempmute"
+    kick:
+        name: Expulsion
+        description: "&aIl permet d'expulser un joueur."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/kick <player> [<reason>]"
+            '2': "   &7Expulse un joueur du serveur."
+        permission:
+            '1': "&6- &7mj.essentials.kick"
+    clearchat:
+        name: Nettoyer le chat global
+        description: "&aUn message qui il ne faut pas divulguer un coup de balai et le souci disparaît."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/clearchat"
+            '2': "   &7Pratique pour cacher une information indiscrète."
+        permission:
+            '1': "&6- &7mj.essentials.clearchat"
+    warn:
+        name: Avertissement
+        description: "&aIl permet de mettre un avertissement à un joueur."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/warn <player> [<reason>]"
+            '2': "   &7Ajouter un avertissement au joueur."
+            '3': "&6- &a/warns <player>"
+            '4': "   &7Voir quel avertissement ils possèdent."
+        permission:
+            '1': "&6- &7mj.essentials.warn"
+    freeze:
+        name: Geler
+        description: "&aIl permet de geler un joueur sur place et de le rendre muet."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/freeze <player> [<reason>]"
+            '2': "   &7Il gèle un joueur."
+            '3': "&6- &a/unfreeze <player>"
+            '4': "   &7Il dégèle un joueur."
+        permission:
+            '1': "&6- &7mj.essentials.freeze"
+    spawn:
+        name: Spawn
+        description: "&aCommande de téléportation pour retourner au centre du serveur."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/spawn"
+            '2': "   &7Se téléporter au centre du serveur."
+            '3': "&6- &a/setspawn"
+            '4': "   &7Définis un nouveau point central."
+        permission:
+            '1': "&6- &7mj.essentials.spawn"
+            '2': "&6- &7mj.essentials.setspawn"
+    lobby:
+        name: Lobby
+        description: "&aCommande de téléportation pour retourner au coeur du serveur."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/lobby"
+            '2': "&6- &a/hub"
+            '3': "   &7Se téléporter au centre du serveur."
+            '4': "&6- &a/setlobby"
+            '5': "&6- &a/sethub"
+            '6': "   &7Définis un nouveau point central. (seulement au lobby pas sur les autres serveurs)"
+        permission:
+            '1': "&6- &7mj.essentials.lobby"
+            '2': "&6- &7mj.essentials.setlobby"
+    stp:
+        name: Téléportation
+        description: "&aUn système de téléportation avancé."
+        type: data.help.command
+        access: false
+        info:
+            '1': "&6- &a/t <player>"
+            '2': "   &7Il permet de se téléporter à un joueur. (discret en mode vanish)"
+            '3': "&6- &a/s <player>"
+            '4': "   &7Il permet de téléporter un joueur à vous."
+        permission:
+            '1': "&6- &7mj.essentials.tp"
+    rtp:
+        name: Téléportation aléatoire
+        description: "&aVous pouvez, vous téléportez aléatoirement dans la map à condition que vous êtes au spawn."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/rtp"
+            '2': "   &7Se téléporter aléatoirement."
+        permission:
+            '1': "&6- &7mj.essentials.rtp"
+    tpa:
+        name: Téléportation entre joueurs
+        description: "&aIl permet de faire une demande de téléportation vers un joueur ou vers vous."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/tpa <player>"
+            '2': "   &7Se téléporter vers un joueur."
+            '3': "&6- &a/tpahere <player>"
+            '4': "   &7Téléporter un joueur vers vous."
+            '5': "&6- &a/tpyes"
+            '6': "   &7Accepter une demande de téléportation."
+            '7': "&6- &a/tpno"
+            '8': "   &7Refuser une demande de téléportation."
+        permission:
+            '1': "&6- &7mj.essentials.tpa"
+            '2': "&6- &7mj.essentials.tpahere"
+    back:
+        name: Revenir en arrière
+        description: "&aIl permet de revenir à l'endroit avant d'être téléporté."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/back"
+            '2': "   &7Revenir à l'endroit précédent."
+        permission:
+            '1': "&6- &7mj.essentials.back"
+            '2': "&6- &7mj.essentials.back.death"
+    home:
+        name: Point de téléportation personnel
+        description: "&aIl permet de créer, supprimer et y aller vers un point de téléportation privée."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/home <name>"
+            '2': "   &7Se téléporter à un point de téléportation."
+            '3': "&6- &a/sethome <name>"
+            '4': "   &7Créer un nouveau point où remplacer un existant."
+            '5': "&6- &a/delhome <name>"
+            '6': "   &7Supprime un point existant."
+            '7': "&6- &a/homes"
+            '8': "   &7Voir notre liste de téléportations."
+        permission:
+            '1': "&6- &7mj.essentials.home"
+    warp:
+        name: Point de téléportation générale
+        description: "&aIl permet de se téléporter dans un lieu commun à tous."
+        type: data.help.command
+        access: true
+        info:
+            '1': "&6- &a/warp <name>"
+            '2': "   &7Se téléporter à un point de téléportation."
+            '3': "&6- &a/setwarp <name>"
+            '4': "   &7Créer un nouveau point où remplacer un existant."
+            '5': "&6- &a/delwarp <name>"
+            '6': "   &7Supprime un point existant."
+            '7': "&6- &a/warps"
+            '8': "   &7Voir notre liste de téléportations."
+        permission:
+            '1': "&6- &7mj.essentials.warp"
+            '2': "&6- &7mj.essentials.setwarp"

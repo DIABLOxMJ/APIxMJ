@@ -1,0 +1,906 @@
+# =====================================================================================================================
+# APIxMJ - Files ✓ ✗ ← ↑ → ↓ ⚠ ❤
+# ---------------------------------------------------------------------------------------------------------------------
+# PREMIUM - DIABLOxMJ: fa743dc8-450e-4f1b-a75c-8ae7e52b6f17 - Nyceidu: edcda98f-ed98-41c6-ba2c-77bc313ed248
+# CRACK   - DIABLOxMJ: b00cadd2-6497-3134-93d5-5be9512e9f48 - Nyceidu: 1412f834-ede6-34f1-aeaa-84467fc1f237
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_manager():
+	load yaml "plugins/APIxMJ/manager/config.yml" as "mj.manager.config"
+	load yaml "plugins/APIxMJ/manager/data.yml" as "mj.manager.data"
+	wait 2 seconds
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/manager/language/%loop-value%.yml" as "mj.manager.language.%loop-value%"
+			load yaml "plugins/APIxMJ/manager/help/%loop-value%.yml" as "mj.manager.help.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	send "[APIxMJ] Loading manager..." to console
+	mj_files_manager()
+	mj_editfiles("manager.data", "data.main.manager.version", "modify", "2022.07.16.0001")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_loader():
+	set {_list1::*} to mj_manager_nodes("manager.data", "data.main")
+	loop {_list1::*}:
+		set {_check} to mj_editfiles_boolean("manager.data", "data.main.%loop-value%.installed")
+		if {_check} is true:
+			set {_start} to mj_editfiles_boolean("manager.data", "data.main.%loop-value%.skript.1")
+			enable script file "%{_start}%.sk"
+	set {_list2::*} to mj_manager_nodes("manager.data", "data.extension")
+	loop {_list2::*}:
+		set {_check} to mj_editfiles_boolean("manager.data", "data.extension.%loop-value%.installed")
+		if {_check} is true:
+			set {_start} to mj_editfiles_boolean("manager.data", "data.extension.%loop-value%.skript.1")
+			enable script file "%{_start}%.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles(source: text, find: text="data", mode: text="extract", data: text="") :: text:
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else if {_mode} is "delete":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} is set:
+			delete yaml value "%{_find}%" from "mj.%{_source}%"
+			save yaml "mj.%{_source}%"
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_boolean(source: text, find: text="data", mode: text="extract", data: boolean=false) :: boolean:
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_number(source: text, find: text="data", mode: text="extract", data: number=0) :: number:
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_list(source: text, find: text="data", mode: text="extract", data: objects="") :: objects:
+	if {_mode} is "extract":
+		set {_list::*} to yaml list "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml list "%{_find}%" from "mj.%{_source}%" to {_data::*}
+		save yaml "mj.%{_source}%"
+	return {_list::*}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_stock(source: text, find: text="data", mode: text="extract", data: object="") :: object:
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_timespan(source: text, find: text="data", mode: text="extract", data: timespan="") :: timespan:
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_date(source: text, find: text="data", mode: text="extract", data: date="") :: date:
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_gettext(source: text, find: text="data", player: player="none", info1: text="none", info2: text="none", info3: text="none") :: text:
+	set {_lang} to yaml value "data.language.use" from "mj.manager.config"
+	set {_result} to yaml value "%{_find}%" from "mj.%{_source}%.language.%{_lang}%"
+	set {_list1::*} to mj_manager_skript_list()
+	if {_list1::*} contains "apixmj.sk":
+		if {_player} isn't "none":
+			set {_list2::*} to the currently loaded yaml files
+			if {_list2::*} contains "mj.userdata":
+				set {_lang} to yaml value "data.%{_player}'s uuid%.language" from "mj.userdata"
+			set {_result} to yaml value "%{_find}%" from "mj.%{_source}%.language.%{_lang}%"
+	if {_info1} isn't "none":
+		replace "$0" with {_info1} in {_result}
+	if {_info2} isn't "none":
+		replace "$1" with {_info2} in {_result}
+	if {_info3} isn't "none":
+		replace "$2" with {_info3} in {_result}
+	if {_result} isn't set:
+		set {_result} to {_find}
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Command
+# ---------------------------------------------------------------------------------------------------------------------
+command /manager:
+	executable by: player
+	trigger:
+		if player is op:
+			mj_manager_menu_main(player)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Command
+# =====================================================================================================================
+# APIxMJ - Gui Function
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_return(player: player, type: text="main", slot: number=0, id: text="none"):
+	set {_return} to mj_editfiles_gettext("manager", "data.button.return")
+	make a gui slot {_slot} of {_player} with barrier named {_return} to run:
+		if {_type} is "main":
+			mj_manager_menu_main({_player})
+		else if {_type} is "extension":
+			mj_manager_menu_panel({_player}, "extension")
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_gui_generator(player: player, size: number=1, title: text="No gui name", id: text="none", item: text="air"):
+	set {_item} to {_item} parsed as item with no nbt
+	open virtual chest inventory with size {_size} named {_title} to {_player}
+	set {_time} to 9*{_size}
+	set {_slot} to 0
+	loop {_time} times:
+		make a gui slot {_slot} of {_player} with {_item} named " " to run:
+			stop
+		add 1 to {_slot}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Function
+# =====================================================================================================================
+# APIxMJ - Gui Request
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_request(player: player, type: text, id: text, option: text):
+	set {_title} to mj_editfiles_gettext("manager", "data.menu.confirm")
+	mj_manager_menu_gui_generator({_player}, 3, {_title}, {_id}, "light gray glass pane")
+	mj_manager_menu_request_button_confirm({_player}, {_type}, {_id}, {_option})
+	mj_manager_menu_request_button_cancel({_player}, {_type}, {_id}, {_option})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_request_button_confirm(player: player, type: text, id: text, option: text):
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_find_name} to mj_editfiles("manager.data", "data.button.request.confirm.name")
+	set {_name} to mj_editfiles_gettext("manager", {_find_name})
+	set {_slot} to mj_editfiles_number("manager.data", "data.button.request.confirm.slot")
+	set {_item} to lime wool
+	set {_item} to mj_manager_item_description({_player}, {_item}, 2, "data.button.request.confirm")
+	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+		if {_option} is "install":
+			mj_manager_menu_manager_installer({_player}, {_type}, {_id}, {_option})
+		else if {_option} is "uninstall":
+			mj_manager_menu_manager({_player}, {_type}, {_id})
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_request_button_cancel(player: player, type: text, id: text, option: text):
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_find_name} to mj_editfiles("manager.data", "data.button.request.cancel.name")
+	set {_name} to mj_editfiles_gettext("manager", {_find_name})
+	set {_slot} to mj_editfiles_number("manager.data", "data.button.request.cancel.slot")
+	set {_item} to red wool
+	set {_item} to mj_manager_item_description({_player}, {_item}, 2, "data.button.request.cancel")
+	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+		mj_manager_menu_manager({_player}, {_type}, {_id})
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Request
+# =====================================================================================================================
+# APIxMJ - Gui Main
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_main(player: player):
+	set {_title} to mj_editfiles_gettext("manager", "data.menu.main", {_player})
+	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
+	mj_manager_menu_gui_generator({_player}, 6, {_title}, "none", {_item})
+	mj_manager_menu_main_button_generator({_player})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_main_button_generator(player: player):
+	set {_list1::*} to mj_manager_nodes("manager.data", "data.main")
+	loop {_list1::*}:
+		set {_id} to loop-value
+		set {_find_name} to mj_editfiles("manager.data", "data.main.%{_id}%.name")
+		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+		set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
+		set {_slot} to mj_editfiles_number("manager.data", "data.main.%{_id}%.slot")
+		set {_item} to mj_manager_item_convert("manager.data", "data.main.%{_id}%.item")
+		set {_item} to mj_manager_item_description({_player}, {_item}, 2, "data.main.%{_id}%")	
+		set {_click} to mj_editfiles_gettext("manager", "data.type.leftclick", {_player})
+		set {_lore} to mj_editfiles_gettext("manager", "data.open.gui_panel", {_player})
+		set line {_count} of lore of {_item} to "%{_click}% %{_lore}%"
+		make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
+			set {_open_gui} to mj_editfiles("manager.data", "data.main.%{_id}%.open_gui")
+			if {_open_gui} is "manager":
+				mj_manager_menu_manager({_player}, "main", {_id})
+			else if {_open_gui} is "settings":
+				mj_manager_menu_settings({_player}, "main", {_id})
+			else if {_open_gui} is "menu":
+				mj_manager_menu_panel({_player}, {_id})
+			stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Main
+# =====================================================================================================================
+# APIxMJ - Gui Panel
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_panel(player: player, id: text):
+	set {_find_name} to mj_editfiles("manager.data", "data.main.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_title} to mj_editfiles_gettext("manager", "data.menu.manager", {_player}, {_name})
+	set {_item} to mj_editfiles("manager.data", "data.main.%{_id}%.gui_background.item")
+	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_id}, {_item})
+	mj_manager_menu_panel_button_generator({_player})
+	mj_manager_menu_return({_player}, "main", 49)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_panel_button_generator(player: player):
+	set {_list1::*} to mj_manager_nodes("manager.data", "data.extension")
+	loop {_list1::*}:
+		set {_id} to loop-value-1
+		set {_find_name} to mj_editfiles("manager.data", "data.extension.%{_id}%.name")
+		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+		set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
+		set {_slot} to mj_editfiles_number("manager.data", "data.extension.%{_id}%.slot")
+		set {_item} to mj_manager_item_convert("manager.data", "data.extension.%{_id}%.item")
+		set {_description} to mj_editfiles_gettext("manager", "data.category.description", {_player})
+		set line 2 of lore of {_item} to "%{_description}%"
+		set {_count} to 4
+		set {_lang} to mj_editfiles("manager.config", "data.language.use")
+		set {_list2::*} to mj_manager_nodes("manager.language.%{_lang}%", "data.extension.%{_id}%.lore")
+		loop {_list2::*}:
+			set {_lore} to mj_editfiles_gettext("manager", "data.extension.%{_id}%.lore.%loop-value-2%", {_player})
+			set line {_count} of lore of {_item} to "%{_lore}%"
+			add 1 to {_count}
+		add 2 to {_count}
+		set {_click} to mj_editfiles_gettext("manager", "data.type.leftclick", {_player})
+		set {_lore} to mj_editfiles_gettext("manager", "data.open.gui_panel", {_player})
+		set line {_count} of lore of {_item} to "%{_click}% %{_lore}%"
+		make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
+			mj_manager_menu_manager({_player}, "extension", {_id})
+			stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Panel
+# =====================================================================================================================
+# APIxMJ - Gui Settings
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_settings(player: player, type: text, id: text):
+	set {_find_name} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.name")
+	set {_title} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	if length of {_name} >= 16:
+		set {_title} to mj_editfiles_gettext("manager", "data.menu.manager_lite", {_player}, {_name})
+	set {_item} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.gui_background.item")
+	mj_manager_menu_gui_generator({_player}, 5, {_title}, {_id}, {_item})
+	mj_manager_menu_settings_button_comingsoon({_player}, {_type}, {_id})
+	mj_manager_menu_return({_player}, {_type}, 40)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_settings_button_comingsoon(player: player, type: text, id: text):
+	#make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+	#	stop
+	make a gui slot 10, 11, 12, 13 and 14 of {_player} with barrier named "Coming Soon" to run:
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Settings
+# =====================================================================================================================
+# APIxMJ - Gui Manager
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager(player: player, type: text, id: text):
+	set {_find_name} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_title} to mj_editfiles_gettext("manager", "data.menu.manager", {_player}, {_name})
+	if length of {_name} >= 16:
+		set {_title} to mj_editfiles_gettext("manager", "data.menu.manager_lite", {_player}, {_name})
+	set {_item} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.gui_background.item")
+	mj_manager_menu_gui_generator({_player}, 5, {_title}, {_id}, {_item})
+	mj_manager_menu_manager_button_status({_player}, {_type}, {_id}, 10)
+	mj_manager_menu_manager_button_installer({_player}, {_type}, {_id})
+	mj_manager_menu_manager_button_update({_player}, {_type}, {_id})
+	mj_manager_menu_manager_button_uninstalled({_player}, {_type}, {_id})
+	mj_manager_menu_return({_player}, {_type}, 40)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager_button_status(player: player, type: text, id: text, slot: number):
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_find_name} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_item} to paper
+	set {_count} to 2
+	set {_information} to mj_editfiles_gettext("manager", "data.category.information", {_player})
+	set line {_count} of lore of {_item} to "%{_information}%"
+	add 2 to {_count}
+	set {_version} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.version")
+	set {_version_view} to mj_editfiles_gettext("manager", "data.category.version.1", {_player}, {_version})
+	set line {_count} of lore of {_item} to "%{_version_view}%"
+	add 2 to {_count}
+	set {_depends} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.depends.1")
+	if {_depends} isn't "none":
+		set {_depends1} to mj_editfiles_gettext("manager", "data.category.depends", {_player})
+		set line {_count} of lore of {_item} to "%{_depends1}%"
+		add 1 to {_count}
+		set {_list1::*} to mj_manager_nodes("manager.data", "data.%{_type}%.%{_id}%.depends")
+		loop {_list1::*}:
+			set {_depends2} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.depends.%loop-value%")
+			set {_lore} to mj_editfiles_gettext("manager", "data.argument", {_player}, {_depends2})
+			set line {_count} of lore of {_item} to "%{_lore}%"
+			add 1 to {_count}
+		add 1 to {_count}
+	set {_skript1} to mj_editfiles_gettext("manager", "data.category.skript", {_player})
+	set line {_count} of lore of {_item} to "%{_skript1}%"
+	add 1 to {_count}
+	set {_list2::*} to mj_manager_nodes("manager.data", "data.%{_type}%.%{_id}%.skript")
+	loop {_list2::*}:
+		set {_skript2} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.skript.%loop-value%")
+		set {_lore} to mj_editfiles_gettext("manager", "data.argument", {_player}, {_skript2})
+		set line {_count} of lore of {_item} to "%{_lore}%"
+		add 1 to {_count}
+	add 1 to {_count}
+	set {_file1} to mj_editfiles_gettext("manager", "data.category.file", {_player})
+	set line {_count} of lore of {_item} to "%{_file1}%"
+	add 1 to {_count}
+	set {_list3::*} to mj_manager_nodes("manager.data", "data.%{_type}%.%{_id}%.file")
+	loop {_list3::*}:
+		set {_file2} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.file.%loop-value%")
+		set {_lore} to mj_editfiles_gettext("manager", "data.argument", {_player}, {_file2})
+		set line {_count} of lore of {_item} to "%{_lore}%"
+		add 1 to {_count}
+	add 1 to {_count}
+	set {_item} to mj_manager_item_description({_player}, {_item}, {_count}, "data.%{_type}%.%{_id}%")	
+	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Manager
+# =====================================================================================================================
+# APIxMJ - Gui Installer
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager_button_installer(player: player, type: text, id: text):
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_find_name} to mj_editfiles("manager.data", "data.button.installer.name")
+	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_slot} to mj_editfiles_number("manager.data", "data.button.installer.slot")
+	set {_installed} to mj_editfiles_boolean("manager.data", "data.%{_type}%.%{_id}%.installed")
+	set {_item} to minecart
+	set {_mode} to mj_editfiles_gettext("manager", "data.type.notinstalled", {_player})
+	if {_installed} is true:
+		set {_item} to minecart with chest
+		set {_mode} to mj_editfiles_gettext("manager", "data.type.installed", {_player})
+	else:
+		set {_version} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.version")
+		if {_version} isn't "0000.00.00.0000":
+			set {_mode} to mj_editfiles_gettext("manager", "data.type.uninstalled", {_player})
+	set {_count} to 2
+	set {_install} to mj_editfiles_gettext("manager", "data.category.type", {_player}, {_mode})
+	set line {_count} of lore of {_item} to "%{_install}%"
+	add 2 to {_count}
+	set {_item} to mj_manager_item_description({_player}, {_item}, {_count}, "data.button.installer")
+	if {_installed} isn't true:
+		set {_item} to mj_manager_item_button({_player}, {_item}, "leftclick", "manager", "data.open.install")
+	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+		if {_installed} isn't true:
+			mj_manager_menu_request({_player}, {_type}, {_id}, "install")
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager_installer(player: player, type: text, id: text, option: text):
+	set {_find_name} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_folder} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.folder")
+	if {_type} is "main":
+		create script "plugins/APIxMJ/%{_folder}%/language/log.txt"
+		delete file "plugins/APIxMJ/%{_folder}%/language/log.txt"
+	else:
+		create script "plugins/APIxMJ/extension/%{_folder}%/language/log.txt"
+		delete file "plugins/APIxMJ/extension/%{_folder}%/language/log.txt"
+	mj_manager_menu_manager_installer_skript({_player}, {_type}, {_id}, "install")
+	mj_editfiles_boolean("manager.data", "data.%{_type}%.%{_id}%.installed", "modify", true)
+	mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.installed", {_name})
+	set {_kick} to mj_editfiles_boolean("manager.data", "data.%{_type}%.%{_id}%.kick")
+	if {_kick} is true:
+		set {_send} to mj_editfiles_gettext("manager", "data.kick_install", {_player}, {_name})
+		kick all players due to "%{_send}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager_installer_skript(player: player, type: text, id: text, option: text):
+	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
+	set {_count} to 1
+	set {_list::*} to mj_manager_nodes("manager.data", "data.%{_type}%.%{_id}%.skript")
+	loop {_list::*}:
+		set {_skript} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.skript.%loop-value%")
+		if {_type} is "main":
+			download file from "%{_link}%/%{_id}%/%{_skript}%.sk" to file "plugins/Skript/scripts/%{_skript}%.sk"
+		else:
+			download file from "%{_link}%/extension/%{_id}%/%{_skript}%.sk" to file "plugins/Skript/scripts/%{_skript}%.sk"
+		add 1 to {_count}
+	if {_option} is "install":	
+		mj_manager_menu_manager_installer_file({_player}, {_type}, {_id})
+		mj_manager_menu_manager_installer_language({_player}, {_type}, {_id})
+	else if {_option} is "update":
+		download file from "%{_link}%/%{_id}%/apixmj_update.sk" to file "plugins/Skript/scripts/apixmj_update.sk"
+	wait 1 seconds
+	set {_start} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.skript.1")
+	reload script "%{_start}%"
+	if {_option} is "update":
+		wait 5 seconds
+		reload script "apixmj_update"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager_installer_file(player: player, type: text, id: text):
+	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
+	set {_list::*} to mj_manager_nodes("manager.data", "data.%{_type}%.%{_id}%.yml")
+	loop {_list::*}:
+		set {_file} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.yml.%loop-value%")
+		if {_type} is "main":
+			download file from "%{_link}%/%{_id}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_id}%/%{_file}%.yml"
+		else:
+			download file from "%{_link}%/extension/%{_id}%/%{_file}%.yml" to file "plugins/APIxMJ/extension/%{_id}%/%{_file}%.yml"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager_installer_language(player: player, type: text, id: text):
+	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	loop {_list::*}:
+		if {_type} is "main":
+			download file from "%{_link}%/%{_id}%/language/%loop-value%.yml" to file "plugins/APIxMJ/%{_id}%/language/%loop-value%.yml"
+		else:
+			download file from "%{_link}%/extension/%{_id}%/language/%loop-value%.yml" to file "plugins/APIxMJ/extension/%{_id}%/language/%loop-value%.yml"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Installer
+# =====================================================================================================================
+# APIxMJ - Gui Update
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager_button_update(player: player, type: text, id: text, choice: number=1):
+	set {_installed} to mj_editfiles_boolean("manager.data", "data.main.%{_id}%.installed")
+	if {_installed} is true:
+		set {_lang} to mj_editfiles("manager.config", "data.language.use")
+		set {_find_name} to mj_editfiles("manager.data", "data.button.update.name")
+		set {_name} to mj_editfiles_gettext("manager", "%{_find_name}%.%{_choice}%", {_player})
+		set {_slot} to mj_editfiles_number("manager.data", "data.button.update.slot")
+		if {_choice} is 2:
+			set {_item} to minecart with furnace
+		else if {_choice} is 3:
+			set {_item} to minecart with chest
+		else:
+			set {_item} to minecart
+		set {_count} to 2
+		set {_version} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.version")
+		set {_version_2} to mj_editfiles_gettext("manager", "data.category.version.2", {_player}, {_version})
+		set line {_count} of lore of {_item} to "%{_version_2}%"
+		add 1 to {_count}
+		set {_none} to mj_editfiles_gettext("manager", "data.none")
+		set {_version_3} to mj_editfiles_gettext("manager", "data.category.version.3", {_player}, {_none})
+		set line {_count} of lore of {_item} to "%{_version_3}%"
+		if {_choice} is 3:
+			set {_version_4} to now formatted with "yyyy.MM.dd.0001"
+			set {_version_3} to mj_editfiles_gettext("manager", "data.category.version.3", {_player}, {_version_4})
+			set line {_count} of lore of {_item} to "%{_version_3}%"
+		add 2 to {_count}
+		set {_item} to mj_manager_item_description({_player}, {_item}, {_count}, "data.button.update")
+		if {_choice} is 1:
+			set {_item} to mj_manager_item_button({_player}, {_item}, "leftclick", "manager", "data.open.update_check")
+			make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+				mj_manager_menu_manager_button_update_check({_player}, {_type}, {_id}, {_choice})
+				stop
+		else if {_choice} is 3:			
+			set {_item} to mj_manager_item_button({_player}, {_item}, "leftclick", "manager", "data.open.update_now")
+			make a gui slot {_slot} of {_player} with {_item} named {_name} to close:		
+				mj_manager_menu_manager_installer({_source}, {_type}, {_id}, "update")
+				stop
+		else:
+			make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+				stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager_button_update_check(player: player, type: text, id: text, choice: number=1):
+	if {_choice} is 1:
+		mj_manager_menu_manager_button_update({_player}, {_type}, {_id}, 2)
+		wait 2 seconds
+		set {_version} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.version")
+		set {_folder} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.folder")
+		set {_skript} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.skript.1")
+		set {_check} to text from "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main/%{_folder}%/%{_skript}%.sk"
+		if "%{_check}%" doesn't contain "%{_version}%":
+			mj_manager_menu_manager_button_update({_player}, {_type}, {_id}, 3)
+		else:
+			mj_manager_menu_manager_button_update({_player}, {_type}, {_id}, 4)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 1 hour:
+	set {_check1} to mj_editfiles_boolean("manager.config", "data.auto_update")
+	if {_check1} is true:
+		mj_manager_update()
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_update():
+	set {_noupdate} to true
+	set {_list1::*} to mj_manager_nodes("manager.data", "data.main")
+	loop {_list1::*}:
+		if loop-value isn't "settings" or "extension":
+			set {_version} to mj_editfiles("manager.data", "data.main.%loop-value%.version")
+			set {_folder} to mj_editfiles("manager.data", "data.main.%loop-value%.folder")
+			set {_skript} to mj_editfiles("manager.data", "data.main.%loop-value%.skript.1")
+			set {_check} to text from "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/%{_folder}%/%{_skript}%.sk"
+			if "%{_check}%" doesn't contain "%{_version}%":
+				mj_manager_menu_manager_installer({_source}, "main", loop-value, "update")
+				wait 8 seconds
+	set {_list2::*} to mj_manager_nodes("manager.data", "data.extension")
+	loop {_list2::*}:
+		set {_version} to mj_editfiles("manager.data", "data.extension.%loop-value%.version")
+		set {_folder} to mj_editfiles("manager.data", "data.extension.%loop-value%.folder")
+		set {_skript} to mj_editfiles("manager.data", "data.extension.%loop-value%.skript.1")
+		set {_check} to text from "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/%{_folder}%/%{_skript}%.sk"
+		if "%{_check}%" doesn't contain "%{_version}%":
+			mj_manager_menu_manager_installer({_source}, "extension", loop-value, "update")
+			wait 8 seconds
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Update
+# =====================================================================================================================
+# APIxMJ - Gui Uninstalled
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager_button_uninstalled(player: player, type: text, id: text):
+	set {_installed} to mj_editfiles_boolean("manager.data", "data.main.%{_id}%.installed")
+	if {_installed} is true:
+		set {_lang} to mj_editfiles("manager.config", "data.language.use")
+		set {_find_name} to mj_editfiles("manager.data", "data.button.uninstalled.name")
+		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+		set {_slot} to mj_editfiles_number("manager.data", "data.button.uninstalled.slot")
+		set {_item} to minecart with tnt
+		set {_item} to mj_manager_item_description({_player}, {_item}, 2, "data.button.uninstalled")
+		set {_item} to mj_manager_item_button({_player}, {_item}, "leftclick", "manager", "data.open.uninstall")
+		make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+			mj_manager_menu_request({_player}, {_type}, {_id}, "uninstall")
+			stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_manager_uninstalled(player: player, type: text, id: text):
+	set {_find_name} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_count} to 1
+	set {_list1::*} to mj_manager_nodes("manager.data", "data.%{_type}%.%{_id}%.skript")
+	loop {_list1::*}:
+		set {_skript} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.skript.%loop-value%")
+		unload script file "%{_skript}%.sk"
+		delete file "plugins/Skript/scripts/%{_skript}%.sk"
+		add 1 to {_count}
+	mj_editfiles_boolean("manager.data", "data.%{_type}%.%{_id}%.installed", "modify", false)
+	mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.uninstalled", {_name})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Uninstalled
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_nodes(source: text, find: text="data") :: objects:
+	loop yaml node keys "%{_find}%" from "mj.%{_source}%":
+		add loop-node to {_list::*}
+	replace all "%{_find}%." with "" in {_list::*}
+	return {_list::*}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_nodes_count(source: text, find: text="data") :: number:
+	set {_count} to 0
+	loop yaml node keys "%{_find}%" from "mj.%{_source}%":
+		add 1 to {_count}
+	return {_count}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_item_convert(source: text, find: text) :: item:
+	set {_item} to yaml value "%{_find}%" from "mj.%{_source}%"
+	set {_item} to {_item} parsed as item with no nbt
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_item_description(player: player, item: item, count: number=2, source: text) :: item:
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_description} to mj_editfiles_gettext("manager", "data.category.description")
+	set line {_count} of lore of {_item} to "%{_description}%"
+	add 2 to {_count}
+	set {_list2::*} to mj_manager_nodes("manager.language.%{_lang}%", "%{_source}%.lore")
+	loop {_list2::*}:
+		set {_lore} to mj_editfiles_gettext("manager", "%{_source}%.lore.%loop-value%")
+		set line {_count} of lore of {_item} to "%{_lore}%"
+		add 1 to {_count}
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_item_button(player: player, item: item, type: text, source: text, find: text) :: item:
+	set {_count} to 1
+	set {_list::*} to lore of {_item}
+	loop {_list::*}:
+		add 1 to {_count}
+	add 1 to {_count}
+	set {_click} to mj_editfiles_gettext("manager", "data.type.%{_type}%", {_player})
+	set {_lore} to mj_editfiles_gettext({_source}, {_find}, {_player})
+	set line {_count} of lore of {_item} to "%{_click}% %{_lore}%"
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_message(player: player, source1: text, prefix1: text, source2: text, send1: text, int0: text="", int1: text="", int2: text="", int3: text="", int4: text=""):
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_prefix} to yaml value "%{_prefix1}%" from "mj.%{_source1}%.language.%{_lang}%"
+	set {_send} to yaml value "%{_send1}%" from "mj.%{_source2}%.language.%{_lang}%"
+	replace "$0" with {_int0} in {_send}
+	replace "$1" with {_int1} in {_send}
+	replace "$2" with {_int2} in {_send}
+	replace "$3" with {_int3} in {_send}
+	replace "$4" with {_int4} in {_send}
+	if {_prefix} isn't set:
+		set {_prefix} to {_prefix1}
+	if {_send} isn't set:
+		set {_send} to {_send1}
+	send formatted "%{_prefix}% %{_send}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_message_simple(player: player, source1: text, send1: text, int0: text="", int1: text="", int2: text="", int3: text="", int4: text=""):
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_send} to yaml value "%{_send1}%" from "mj.%{_source1}%.language.%{_lang}%"
+	replace "$0" with {_int0} in {_send}
+	replace "$1" with {_int1} in {_send}
+	replace "$2" with {_int2} in {_send}
+	replace "$3" with {_int3} in {_send}
+	replace "$4" with {_int4} in {_send}
+	if {_send} isn't set:
+		set {_send} to {_send1}
+	send formatted "%{_send}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_lobby_return():
+	set {_check} to mj_editfiles_boolean("manager.config", "data.bungeecord.condition")
+	if {_check} is true:
+		set {_server} to mj_editfiles("manager.config", "data.bungeecord.server")
+		send all players to server "%{_server}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_skript_list() :: objects:
+	loop files in dir "plugins/Skript/scripts":
+		set {_value} to loop-value-1
+		set {_list1::*} to {_value} split at "/"
+		loop {_list1::*}:
+			if loop-value-2 contains ".sk":
+				add loop-value-2 to {_list2::*}
+	#replace all ".sk" with "" in {_list2::*}
+	return {_list2::*}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_skript_start():
+	broadcast "test"
+	set {_list1::*} to mj_manager_nodes("manager.data", "data.main")
+	loop {_list1::*}:
+		set {_id1} to loop-value-1
+		set {_check1} to mj_editfiles_boolean("manager.data", "data.main.%{_id1}%.installed")
+		if {_check1} is true:
+			set {_list2::*} to mj_manager_nodes("manager.data", "data.main.%{_id1}%.skript")
+			loop {_list2::*}:
+				set {_id2} to loop-value-2
+				if {_id1} isn't "extension" or "settings" or "manager":
+					set {_check2} to mj_editfiles("manager.data", "data.main.%{_id1}%.skript.%{_id2}%")
+					enable script file {_check2}
+					wait 2 seconds
+	set {_list2::*} to mj_manager_nodes("manager.data", "data.extension")
+	loop {_list2::*}:
+		set {_id1} to loop-value-1
+		set {_check1} to mj_editfiles_boolean("manager.data", "data.extension.%{_id1}%.installed")
+		if {_check1} is true:
+			set {_list2::*} to mj_manager_nodes("manager.data", "data.extension.%{_id1}%.skript")
+			loop {_list2::*}:
+				set {_id2} to loop-value-2
+				set {_check2} to mj_editfiles("manager.data", "data.extension.%{_id1}%.skript.%{_id2}%")
+				enable script file {_check2}
+				wait 2 seconds
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_file_reset(id: text, type: text, file: text, language: boolean=false):
+	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
+	if {_language} is true:
+		if {_type} is "main":
+			delete file "plugins/APIxMJ/%{_id}%/language/%{_file}%.yml"
+			download file from "%{_link}%/%{_id}%/language/%{_file}%.yml" to file "plugins/APIxMJ/%{_id}%/language/%{_file}%.yml"
+		else:
+			delete file "plugins/APIxMJ/extension/%{_id}%/language/%{_file}%.yml"
+			download file from "%{_link}%/extension/%{_id}%/language/%{_file}%.yml" to file "plugins/APIxMJ/extension/%{_id}%/language/%{_file}%.yml"
+	else:
+		replace "mj." with "" in {_file}
+		replace "%{_id}%." with "" in {_file}
+		if {_type} is "main":
+			delete file "plugins/APIxMJ/%{_id}%/%{_file}%.yml"
+			download file from "%{_link}%/%{_id}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_id}%/%{_file}%.yml"
+		else:
+			delete file "plugins/APIxMJ/extension/%{_id}%/%{_file}%.yml"
+			download file from "%{_link}%/extension/%{_id}%/%{_file}%.yml" to file "plugins/APIxMJ/extension/%{_id}%/%{_file}%.yml"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function
+# =====================================================================================================================
+# APIxMJ - Reload
+# ---------------------------------------------------------------------------------------------------------------------
+command /restart:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player isn't op:
+				stop
+		console command "/save-all"
+		wait 5 seconds
+		mj_manager_lobby_return()
+		set {_check} to mj_editfiles_boolean("manager.config", "data.auto_whitelist")
+		if {_check} is true:
+			set whitelist to true
+		restart server
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /reload:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player isn't op:
+				stop
+		set {_prefix} to mj_editfiles_gettext("manager", "data.prefix")
+		set {_send} to mj_editfiles_gettext("manager", "data.reload.prevent")
+		broadcast "%{_prefix}% %{_send}%"
+		console command "/save-all"
+		set {_count} to 10
+		loop 10 times:
+			set {_send} to mj_editfiles_gettext("manager", "data.reload.timing")
+			replace "$0" with "%{_count}%" in {_send}
+			broadcast "%{_prefix}% %{_send}%"
+			wait 1 second
+			remove 1 from {_count}
+			if {_count} is 3:
+				mj_manager_lobby_return()
+		set {_check} to mj_editfiles_boolean("manager.config", "data.auto_whitelist")
+		if {_check} is true:
+			set whitelist to true
+		reload server
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript start:
+	wait 5 seconds
+	set {_prefix} to mj_editfiles_gettext("manager", "data.prefix")
+	set {_send} to mj_editfiles_gettext("manager", "data.reload.success")
+	broadcast "%{_prefix}% %{_send}%"
+	mj_manager_skript_start()
+	set {_check} to mj_editfiles_boolean("manager.config", "data.auto_whitelist")
+	if {_check} is true:
+		set whitelist to false
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	set {_check} to mj_editfiles_boolean("manager.config", "data.auto_whitelist")
+	if {_check} is true:
+		set whitelist to true
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Reload
+# =====================================================================================================================
+# APIxMJ - Help
+# ---------------------------------------------------------------------------------------------------------------------
+command /help [<text>]:
+	aliases: aide
+	executable by: player
+	trigger:
+		if arg-1 is set:
+			mj_manager_help(player, arg-1)
+		else:
+			mj_manager_help(player, "help")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/help" or "/aide":
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_list1::*} to mj_manager_nodes("manager.help.%{_lang}%")
+	loop {_list1::*}:
+		if player has permission "*" or "mj.*" or "mj.help.*" or "mj.help.admin":
+			set {_list2::*} to {_list1::*}
+		else:
+			set {_check} to mj_editfiles_boolean("help", "data.%loop-value%.access")
+			if {_check} is true:
+				add loop-value to {_list2::*}
+	set tab completions for position 1 to {_list2::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_help(player: player, data: text):
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_name} to mj_editfiles("manager.help.%{_lang}%", "data.%{_data}%.name")
+	if {_name} is set:
+		set {_border} to mj_editfiles_gettext("manager", "data.help.border", {_player}, {_name})
+		send "%{_border}%" to {_player}
+		mj_manager_message_simple({_player}, "manager", "data.help.description")
+		set {_desc} to mj_editfiles("manager.help.%{_lang}%", "data.%{_data}%.description")
+		send "%{_desc}%%nl%" to {_player}
+		set {_type} to mj_editfiles("manager.help.%{_lang}%", "data.%{_data}%.type")
+		mj_manager_message_simple({_player}, "manager", {_type})
+		set {_count} to mj_manager_nodes_count("manager.help.%{_lang}%", "data.%{_data}%.info")
+		loop {_count} times:
+			set {_info} to mj_editfiles("manager.help.%{_lang}%", "data.%{_data}%.info.%loop-value%")
+			send "%{_info}%" to {_player}
+		if {_player} is op:
+			send " " to {_player}
+			mj_manager_message_simple({_player}, "manager", "data.help.permission")
+			set {_count} to mj_manager_nodes_count("manager.help.%{_lang}%", "data.%{_data}%.permission")
+			loop {_count} times:
+				set {_perm} to mj_editfiles("manager.help.%{_lang}%", "data.%{_data}%.permission.%loop-value%")
+				send "%{_perm}%" to {_player}
+		send "%{_border}%" to {_player}
+	else:
+		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.help.argument")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /rule:
+	aliases: rules, règle, règlement
+	executable by: player
+	trigger:
+		mj_manager_rule(player, "rule")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_rule(player: player, data: text):
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_name} to mj_editfiles("manager.help.%{_lang}%", "data.rule.name")
+	if {_name} is set:
+		set {_border} to mj_editfiles_gettext("manager", "data.help.border", {_player}, {_name})
+		send "%{_border}%" to {_player}
+		mj_manager_message_simple({_player}, "manager", "data.help.description")
+		set {_desc} to mj_editfiles("manager.help.%{_lang}%", "data.rule.description")
+		send "%{_desc}%%nl%" to {_player}
+		mj_manager_message_simple({_player}, "manager", "data.help.info")
+		set {_count} to mj_manager_nodes_count("manager.help.%{_lang}%", "data.rule.info")
+		loop {_count} times:
+			set {_info} to mj_editfiles("manager.help.%{_lang}%", "data.rule.info.%loop-value%")
+			send "%{_info}%" to {_player}
+		send "%{_border}%" to {_player}
+	else:
+		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.help.argument")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Help
+# =====================================================================================================================
+# APIxMJ - Backup
+# ---------------------------------------------------------------------------------------------------------------------
+every 1 hour:
+	set {_check} to mj_editfiles_boolean("manager.config", "data.backup")
+	if {_check} is true:
+		set {_date} to now formatted with "yyyy-MM-dd"
+		set {_time} to now formatted with "HH-mm"
+		create script "plugins/APIxMJ/backup/%{_date}%/%{_time}%/log.txt"
+		wait 1 second
+		copy dir "plugins/Skript/scripts" to "plugins/APIxMJ/backup/%{_date}%/%{_time}%"
+		set {_list1::*} to mj_manager_nodes("manager.data", "data.main")
+		loop {_list1::*}:
+			set {_id} to loop-value
+			set {_check} to mj_editfiles_boolean("manager.data", "data.main.%{_id}%.installed")
+			if {_check} is true:
+				copy dir "plugins/APIxMJ/%{_id}%" to "plugins/APIxMJ/backup/%{_date}%/%{_time}%"				
+		set {_list2::*} to mj_manager_nodes("manager.data", "data.extension")
+		loop {_list2::*}:
+			set {_id} to loop-value
+			set {_check} to mj_editfiles_boolean("manager.data", "data.extension.%{_id}%.installed")
+			if {_check} is true:
+				copy dir "plugins/APIxMJ/extension" to "plugins/APIxMJ/backup/%{_date}%/%{_time}%"
+				exit loop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Backup
+# =====================================================================================================================

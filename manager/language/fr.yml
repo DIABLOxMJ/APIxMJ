@@ -1,0 +1,196 @@
+data:
+    prefix: "&6[&c&lAPIxMJ&6]&r"
+    menu:
+        main: "&eAPIxMJ - Menu Manager"
+        manager: "&eGestion &6:&r $0"
+        manager_lite: "&eG. &6:&r $0"
+        name: "&cAPIxMJ &6:&r $0"
+        confirm: "&eDemande de confirmation"
+    category:
+        information: "&eInformation &6:&r"
+        description: "&eDescription &6:&r"
+        depends: "&eDépendance &6:&r"
+        version:
+            '1': "&eVersion &6:&r &a$0"
+            '2': "&eVersion actuelle &6:&r &a$0"
+            '3': "&eNouvelle version &6:&r &a$0"
+        skript: "&eSkript &6:&r"
+        file: "&eFichier &6:&r"
+        type: "&eType &6:&r $0"
+    argument: " &6- &a$0"
+    none: "&cAucune"
+    process:
+        installed: "&eInstallation du Skript &a$0 &eTerminé !"
+        uninstalled: "&eDésinstallation du Skript &a$0 &eTerminé !"
+    kick_install: "&aInstallation de &r$0&a..\n&aConnectez-vous dans un instant pour générer vos données !"
+    button:
+        return: "&eRetour"
+        installer:
+            name: "&eInstaller"
+            lore:
+                '1': "&7Si vous avez besoin de ce Skript, vous pouvez"
+                '2': "&7l'installer facilement prenez juste en compte"
+                '3': "&7qui il y a des dépendances donc vérifier."
+        uninstalled:
+            name: "&eDésinstallé"
+            lore:
+                '1': "&7Si vous n'avez plus besoin de ce Skript,"
+                '2': "&7vous pouvez le désinstaller à condition que"
+                '3': "&7ce ne soit pas une dépendance d'un autre Skript,"
+                '4': "&7veuillez à être sûr de vous avant de le faire,"
+                '5': "&7cette désinstallation supprimera que le Skript,"
+                '6': "&7il préserve les données de votre serveur dans"
+                '7': "&7le cas où vous voudriez réinstaller plus tard."
+        update:
+            name:
+                '1': "&eMise à jour"
+                '2': "&7Recherche d'une mise à jour en cours.."
+                '3': "&aMettre à jour"
+                '4': "&cAucune mise à jour disponible.."
+            lore:
+                '1': "&7Cliquer une fois pour savoir s'il y a une"
+                '2': "&7mise à jour disponible et si c'est le cas"
+                '3': "&7pouvez mettre à jour à n'importe quel moment."
+        request:
+            confirm:
+                name: "&aConfirmer"
+                lore:
+                    '1': "&7Êtes-vous sûr de vous ?"
+                    '2': "&7Si vous confirmez, il ne sera pas"
+                    '3': "&7possible de revenir en arrière."
+                    '4': "&7Réfléchissez bien avant de"
+                    '5': "&7vouloir valider cette procédure."
+            cancel:
+                name: "&cAnnuler"
+                lore:
+                    '1': "&7Êtes-vous sûr de vous ?"
+                    '2': "&7Si vous annulez, rien ne sera changé,"
+                    '3': "&7votre demande ne sera pas prise en compte."
+    open:
+        install: "&7Installer le Skript"
+        uninstall: "&7Désinstaller le Skript"
+        update_check: "&7Rechercher une mise à jour"
+        update_now: "&7Installer la mise à jour"
+        gui_panel: "&7Ouvrir le panneau de configuration"
+    reload:
+        success: "&aRechargement complet, bon jeu à vous !"
+        prevent: "&cRechargement du serveur, veuillez ne pas bouger et attendre dans un endroit sûr !"
+        timing: "&cRechargement dans $0 seconde(s)!"
+    type:
+        installed: "&aInstallé&r"
+        uninstalled: "&cDésinstallé&r"
+        notinstalled: "&7Pas installé&r"
+        enable: "&aActivé&r"
+        disable: "&cDésactivé&r"
+        accept: "&6[&aAccepter&6]&r"
+        refuse: "&6[&cRefuser&6]&r"
+        leftclick: "&6[&aClic Gauche&6]&r"
+        leftclickshift: "&6[&aShift + CG&6]&r"
+        rightclick: "&6[&aClic Droit&6]&r"
+        rightclickshift: "&6[&aShift + CD&6]&r"
+        middleclick: "&6[&aClic Molette&6]&r"
+    help:
+        border: "&6----- ----- ----- &a$0 &6----- ----- -----"
+        description: "  &eDescription &6:&r"
+        command: "  &eCommande/Fonctionnement &6:&r"
+        info: "  &eInformation &6:&r"
+        rule: "  &eRèglement &6:&r"
+        permission: "  &ePermission &6:&r"
+        argument: "&cSélectionnez un autre choix car celui-ci n'a pas été trouvé.."
+    main:
+        extension:
+            name: "&2Extension"
+            lore:
+                '1': " &6- &7Des Skripts sous-dépendant des principaux"
+                '2': " &0- &7remplis de fonctionnalités très attirants !"
+        settings:
+            name: "&bParamètres"
+            lore:
+                '1': " &6- &7Panneau de configuration du Gestionnaire"
+                '2': " &0- &7Un outil puissant pour un contrôle sans limite !"
+        manager:
+            name: "&eGestionnaire"
+            lore:
+                '1': " &6- &7Un gestionnaire d'installation, mise à jour et"
+                '2': " &0- &7de suppression de Skript dans l'environnement d'APIxMJ."
+                '3': " &6- &7Il est simple et efficace donc très "
+                '4': " &0- &7accessible pour n'importe qui !"
+        ranker:
+            name: "&bRank Manager"
+            lore:
+                '1': " &6- &7Un utilitaire indispensable pour géré les grades,"
+                '2': " &0- &7il est compatible avec GroupManager, LuckPerm, etc..."
+                '3': " &0- &7Il dispose également de son propre système de gestion"
+                '4': " &0- &7de grade donc plus besoin de GroupManager est autres..."
+        core:
+            name: "&5Cœur"
+            lore:
+                '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
+                '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
+        essentials:
+            name: "&bEssentielle"
+            lore:
+                '1': " &6- &7Essentielles et un outil de gestion de"
+                '2': " &0- &7serveur complet est parfait pour la modération."
+        faction:
+            name: "&cFaction"
+            lore:
+                '1': " &6- &7Le système de faction est plus qu'une extension"
+                '2': " &0- &7est un mode de jeu a par en tiers idéal pour"
+                '3': " &0- &7créer un serveur type PVP-Faction."
+    extension:
+        duel:
+            name: "&aDuel"
+            lore:
+                '1': " &6- &7Lore 1"
+                '2': " &0- &7Lore 2"
+        expbank:
+            name: "&aBanque d'expérience"
+            lore:
+                '1': " &6- &7Lore 1"
+                '2': " &0- &7Lore 2"
+        hdv:
+            name: "&aHôtel des ventes"
+            lore:
+                '1': " &6- &7Lore 1"
+                '2': " &0- &7Lore 2"
+        lootbox:
+            name: "&aLootBox"
+            lore:
+                '1': " &6- &7Lore 1"
+                '2': " &0- &7Lore 2"
+        menu:
+            name: "&aMenu"
+            lore:
+                '1': " &6- &7Lore 1"
+                '2': " &0- &7Lore 2"
+        portal:
+            name: "&aPortail"
+            lore:
+                '1': " &6- &7Lore 1"
+                '2': " &0- &7Lore 2"
+        rankup:
+            name: "&aRankUP"
+            lore:
+                '1': " &6- &7Lore 1"
+                '2': " &0- &7Lore 2"
+        server:
+            name: "&aServeur"
+            lore:
+                '1': " &6- &7Lore 1"
+                '2': " &0- &7Lore 2"
+        shop:
+            name: "&aMagasin"
+            lore:
+                '1': " &6- &7Un système de commerce virtuel capable au joueur"
+                '2': " &0- &7d'acheter où vendre toute sorte d'objet catalogué."
+        spawner:
+            name: "&aSpawner"
+            lore:
+                '1': " &6- &7Lore 1"
+                '2': " &0- &7Lore 2"
+        store:
+            name: "&aMagasin virtuelle"
+            lore:
+                '1': " &6- &7Lore 1"
+                '2': " &0- &7Lore 2"

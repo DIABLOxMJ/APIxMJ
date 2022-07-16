@@ -131,12 +131,11 @@ data:
             file:
                 '1': mj.config
                 '2': mj.data
-                '3': mj.log
-                '4': mj.temp
-                '5': mj.timer
-                '6': mj.stats
-                '7': mj.inventory
-                '8': mj.userdata
+                '3': mj.temp
+                '4': mj.timer
+                '5': mj.stats
+                '6': mj.inventory
+                '7': mj.userdata
             reset:
                 '1':
                     file: mj.temp
@@ -175,7 +174,6 @@ data:
             file:
                 '1': mj.essentials.config
                 '2': mj.essentials.data
-                '3': mj.essentials.log
             reset:
                 '1':
                     file: none

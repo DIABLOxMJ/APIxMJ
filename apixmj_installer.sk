@@ -5,6 +5,11 @@ on load:
 	send "[APIxMJ] Installing manager..." to console
 	send "[APIxMJ] Setup..." to console
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
+	create script "plugins/APIxMJ/manager/help/log.txt"
+	delete file "plugins/APIxMJ/manager/help/log.txt"
+	create script "plugins/APIxMJ/manager/language/log.txt"
+	delete file "plugins/APIxMJ/manager/language/log.txt"
+	wait 1 tick
 	download file from "%{_link}%/manager/config.yml" to file "plugins/APIxMJ/manager/config.yml"
 	download file from "%{_link}%/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
 	download file from "%{_link}%/manager/help/fr.yml" to file "plugins/APIxMJ/manager/help/fr.yml"

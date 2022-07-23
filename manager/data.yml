@@ -88,32 +88,6 @@ data:
             item: command block
             gui_background:
                 item: yellow stained glass pane
-        ranker:
-            name: data.main.ranker.name
-            version: 0000.00.00.0000
-            installed: false
-            depends:
-                '1': manager
-                '2': core
-            folder: ranker
-            slot: 41
-            kick: false
-            open_gui: manager
-            skript:
-                '1': apixmj_ranker
-            yml:
-                '1': config
-                '2': data
-            file:
-                '1': mj.config
-                '2': mj.data
-            reset:
-                '1':
-                    file: none
-                    data: data
-            item: iron chestplate
-            gui_background:
-                item: blue stained glass pane
         core:
             name: data.main.core.name
             version: 0000.00.00.0000
@@ -155,6 +129,32 @@ data:
             item: command block
             gui_background:
                 item: purple stained glass pane
+        ranker:
+            name: data.main.ranker.name
+            version: 0000.00.00.0000
+            installed: false
+            depends:
+                '1': manager
+                '2': core
+            folder: ranker
+            slot: 41
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_ranker
+            yml:
+                '1': config
+                '2': data
+            file:
+                '1': mj.config
+                '2': mj.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: iron chestplate
+            gui_background:
+                item: blue stained glass pane
         essentials:
             name: data.main.essentials.name
             version: 0000.00.00.0000
@@ -162,6 +162,7 @@ data:
             depends:
                 '1': manager
                 '2': core
+                '3': ranker
             folder: essentials
             slot: 37
             kick: true

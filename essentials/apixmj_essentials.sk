@@ -15,7 +15,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.main.essentials.version", "modify", "2022.07.16.0001")
+		mj_editfiles("manager.data", "data.main.essentials.version", "modify", "2022.07.23.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -446,7 +446,7 @@ command /money [<text>] [<offlineplayer>] [<number>]:
 					if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.money.*" or "mj.essentials.money.modify":
 						if arg-2 is set:
 							if arg-3 is set:
-								mj_essentials_money_edit(arg-2, arg-1, arg-3)
+								mj_essentials_money_edit(arg-2, arg-1, arg-3, "edit /money")
 								set {_money} to mj_core_format_money(false, arg-3)
 								mj_core_message(player, "essentials", "data.money.prefix", "essentials", "data.money.%arg-1%", {_money}, "%arg-2%")
 							else:
@@ -462,7 +462,7 @@ command /money [<text>] [<offlineplayer>] [<number>]:
 			else:
 				mj_core_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
 		if sender is console:
-			mj_essentials_money_edit(arg-2, arg-1, arg-3)
+			mj_essentials_money_edit(arg-2, arg-1, arg-3, "edit /money")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/money":
@@ -525,7 +525,7 @@ command /bank [<text>] [<offlineplayer>] [<number>]:
 						if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.bank.*" or "mj.essentials.bank.modify":
 							if arg-2 is set:
 								if arg-3 is set:
-									mj_essentials_bank_edit(arg-2, arg-1, arg-3)
+									mj_essentials_bank_edit(arg-2, arg-1, arg-3, "edit /bank")
 									set {_money} to mj_core_format_money(false, arg-3)
 									mj_core_message(player, "essentials", "data.bank.prefix", "essentials", "data.money.%arg-1%", {_money}, "%arg-2%")
 								else:
@@ -541,14 +541,14 @@ command /bank [<text>] [<offlineplayer>] [<number>]:
 						if arg-1 is "deposit":
 							set {_money} to mj_essentials_money_modify(player)
 							if {_money} >= {_value}:
-								mj_essentials_money_edit(player, "remove", {_value})
-								mj_essentials_bank_edit(player, "add", {_value})
+								mj_essentials_money_edit(player, "remove", {_value}, "deposit /bank")
+								mj_essentials_bank_edit(player, "add", {_value}, "deposit /bank")
 								mj_core_message(player, "essentials", "data.bank.prefix", "essentials", "data.bank.deposit", {_view})
 						else:
 							set {_bank} to mj_essentials_bank_modify(player)
 							if {_bank} >= {_value}:
-								mj_essentials_bank_edit(player, "remove", {_value})
-								mj_essentials_money_edit(player, "add", {_value})
+								mj_essentials_bank_edit(player, "remove", {_value}, "withdraw /bank")
+								mj_essentials_money_edit(player, "add", {_value}, "withdraw /bank")
 								mj_core_message(player, "essentials", "data.bank.prefix", "essentials", "data.bank.withdraw", {_view})
 					else if arg-1 is "upgrade":
 						mj_essentials_money_upgrade(player, "bank")
@@ -559,7 +559,7 @@ command /bank [<text>] [<offlineplayer>] [<number>]:
 			else:
 				mj_core_permission(player, "essentials", "data.bank.prefix", "mj.essentials.bank")
 		if sender is console:
-			mj_essentials_bank_edit(arg-2, arg-1, arg-3)
+			mj_essentials_bank_edit(arg-2, arg-1, arg-3, "edit /bank")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/bank":
@@ -585,17 +585,20 @@ on command:
 				mj_essentials_bank(player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_money_logger(info: text):
+function mj_essentials_money_logger(info: text, context: text="none"):
 	set {_date} to now formatted with "yyyy-MM-dd"
 	if file "plugins/APIxMJ/essentials/logs/%{_date}%.log" doesn't exist:
-		create file "plugins/APIxMJ/core/logs/%{_date}%.log"
+		create file "plugins/APIxMJ/essentials/logs/%{_date}%.log"
 	set {_id} to mj_core_logger_id_generator()
 	set {_info} to uncolored {_info}
-	write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/essentials/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/essentials/logs/%{_date}%.log"
+	if {_context} isn't "none":
+		write "%{_id}% : %{_info}% (%{_context}%)" at line (file "plugins/APIxMJ/essentials/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/essentials/logs/%{_date}%.log"
+	else:
+		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/essentials/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/essentials/logs/%{_date}%.log"
 	mj_core_logger(3, {_info})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_money(player: offlineplayer, extract: boolean=false) :: text:
+function mj_essentials_money(player: offlineplayer, extract: boolean=false, context: text="none") :: text:
 	set {_value} to mj_essentials_money_modify({_player})
 	set {_result} to mj_core_format_money(false, {_value})
 	set {_check1} to mj_editfiles_boolean("essentials.config", "data.money.limit")
@@ -604,13 +607,13 @@ function mj_essentials_money(player: offlineplayer, extract: boolean=false) :: t
 		if {_check2} is false:
 			set {_limit} to mj_essentials_money_limit({_player}, "money")
 			set {_result} to mj_core_format_money(true, {_value}, {_limit})
-			mj_essentials_money_logger("%{_player}% has in this amount of money : %{_result}%")
+			mj_essentials_money_logger("%{_player}% has in this amount of money : %{_result}%", {_context})
 	if {_extract} is false:
 		mj_core_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.view_money", {_result})
 		stop
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_money_modify(player: offlineplayer, mode: text="extract", value: number=0) :: number:
+function mj_essentials_money_modify(player: offlineplayer, mode: text="extract", value: number=0, context: text="none") :: number:
 	if {_mode} is "extract":
 		set {_result} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value")
 	else if {_mode} is "all":
@@ -620,10 +623,10 @@ function mj_essentials_money_modify(player: offlineplayer, mode: text="extract",
 	else:
 		set {_old} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value")
 		mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value", "modify", {_value})
-		mj_essentials_money_logger("%{_player}% money changed : %{_old}% to %{_value}%")
+		mj_essentials_money_logger("%{_player}% money changed : %{_old}% to %{_value}%", {_context})
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_money_edit(player: offlineplayer, type: text="add", value: number=0):
+function mj_essentials_money_edit(player: offlineplayer, type: text="add", value: number=0, context: text="none"):
 	set {_money} to mj_essentials_money_modify({_player})
 	if {_type} is "set" or "add" or "remove":
 		if {_type} is "add":
@@ -632,7 +635,7 @@ function mj_essentials_money_edit(player: offlineplayer, type: text="add", value
 			set {_result} to {_money} - {_value}
 		else:
 			set {_result} to {_value}
-	mj_essentials_money_logger("%{_player}% modified money : %{_money}% (%{_type}%) %{_value}% = %{_result}%")
+	mj_essentials_money_logger("%{_player}% modified money : %{_money}% (%{_type}%=%{_value}%) = %{_result}%", {_context})
 	set {_check1} to mj_editfiles_boolean("essentials.config", "data.money.limit")
 	if {_check1} is true:
 		set {_check2} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.money.bypass")
@@ -649,8 +652,8 @@ function mj_essentials_money_edit(player: offlineplayer, type: text="add", value
 					mj_core_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.lost", {_view})
 				else:
 					mj_core_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.losted", {_view})
-					mj_essentials_money_logger("%{_player}% lost money : %{_view}%")
-	mj_essentials_money_modify({_player}, "modify", {_result})
+					mj_essentials_money_logger("%{_player}% lost money : %{_view}%", {_context})
+	mj_essentials_money_modify({_player}, "modify", {_result}, {_context})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_money_limit(player: offlineplayer, type: text) :: number:
@@ -658,21 +661,21 @@ function mj_essentials_money_limit(player: offlineplayer, type: text) :: number:
 	set {_result} to mj_editfiles_number("essentials.data", "data.upgrade.%{_type}%.%{_value}%.value")
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_money_system(player: offlineplayer, value: number=0, sell: boolean=false):
+function mj_essentials_money_system(player: offlineplayer, value: number=0, sell: boolean=false, context: text="none"):
 	if {_sell} is true: # add system (sell)
 		set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_add", {_player})
 		set {_cache} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.money")
 		add {_cache} to {_value}
 		set {_view} to mj_core_format_money(false, {_value})
-		mj_essentials_money_edit({_player}, "add", {_value})
-		mj_essentials_money_logger("%{_player}% add money : %{_value}%")
+		mj_essentials_money_edit({_player}, "add", {_value}, {_context})
+		mj_essentials_money_logger("%{_player}% add money : %{_value}%", {_context})
 	else: # remove system (buy)
 		set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_remove", {_player})
 		set {_value1} to "-%{_value}%" parsed as number
 		set {_view} to mj_core_format_money(false, {_value1})
 		set {_money} to mj_essentials_money_modify({_player})
 		if {_money} >= {_value} + 1:
-			mj_essentials_money_edit({_player}, "remove", {_value})	
+			mj_essentials_money_edit({_player}, "remove", {_value}, {_context})
 			mj_essentials_money_logger("%{_player}% remove money : %{_value}%")
 		else:
 			set {_last} to {_value} - {_money}
@@ -680,7 +683,7 @@ function mj_essentials_money_system(player: offlineplayer, value: number=0, sell
 			if {_bank} >= {_last}:
 				mj_essentials_bank_edit({_player}, "remove", {_last})
 				mj_essentials_money_edit({_player}, "set", 0)
-				mj_essentials_money_logger("%{_player}% remove money : %{_value}%")
+				mj_essentials_money_logger("%{_player}% remove money : %{_value}%", {_context})
 			else:
 				mj_core_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.high_value")
 	set {_check} to mj_editfiles_boolean("essentials.config", "data.money.infobar")
@@ -736,16 +739,16 @@ function mj_essentials_bank(player: offlineplayer, extract: boolean=false) :: te
 		stop
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_bank_modify(player: offlineplayer, mode: text="extract", value: number=0) :: number:
+function mj_essentials_bank_modify(player: offlineplayer, mode: text="extract", value: number=0, context: text="none") :: number:
 	if {_mode} is "extract":
 		set {_result} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value")
 	else:
 		set {_old} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value")
 		mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value", "modify", {_value})
-		mj_essentials_money_logger("%{_player}% money bank changed : %{_old}% to %{_value}%")
+		mj_essentials_money_logger("%{_player}% money bank changed : %{_old}% to %{_value}%", {_context})
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_bank_edit(player: offlineplayer, type: text="add", value: number=0):
+function mj_essentials_bank_edit(player: offlineplayer, type: text="add", value: number=0, context: text="none"):
 	set {_money} to mj_essentials_bank_modify({_player})
 	if {_type} is "set" or "add" or "remove":
 		if {_type} is "add":
@@ -754,7 +757,7 @@ function mj_essentials_bank_edit(player: offlineplayer, type: text="add", value:
 			set {_result} to {_money} - {_value}
 		else:
 			set {_result} to {_value}
-	mj_essentials_money_logger("%{_player}% modified money bank : %{_money}% (%{_type}%) %{_value}% = %{_result}%")
+	mj_essentials_money_logger("%{_player}% modified money bank : %{_money}% (%{_type}%=%{_value}%) = %{_result}%", {_context})
 	set {_check1} to mj_editfiles_boolean("essentials.config", "data.bank.limit")
 	if {_check1} is true:
 		set {_check2} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.bank.bypass")
@@ -768,7 +771,7 @@ function mj_essentials_bank_edit(player: offlineplayer, type: text="add", value:
 				set {_view} to mj_core_format_money(false, {_lost})
 				if {_money2} >= {_limit2}:
 					mj_core_message({_player}, "essentials", "data.bank.prefix", "essentials", "data.money.losted", {_view})
-					mj_essentials_money_logger("%{_player}% lost money bank : %{_view}%")
+					mj_essentials_money_logger("%{_player}% lost money bank : %{_view}%", {_context})
 				else:
 					mj_essentials_money_edit({_player}, "add", {_lost})
 					wait 1 tick

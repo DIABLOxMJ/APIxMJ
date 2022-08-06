@@ -1,0 +1,53 @@
+# =====================================================================================================================
+# APIxMJ - Installer
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	send "[APIxMJ] Installing update..." to console
+	send "[APIxMJ] Setup..." to console
+	set {_type} to "expbank"
+	mj_install_config({_type})
+	send "[APIxMJ] Finish..." to console
+	delete file "plugins/Skript/scripts/apixmj_update.sk"
+	unload script file "apixmj_update.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Installer
+# =====================================================================================================================
+# APIxMJ - Config
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_install_config(type: text):
+	set {_source} to "mj.%{_type}%.config"
+	set {_01} to yaml value "data.sign.name" from "%{_source}%"
+	set {_02} to yaml value "data.sign.type" from "%{_source}%"
+	set {_03} to yaml value "data.sign.quantity.level" from "%{_source}%"
+	set {_04} to yaml value "data.sign.quantity.point" from "%{_source}%"
+	set {_05::*} to yaml list "data.sign.create" from "%{_source}%"
+	set {_06} to yaml value "data.sign.money.condition" from "%{_source}%"
+	set {_07} to yaml value "data.sign.money.price" from "%{_source}%"
+	set {_08} to yaml value "data.sign.money.deposit" from "%{_source}%"
+	set {_09} to yaml value "data.sign.money.withdraw" from "%{_source}%"
+	set {_10} to yaml value "data.bottle.name" from "%{_source}%"
+	set {_11} to yaml value "data.bottle.lore.level" from "%{_source}%"
+	set {_12} to yaml value "data.bottle.lore.point" from "%{_source}%"
+	set {_13} to yaml value "data.bottle.item" from "%{_source}%"
+	wait 5 ticks
+	mj_manager_file_reset("expbank", "extension", {_source})
+	wait 5 ticks
+	set yaml value "data.sign.name" from "%{_source}%" to {_01}
+	set yaml value "data.sign.type" from "%{_source}%" to {_02}
+	set yaml value "data.sign.quantity.level" from "%{_source}%" to {_03}
+	set yaml value "data.sign.quantity.point" from "%{_source}%" to {_04}
+	set yaml list "data.sign.create" from "%{_source}%" to {_05::*}
+	set yaml value "data.sign.money.condition" from "%{_source}%" to {_06}
+	set yaml value "data.sign.money.price" from "%{_source}%" to {_07}
+	set yaml value "data.sign.money.deposit" from "%{_source}%" to {_08}
+	set yaml value "data.sign.money.withdraw" from "%{_source}%" to {_09}
+	set yaml value "data.bottle.name" from "%{_source}%" to {_10}
+	set yaml value "data.bottle.lore.level" from "%{_source}%" to {_11}
+	set yaml value "data.bottle.lore.point" from "%{_source}%" to {_12}
+	set yaml value "data.bottle.item" from "%{_source}%" to {_13}
+	save yaml "%{_source}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Config
+# =====================================================================================================================

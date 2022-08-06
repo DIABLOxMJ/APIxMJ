@@ -98,6 +98,11 @@ data:
         permission: "  &ePermission &6:&r"
         argument: "&cSélectionnez un autre choix car celui-ci n'a pas été trouvé.."
     main:
+        vanilla:
+            name: "&bVanilla"
+            lore:
+                '1': " &6- &7Une version des skripts pour le vanilla"
+                '2': " &0- &7Sans permissions juste vanilla quoi !"
         extension:
             name: "&2Extension"
             lore:
@@ -138,6 +143,12 @@ data:
                 '1': " &6- &7Le système de faction est plus qu'une extension"
                 '2': " &0- &7est un mode de jeu a par en tiers idéal pour"
                 '3': " &0- &7créer un serveur type PVP-Faction."
+    vanilla:
+        core:
+            name: "&5Cœur"
+            lore:
+                '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
+                '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
     extension:
         duel:
             name: "&aDuel"
@@ -147,8 +158,7 @@ data:
         expbank:
             name: "&aBanque d'expérience"
             lore:
-                '1': " &6- &7Lore 1"
-                '2': " &0- &7Lore 2"
+                '1': " &6- &7Un système de stockage est de gestion de point d'expérience."
         hdv:
             name: "&aHôtel des ventes"
             lore:

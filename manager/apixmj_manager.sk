@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.main.manager.version", "modify", "2022.07.16.0001")
+	mj_editfiles("manager.data", "data.main.manager.version", "modify", "2022.08.06.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -158,8 +158,8 @@ function mj_manager_menu_return(player: player, type: text="main", slot: number=
 	make a gui slot {_slot} of {_player} with barrier named {_return} to run:
 		if {_type} is "main":
 			mj_manager_menu_main({_player})
-		else if {_type} is "extension":
-			mj_manager_menu_panel({_player}, "extension")
+		else:
+			mj_manager_menu_panel({_player}, {_type})
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -227,24 +227,26 @@ function mj_manager_menu_main_button_generator(player: player):
 	set {_list1::*} to mj_manager_nodes("manager.data", "data.main")
 	loop {_list1::*}:
 		set {_id} to loop-value
-		set {_find_name} to mj_editfiles("manager.data", "data.main.%{_id}%.name")
-		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
-		set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
-		set {_slot} to mj_editfiles_number("manager.data", "data.main.%{_id}%.slot")
-		set {_item} to mj_manager_item_convert("manager.data", "data.main.%{_id}%.item")
-		set {_item} to mj_manager_item_description({_player}, {_item}, 2, "data.main.%{_id}%")	
-		set {_click} to mj_editfiles_gettext("manager", "data.type.leftclick", {_player})
-		set {_lore} to mj_editfiles_gettext("manager", "data.open.gui_panel", {_player})
-		set line {_count} of lore of {_item} to "%{_click}% %{_lore}%"
-		make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
-			set {_open_gui} to mj_editfiles("manager.data", "data.main.%{_id}%.open_gui")
-			if {_open_gui} is "manager":
-				mj_manager_menu_manager({_player}, "main", {_id})
-			else if {_open_gui} is "settings":
-				mj_manager_menu_settings({_player}, "main", {_id})
-			else if {_open_gui} is "menu":
-				mj_manager_menu_panel({_player}, {_id})
-			stop
+		set {_visible} to mj_editfiles_boolean("manager.data", "data.main.%{_id}%.visible")
+		if {_visible} is true:
+			set {_find_name} to mj_editfiles("manager.data", "data.main.%{_id}%.name")
+			set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+			set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
+			set {_slot} to mj_editfiles_number("manager.data", "data.main.%{_id}%.slot")
+			set {_item} to mj_manager_item_convert("manager.data", "data.main.%{_id}%.item")
+			set {_item} to mj_manager_item_description({_player}, {_item}, 2, "data.main.%{_id}%")	
+			set {_click} to mj_editfiles_gettext("manager", "data.type.leftclick", {_player})
+			set {_lore} to mj_editfiles_gettext("manager", "data.open.gui_panel", {_player})
+			set line {_count} of lore of {_item} to "%{_click}% %{_lore}%"
+			make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
+				set {_open_gui} to mj_editfiles("manager.data", "data.main.%{_id}%.open_gui")
+				if {_open_gui} is "manager":
+					mj_manager_menu_manager({_player}, "main", {_id})
+				else if {_open_gui} is "settings":
+					mj_manager_menu_settings({_player}, "main", {_id})
+				else if {_open_gui} is "menu":
+					mj_manager_menu_panel({_player}, {_id})
+				stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Main
@@ -253,39 +255,42 @@ function mj_manager_menu_main_button_generator(player: player):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_panel(player: player, id: text):
 	set {_find_name} to mj_editfiles("manager.data", "data.main.%{_id}%.name")
+	set {_source} to mj_editfiles("manager.data", "data.main.%{_id}%.source")
 	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
 	set {_title} to mj_editfiles_gettext("manager", "data.menu.manager", {_player}, {_name})
 	set {_item} to mj_editfiles("manager.data", "data.main.%{_id}%.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_id}, {_item})
-	mj_manager_menu_panel_button_generator({_player})
+	mj_manager_menu_panel_button_generator({_player}, {_source})
 	mj_manager_menu_return({_player}, "main", 49)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_menu_panel_button_generator(player: player):
-	set {_list1::*} to mj_manager_nodes("manager.data", "data.extension")
+function mj_manager_menu_panel_button_generator(player: player, source: text):
+	set {_list1::*} to mj_manager_nodes("manager.data", "data.%{_source}%")
 	loop {_list1::*}:
 		set {_id} to loop-value-1
-		set {_find_name} to mj_editfiles("manager.data", "data.extension.%{_id}%.name")
-		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
-		set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
-		set {_slot} to mj_editfiles_number("manager.data", "data.extension.%{_id}%.slot")
-		set {_item} to mj_manager_item_convert("manager.data", "data.extension.%{_id}%.item")
-		set {_description} to mj_editfiles_gettext("manager", "data.category.description", {_player})
-		set line 2 of lore of {_item} to "%{_description}%"
-		set {_count} to 4
-		set {_lang} to mj_editfiles("manager.config", "data.language.use")
-		set {_list2::*} to mj_manager_nodes("manager.language.%{_lang}%", "data.extension.%{_id}%.lore")
-		loop {_list2::*}:
-			set {_lore} to mj_editfiles_gettext("manager", "data.extension.%{_id}%.lore.%loop-value-2%", {_player})
-			set line {_count} of lore of {_item} to "%{_lore}%"
-			add 1 to {_count}
-		add 2 to {_count}
-		set {_click} to mj_editfiles_gettext("manager", "data.type.leftclick", {_player})
-		set {_lore} to mj_editfiles_gettext("manager", "data.open.gui_panel", {_player})
-		set line {_count} of lore of {_item} to "%{_click}% %{_lore}%"
-		make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
-			mj_manager_menu_manager({_player}, "extension", {_id})
-			stop
+		set {_visible} to mj_editfiles_boolean("manager.data", "data.%{_source}%.%{_id}%.visible")
+		if {_visible} is true:
+			set {_find_name} to mj_editfiles("manager.data", "data.%{_source}%.%{_id}%.name")
+			set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+			set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
+			set {_slot} to mj_editfiles_number("manager.data", "data.%{_source}%.%{_id}%.slot")
+			set {_item} to mj_manager_item_convert("manager.data", "data.%{_source}%.%{_id}%.item")
+			set {_description} to mj_editfiles_gettext("manager", "data.category.description", {_player})
+			set line 2 of lore of {_item} to "%{_description}%"
+			set {_count} to 4
+			set {_lang} to mj_editfiles("manager.config", "data.language.use")
+			set {_list2::*} to mj_manager_nodes("manager.language.%{_lang}%", "data.%{_source}%.%{_id}%.lore")
+			loop {_list2::*}:
+				set {_lore} to mj_editfiles_gettext("manager", "data.%{_source}%.%{_id}%.lore.%loop-value-2%", {_player})
+				set line {_count} of lore of {_item} to "%{_lore}%"
+				add 1 to {_count}
+			add 2 to {_count}
+			set {_click} to mj_editfiles_gettext("manager", "data.type.leftclick", {_player})
+			set {_lore} to mj_editfiles_gettext("manager", "data.open.gui_panel", {_player})
+			set line {_count} of lore of {_item} to "%{_click}% %{_lore}%"
+			make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
+				mj_manager_menu_manager({_player}, {_source}, {_id})
+				stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Panel

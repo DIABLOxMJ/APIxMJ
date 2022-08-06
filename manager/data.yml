@@ -17,12 +17,39 @@ data:
                 name: data.button.request.cancel.name
                 slot: 15
     main:
+        vanilla:
+            name: data.main.vanilla.name
+            version: 0000.00.00.0000
+            installed: false
+            visible: false
+            depends:
+                '1': none
+            source: vanilla
+            folder: vanilla
+            slot: 25
+            kick: false
+            open_gui: menu
+            skript:
+                '1': none
+            yml:
+                '1': config
+            file:
+                '1': none
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: chest
+            gui_background:
+                item: black stained glass pane
         extension:
             name: data.main.extension.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': none
+            source: extension
             folder: extension
             slot: 16
             kick: false
@@ -44,8 +71,10 @@ data:
             name: data.main.settings.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': none
+            source: none
             folder: settings
             slot: 43
             kick: false
@@ -65,10 +94,12 @@ data:
                 item: black stained glass pane
         manager:
             name: data.main.manager.name
-            version: 2022.05.21.0001
+            version: 2022.08.03.0001
             installed: true
+            visible: true
             depends:
                 '1': none
+            source: none
             folder: manager
             slot: 10
             kick: false
@@ -92,8 +123,10 @@ data:
             name: data.main.core.name
             version: 0000.00.00.0000
             installed: false
+            visible: true
             depends:
                 '1': manager
+            source: none
             folder: core
             slot: 19
             kick: true
@@ -133,9 +166,11 @@ data:
             name: data.main.ranker.name
             version: 0000.00.00.0000
             installed: false
+            visible: true
             depends:
                 '1': manager
                 '2': core
+            source: none
             folder: ranker
             slot: 41
             kick: false
@@ -159,10 +194,12 @@ data:
             name: data.main.essentials.name
             version: 0000.00.00.0000
             installed: false
+            visible: true
             depends:
                 '1': manager
                 '2': core
                 '3': ranker
+            source: none
             folder: essentials
             slot: 37
             kick: true
@@ -186,10 +223,12 @@ data:
             name: data.main.faction.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': manager
                 '2': core
                 '3': essentials
+            source: none
             folder: faction
             slot: 12
             kick: true
@@ -208,11 +247,55 @@ data:
             item: iron sword
             gui_background:
                 item: red stained glass pane
+    vanilla:
+        core:
+            name: data.main.core.name
+            version: 0000.00.00.0000
+            installed: false
+            visible: true
+            depends:
+                '1': manager
+            folder: core
+            slot: 10
+            kick: true
+            open_gui: manager
+            skript:
+                '1': apixmj
+            yml:
+                '1': config
+            file:
+                '1': mj.config
+                '2': mj.data
+                '3': mj.temp
+                '4': mj.timer
+                '5': mj.stats
+                '6': mj.inventory
+                '7': mj.userdata
+            reset:
+                '1':
+                    file: mj.temp
+                    data: data
+                '2':
+                    file: mj.timer
+                    data: data
+                '3':
+                    file: mj.stats
+                    data: data
+                '4':
+                    file: mj.inventory
+                    data: data
+                '5':
+                    file: mj.userdata
+                    data: data
+            item: command block
+            gui_background:
+                item: purple stained glass pane
     extension:
         duel:
             name: data.extension.duel.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': core
             folder: duel
@@ -237,6 +320,7 @@ data:
             name: data.extension.expbank.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': core
             folder: expbank
@@ -261,6 +345,7 @@ data:
             name: data.extension.hdv.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': core
             folder: hdv
@@ -284,6 +369,7 @@ data:
         lootbox:
             name: data.extension.lootbox.name
             version: 0000.00.00.0000
+            visible: false
             depends:
                 '1': core
             installed: false
@@ -309,6 +395,7 @@ data:
             name: data.extension.menu.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': core
             folder: menu
@@ -333,6 +420,7 @@ data:
             name: data.extension.portal.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': core
             folder: portal
@@ -357,6 +445,7 @@ data:
             name: data.extension.rankup.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': core
             folder: rankup
@@ -381,6 +470,7 @@ data:
             name: data.extension.server.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': core
             folder: server
@@ -405,6 +495,7 @@ data:
             name: data.extension.shop.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': core
             folder: shop
@@ -429,6 +520,7 @@ data:
             name: data.extension.spawner.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': core
             folder: spawner
@@ -453,6 +545,7 @@ data:
             name: data.extension.store.name
             version: 0000.00.00.0000
             installed: false
+            visible: false
             depends:
                 '1': core
             folder: store

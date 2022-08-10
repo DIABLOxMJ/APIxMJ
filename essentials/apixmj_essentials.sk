@@ -15,7 +15,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.main.essentials.version", "modify", "2022.07.23.0001")
+		mj_editfiles("manager.data", "data.main.essentials.version", "modify", "2022.08.10.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -711,7 +711,7 @@ function mj_essentials_money_upgrade(player: offlineplayer, type: text):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_money_balance(player: player):
 	mj_core_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.balance")
-	set {_list1::*} to mj_core_nodes("temp", "data.sorterboard.essentials_balancetop")
+	set {_list1::*} to mj_manager_nodes("temp", "data.sorterboard.essentials_balancetop")
 	loop {_list1::*}:
 		set {_count} to loop-value
 		set {_id} to mj_editfiles("temp", "data.sorterboard.essentials_balancetop.%loop-value%.id")
@@ -809,7 +809,7 @@ command /kit [<text>] [<text>]:
 					mj_core_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits.admin")
 			else:
 				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kits.*" or "mj.essentials.kits":
-					set {_list::*} to mj_core_nodes("data", "data.storage")
+					set {_list::*} to mj_manager_nodes("data", "data.storage")
 					if {_list::*} contain arg-1:
 						mj_essentials_kits_gift(player, arg-1)
 					else:
@@ -1800,27 +1800,6 @@ function mj_essentials_vanishactualizer():
 # =====================================================================================================================
 # APIxMJ - Function Moderation
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_temptime(time: text) :: timespan:
-	if {_time} contains "s":
-		replace "s" with "" in {_time}
-		set {_time} to "%{_time}% second" parsed as timespan
-	if {_time} contains "m":
-		replace "m" with "" in {_time}
-		set {_time} to "%{_time}% minute" parsed as timespan
-	if {_time} contains "h":
-		replace "h" with "" in {_time}
-		set {_time} to "%{_time}% hour" parsed as timespan
-	if {_time} contains "d" or "j":
-		replace "d" or "j" with "" in {_time}
-		set {_time} to "%{_time}% day" parsed as timespan
-	if {_time} contains "mo":
-		replace "mo" with "" in {_time}
-		set {_time} to "%{_time}% month" parsed as timespan
-	if {_time} contains "y" or "a":
-		replace "y" or "a" with "" in {_time}
-		set {_time} to "%{_time}% year" parsed as timespan
-	return {_time}
-# ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_moderation_check_player(player: player, target: offlineplayer, type: text, reason: text="none", time: text="30d"):
 	if {_reason} is "none":
 		set {_reason} to mj_editfiles_gettext("essentials", "data.no_reason")
@@ -1996,7 +1975,7 @@ function mj_essentials_ban_console(player: offlineplayer, reason: text="none"):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_tempban_player(player: player, target: offlineplayer, reason: text="none", time: text):
-	set {_time} to mj_essentials_temptime({_time})
+	set {_time} to mj_core_converter_time({_time})
 	set {_date} to now
 	add {_time} to {_date}
 	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban", "modify", true)
@@ -2016,7 +1995,7 @@ function mj_essentials_tempban_console(player: offlineplayer, reason: text="none
 	set {_list::*} to mj_editfiles_list("config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
-	set {_time} to mj_essentials_temptime({_time})
+	set {_time} to mj_core_converter_time({_time})
 	set {_date} to now
 	add {_time} to {_date}
 	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.ban", "modify", true)
@@ -2048,7 +2027,7 @@ function mj_essentials_unban_console(player: offlineplayer):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_banlist_player(player: player):
-	set {_list1::*} to mj_core_nodes("userdata")
+	set {_list1::*} to mj_manager_nodes("userdata")
 	loop {_list1::*}:
 		set {_target} to loop-value parsed as offlineplayer
 		set {_ban} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban")
@@ -2067,7 +2046,7 @@ function mj_essentials_banlist_player(player: player):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_banlist_console():
-	set {_list1::*} to mj_core_nodes("userdata")
+	set {_list1::*} to mj_manager_nodes("userdata")
 	loop {_list1::*}:
 		set {_target} to loop-value parsed as offlineplayer
 		set {_ban} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban")
@@ -2189,7 +2168,7 @@ function mj_essentials_mute_console(player: offlineplayer, reason: text):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_tempmute_player(player: player, target: offlineplayer, reason: text="none", time: text):
-	set {_time} to mj_essentials_temptime({_time})
+	set {_time} to mj_core_converter_time({_time})
 	set {_date} to now
 	add {_time} to {_date}
 	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", true)
@@ -2204,7 +2183,7 @@ function mj_essentials_tempmute_console(player: offlineplayer, reason: text="non
 	set {_list::*} to mj_editfiles_list("config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
-	set {_time} to mj_essentials_temptime({_time})
+	set {_time} to mj_core_converter_time({_time})
 	set {_date} to now
 	add {_time} to {_date}
 	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", true)
@@ -2764,7 +2743,7 @@ command /home [<text>]:
 on tab complete of "/home" or "/sethome" or "/delhome":
 	set {_list1::*} to mj_core_id_converter("userdata", "data.%player's uuid%.essentials.home")
 	if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home.other":
-		set {_list2::*} to mj_core_nodes("userdata")
+		set {_list2::*} to mj_manager_nodes("userdata")
 		loop {_list2::*}:
 			set {_player} to mj_editfiles("userdata", "data.%loop-value%.pseudo")
 			add {_player} to {_list1::*}
@@ -2814,11 +2793,9 @@ command /homes:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_home_tp(player: player, name: text):
 	if {_name} contain ":":
-
 		if {_player} has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home.other":
 			set {_arg::*} to {_name} split at ":"
 			set {_target} to {_arg::1} parsed as offlineplayer
-
 			if {_arg::2} isn't empty:
 				set {_id} to mj_core_id_checker("userdata", "data.%{_target}'s uuid%.essentials.home", {_arg::2})
 				if {_id} is set:
@@ -2840,14 +2817,13 @@ function mj_essentials_home_tp(player: player, name: text):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_home_define(player: player, name: text):
+	set {_name} to mj_core_converter_name({_name})
 	set {_rank} to mj_ranker({_player}, "source")
 	set {_limit} to mj_editfiles_number("essentials.config", "data.home_limit.%{_rank}%")
-	broadcast "%{_limit}%"
 	if {_limit} is 0:
 		set {_limit} to 1
-	set {_count} to mj_core_nodes_count("userdata", "data.%{_player}'s uuid%.essentials.home")
+	set {_count} to mj_manager_nodes_count("userdata", "data.%{_player}'s uuid%.essentials.home")
 	set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.essentials.home", {_name})
-	broadcast "%{_count}%"
 	if {_id} is "none":
 		if {_count} >= {_limit}:
 			mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.limit")
@@ -2974,6 +2950,7 @@ function mj_essentials_warp_tp(player: player, name: text):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_warp_define(player: player, name: text):
+	set {_name} to mj_core_converter_name({_name})
 	set {_id} to mj_core_id_checker("essentials.data", "data.warp", {_name})
 	if {_id} is "none":
 		set {_id} to mj_core_id_generator()

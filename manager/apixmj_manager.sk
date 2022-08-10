@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.main.manager.version", "modify", "2022.08.06.0001")
+	mj_editfiles("manager.data", "data.main.manager.version", "modify", "2022.08.10.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -330,7 +330,8 @@ function mj_manager_menu_manager(player: player, type: text, id: text):
 	mj_manager_menu_manager_button_status({_player}, {_type}, {_id}, 10)
 	mj_manager_menu_manager_button_installer({_player}, {_type}, {_id})
 	mj_manager_menu_manager_button_update({_player}, {_type}, {_id})
-	mj_manager_menu_manager_button_uninstalled({_player}, {_type}, {_id})
+	if {_id} isn't "manager":
+		mj_manager_menu_manager_button_uninstalled({_player}, {_type}, {_id})
 	mj_manager_menu_return({_player}, {_type}, 40)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -403,6 +404,17 @@ function mj_manager_menu_manager_button_installer(player: player, type: text, id
 		set {_version} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.version")
 		if {_version} isn't "0000.00.00.0000":
 			set {_mode} to mj_editfiles_gettext("manager", "data.type.uninstalled", {_player})
+	if {_id} isn't "manager":
+		set {_count} to mj_manager_nodes_count("manager.data", "data.%{_type}%.%{_id}%.depends")
+		loop {_count} times:
+			set {_value1} to mj_editfiles("manager.data", "data.%{_type}%.%{_id}%.depends.%loop-value%")
+			set {_value2} to mj_editfiles_boolean("manager.data", "data.main.%{_value1}%.installed")
+			set {_value3} to mj_editfiles("manager.data", "data.main.%{_value1}%.name")
+			set {_value4} to mj_editfiles_gettext("manager", {_value3}, {_player})
+			if {_value2} is false:
+				set {_name} to mj_editfiles_gettext("manager", "data.button.installer.request", {_player}, {_value4})
+				set {_installed} to true
+				exit loop
 	set {_count} to 2
 	set {_install} to mj_editfiles_gettext("manager", "data.category.type", {_player}, {_mode})
 	set line {_count} of lore of {_item} to "%{_install}%"

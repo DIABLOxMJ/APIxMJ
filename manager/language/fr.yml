@@ -27,6 +27,7 @@ data:
         return: "&eRetour"
         installer:
             name: "&eInstaller"
+            request: "&eInstallation nécessite &6: &a$0&r"
             lore:
                 '1': "&7Si vous avez besoin de ce Skript, vous pouvez"
                 '2': "&7l'installer facilement prenez juste en compte"

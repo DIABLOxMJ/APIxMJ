@@ -20,7 +20,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.main.core.version", "modify", "2022.08.10.0001")
+		mj_editfiles("manager.data", "data.main.core.version", "modify", "2022.08.12.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -888,21 +888,27 @@ command /storage [<text>] [<text>] [<text>] [<text>]:
 						mj_core_storage_save(player, "data", "data.storage.%arg-2%")
 					else if arg-1 is "give":
 						if arg-2 is set:
-							if arg-2 is "all":
-								set {_name} to mj_editfiles("data", "data.storage.%arg-2%.name")
-								set {_list::*} to mj_editfiles_list("data", "data.storage.%arg-2%.storage")
-								if {_list::*} is set:
-									loop all players:
-										give {_list::*} to loop-player
-										mj_core_message(loop-player, "core", "data.prefix", "core", "data.storage.give_all", {_name})
-							else if arg-2 isn't "all":
-								set {_player} to arg-3 parsed as player
-								if {_player} is online:
-									mj_core_storage_gift(arg-3, arg-4)
-									mj_core_message(player, "core", "data.prefix", "core", "data.storage.give_other", {_name}, arg-3)
+							if arg-3 is set:
+								set {_id} to mj_editfiles("data", "data.storage.%arg-3%.name")
+								set {_name} to mj_editfiles_gettext("core", {_id})
+								if arg-2 is "all":
+									set {_list::*} to mj_editfiles_list("data", "data.storage.%arg-3%.storage")
+									if {_list::*} is set:
+										loop all players:
+											give {_list::*} to loop-player
+											mj_core_message(loop-player, "core", "data.prefix", "core", "data.storage.give_all", {_name})
+								else if arg-2 isn't "all":
+									set {_player} to arg-2 parsed as player
+									if {_player} is online:
+										mj_core_storage_gift(arg-2, arg-3)
+										mj_core_message(player, "core", "data.prefix", "core", "data.storage.give_other", {_name}, arg-2)
+								else:
+									mj_core_storage_gift("%player%", arg-3)
+									mj_core_message(player, "core", "data.prefix", "core", "data.storage.give", {_name})
 							else:
-								mj_core_storage_gift("%player%", arg-2)
-								mj_core_message(player, "core", "data.prefix", "core", "data.storage.give", {_name})
+								mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+						else:
+							mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
 					else:
 						mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
 			else:
@@ -918,8 +924,8 @@ on tab complete of "/storage":
 		set tab completions for position 1 to "create", "set", "edit" and "give"
 		if tab arg-1 is set:
 			if tab arg-1 is "create":
-				set tab completions for position 2 to "new_storage"
-			if tab arg-1 is "set":
+				set tab completions for position 2 to {_list::*} and "new_storage"
+			if tab arg-1 is "set" or "edit":
 				set tab completions for position 2 to {_list::*}
 				if tab arg-2 is set:
 					set tab completions for position 3 to "price", "permission", "quantity", "limit", "command", "time", "timer_second", "timer_minute", "timer_hour", "money" and "rank"
@@ -936,6 +942,7 @@ on tab complete of "/storage":
 						set tab completions for position 4 to "%{_value}%"
 			if tab arg-1 is "give":
 				set tab completions for position 2 to {_players::*} and "all"
+				set tab completions for position 3 to {_list::*}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /reward:
@@ -1023,7 +1030,7 @@ function mj_core_storage_gift(player: text, id: text, broadcast: boolean=false):
 				mj_core_message(loop-player, "core", "data.prefix", "core", "data.storage.broadcast", "%{_player}%", {_name})
 		wait 1 second
 		if {_player} is online:
-			mj_core_message({_player}, "core", "data.prefix", "core", "data.storage.alertreward", {_name})
+			mj_core_message({_player}, "core", "data.prefix", "core", "data.storage.alert_reward", {_name})
 	else:
 		mj_core_message({_player}, "core", "data.prefix", "core", "data.storage.error")
 	stop

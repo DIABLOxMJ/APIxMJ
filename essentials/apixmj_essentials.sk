@@ -15,7 +15,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.main.essentials.version", "modify", "2022.08.10.0001")
+		mj_editfiles("manager.data", "data.main.essentials.version", "modify", "2022.08.12.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -97,8 +97,8 @@ on chat:
 		if {_check2} is "essentials":
 			set {_check3} to mj_editfiles_boolean("userdata", "data.%player's uuid%.mute")
 			if {_check3} isn't true:
-				set {_check3} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.mute")
-				if {_check3} isn't true:
+				set {_check4} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.mute")
+				if {_check4} isn't true:
 					mj_editfiles_boolean("userdata", "data.%player's uuid%.mute", "modify", true)
 					set {_send} to mj_editfiles("essentials.config", "data.format.chat")
 					set {_rank} to mj_ranker(player)

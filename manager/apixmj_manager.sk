@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.main.manager.version", "modify", "2022.08.10.0001")
+	mj_editfiles("manager.data", "data.main.manager.version", "modify", "2022.08.27.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -705,19 +705,18 @@ function mj_manager_skript_list() :: objects:
 	return {_list2::*}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_skript_start():
-	broadcast "test"
 	set {_list1::*} to mj_manager_nodes("manager.data", "data.main")
 	loop {_list1::*}:
 		set {_id1} to loop-value-1
-		set {_check1} to mj_editfiles_boolean("manager.data", "data.main.%{_id1}%.installed")
-		if {_check1} is true:
-			set {_list2::*} to mj_manager_nodes("manager.data", "data.main.%{_id1}%.skript")
-			loop {_list2::*}:
-				set {_id2} to loop-value-2
-				if {_id1} isn't "extension" or "settings" or "manager":
+		if {_id1} isn't "extension" or "settings" or "manager":
+			set {_check1} to mj_editfiles_boolean("manager.data", "data.main.%{_id1}%.installed")
+			if {_check1} is true:
+				set {_list2::*} to mj_manager_nodes("manager.data", "data.main.%{_id1}%.skript")
+				loop {_list2::*}:
+					set {_id2} to loop-value-2
 					set {_check2} to mj_editfiles("manager.data", "data.main.%{_id1}%.skript.%{_id2}%")
 					enable script file {_check2}
-					wait 2 seconds
+					wait 4 seconds
 	set {_list2::*} to mj_manager_nodes("manager.data", "data.extension")
 	loop {_list2::*}:
 		set {_id1} to loop-value-1
@@ -728,7 +727,7 @@ function mj_manager_skript_start():
 				set {_id2} to loop-value-2
 				set {_check2} to mj_editfiles("manager.data", "data.extension.%{_id1}%.skript.%{_id2}%")
 				enable script file {_check2}
-				wait 2 seconds
+				wait 4 seconds
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_file_reset(id: text, type: text, file: text, language: boolean=false):

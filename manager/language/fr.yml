@@ -198,10 +198,15 @@ data:
         spawner:
             name: "&aSpawner"
             lore:
-                '1': " &6- &7Lore 1"
-                '2': " &0- &7Lore 2"
+                '1': " &6- &7Un système de gestion à spawner puissant capable"
+                '2': " &0- &7de géré la limite de spawner par chunk, et de"
+                '3': " &0- &7comment les récupérer en bref tout est gérable."
         store:
-            name: "&aMagasin virtuelle"
+            name: "&aMagasin virtuel"
             lore:
-                '1': " &6- &7Lore 1"
-                '2': " &0- &7Lore 2"
+                '1': " &6- &7Un système de magasin virtuel inter-compatible"
+                '2': " &0- &7avec un magasin en ligne."
+        lobby:
+            name: "&aLobby"
+            lore:
+                '1': " &6- &7Un gestionnaire pour les lobbys de serveur."

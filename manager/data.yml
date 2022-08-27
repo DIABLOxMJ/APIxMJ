@@ -320,9 +320,10 @@ data:
             name: data.extension.expbank.name
             version: 0000.00.00.0000
             installed: false
-            visible: false
+            visible: true
             depends:
                 '1': core
+                '2': essentials
             folder: expbank
             slot: 11
             kick: false
@@ -520,7 +521,7 @@ data:
             name: data.extension.spawner.name
             version: 0000.00.00.0000
             installed: false
-            visible: false
+            visible: true
             depends:
                 '1': core
             folder: spawner
@@ -545,9 +546,11 @@ data:
             name: data.extension.store.name
             version: 0000.00.00.0000
             installed: false
-            visible: false
+            visible: true
             depends:
                 '1': core
+                '2': ranker
+                '3': essentials
             folder: store
             slot: 22
             kick: false
@@ -564,5 +567,30 @@ data:
                     file: none
                     data: data
             item: gold nugget
+            gui_background:
+                item: green stained glass pane
+        lobby:
+            name: data.extension.lobby.name
+            version: 0000.00.00.0000
+            installed: false
+            visible: false
+            depends:
+                '1': core
+            folder: lobby
+            slot: 23
+            kick: false
+            open_gui: manager
+            skript:
+                '1': apixmj_lobby
+            yml:
+                '1': config
+            file:
+                '1': mj.lobby.config
+                '2': mj.lobby.data
+            reset:
+                '1':
+                    file: none
+                    data: data
+            item: beacon
             gui_background:
                 item: green stained glass pane

@@ -99,12 +99,6 @@ data:
     vanish:
         # If we have to hide the players invisible even to the staff member, default : false
         hide_on_staff: false
-    invsee:
-        # If the OpenInv plugin is installed it is best to activate it, default : false
-        openinv: false
-    enderchest:
-        # If the OpenInv plugin is installed it is best to activate it, default : false
-        openinv: false
     home_limit:
         # The number of home possible per rank, default : "default: 3"
         default: 3

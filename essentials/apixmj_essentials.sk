@@ -15,7 +15,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.main.essentials.version", "modify", "2022.08.12.0001")
+		mj_editfiles("manager.data", "data.main.essentials.version", "modify", "2022.08.28.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -1501,9 +1501,10 @@ on chat:
 	mj_essentials_afk(player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-on join:
+on quit:
 	if event-entity is player:
-		mj_essentials_afk(player)
+		mj_editfiles_number("temp", "data.%player's uuid%.afk", "modify", 0)
+		mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.afk", "modify", false)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on leftclick:
@@ -1612,7 +1613,17 @@ function mj_essentials_godmode(player: player, target: offlineplayer, mode: bool
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - God Mode
 # =====================================================================================================================
-# APIxMJ - Invsee
+# APIxMJ - Invsee & Enderchest
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	mj_editfiles_boolean("temp", "data.essentials.openinv", "modify", false)
+	wait 1 second
+	loop plugins list:
+		if loop-value is "openinv":
+			mj_editfiles_boolean("temp", "data.essentials.openinv", "modify", true)
+			mj_core_logger(3, "Essentials : The OpenInv plugin is detected and activated")
+			exit loop
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /invsee [<offlineplayer>]:
 	executable by: player
@@ -1620,7 +1631,7 @@ command /invsee [<offlineplayer>]:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.invsee.*" or "mj.essentials.invsee":
 			if arg-1 is set:
 				mj_core_logger(1, "%player% is open inventory to %arg-1%")
-				set {_check} to mj_editfiles_boolean("essentials.config", "data.invsee.openinv")
+				set {_check} to mj_editfiles_boolean("temp", "data.essentials.openinv")
 				if {_check} is true:
 					player command "/openinv %arg-1%"
 				else:
@@ -1631,10 +1642,6 @@ command /invsee [<offlineplayer>]:
 			mj_core_permission(player, "essentials", "data.invsee.prefix", "mj.essentials.invsee")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Invsee
-# =====================================================================================================================
-# APIxMJ - Enderchest
-# ---------------------------------------------------------------------------------------------------------------------
 command /enderchest [<offlineplayer>]:
 	aliases: ec
 	executable by: player
@@ -1643,7 +1650,7 @@ command /enderchest [<offlineplayer>]:
 			if arg-1 is set:
 				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.enderchest.*" or "mj.essentials.enderchest.other":
 					mj_core_logger(1, "%player% is open enderchest to %arg-1%")
-					set {_check} to mj_editfiles_boolean("essentials.config", "data.invsee.openinv")
+					set {_check} to mj_editfiles_boolean("temp", "data.essentials.openinv")
 					if {_check} is true:
 						player command "/openender %arg-1%"
 					else:
@@ -1656,7 +1663,7 @@ command /enderchest [<offlineplayer>]:
 			mj_core_permission(player, "essentials", "data.enderchest.prefix", "mj.essentials.enderchest")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Enderchest
+# APIxMJ - Invsee & Enderchest
 # =====================================================================================================================
 # APIxMJ - Spy
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2956,6 +2963,10 @@ function mj_essentials_warp_define(player: player, name: text):
 		set {_id} to mj_core_id_generator()
 	mj_editfiles("essentials.data", "data.warp.%{_id}%.name", "modify", {_name})
 	mj_editfiles_boolean("essentials.data", "data.warp.%{_id}%.permission", "modify", false)
+	if {_player}'s tool is air:
+		mj_editfiles("essentials.data", "data.warp.%{_id}%.item", "modify", "compass")
+	else:
+		mj_editfiles_stock("essentials.data", "data.warp.%{_id}%.item", "modify", {_player}'s tool)
 	mj_core_location("essentials.data", "data.warp.%{_id}%", "modify", {_player})
 	mj_core_message({_player}, "essentials", "data.warp.prefix", "essentials", "data.warp.define", {_name})
 	mj_core_logger(1, "%{_player}% has created the warp : %{_name}%")

@@ -55,21 +55,19 @@ function mj_install_config(type: text):
 	set {_36} to yaml value "data.repair.time.minute" from "%{_source}%"
 	set {_37} to yaml value "data.repair.time.hour" from "%{_source}%"
 	set {_38} to yaml value "data.vanish.hide_on_staff" from "%{_source}%"
-	set {_39} to yaml value "data.invsee.openinv" from "%{_source}%"
-	set {_40} to yaml value "data.enderchest.openinv" from "%{_source}%"
-	set {_41} to yaml value "data.home_limit.default" from "%{_source}%"
-	set {_42::*} to yaml list "data.quiet_command_list" from "%{_source}%"
-	set {_43} to yaml value "data.format.join" from "%{_source}%"
-	set {_44} to yaml value "data.format.quit" from "%{_source}%"
-	set {_45} to yaml value "data.format.chat" from "%{_source}%"
-	set {_46} to yaml value "data.format.message" from "%{_source}%"
-	set {_47} to yaml value "data.format.tablist" from "%{_source}%"
-	set {_48} to yaml value "data.format.staffchat" from "%{_source}%"
-	set {_49} to yaml value "data.format.balance" from "%{_source}%"
-	set {_50} to yaml value "data.format.kick" from "%{_source}%"
-	set {_51} to yaml value "data.format.kick_separator" from "%{_source}%"
-	set {_52} to yaml value "data.spawn" from "%{_source}%"
-	set {_53} to yaml value "data.lobby" from "%{_source}%"
+	set {_39} to yaml value "data.home_limit.default" from "%{_source}%"
+	set {_40::*} to yaml list "data.quiet_command_list" from "%{_source}%"
+	set {_41} to yaml value "data.format.join" from "%{_source}%"
+	set {_42} to yaml value "data.format.quit" from "%{_source}%"
+	set {_43} to yaml value "data.format.chat" from "%{_source}%"
+	set {_44} to yaml value "data.format.message" from "%{_source}%"
+	set {_45} to yaml value "data.format.tablist" from "%{_source}%"
+	set {_46} to yaml value "data.format.staffchat" from "%{_source}%"
+	set {_47} to yaml value "data.format.balance" from "%{_source}%"
+	set {_48} to yaml value "data.format.kick" from "%{_source}%"
+	set {_49} to yaml value "data.format.kick_separator" from "%{_source}%"
+	set {_50} to yaml value "data.spawn" from "%{_source}%"
+	set {_51} to yaml value "data.lobby" from "%{_source}%"
 	wait 5 ticks
 	mj_manager_file_reset("essentials", "main", {_source})
 	wait 5 ticks
@@ -111,19 +109,19 @@ function mj_install_config(type: text):
 	set yaml value "data.repair.time.minute" from "%{_source}%" to {_36}
 	set yaml value "data.repair.time.hour" from "%{_source}%" to {_37}
 	set yaml value "data.vanish.hide_on_staff" from "%{_source}%" to {_38}
-	set yaml value "data.invsee.openinv" from "%{_source}%" to {_39}
-	set yaml value "data.enderchest.openinv" from "%{_source}%" to {_40}
-	set yaml value "data.home_limit.default" from "%{_source}%" to {_41}
-	set yaml list "data.quiet_command_list" from "%{_source}%" to {_42::*}
-	set yaml value "data.format.join" from "%{_source}%" to {_43}
-	set yaml value "data.format.quit" from "%{_source}%" to {_44}
-	set yaml value "data.format.chat" from "%{_source}%" to {_45}
-	set yaml value "data.format.message" from "%{_source}%" to {_46}
-	set yaml value "data.format.tablist" from "%{_source}%" to {_47}
-	set yaml value "data.format.staffchat" from "%{_source}%" to {_48}
-	set yaml value "data.format.balance" from "%{_source}%" to {_49}
-	set yaml value "data.format.kick" from "%{_source}%" to {_50}
-	set yaml value "data.format.kick_separator" from "%{_source}%" to {_51}
+	set yaml value "data.home_limit.default" from "%{_source}%" to {_39}
+	set yaml list "data.quiet_command_list" from "%{_source}%" to {_40::*}
+	set yaml value "data.format.join" from "%{_source}%" to {_41}
+	set yaml value "data.format.quit" from "%{_source}%" to {_42}
+	set yaml value "data.format.chat" from "%{_source}%" to {_43}
+	set yaml value "data.format.message" from "%{_source}%" to {_44}
+	set yaml value "data.format.tablist" from "%{_source}%" to {_45}
+	set yaml value "data.format.staffchat" from "%{_source}%" to {_46}
+	set yaml value "data.format.balance" from "%{_source}%" to {_47}
+	set yaml value "data.format.kick" from "%{_source}%" to {_48}
+	set yaml value "data.format.kick_separator" from "%{_source}%" to {_49}
+	set yaml value "data.spawn" from "%{_source}%" to {_50}
+	set yaml value "data.lobby" from "%{_source}%" to {_51}
 	save yaml "%{_source}%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

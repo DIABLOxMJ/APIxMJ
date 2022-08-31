@@ -467,24 +467,24 @@ data:
             item: netherite ingot
             gui_background:
                 item: lime stained glass pane
-        server:
-            name: data.extension.server.name
+        multitools:
+            name: data.extension.multitools.name
             version: 0000.00.00.0000
             installed: false
             visible: false
             depends:
                 '1': core
-            folder: server
+            folder: multitools
             slot: 19
             kick: false
             open_gui: manager
             skript:
-                '1': apixmj_server
+                '1': apixmj_multitools
             yml:
                 '1': config
             file:
-                '1': mj.server.config
-                '2': mj.server.data
+                '1': mj.multitools.config
+                '2': mj.multitools.data
             reset:
                 '1':
                     file: none

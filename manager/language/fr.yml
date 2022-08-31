@@ -185,8 +185,8 @@ data:
             lore:
                 '1': " &6- &7Lore 1"
                 '2': " &0- &7Lore 2"
-        server:
-            name: "&aServeur"
+        multitools:
+            name: "&aBoite à outils"
             lore:
                 '1': " &6- &7Lore 1"
                 '2': " &0- &7Lore 2"

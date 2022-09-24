@@ -1,5 +1,0 @@
-data:
-    # The size of interface (1 to 6), default : 6
-    gui_size: 6
-    # Redirect to store on website, default : http://www.your_link.com
-    website_store: http://www.your_link.com

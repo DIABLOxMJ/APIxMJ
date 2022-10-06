@@ -14,8 +14,8 @@ data:
             '4': "&0- &7on retrouvent la liste dans le fichier &aconfig &7dans &aaccess&7."
             '5': "&0"
             '6': "&6- &a/apixmj reload [<files/skript>]"
-            '7': "&0- &7Sans préciser il recharge le &aCoeur&7, où seulement les fichiers"
-            '8': "&0- &7sinon un autre Skript entièrement."
+            '7': "&0- &7Sans préciser il recharge le &aCoeur&7, où seulement les"
+            '8': "&0- &7fichiers sinon un autre Skript entièrement."
     debug1:
         name: "&aOutils de dépannage"
         type: command
@@ -28,21 +28,22 @@ data:
             '2': "&6- &a/apixmj debug"
             '3': "&0- &7Donne la liste des fichiers actif d'APIxMJ."
             '4': "&6- &a/apixmj debug uuid <uuid/player>"
-            '5': "&0- &7Indiquer un UUID où un nom de joueur pour vérifier l'information."
-            '6': "&6- &a/apixmj debug unload <skript>"
-            '7': "&0- &7Décharge un fichier yml."
-            '8': "&6- &a/apixmj debug loadskript <skript>"
-            '9': "&0- &7Charge un skript."
-            '10': "&6- &a/apixmj debug unloadskript <skript>"
-            '11': "&0- &7Décharge un skript."
-            '12': "&6- &a/apixmj check hand"
-            '13': "&0- &7Donne des informations sur l'item en main."
-            '14': "&6- &a/apixmj check target"
-            '15': "&0- &7Donne des informations sur le bloc visé."
-            '16': "&6- &a/apixmj chechnbt hand"
-            '17': "&0- &7Donne la source NBT de l'item en main."
-            '18': "&6- &a/apixmj checknbt target"
-            '19': "&0- &7Donne la source NBT du bloc/entité visé."
+            '5': "&0- &7Indiquer un UUID où un nom de joueur"
+            '6': "&0- &7pour vérifier l'information."
+            '7': "&6- &a/apixmj debug unload <skript>"
+            '8': "&0- &7Décharge un fichier yml."
+            '9': "&6- &a/apixmj debug loadskript <skript>"
+            '10': "&0- &7Charge un skript."
+            '11': "&6- &a/apixmj debug unloadskript <skript>"
+            '12': "&0- &7Décharge un skript."
+            '13': "&6- &a/apixmj check hand"
+            '14': "&0- &7Donne des informations sur l'item en main."
+            '15': "&6- &a/apixmj check target"
+            '16': "&0- &7Donne des informations sur le bloc visé."
+            '17': "&6- &a/apixmj chechnbt hand"
+            '18': "&0- &7Donne la source NBT de l'item en main."
+            '19': "&6- &a/apixmj checknbt target"
+            '20': "&0- &7Donne la source NBT du bloc/entité visé."
     debug2:
         name: "&aOutils de dépannage"
         type: command
@@ -189,10 +190,12 @@ data:
             '3': "&0- &7par défaut le joueur à une sauvegarde a sa mort &6(&adeath&6)"
             '4': "&0- &7aussi à la déconnexion &6(&alast&6)&7, et toute les 5 minutes"
             '5': "&0- &7automatiquement &6(&abackup&6)&7, la commande permet d'en"
-            '6': "&0- &7faire autant qu'on le souhaite avec le nom qu'on désire mettre."
-            '7': "&6- &a/inventory restore <player> <inventory name>"
-            '8': "&0- &7Cette commande permet de rendre l'inventaire ainsi que"
-            '9': "&0- &7l'expérience et le coffre du néant sauvegarder précédemment."
+            '6': "&0- &7faire autant qu'on le souhaite"
+            '7': "&0- &7avec le nom qu'on désire mettre."
+            '8': "&6- &a/inventory restore <player> <inventory name>"
+            '9': "&0- &7Cette commande permet de rendre l'inventaire ainsi que"
+            '10': "&0- &7l'expérience et le coffre du néant"
+            '11': "&0- &7sauvegarder précédemment."
     report:
         name: "&aSystème de rapport"
         type: command
@@ -230,9 +233,11 @@ data:
             '12': "&0- &7Définir le temps en minute avant la prochaine récupération."
             '13': "&6- &a/storage set <storage name> timer_hour <number>"
             '14': "&0- &7Définir le temps en heure avant la prochaine récupération."
-            '15': "&0- &7Le temps seconde, minute et heure sont lier par exemple 1h5m30s."
-            '16': "&6- &a/storage set <storage name> money <number>"
-            '17': "&0- &7Définir la quantité d'argent obtenable à la récupération du stockage."
+            '15': "&0- &7Le temps seconde, minute et heure sont lier"
+            '16': "&0- &7lier par exemple 1h5m30s."
+            '17': "&6- &a/storage set <storage name> money <number>"
+            '18': "&0- &7Définir la quantité d'argent obtenable à la"
+            '19': "&0- &7récupération du stockage."
     storage2:
         name: "&aSystème de stockage"
         type: command
@@ -242,38 +247,43 @@ data:
         - "*"
         info:
             '1': "&6- &a/storage set <storage name> permission <true/false>"
-            '2': "&0- &7Définir si le joueur doit avoir la permission ou non pour y avoir"
-            '3': "&0- &7accès à la récupération du stockage &amj.storage.<storage name>&7."
-            '4': "&6- &a/storage set <storage name> command <text>"
-            '5': "&0- &7Définir une commande à exécuté à la récupération."
-            '6': "&6- &a/storage set <storage name> time <number>"
-            '7': "&0- &7Définir un temps à afficher."
-            '8': "&6- &a/storage set <storage name> rank <text>"
-            '9': "&0- &7Définir le rang à donner au joueur."
-            '10': "&6- &a/storage edit <storage name>"
-            '11': "&0- &7Ouvre un menu dans lequel on peut déposer et récupérer des items."
-            '12': "&6- &a/storage give <storage name> [<player/all>]"
-            '13': "&0- &7Il permet de donner le stockage à un joueur où à tout le serveur."
+            '2': "&0- &7Définir si le joueur doit avoir la permission"
+            '3': "&0- &7ou non pour y avoir accès à la"
+            '4': "&0- &7récupération du stockage &amj.storage.<storage name>&7."
+            '5': "&6- &a/storage set <storage name> command <text>"
+            '6': "&0- &7Définir une commande à exécuté à la récupération."
+            '7': "&6- &a/storage set <storage name> time <number>"
+            '8': "&0- &7Définir un temps à afficher."
+            '9': "&6- &a/storage set <storage name> rank <text>"
+            '10': "&0- &7Définir le rang à donner au joueur."
+            '11': "&6- &a/storage edit <storage name>"
+            '12': "&0- &7Ouvre un menu dans lequel on peut déposer et"
+            '13': "&0- &7récupérer des items."
+            '14': "&6- &a/storage give <storage name> [<player/all>]"
+            '15': "&0- &7Il permet de donner le stockage à un joueur où"
+            '16': "&0- &7à tout le serveur."
     bat:
         name: "&aChauve-souris"
         type: function
         description:
-            '1': "&0- &aOn dit stop au entité inutile du jeu comme les chauve-souris, ADIEU !"
+            '1': "&0- &aOn dit stop au entité inutile du jeu comme"
+            '2': "&0- &ales chauve-souris, ADIEU !"
         permission:
         - "*"
         info:
-            '1': "&6- &7On peu changer le mode dans le fichier config du &aCore &7avec"
-            '2': "&0- &7l'option &ano_spawn_bat&7."
+            '1': "&6- &7On peu changer le mode dans le fichier config du &aCore"
+            '2': "&0- &7avec l'option &ano_spawn_bat&7."
     enderman:
         name: "&aEnderman"
         type: function
         description:
-            '1': "&0- &aOn dit stop à la destruction massive du monde par les Endermans !"
+            '1': "&0- &aOn dit stop à la destruction massive"
+            '2': "&0- &adu monde par les Endermans !"
         permission:
         - "*"
         info:
-            '1': "&6- &7On peu changer le mode dans le fichier config du &aCore &7avec"
-            '2': "&0- &7l'option &ano_enderman_griefing&7."
+            '1': "&6- &7On peu changer le mode dans le fichier config du &aCore"
+            '2': "&0- &7avec l'option &ano_enderman_griefing&7."
     explode:
         name: "&aEnderman"
         type: function
@@ -282,15 +292,16 @@ data:
         permission:
         - "*"
         info:
-            '1': "&6- &7On peu changer le mode dans le fichier config du &aCore &7avec"
-            '2': "&0- &7l'option &aanti-explode&7."
+            '1': "&6- &7On peu changer le mode dans le fichier config du &aCore"
+            '2': "&0- &7avec l'option &aanti-explode&7."
             '3': "&6- &eSi la région WorldGuard contient &aspawn &eoù &asafe &eil sera actif."
     keep:
         name: "&aPréserver"
         type: function
         description:
-            '1': "&0- &aUne obligation pour l'équipe de modération, il permet de conserver"
-            '2': "&0- &al'inventaire et la barre d'expérience séparement à la mort du joueur."
+            '1': "&0- &aUne obligation pour l'équipe de modération, il permet"
+            '2': "&0- &ade conserver l'inventaire et la barre d'expérience"
+            '3': "&0- &aséparement à la mort du joueur."
         permission:
         - "*"
         - "mj.*"
@@ -305,8 +316,8 @@ data:
         name: "&aImmortalité"
         type: function
         description:
-            '1': "&0- &aUn temps d'immortalité pour protéger le joueur dans des situations,"
-            '2': "&0- &acomme sortir du spawn il sera protéger 5 secondes."
+            '1': "&0- &aUn temps d'immortalité pour protéger le joueur dans des"
+            '2': "&0- &asituations, comme sortir du spawn pendant 5 secondes."
         permission:
         - "*"
         info:
@@ -320,7 +331,7 @@ data:
         permission:
         - "*"
         info:
-            '1': "&6- &7Faire un clic droit sur un bloc contenant le nom &acommand"
-            '2': "&0- &7et bloquer pour les joueurs."
-            '3': "&6- &7Faire apparaitre un minecart command block avec un dispenseur"
-            '4': "&0- &7et bloquer pour tout le monde."
+            '1': "&6- &7Faire un clic droit sur un bloc contenant le"
+            '2': "&0- &7nom &acommand &7et bloquer pour les joueurs."
+            '3': "&6- &7Faire apparaitre un minecart command block avec"
+            '4': "&0- &7un dispenseur et bloquer pour tout le monde."

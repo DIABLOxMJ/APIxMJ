@@ -79,7 +79,7 @@ data:
         uninstall: "&7Désinstaller le Skript"
         update_check: "&7Rechercher une mise à jour"
         update_now: "&7Installer la mise à jour"
-        halper: "&7Ouvrir la documentation"
+        helper: "&7Ouvrir la documentation"
         gui_panel: "&7Ouvrir le panneau de configuration"
         gui_folder: "&7Ouvrir le répertoire"
     reload:

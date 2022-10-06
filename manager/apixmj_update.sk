@@ -82,6 +82,7 @@ function mj_install_data(folder: text, type: text):
 	set yaml value "data.addon.vertebral_extension.spawner.installed" from "%{_source}%" to {_14}
 	set yaml value "data.addon.vertebral_extension.store.installed" from "%{_source}%" to {_15}
 	set yaml value "data.addon.gamemodes_faction.faction.installed" from "%{_source}%" to {_16}
+	set yaml value "data.addon.gamemodes_classic.core.installed" from "%{_source}%" to {_17}
 	save yaml "%{_source}%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

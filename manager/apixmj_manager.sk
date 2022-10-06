@@ -514,7 +514,7 @@ function mj_manager_menu_control_button_update_check(player: player, source: tex
 		set {_version} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.version")
 		set {_github} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.github")
 		set {_check} to text from "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main/%{_github}%/version.txt"
-		if "%{_check}%" doesn't contain "%{_version}%":
+		if "%{_check}%" isn't "%{_version}%":
 			mj_manager_menu_control_button_update({_player}, {_source}, {_id}, 3)
 		else:
 			mj_manager_menu_control_button_update({_player}, {_source}, {_id}, 4)

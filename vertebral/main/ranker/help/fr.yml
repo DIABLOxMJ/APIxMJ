@@ -1,0 +1,11 @@
+data:
+    groupmanager:
+        name: "&aGroupManager"
+        type: command
+        description:
+            '1': "&0- &aPrise en charge du plugins GroupManager."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7Comprend et utilise GroupManager pour les permissions,"
+            '2': "&0- &7et les récupérations/attributions de rang."

@@ -410,7 +410,7 @@ function mj_manager_menu_control_installer(player: player, source: text, id: tex
 	delete file "plugins/APIxMJ/%{_folder}%/language/log.txt"
 	create script "plugins/APIxMJ/%{_folder}%/help/log.txt"
 	delete file "plugins/APIxMJ/%{_folder}%/help/log.txt"
-	mj_manager_menu_control_installer_skript({_player}, {_source}, {_id}, "install")
+	mj_manager_menu_control_installer_skript({_player}, {_source}, {_id}, {_option})
 	mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed", "modify", true)
 	mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.installed", {_name})
 	set {_kick} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.kick")
@@ -425,6 +425,8 @@ function mj_manager_menu_control_installer_skript(player: player, source: text, 
 	set {_list::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.skript")
 	loop {_list::*}:
 		set {_skript} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.skript.%loop-value%")
+		delete file "plugins/Skript/scripts/%{_skript}%.sk"
+		wait 5 ticks
 		download file from "%{_link}%/%{_github}%/%{_skript}%.sk" to file "plugins/Skript/scripts/%{_skript}%.sk"
 	if {_option} is "install":	
 		mj_manager_menu_control_installer_file({_player}, {_source}, {_id})
@@ -718,11 +720,14 @@ function mj_manager_file_reset(folder: text, file: text, language: boolean=false
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
 	if {_language} is true:
 		delete file "plugins/APIxMJ/%{_folder}%/language/%{_file}%.yml"
+		wait 5 ticks
 		download file from "%{_link}%/%{_folder}%/language/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/language/%{_file}%.yml"
 		delete file "plugins/APIxMJ/%{_folder}%/help/%{_file}%.yml"
+		wait 5 ticks
 		download file from "%{_link}%/%{_folder}%/help/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/help/%{_file}%.yml"
 	else:
 		delete file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
+		wait 5 ticks
 		download file from "%{_link}%/%{_folder}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

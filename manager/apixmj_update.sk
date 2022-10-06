@@ -57,7 +57,7 @@ function mj_install_data(folder: text, type: text):
 	set {_09} to yaml value "data.addon.vertebral_extension.menu.installed" from "%{_source}%"
 	set {_10} to yaml value "data.addon.vertebral_extension.portal.installed" from "%{_source}%"
 	set {_11} to yaml value "data.addon.vertebral_extension.rankup.installed" from "%{_source}%"
-	set {_12} to yaml value "data.addon.vertebral_extension.server.installed" from "%{_source}%"
+	set {_12} to yaml value "data.addon.vertebral_extension.multitools.installed" from "%{_source}%"
 	set {_13} to yaml value "data.addon.vertebral_extension.shop.installed" from "%{_source}%"
 	set {_14} to yaml value "data.addon.vertebral_extension.spawner.installed" from "%{_source}%"
 	set {_15} to yaml value "data.addon.vertebral_extension.store.installed" from "%{_source}%"
@@ -77,7 +77,7 @@ function mj_install_data(folder: text, type: text):
 	set yaml value "data.addon.vertebral_extension.menu.installed" from "%{_source}%" to {_09}
 	set yaml value "data.addon.vertebral_extension.portal.installed" from "%{_source}%" to {_10}
 	set yaml value "data.addon.vertebral_extension.rankup.installed" from "%{_source}%" to {_11}
-	set yaml value "data.addon.vertebral_extension.server.installed" from "%{_source}%" to {_12}
+	set yaml value "data.addon.vertebral_extension.multitools.installed" from "%{_source}%" to {_12}
 	set yaml value "data.addon.vertebral_extension.shop.installed" from "%{_source}%" to {_13}
 	set yaml value "data.addon.vertebral_extension.spawner.installed" from "%{_source}%" to {_14}
 	set yaml value "data.addon.vertebral_extension.store.installed" from "%{_source}%" to {_15}

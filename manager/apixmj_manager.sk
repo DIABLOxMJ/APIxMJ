@@ -121,13 +121,13 @@ function mj_editfiles_date(source: text, find: text="data", mode: text="extract"
 function mj_editfiles_gettext(source: text, find: text="data", player: player="none", info1: text="none", info2: text="none", info3: text="none") :: text:
 	set {_lang} to yaml value "data.language.use" from "mj.manager.config"
 	set {_result} to yaml value "%{_find}%" from "mj.%{_source}%.language.%{_lang}%"
-	set {_list1::*} to mj_manager_skript_list()
-	if {_list1::*} contains "apixmj.sk":
-		if {_player} isn't "none":
-			set {_list2::*} to the currently loaded yaml files
-			if {_list2::*} contains "mj.userdata":
-				set {_lang} to yaml value "data.%{_player}'s uuid%.language" from "mj.userdata"
-			set {_result} to yaml value "%{_find}%" from "mj.%{_source}%.language.%{_lang}%"
+	#set {_list1::*} to mj_manager_skript_list()
+	#if {_list1::*} contains "apixmj.sk":
+	#	if {_player} isn't "none":
+	#		set {_list2::*} to the currently loaded yaml files
+	#		if {_list2::*} contains "mj.userdata":
+	#			set {_lang} to yaml value "data.%{_player}'s uuid%.language" from "mj.userdata"
+	#			set {_result} to "%{_find}%" from "mj.%{_source}%.language.%{_lang}%"
 	if {_info1} isn't "none":
 		replace "$0" with {_info1} in {_result}
 	if {_info2} isn't "none":
@@ -434,7 +434,7 @@ function mj_manager_menu_control_installer_skript(player: player, source: text, 
 		download file from "%{_link}%/%{_github}%/apixmj_update.sk" to file "plugins/Skript/scripts/apixmj_update.sk"
 		wait 2 seconds
 		reload script "apixmj_update"
-	wait 6 seconds
+	wait 2 seconds
 	set {_start} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.skript.1")
 	reload script "%{_start}%"
 	stop

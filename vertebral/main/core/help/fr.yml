@@ -55,7 +55,7 @@ data:
         - "*"
         info:
             '1': "&6- &7La commande possède deux préfix &a/apixmj &7où &a/mj"
-            '2': "&6- &a/apixmj debug online <player>"
+            '2': "&0"
             '3': "&6- &a/apixmj debug online <player>"
             '4': "&0- &7Il permet de vérifier la présence d'un joueur."
             '5': "&6- &a/apixmj debug checkslot <number>"
@@ -148,7 +148,7 @@ data:
             '1': "&6- &aCommande&6, &aConnexion&6, &aDéconnexion&6, &aMessage&6,"
             '2': "&0- &aRamasser&6, &aJeter&6, &aPortail&6, &aCraft&6, &aUtiliser&6,"
             '3': "&0- &aTéléportation&6, &aGamemode&6, &aRégion&6, &aClic droit&6,"
-            '4': "&0- &aPlacer&6, &aCasser &7et &aMourir"
+            '4': "&0- &aPlacer&6, &aCasser &7et &aMourir&6."
     operator:
         name: "&aMode Super-Admin"
         type: command

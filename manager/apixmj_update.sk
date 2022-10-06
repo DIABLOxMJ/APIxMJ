@@ -39,6 +39,7 @@ function mj_install_config(folder: text, type: text):
 	set yaml list "data.language.list" from "%{_source}%" to {_07::*}
 	set yaml value "data.gui_background.item" from "%{_source}%" to {_08}
 	save yaml "%{_source}%"
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Config
 # =====================================================================================================================
@@ -64,7 +65,7 @@ function mj_install_data(folder: text, type: text):
 	set {_16} to yaml value "data.addon.gamemodes_faction.faction.installed" from "%{_source}%"
 	set {_17} to yaml value "data.addon.gamemodes_classic.core.installed" from "%{_source}%"
 	wait 5 ticks
-	mj_manager_file_reset({_folder}, "config")
+	mj_manager_file_reset({_folder}, "data")
 	wait 5 ticks
 	set yaml value "data.addon.main.manager.installed" from "%{_source}%" to {_01}
 	set yaml value "data.addon.vertebral_main.core.installed" from "%{_source}%" to {_02}

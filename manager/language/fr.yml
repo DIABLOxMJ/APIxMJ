@@ -2,12 +2,14 @@ data:
     prefix: "&6[&c&lAPIxMJ&6]&r"
     menu:
         main: "&eAPIxMJ - Menu Manager"
+        name: "&cAPIxMJ &6:&r $0"
+        menu: "&eMenu &6:&r $0"
+        menu_lite: "&eM. &6:&r $0"
         manager: "&eGestion &6:&r $0"
         manager_lite: "&eG. &6:&r $0"
-        name: "&cAPIxMJ &6:&r $0"
         confirm: "&eDemande de confirmation"
     category:
-        information: "&eInformation &6:&r"
+        info: "&eInformation &6:&r"
         description: "&eDescription &6:&r"
         depends: "&eDépendance &6:&r"
         version:
@@ -38,7 +40,7 @@ data:
                 '1': "&7Si vous n'avez plus besoin de ce Skript,"
                 '2': "&7vous pouvez le désinstaller à condition que"
                 '3': "&7ce ne soit pas une dépendance d'un autre Skript,"
-                '4': "&7veuillez à être sûr de vous avant de le faire,"
+                '4': "&7veuillez à en être sûr de vous avant de le faire,"
                 '5': "&7cette désinstallation supprimera que le Skript,"
                 '6': "&7il préserve les données de votre serveur dans"
                 '7': "&7le cas où vous voudriez réinstaller plus tard."
@@ -52,6 +54,11 @@ data:
                 '1': "&7Cliquer une fois pour savoir s'il y a une"
                 '2': "&7mise à jour disponible et si c'est le cas"
                 '3': "&7pouvez mettre à jour à n'importe quel moment."
+        helper:
+            name: "&eDocumentation"
+            lore:
+                '1': "&7Toutes les informations nécessaires"
+                '2': "&7se trouvent ici."
         request:
             confirm:
                 name: "&aConfirmer"
@@ -72,7 +79,9 @@ data:
         uninstall: "&7Désinstaller le Skript"
         update_check: "&7Rechercher une mise à jour"
         update_now: "&7Installer la mise à jour"
+        halper: "&7Ouvrir la documentation"
         gui_panel: "&7Ouvrir le panneau de configuration"
+        gui_folder: "&7Ouvrir le répertoire"
     reload:
         success: "&aRechargement complet, bon jeu à vous !"
         prevent: "&cRechargement du serveur, veuillez ne pas bouger et attendre dans un endroit sûr !"
@@ -80,133 +89,175 @@ data:
     type:
         installed: "&aInstallé&r"
         uninstalled: "&cDésinstallé&r"
-        notinstalled: "&7Pas installé&r"
+        not_installed: "&7Pas installé&r"
         enable: "&aActivé&r"
         disable: "&cDésactivé&r"
         accept: "&6[&aAccepter&6]&r"
         refuse: "&6[&cRefuser&6]&r"
-        leftclick: "&6[&aClic Gauche&6]&r"
-        leftclickshift: "&6[&aShift + CG&6]&r"
-        rightclick: "&6[&aClic Droit&6]&r"
-        rightclickshift: "&6[&aShift + CD&6]&r"
-        middleclick: "&6[&aClic Molette&6]&r"
+        left_click: "&6[&aClic Gauche&6]&r"
+        left_click_shift: "&6[&aShift + CG&6]&r"
+        right_click: "&6[&aClic Droit&6]&r"
+        right_click_shift: "&6[&aShift + CD&6]&r"
+        middle_click: "&6[&aClic Molette&6]&r"
     help:
-        border: "&6----- ----- ----- &a$0 &6----- ----- -----"
+        border: "&6----- ----- ----- ----- ----- &a$0 &6----- ----- ----- ----- -----"
         description: "  &eDescription &6:&r"
         command: "  &eCommande/Fonctionnement &6:&r"
         info: "  &eInformation &6:&r"
         rule: "  &eRèglement &6:&r"
         permission: "  &ePermission &6:&r"
         argument: "&cSélectionnez un autre choix car celui-ci n'a pas été trouvé.."
-    main:
-        vanilla:
-            name: "&bVanilla"
+        menu:
+            main: "&eAPIxMJ - Menu Support"
+            name: "&cAPIxMJ &6:&r $0"
+            manager: "&cAPIxMJ &6:&r &dGestionnaire"
+        button:
+            index: "&eRépertoire &6:&r &a$0"
+            manager: "&eRépertoire &6:&r &dGestionnaire"
+            addon: "&eAddon &6:&r &a$0"
+            command: "&eCommande &6:&r &a$0"
+            action: "&eInteraction &6:&r &a$0"
+            function: "&eFonctionnalité &6:&r &a$0"
+    index:
+        vertebral_main:
+            name: "&5Module centrale"
+            name_lite: "&5Module centrale"
             lore:
-                '1': " &6- &7Une version des skripts pour le vanilla"
-                '2': " &0- &7Sans permissions juste vanilla quoi !"
-        extension:
-            name: "&2Extension"
+                '1': " &6- &7Les Skripts qui font fonctionner APIxMJ"
+                '2': " &0- &7sans lui rien de tout ça ne serait possible."
+        vertebral_extension:
+            name: "&aExtension"
+            name_lite: "&aExtension"
             lore:
                 '1': " &6- &7Des Skripts sous-dépendant des principaux"
                 '2': " &0- &7remplis de fonctionnalités très attirants !"
-        settings:
-            name: "&bParamètres"
+        gamemodes:
+            name: "&bMode de jeux"
+            name_lite: "&bMode de jeux"
             lore:
-                '1': " &6- &7Panneau de configuration du Gestionnaire"
-                '2': " &0- &7Un outil puissant pour un contrôle sans limite !"
-        manager:
-            name: "&eGestionnaire"
+                '1': " &6- &7Une version des skripts pour le vanilla"
+                '2': " &0- &7Sans permissions juste vanilla quoi !"
+        gamemodes_faction:
+            name: "&4PVP-Faction"
+            name_lite: "&4PVP-Faction"
             lore:
-                '1': " &6- &7Un gestionnaire d'installation, mise à jour et"
-                '2': " &0- &7de suppression de Skript dans l'environnement d'APIxMJ."
-                '3': " &6- &7Il est simple et efficace donc très "
-                '4': " &0- &7accessible pour n'importe qui !"
-        ranker:
-            name: "&bRank Manager"
+                '1': " &6- &7Du combat, du sang, de la rivalité, du challenge"
+                '2': " &0- &7tout se qu'on aime on appelle-ça du Faction !"
+        gamemodes_classic:
+            name: "&7Jeu classique"
+            name_lite: "&7Jeu classique"
             lore:
-                '1': " &6- &7Un utilitaire indispensable pour géré les grades,"
-                '2': " &0- &7il est compatible avec GroupManager, LuckPerm, etc..."
-                '3': " &0- &7Il dispose également de son propre système de gestion"
-                '4': " &0- &7de grade donc plus besoin de GroupManager est autres..."
-        core:
-            name: "&5Cœur"
-            lore:
-                '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
-                '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
-        essentials:
-            name: "&bEssentielle"
-            lore:
-                '1': " &6- &7Essentielles et un outil de gestion de"
-                '2': " &0- &7serveur complet est parfait pour la modération."
-        faction:
-            name: "&cFaction"
-            lore:
-                '1': " &6- &7Le système de faction est plus qu'une extension"
-                '2': " &0- &7est un mode de jeu a par en tiers idéal pour"
-                '3': " &0- &7créer un serveur type PVP-Faction."
-    vanilla:
-        core:
-            name: "&5Cœur"
-            lore:
-                '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
-                '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
-    extension:
-        duel:
-            name: "&aDuel"
-            lore:
-                '1': " &6- &7Lore 1"
-                '2': " &0- &7Lore 2"
-        expbank:
-            name: "&aBanque d'expérience"
-            lore:
-                '1': " &6- &7Un système de stockage est de gestion de point d'expérience."
-        hdv:
-            name: "&aHôtel des ventes"
-            lore:
-                '1': " &6- &7Lore 1"
-                '2': " &0- &7Lore 2"
-        lootbox:
-            name: "&aLootBox"
-            lore:
-                '1': " &6- &7Lore 1"
-                '2': " &0- &7Lore 2"
-        menu:
-            name: "&aMenu"
-            lore:
-                '1': " &6- &7Lore 1"
-                '2': " &0- &7Lore 2"
-        portal:
-            name: "&aPortail"
-            lore:
-                '1': " &6- &7Lore 1"
-                '2': " &0- &7Lore 2"
-        rankup:
-            name: "&aRankUP"
-            lore:
-                '1': " &6- &7Lore 1"
-                '2': " &0- &7Lore 2"
-        multitools:
-            name: "&aBoite à outils"
-            lore:
-                '1': " &6- &7Lore 1"
-                '2': " &0- &7Lore 2"
-        shop:
-            name: "&aMagasin"
-            lore:
-                '1': " &6- &7Un système de commerce virtuel capable au joueur"
-                '2': " &0- &7d'acheter où vendre toute sorte d'objet catalogué."
-        spawner:
-            name: "&aSpawner"
-            lore:
-                '1': " &6- &7Un système de gestion à spawner puissant capable"
-                '2': " &0- &7de géré la limite de spawner par chunk, et de"
-                '3': " &0- &7comment les récupérer en bref tout est gérable."
-        store:
-            name: "&aMagasin virtuel"
-            lore:
-                '1': " &6- &7Un système de magasin virtuel inter-compatible"
-                '2': " &0- &7avec un magasin en ligne."
-        lobby:
-            name: "&aLobby"
-            lore:
-                '1': " &6- &7Un gestionnaire pour les lobbys de serveur."
+                '1': " &6- &7Une alternative sans permission donc"
+                '2': " &0- &7penser pour fonctionner en vanilla."
+    addon:
+        main:
+            manager:
+                name: "&eGestionnaire"
+                lore:
+                    '1': " &6- &7Un gestionnaire d'installation, mise à jour et de"
+                    '2': " &0- &7suppression de Skript dans l'environnement d'APIxMJ."
+                    '3': " &6- &7Il est simple et efficace donc très accessible"
+                    '4': " &0- &7pour n'importe qui !"
+        vertebral_main:
+            core:
+                name: "&5Cœur"
+                lore:
+                    '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
+                    '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
+            ranker:
+                name: "&bRank Manager"
+                lore:
+                    '1': " &6- &7Un utilitaire indispensable pour géré les grades,"
+                    '2': " &0- &7il est compatible avec GroupManager, LuckPerm, etc..."
+                    '3': " &0- &7Il dispose également de son propre système de gestion"
+                    '4': " &0- &7de grade donc plus besoin de GroupManager est autres..."
+            essentials:
+                name: "&bEssentielle"
+                lore:
+                    '1': " &6- &7Essentielles et un outil de gestion de"
+                    '2': " &0- &7serveur complet est parfait pour la modération."
+        vertebral_extension:
+            duel:
+                name: "&aDuel"
+                name_lite: "&aDuel"
+                lore:
+                    '1': " &6- &7Lore 1"
+                    '2': " &0- &7Lore 2"
+            expbank:
+                name: "&aBanque d'expérience"
+                name_lite: "&aBanque d'expérience"
+                lore:
+                    '1': " &6- &7Un système de stockage est de gestion de point d'expérience."
+            hdv:
+                name: "&aHôtel des ventes"
+                name_lite: "&aHôtel des ventes"
+                lore:
+                    '1': " &6- &7Lore 1"
+                    '2': " &0- &7Lore 2"
+            lootbox:
+                name: "&aLootBox"
+                name_lite: "&aLootBox"
+                lore:
+                    '1': " &6- &7Lore 1"
+                    '2': " &0- &7Lore 2"
+            menu:
+                name: "&aMenu"
+                name_lite: "&aMenu"
+                lore:
+                    '1': " &6- &7Lore 1"
+                    '2': " &0- &7Lore 2"
+            portal:
+                name: "&aPortail"
+                name_lite: "&aPortail"
+                lore:
+                    '1': " &6- &7Lore 1"
+                    '2': " &0- &7Lore 2"
+            rankup:
+                name: "&aRankUP"
+                name_lite: "&aRankUP"
+                lore:
+                    '1': " &6- &7Lore 1"
+                    '2': " &0- &7Lore 2"
+            multitools:
+                name: "&aBoite à outils"
+                name_lite: "&aBoite à outils"
+                lore:
+                    '1': " &6- &7Lore 1"
+                    '2': " &0- &7Lore 2"
+            shop:
+                name: "&aMagasin"
+                name_lite: "&aMagasin"
+                lore:
+                    '1': " &6- &7Un système de commerce virtuel capable au joueur"
+                    '2': " &0- &7d'acheter où vendre toute sorte d'objet catalogué."
+            spawner:
+                name: "&aSpawner"
+                name_lite: "&aSpawner"
+                lore:
+                    '1': " &6- &7Un système de gestion à spawner puissant capable"
+                    '2': " &0- &7de géré la limite de spawner par chunk, et de"
+                    '3': " &0- &7comment les récupérer en bref tout est gérable."
+            store:
+                name: "&aMagasin virtuel"
+                name_lite: "&aMagasin virtuel"
+                lore:
+                    '1': " &6- &7Un système de magasin virtuel inter-compatible"
+                    '2': " &0- &7avec un magasin en ligne."
+            lobby:
+                name: "&aLobby"
+                name_lite: "&aLobby"
+                lore:
+                    '1': " &6- &7Un gestionnaire pour les lobbys de serveur."
+        gamemodes_faction:
+            faction:
+                name: "&cFaction"
+                lore:
+                    '1': " &6- &7Le système de faction est plus qu'une extension"
+                    '2': " &0- &7est un mode de jeu a par en tiers idéal pour"
+                    '3': " &0- &7créer un serveur type PVP-Faction."
+        gamemodes_classic:
+            core:
+                name: "&5Cœur"
+                lore:
+                    '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
+                    '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."

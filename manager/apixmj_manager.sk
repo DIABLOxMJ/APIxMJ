@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.10.06.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.10.07.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -692,17 +692,18 @@ function mj_manager_skript_start():
 	set {_list1::*} to mj_manager_nodes("manager.data", "data.addon")
 	loop {_list1::*}:
 		set {_value1} to loop-value-1
-		set {_list2::*} to mj_manager_nodes("manager.data", "data.addon.%{_value1}%")
-		loop {_list2::*}:
-			set {_value2} to loop-value-2
-			set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.installed")
-			if {_check} is true:
-				set {_list3::*} to mj_manager_nodes("manager.data", "data.addon.%{_value1}%.%{_value2}%.skript")
-				loop {_list2::*}:
-					set {_value3} to loop-value-3
-					set {_skript} to mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.skript.%{_value3}%")
-					enable script file {_skript}
-					wait 4 seconds
+		if {_value1} isn't "main":
+			set {_list2::*} to mj_manager_nodes("manager.data", "data.addon.%{_value1}%")
+			loop {_list2::*}:
+				set {_value2} to loop-value-2
+				set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.installed")
+				if {_check} is true:
+					set {_list3::*} to mj_manager_nodes("manager.data", "data.addon.%{_value1}%.%{_value2}%.skript")
+					loop {_list3::*}:
+						set {_value3} to loop-value-3
+						set {_skript} to mj_editfiles("manager.data", "data.addon.%{_value1}%.%{_value2}%.skript.%{_value3}%")
+						enable script file {_skript}
+						wait 4 seconds
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_file_reset(folder: text, file: text, language: boolean=false):

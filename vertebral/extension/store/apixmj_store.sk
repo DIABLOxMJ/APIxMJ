@@ -1,0 +1,136 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_store():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.store.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.store.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.store.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.store.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.store.help.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk" and "apixmj_essentials.sk":
+		send "[APIxMJ] Loading store..." to console
+		mj_files_store()
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.store.version", "modify", "2022.10.08.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk, apixmj_ranker.sk and apixmj_essentials.sk)"
+		unload script file "apixmj_store.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_store.sk" to "-apixmj_store.sk"
+	send "[APIxMJ] Unloading store.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Store
+# ---------------------------------------------------------------------------------------------------------------------
+command /store [<text>] [<text>]:
+	aliases: boutique
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.store.*" or "mj.store":
+				if player has permission "*" or "mj.*" or "mj.store.*" or "mj.store.admin":
+					if arg-1 is set:
+						send "ok"
+		#			if arg-1 is set:
+		#				if arg-1 is "giveall":
+		#					set {_name} to mj_editfiles("data", "data.storage.%arg-2%.name")
+		#					set {_list::*} to mj_editfiles_list("data", "data.storage.%arg-2%.storage")
+		#					if {_list::*} is set:
+		#						loop all players:	
+		#							give {_list::*} to loop-player
+		#							mj_core_message(loop-player, "store", "data.prefix", "core", "data.storage.giveall", {_name})
+		#				else:
+		#					mj_core_storage_gift("%player%", arg-2)
+					else:
+						set {_link} to mj_editfiles("store.config", "data.website_store")
+						mj_core_message(player, "store", "data.prefix", "store", "data.open_store", {_link})
+						mj_store_menu(player)
+				else:
+					set {_link} to mj_editfiles("store.config", "data.website_store")
+					mj_core_message(player, "store", "data.prefix", "store", "data.open_store", {_link})
+					mj_store_menu(player)
+			else:
+				mj_core_permission(player, "store", "data.prefix", "mj.store")
+		if sender is console:
+			mj_core_storage_gift(arg-1, arg-2, true)
+			loop all players:
+				set {_find.name} to mj_editfiles("store.data", "data.%arg-2%.name")
+				set {_name} to mj_editfiles_gettext("store", {_find.name}, loop-player)
+				mj_core_message(loop-player, "store", "data.prefix", "store", "data.buy_broadcast", arg-1, {_name})
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/store" or "/boutique":
+	if player has permission "*" or "mj.*" or "mj.store.*" or "mj.store.admin":
+		set tab completions for position 1 to "give" and "giveall"
+		set {_list::*} to mj_manager_nodes("data", "data.storage")
+		if tab arg-1 is "give" or "giveall":
+			set tab completions for position 2 to {_list::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Store
+# =====================================================================================================================
+# APIxMJ - Menu
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_store_menu(player: player):
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.gui", "modify", "store")
+	set {_title} to mj_editfiles_gettext("store", "data.title", {_player})
+	set {_line} to mj_editfiles_number("store.config", "data.gui_size")
+	mj_core_gui_generator({_player}, {_line}, true, false, {_title})
+	set {_list::*} to mj_manager_nodes("store.data")
+	loop {_list::*}:
+		set {_check} to mj_editfiles_boolean("store.data", "data.%loop-value%.visible")
+		if {_check} is true:
+			mj_store_button_product({_player}, loop-value)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Menu
+# =====================================================================================================================
+# APIxMJ - Button
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_store_button_product(player: player, id: text):
+	set {_find.name} to mj_editfiles("store.data", "data.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("store", {_find.name}, {_player})
+	set {_slot} to mj_editfiles_number("store.data", "data.%{_id}%.slot")
+	set {_store} to mj_editfiles("store.data", "data.%{_id}%.storage")
+	set {_price} to mj_editfiles_number("store.data", "data.%{_id}%.price")
+	set {_view} to mj_core_format_money(false, {_price})
+	set {_webprice} to mj_editfiles("store.data", "data.%{_id}%.web_price")
+	set {_item1} to mj_manager_item_convert("store.data", "data.%{_id}%.item")
+	clear lore of {_item1}
+	set {_item} to mj_core_item_lore({_player}, {_item1}, 2, "store", "data.web_price", {_webprice})
+	set {_lc} to mj_editfiles_gettext("manager", "data.type.leftclick", {_player})
+	set {_money} to mj_essentials_money_modify({_player}, "all")
+	if {_price} isn't 0:
+		set {_item2} to mj_core_item_lore({_player}, {_item1}, 2, "store", "data.price", {_view})
+		set {_item3} to mj_core_item_lore({_player}, {_item2}, 3, "store", "data.web_price", {_webprice})
+		if {_money} >= {_price}:
+			set {_item} to mj_core_item_lore({_player}, {_item3}, 5, "store", "data.buy_option", {_lc}, {_view})
+			make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+				mj_core_storage_gift("%{_player}%", {_store})
+				mj_essentials_money_system({_player}, {_price})
+				mj_core_message({_player}, "store", "data.prefix", "store", "data.buy_store", {_name})
+				stop
+		else:
+			set {_item} to mj_core_item_lore({_player}, {_item3}, 5, "store", "data.no_buy_option")
+			make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+				mj_core_message({_player}, "store", "data.prefix", "store", "data.no_buy_store")
+				stop
+	else:
+		make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+			set {_link} to mj_editfiles("store.config", "data.website_store")
+			mj_core_message({_player}, "store", "data.prefix", "store", "data.open_store", {_link})
+			stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Button
+# =====================================================================================================================

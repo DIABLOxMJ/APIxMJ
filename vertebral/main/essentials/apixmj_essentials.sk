@@ -9,7 +9,7 @@ function mj_files_essentials():
 	if {_list::*} is set:
 		loop {_list::*}:
 			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.essentials.language.%loop-value%"
-			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.essentials.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.essentials.help.%loop-value%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

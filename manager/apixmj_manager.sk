@@ -192,7 +192,7 @@ function mj_manager_menu_request_button_confirm(player: player, source: text, id
 	set {_slot} to mj_editfiles_number("manager.data", "data.button.request.confirm.slot")
 	set {_item} to lime wool
 	set {_item} to mj_manager_item_description({_player}, {_item}, "data.button.request.confirm")
-	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+	make a gui slot {_slot} of {_player} with {_item} named {_name} to close:
 		if {_option} is "install" or "update":
 			mj_manager_menu_control_installer({_player}, {_source}, {_id}, {_option})
 		else if {_option} is "uninstall":
@@ -207,7 +207,7 @@ function mj_manager_menu_request_button_cancel(player: player, source: text, id:
 	set {_slot} to mj_editfiles_number("manager.data", "data.button.request.cancel.slot")
 	set {_item} to red wool
 	set {_item} to mj_manager_item_description({_player}, {_item}, "data.button.request.cancel")
-	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+	make a gui slot {_slot} of {_player} with {_item} named {_name} to close:
 		mj_manager_menu_control({_player}, {_source}, {_id})
 		stop
 	stop
@@ -566,7 +566,7 @@ function mj_manager_menu_control_uninstalled(player: player, source: text, id: t
 	loop {_list::*}:
 		set {_skript} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.skript.%loop-value%")
 		unload script file "%{_skript}%.sk"
-		delete file "plugins/Skript/scripts/%{_skript}%.sk"
+		delete file "plugins/Skript/scripts/-%{_skript}%.sk"
 	mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed", "modify", false)
 	mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.uninstalled", {_name})
 	stop

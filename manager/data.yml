@@ -47,7 +47,7 @@ data:
                 item: gray stained glass pane
         vertebral_extension:
             name: data.index.vertebral_extension.name
-            visible: false
+            visible: true
             menu_back: vertebral_main
             menu_next: vertebral_extension
             slot: 16
@@ -213,7 +213,7 @@ data:
                 name: data.addon.vertebral_extension.duel.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -267,7 +267,7 @@ data:
                 name: data.addon.vertebral_extension.hdv.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -293,7 +293,7 @@ data:
                 name: data.addon.vertebral_extension.lootbox.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -319,7 +319,7 @@ data:
                 name: data.addon.vertebral_extension.menu.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -345,7 +345,7 @@ data:
                 name: data.addon.vertebral_extension.portal.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -371,7 +371,7 @@ data:
                 name: data.addon.vertebral_extension.rankup.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -397,7 +397,7 @@ data:
                 name: data.addon.vertebral_extension.multitools.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -423,7 +423,7 @@ data:
                 name: data.addon.vertebral_extension.shop.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -503,7 +503,7 @@ data:
                 name: data.addon.vertebral_extension.lobby.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core

@@ -161,7 +161,7 @@ data:
             '2': "&0- &a/deop <player>"
             '3': "&0- &7Pareil qu'en vanilla de base, mais limité à la console."
     userdata:
-        name: "&aMode Super-Admin"
+        name: "&aDonnée de joueur"
         type: function
         description:
             '1': "&0- &aUn gestionnaire de fichier de donnée sur les joueurs."
@@ -292,7 +292,7 @@ data:
             '1': "&6- &7On peu changer le mode dans le fichier config du &aCore"
             '2': "&0- &7avec l'option &ano_enderman_griefing&7."
     explode:
-        name: "&aEnderman"
+        name: "&aAnti-Explosion"
         type: function
         description:
             '1': "&0- &aOn dit stop au explosion !"

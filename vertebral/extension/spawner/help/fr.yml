@@ -43,5 +43,5 @@ data:
         info:
             '1': "&6- &acondition &7Active ou non l'option de limiteur."
             '2': "&0"
-            '3': "&0- &achunk_limit &7Le nombre de spawner autoriser"
+            '3': "&6- &achunk_limit &7Le nombre de spawner autoriser"
             '4': "&0- &7par chunk."

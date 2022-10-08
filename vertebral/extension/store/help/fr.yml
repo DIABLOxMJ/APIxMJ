@@ -11,7 +11,7 @@ data:
         - "mj.store.*"
         - "mj.store"
         info:
-            '1': "&6- &z/store"
+            '1': "&6- &a/store"
             '2': "&0- &7Il ouvre un menu interactif."
-            '3': "&a- &a/store <player> <name>"
+            '3': "&6- &a/store <player> <name>"
             '4': "&0- &7Donne un article à un joueur (à utiliser sur le site)."

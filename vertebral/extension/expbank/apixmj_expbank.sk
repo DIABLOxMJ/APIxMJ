@@ -1,0 +1,265 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_expbank():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.expbank.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.expbank.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.expbank.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.expbank.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.expbank.help.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_essentials.sk":
+		send "[APIxMJ] Loading expbank..." to console
+		mj_files_expbank()
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.expbank.version", "modify", "2022.10.08.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_essentials.sk)"
+		unload script file "apixmj_expbank.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_expbank.sk" to "-apixmj_expbank.sk"
+	send "[APIxMJ] Unloading expbank.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - ExpBank Sign
+# --------------------------------------------------------------------------------------------------------------------
+on sign change:
+	set {_list::*} to mj_editfiles_list("expbank.config", "data.sign.create")
+	if {_list::*} contains line 1:
+		set {_check} to mj_editfiles_boolean("expbank.config", "data.sign.money.condition")
+		if {_check} is true:
+			set {_price} to mj_editfiles_number("expbank.config", "data.sign.money.price")
+			set {_money} to mj_essentials_money_modify(player)
+			if {_money} >= {_price}:
+				set {_name} to mj_editfiles("expbank.config", "data.sign.name")
+				set line 1 to {_name}
+				set line 2 to "%player%"
+				set line 3 to "0"
+				mj_essentials_money_system(player, {_price}, false, "create sign expbank")
+				set {_view} to mj_core_format_money(false, {_price})
+				mj_core_message(player, "expbank", "data.prefix", "expbank", "data.create_success_with_money", {_view})
+			else:
+				mj_core_message(player, "expbank", "data.prefix", "expbank", "data.create_failed")
+		else:
+			set {_name} to mj_editfiles("expbank.config", "data.sign.name")
+			set line 1 to {_name}
+			set line 2 to "%player%"
+			set line 3 to "0"
+			mj_core_message(player, "expbank", "data.prefix", "expbank", "data.create_success")
+		stop
+# --------------------------------------------------------------------------------------------------------------------
+on leftclick:
+	if event-block is sign:
+		set {_name} to mj_editfiles("expbank.config", "data.sign.name")
+		if line 1 is {_name}:
+			if player is line 2:
+				set {_type} to mj_editfiles_boolean("expbank.config", "data.sign.type")
+				if {_type} is true:
+					set {_level} to mj_editfiles_number("expbank.config", "data.sign.quantity.level")
+					if player's level >= {_level}:
+						set {_check} to mj_editfiles_boolean("expbank.config", "data.sign.money.condition")
+						if {_check} is true:
+							set {_price} to mj_editfiles_number("expbank.config", "data.sign.money.deposit")
+							set {_money} to mj_essentials_money_modify(player)
+							if {_money} >= {_price}:
+								remove {_level} from player's level
+								set {_xp} to line 3 parsed as number
+								add {_level} to {_xp}
+								set line 3 to "%{_xp}%"
+								mj_essentials_money_system(player, {_price}, false, "deposit sign expbank")
+							else:
+								mj_core_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
+						else:
+							remove {_level} from player's level
+							set {_xp} to line 3 parsed as number
+							add {_level} to {_xp}
+							set line 3 to "%{_xp}%"
+					else:
+						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
+				else:
+					set {_point} to mj_editfiles_number("expbank.config", "data.sign.quantity.point")
+					if player's xp >= {_point}:
+						set {_check} to mj_editfiles_boolean("expbank.config", "data.sign.money.condition")
+						if {_check} is true:
+							set {_price} to mj_editfiles_number("expbank.config", "data.sign.money.deposit")
+							set {_money} to mj_essentials_money_modify(player)
+							if {_money} >= {_price}:
+								remove {_point} from player's xp
+								set {_xp} to line 3 parsed as number
+								add {_point} to {_xp}
+								set line 3 to "%{_xp}%"
+								mj_essentials_money_system(player, {_price}, false, "deposit sign expbank")
+							else:
+								mj_core_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
+						else:
+							remove {_point} from player's xp
+							set {_xp} to line 3 parsed as number
+							add {_point} to {_xp}
+							set line 3 to "%{_xp}%"
+					else:
+						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
+			else:
+				if player's gamemode isn't creative:
+					cancel event
+					mj_core_message(player, "expbank", "data.prefix", "expbank", "data.no_owner")
+	stop
+# --------------------------------------------------------------------------------------------------------------------
+on break:
+	if event-block is sign:
+		set {_name} to mj_editfiles("expbank.config", "data.sign.name")
+		if line 1 is {_name}:
+			if player is line 2:
+				set {_xp} to line 3 parsed as number
+				set {_type} to mj_editfiles_boolean("expbank.config", "data.sign.type")
+				if {_type} is true:
+					add {_xp} to player's level
+				else:
+					add {_xp} to player's xp
+	stop
+# --------------------------------------------------------------------------------------------------------------------
+on rightclick:
+	if event-block is sign:
+		set {_name} to mj_editfiles("expbank.config", "data.sign.name")
+		if line 1 is {_name}:
+			if player is line 2:
+				set {_xp} to line 3 parsed as number
+				set {_type} to mj_editfiles_boolean("expbank.config", "data.sign.type")
+				if {_type} is true:
+					set {_level} to mj_editfiles_number("expbank.config", "data.sign.quantity.level")
+					if {_xp} >= {_level}:
+						set {_check} to mj_editfiles_boolean("expbank.config", "data.sign.money.condition")
+						if {_check} is true:
+							set {_price} to mj_editfiles_number("expbank.config", "data.sign.money.withdraw")
+							set {_money} to mj_essentials_money_modify(player)
+							if {_money} >= {_price}:
+								add {_level} to player's level
+								set {_xp} to line 3 parsed as number
+								remove {_level} from {_xp}
+								set line 3 to "%{_xp}%"
+								mj_essentials_money_system(player, {_price}, false, "withdraw sign expbank")
+							else:
+								mj_core_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
+						else:
+							add {_level} to player's level
+							set {_xp} to line 3 parsed as number
+							remove {_level} from {_xp}
+							set line 3 to "%{_xp}%"
+					else:
+						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
+				else:
+					set {_point} to mj_editfiles_number("expbank.config", "data.sign.quantity.point")
+					if {_xp} >= {_point}:
+						set {_check} to mj_editfiles_boolean("expbank.config", "data.sign.money.condition")
+						if {_check} is true:
+							set {_price} to mj_editfiles_number("expbank.config", "data.sign.money.withdraw")
+							set {_money} to mj_essentials_money_modify(player)
+							if {_money} >= {_price}:
+								add {_point} to player's xp
+								set {_xp} to line 3 parsed as number
+								remove {_point} from {_xp}
+								set line 3 to "%{_xp}%"
+								mj_essentials_money_system(player, {_price}, false, "withdraw sign expbank")
+							else:
+								mj_core_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
+						else:
+							add {_point} to player's xp
+							set {_xp} to line 3 parsed as number
+							remove {_point} from {_xp}
+							set line 3 to "%{_xp}%"
+					else:
+						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
+			else:
+				mj_core_message(player, "expbank", "data.prefix", "expbank", "data.no_owner")
+	stop
+# --------------------------------------------------------------------------------------------------------------------
+# APIxMJ - ExpBank Sign
+# =====================================================================================================================
+# APIxMJ - ExpBank Bottle
+# ---------------------------------------------------------------------------------------------------------------------
+command /bottlexp [<number>] [<text="level">]:
+	aliases: xpb, bottle, expbottle
+	trigger:
+		if arg-1 >= 1:
+			set {_name} to mj_editfiles("expbank.config", "data.bottle.name")
+			set {_item} to mj_core_converter_item("expbank.config", "data.bottle.item")
+			set {_item} to {_item} named {_name}
+			if arg-2 is "level":
+				if player's level >= 1:
+					set {_xp} to player's level
+					if {_xp} >= arg-1:
+						set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.level")
+						set line 1 of lore of {_item} to "%{_lore}%%arg-1%"
+						give {_item} to player
+						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.convert_level", "%arg-1%")
+						remove arg-1 from player's level
+					else:
+						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+				else:
+					mj_core_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+			else:
+				if player's xp >= 1:
+					set {_xp} to player's xp
+					if {_xp} >= arg-1:
+						set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.point")
+						set line 1 of lore of {_item} to "%{_lore}%%arg-1%"
+						give {_item} to player
+						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.convert_point", "%arg-1%")
+						remove arg-1 from player's xp
+					else:
+						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+				else:
+					mj_core_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+		else:
+			mj_core_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "bottlexp" or "xpb" or "bottle" and "/expbottle":
+	set tab completions for position 1 to "1"
+	set tab completions for position 2 to "level" and "point"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on rightclick:
+	set {_item} to mj_core_converter_item("expbank.config", "data.bottle.item")
+	if 1 of player's tool is {_item}:
+		set {_name} to mj_editfiles("expbank.config", "data.bottle.name")
+		if name of player's tool is {_name}:
+			cancel event
+			set {_lore} to line 1 of lore of player's tool
+			set {_level} to mj_editfiles("expbank.config", "data.bottle.lore.level")
+			set {_point} to mj_editfiles("expbank.config", "data.bottle.lore.point")
+			if {_lore} contains {_level}:
+				replace all "%{_level}%" with "" in {_lore}
+				set {_xp} to {_lore} parsed as number
+				add {_xp} to player's level
+				remove 1 of player's tool from player's inventory
+				mj_core_message(player, "expbank", "data.prefix", "expbank", "data.take_level", "%{_xp}%")
+			else if {_lore} contains {_point}:
+				replace all "%{_point}%" with "" in {_lore}
+				set {_xp} to {_lore} parsed as number
+				add {_xp} to player's xp
+				remove 1 of player's tool from player's inventory
+				mj_core_message(player, "expbank", "data.prefix", "expbank", "data.take_point", "%{_xp}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+#on rightclick with bottle o' enchanting:
+#	if name of item contains "&6Experience Bottle":
+#		cancel event
+#		mj_experience_bottle_withdraw(player)
+#	stop
+# ---------------------------------------------------------------------------------------------------------------------
+#on rightclick with empty bottle:
+#	if targeted block isn't flowing water:
+#		mj_experience_bottle_extract(player)
+#	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - ExpBank Bottle
+# =====================================================================================================================

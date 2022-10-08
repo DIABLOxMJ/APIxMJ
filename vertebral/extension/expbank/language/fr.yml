@@ -1,0 +1,13 @@
+data:
+    prefix: "&6[&a&lExpBank&6]&r"
+    create_success: "&7Création réussie"
+    create_success_with_money: "&7Création réussie, vous avez payé $0"
+    create_failed: "&cCréation échouée, vous n'avez pas assez d'argent.."
+    deposit_failed: "&cVous n'avez pas les moyens pour déposer de l'expérience.."
+    withdraw_failed: "&cVous n'avez pas les moyens pour récupérer de l'expérience.."
+    exp_failed: "&cVous n'avez pas l'expérience nécessaire pour faire ceci.."
+    no_owner: "&cVous n'êtes pas le propriétaire.."
+    convert_level: "&7Vous avez transféré &a$0 level(s) &7d'expérience en bouteille"
+    convert_point: "&7Vous avez transféré &a$0 point(s) &7d'expérience en bouteille"
+    take_level: "&7Vous avez récupéré &a$0 level(s) &7d'expérience"
+    take_point: "&7Vous avez récupéré &a$0 point(s) &7d'expérience"

@@ -1,0 +1,130 @@
+# =====================================================================================================================
+# APIxMJ - Installer
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	send "[APIxMJ] Installing update..." to console
+	send "[APIxMJ] Setup..." to console
+	set {_type} to "essentials"
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.%{_type}%.folder")
+	mj_install_config({_folder}, {_type})
+	send "[APIxMJ] Finish..." to console
+	delete file "plugins/Skript/scripts/apixmj_update.sk"
+	unload script file "apixmj_update.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Installer
+# =====================================================================================================================
+# APIxMJ - Config
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_install_config(folder: text, type: text):
+	set {_source} to "mj.%{_type}%.config"
+	set {_01} to yaml value "data.maintenance.condition" from "%{_source}%"
+	set {_02} to yaml value "data.link.discord" from "%{_source}%"
+	set {_03} to yaml value "data.link.website" from "%{_source}%"
+	set {_04} to yaml value "data.afk.kick" from "%{_source}%"
+	set {_05} to yaml value "data.afk.limit" from "%{_source}%"
+	set {_06} to yaml value "data.money.starting" from "%{_source}%"
+	set {_07} to yaml value "data.money.limit" from "%{_source}%"
+	set {_08} to yaml value "data.money.infobar" from "%{_source}%"
+	set {_09} to yaml value "data.money.economic_ranking_updater" from "%{_source}%"
+	set {_10} to yaml value "data.bank.condition" from "%{_source}%"
+	set {_11} to yaml value "data.bank.limit" from "%{_source}%"
+	set {_12} to yaml value "data.bank.source" from "%{_source}%"
+	set {_13} to yaml value "data.bank.taxe.add" from "%{_source}%"
+	set {_14} to yaml value "data.bank.taxe.remove" from "%{_source}%"
+	set {_15} to yaml value "data.clearlag.condition" from "%{_source}%"
+	set {_16} to yaml value "data.clearlag.time.second" from "%{_source}%"
+	set {_17} to yaml value "data.clearlag.time.minute" from "%{_source}%"
+	set {_18} to yaml value "data.clearlag.time.hour" from "%{_source}%"
+	set {_19::*} to yaml list "data.clearlag.list" from "%{_source}%"
+	set {_20} to yaml value "data.death_message" from "%{_source}%"
+	set {_21} to yaml value "data.teleport.random_limit" from "%{_source}%"
+	set {_22} to yaml value "data.teleport.must_beat_spawn" from "%{_source}%"
+	set {_23} to yaml value "data.teleport.time.second" from "%{_source}%"
+	set {_24} to yaml value "data.teleport.time.minute" from "%{_source}%"
+	set {_25} to yaml value "data.teleport.time.hour" from "%{_source}%"
+	set {_26} to yaml value "data.heal.price" from "%{_source}%"
+	set {_27} to yaml value "data.heal.time.second" from "%{_source}%"
+	set {_28} to yaml value "data.heal.time.minute" from "%{_source}%"
+	set {_29} to yaml value "data.heal.time.hour" from "%{_source}%"
+	set {_30} to yaml value "data.feed.price" from "%{_source}%"
+	set {_31} to yaml value "data.feed.time.second" from "%{_source}%"
+	set {_32} to yaml value "data.feed.time.minute" from "%{_source}%"
+	set {_33} to yaml value "data.feed.time.hour" from "%{_source}%"
+	set {_34} to yaml value "data.repair.price" from "%{_source}%"
+	set {_35} to yaml value "data.repair.time.second" from "%{_source}%"
+	set {_36} to yaml value "data.repair.time.minute" from "%{_source}%"
+	set {_37} to yaml value "data.repair.time.hour" from "%{_source}%"
+	set {_38} to yaml value "data.vanish.hide_on_staff" from "%{_source}%"
+	set {_39} to yaml value "data.home_limit.default" from "%{_source}%"
+	set {_40::*} to yaml list "data.quiet_command_list" from "%{_source}%"
+	set {_41} to yaml value "data.format.join" from "%{_source}%"
+	set {_42} to yaml value "data.format.quit" from "%{_source}%"
+	set {_43} to yaml value "data.format.chat" from "%{_source}%"
+	set {_44} to yaml value "data.format.message" from "%{_source}%"
+	set {_45} to yaml value "data.format.tablist" from "%{_source}%"
+	set {_46} to yaml value "data.format.staffchat" from "%{_source}%"
+	set {_47} to yaml value "data.format.balance" from "%{_source}%"
+	set {_48} to yaml value "data.format.kick" from "%{_source}%"
+	set {_49} to yaml value "data.format.kick_separator" from "%{_source}%"
+	set {_50} to yaml value "data.spawn" from "%{_source}%"
+	set {_51} to yaml value "data.lobby" from "%{_source}%"
+	wait 5 ticks
+	mj_manager_file_reset({_source}, "config")
+	wait 5 ticks
+	set yaml value "data.maintenance.condition" from "%{_source}%" to {_01}
+	set yaml value "data.link.discord" from "%{_source}%" to {_02}
+	set yaml value "data.link.website" from "%{_source}%" to {_03}
+	set yaml value "data.afk.kick" from "%{_source}%" to {_04}
+	set yaml value "data.afk.limit" from "%{_source}%" to {_05}
+	set yaml value "data.money.starting" from "%{_source}%" to {_06}
+	set yaml value "data.money.limit" from "%{_source}%" to {_07}
+	set yaml value "data.money.infobar" from "%{_source}%" to {_08}
+	set yaml value "data.money.economic_ranking_updater" from "%{_source}%" to {_09}
+	set yaml value "data.bank.condition" from "%{_source}%" to {_10}
+	set yaml value "data.bank.limit" from "%{_source}%" to {_11}
+	set yaml value "data.bank.source" from "%{_source}%" to {_12}
+	set yaml value "data.bank.taxe.add" from "%{_source}%" to {_13}
+	set yaml value "data.bank.taxe.remove" from "%{_source}%" to {_14}
+	set yaml value "data.clearlag.condition" from "%{_source}%" to {_15}
+	set yaml value "data.clearlag.time.second" from "%{_source}%" to {_16}
+	set yaml value "data.clearlag.time.minute" from "%{_source}%" to {_17}
+	set yaml value "data.clearlag.time.hour" from "%{_source}%" to {_18}
+	set yaml list "data.clearlag.list" from "%{_source}%" to {_19::*}
+	set yaml value "data.death_message" from "%{_source}%" to {_20}
+	set yaml value "data.teleport.random_limit" from "%{_source}%" to {_21}
+	set yaml value "data.teleport.must_beat_spawn" from "%{_source}%" to {_22}
+	set yaml value "data.teleport.time.second" from "%{_source}%" to {_23}
+	set yaml value "data.teleport.time.minute" from "%{_source}%" to {_24}
+	set yaml value "data.teleport.time.hour" from "%{_source}%" to {_25}
+	set yaml value "data.heal.price" from "%{_source}%" to {_26}
+	set yaml value "data.heal.time.second" from "%{_source}%" to {_27}
+	set yaml value "data.heal.time.minute" from "%{_source}%" to {_28}
+	set yaml value "data.heal.time.hour" from "%{_source}%" to {_29}
+	set yaml value "data.feed.price" from "%{_source}%" to {_30}
+	set yaml value "data.feed.time.second" from "%{_source}%" to {_31}
+	set yaml value "data.feed.time.minute" from "%{_source}%" to {_32}
+	set yaml value "data.feed.time.hour" from "%{_source}%" to {_33}
+	set yaml value "data.repair.price" from "%{_source}%" to {_34}
+	set yaml value "data.repair.time.second" from "%{_source}%" to {_35}
+	set yaml value "data.repair.time.minute" from "%{_source}%" to {_36}
+	set yaml value "data.repair.time.hour" from "%{_source}%" to {_37}
+	set yaml value "data.vanish.hide_on_staff" from "%{_source}%" to {_38}
+	set yaml value "data.home_limit.default" from "%{_source}%" to {_39}
+	set yaml list "data.quiet_command_list" from "%{_source}%" to {_40::*}
+	set yaml value "data.format.join" from "%{_source}%" to {_41}
+	set yaml value "data.format.quit" from "%{_source}%" to {_42}
+	set yaml value "data.format.chat" from "%{_source}%" to {_43}
+	set yaml value "data.format.message" from "%{_source}%" to {_44}
+	set yaml value "data.format.tablist" from "%{_source}%" to {_45}
+	set yaml value "data.format.staffchat" from "%{_source}%" to {_46}
+	set yaml value "data.format.balance" from "%{_source}%" to {_47}
+	set yaml value "data.format.kick" from "%{_source}%" to {_48}
+	set yaml value "data.format.kick_separator" from "%{_source}%" to {_49}
+	set yaml value "data.spawn" from "%{_source}%" to {_50}
+	set yaml value "data.lobby" from "%{_source}%" to {_51}
+	save yaml "%{_source}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Config
+# =====================================================================================================================

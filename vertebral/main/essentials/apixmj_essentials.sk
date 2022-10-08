@@ -1,0 +1,2998 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_essentials():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.essentials.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.essentials.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.essentials.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.essentials.language.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
+		send "[APIxMJ] Loading essentials..." to console
+		mj_files_essentials()
+		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2022.10.08.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
+		unload script file "apixmj_essentials.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_essentials.sk" to "-apixmj_essentials.sk"
+	send "[APIxMJ] Unloading essentials.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_essentials_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_playerdata(player: offlineplayer):
+	set {_check} to yaml value "data.%{_player}'s uuid%.essentials" from "mj.userdata"
+	if {_check} isn't set:
+		wait 1 second
+		set yaml value "data.%{_player}'s uuid%.essentials.afk" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.essentials.quiet" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.essentials.mute" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.essentials.freeze" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.essentials.spy" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.essentials.vanish" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.essentials.godmode" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.essentials.ban" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.essentials.tempban" from "mj.userdata" to ""
+		set yaml value "data.%{_player}'s uuid%.essentials.tempmute" from "mj.userdata" to ""
+		set yaml value "data.%{_player}'s uuid%.essentials.reason" from "mj.userdata" to ""
+		set yaml value "data.%{_player}'s uuid%.essentials.back" from "mj.userdata" to ""
+		set {_value} to mj_editfiles_number("essentials.config", "data.money.starting")
+		set yaml value "data.%{_player}'s uuid%.essentials.money.value" from "mj.userdata" to {_value}
+		set yaml value "data.%{_player}'s uuid%.essentials.money.upgrade" from "mj.userdata" to 0
+		set yaml value "data.%{_player}'s uuid%.essentials.money.bypass" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.essentials.bank.value" from "mj.userdata" to 0
+		set yaml value "data.%{_player}'s uuid%.essentials.bank.upgrade" from "mj.userdata" to 0
+		set yaml value "data.%{_player}'s uuid%.essentials.bank.bypass" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.essentials.mail" from "mj.userdata" to ""
+		set yaml value "data.%{_player}'s uuid%.essentials.warn" from "mj.userdata" to ""
+		set yaml value "data.%{_player}'s uuid%.essentials.home" from "mj.userdata" to ""
+		save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% essentials data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Essentials
+# ---------------------------------------------------------------------------------------------------------------------
+command /essentials [<text>] [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.admin":
+			if arg-1 is "reload":
+				if arg-2 is "files":
+					mj_files_essentials()
+					send "APIxMJ : Essentials files reloaded"
+				else:
+					reload script "apixmj_essentials"
+		else:
+			mj_core_permission(player, "essentials", "data.prefix", "mj.essentials.admin")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/essentials":
+	if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.admin":
+		set tab completions for position 1 to "reload"
+		if tab arg-1 is "reload":
+			set tab completions for position 2 to "files"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Essentials
+# =====================================================================================================================
+# APIxMJ - Chat
+# ---------------------------------------------------------------------------------------------------------------------
+on chat:
+	set {_check1} to mj_editfiles_boolean("config", "data.custom_chat")
+	if {_check1} is true:
+		set {_check2} to mj_editfiles("config", "data.chat_priority")
+		if {_check2} is "essentials":
+			set {_check3} to mj_editfiles_boolean("userdata", "data.%player's uuid%.mute")
+			if {_check3} isn't true:
+				set {_check4} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.mute")
+				if {_check4} isn't true:
+					mj_editfiles_boolean("userdata", "data.%player's uuid%.mute", "modify", true)
+					set {_send} to mj_editfiles("essentials.config", "data.format.chat")
+					set {_rank} to mj_ranker(player)
+					set {_message} to mj_essentials_notification(message)
+					replace "$0" with "%{_rank}%" in {_send}
+					replace "$1" with "%player%" in {_send}
+					replace "$2" with "%{_message}%" in {_send}
+					mj_core_chat(player, {_send})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_notification(message: text) :: text:
+	loop all players:
+		if {_message} contains "%loop-player%":
+			set {_check1} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
+			if {_check1} is false:
+				set {_check2} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.quiet")
+				if {_check2} is false:
+					play sound "entity.player.levelup" with volume 1 at loop-player #volume 1 and pitch 0 at loop-player
+					replace all "%loop-player%" with "&b%loop-player%&r" in {_message}
+	return {_message}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Chat
+# =====================================================================================================================
+# APIxMJ - Join
+# ---------------------------------------------------------------------------------------------------------------------
+on first join:
+	if event-entity is player:
+		mj_timecount("connect_%player%", "backward", 0, 0, 5)
+		set {_send} to mj_editfiles("essentials.config", "data.format.join")
+		set {_bonus} to mj_editfiles_gettext("essentials", "data.first_join")
+		replace "$0" with "%player%" in {_send}
+		broadcast "%{_send}% %{_bonus}%"
+		set {_tp} to mj_core_location("essentials.config", "data.spawn")
+		teleport player at {_tp}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		set join message to ""
+		mj_essentials_join(player, "join")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on quit:
+	if event-entity is player:
+		set quit message to ""
+		mj_essentials_join(player, "quit")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_join(player: player, mode: text="join"):
+	wait 2 ticks
+	set {_check} to mj_timecount_text("connect_%{_player}%", "name")
+	if {_check} is "none":
+		set {_send} to mj_editfiles("essentials.config", "data.format.%{_mode}%")
+		replace "$0" with "%{_player}%" in {_send}
+		broadcast "%{_send}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Join
+# =====================================================================================================================
+# APIxMJ - Maintenance
+# ---------------------------------------------------------------------------------------------------------------------
+command /maintenance:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.maintenance.*" or "mj.essentials.maintenance":
+			set {_check} to mj_editfiles_boolean("essentials.config", "data.maintenance.condition")
+			if {_check} isn't true:
+				mj_essentials_maintenance(player, true)
+			else:
+				mj_essentials_maintenance(player, false)
+		else:
+			mj_core_permission(player, "essentials", "data.maintenance.prefix", "mj.essentials.maintenance")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		set {_check1} to mj_editfiles_boolean("essentials.config", "data.maintenance.condition")
+		if {_check1} is true:
+			if player doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.maintenance.*" or "mj.essentials.maintenance.bypass":
+				mj_timecount("connect_%player%", "backward", 0, 0, 5)
+				set {_link} to mj_editfiles("essentials.config", "data.link.discord")
+				set {_check2} to mj_editfiles_boolean("manager.config", "data.bungeecord.condition")
+				if {_check2} is true:
+					set {_server} to mj_editfiles("manager.config", "data.bungeecord.server")
+					mj_core_message(player, "essentials", "data.maintenance.prefix", "essentials", "data.maintenance.kick", {_link})
+					send player to server "%{_server}%"
+				else:
+					set {_send} to mj_editfiles_gettext("essentials", "data.maintenance.kick", player, {_link})
+					kick player due to "%{_send}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_maintenance(player: player, mode: boolean=false):
+	mj_editfiles_boolean("essentials.config", "data.maintenance.condition", "modify", {_mode})
+	set {_type} to mj_editfiles_gettext("manager", "data.type.disable")
+	if {_mode} is true:
+		set {_type} to mj_editfiles_gettext("manager", "data.type.enable")
+	mj_core_message({_player}, "essentials", "data.maintenance.prefix", "essentials", "data.maintenance.message", "%{_type}%")
+	mj_core_logger(1, "The maintenance has changed to %{_mode}% by %{_player}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Maintenance
+# =====================================================================================================================
+# APIxMJ - Broadcast
+# ---------------------------------------------------------------------------------------------------------------------
+command /broadcast [<text>]:
+	aliases: annonce, bc
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.broadcast.*" or "mj.essentials.broadcast":
+				if arg-1 is set:
+					mj_essentials_broadcast(player, arg-1)
+				else:
+					mj_core_message(player, "essentials", "data.broadcast.prefix", "essentials", "data.broadcast.error")
+			else:
+				mj_core_permission(player, "essentials", "data.broadcast.prefix", "mj.essentials.broadcast")
+		if sender is console:
+			set {_send} to colored arg-1
+			loop all players:
+				set {_prefix} to mj_editfiles_gettext("essentials", "data.broadcast.prefix", loop-player)
+				send formatted "%nl%%{_prefix}% %{_send}%%nl%" to loop-player
+			mj_core_logger(2, "Console did a broadcast")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_broadcast(player: player, send: text):
+	set {_send} to colored {_send}
+	loop all players:
+		set {_prefix} to mj_editfiles_gettext("essentials", "data.broadcast.prefix", loop-player)
+		send formatted "%nl%%{_prefix}% %{_send}%%nl%" to loop-player
+	mj_core_logger(2, "%{_player}% did a broadcast : %{_send}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Broadcast
+# =====================================================================================================================
+# APIxMJ - Message
+# ---------------------------------------------------------------------------------------------------------------------
+command /message [<player>] [<text>]:
+	executable by: player
+	trigger:
+		if arg-1 is online:
+			mj_essentials_message_check(player, arg-1, arg-2)
+		else:
+			mj_core_message(player, "essentials", "data.message.prefix", "essentials", "data.message.disconnect")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /msg [<player>] [<text>]:
+	executable by: player
+	trigger:
+		if arg-1 is online:
+			mj_essentials_message_check(player, arg-1, arg-2)
+		else:
+			mj_core_message(player, "essentials", "data.message.prefix", "essentials", "data.message.disconnect")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /m [<player>] [<text>]:
+	executable by: player
+	trigger:
+		if arg-1 is online:
+			mj_essentials_message_check(player, arg-1, arg-2)
+		else:
+			mj_core_message(player, "essentials", "data.message.prefix", "essentials", "data.message.disconnect")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /tell [<player>] [<text>]:
+	executable by: player
+	trigger:
+		if arg-1 is online:
+			mj_essentials_message_check(player, arg-1, arg-2)
+		else:
+			mj_core_message(player, "essentials", "data.message.prefix", "essentials", "data.message.disconnect")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /reply [<text>]:
+	aliases: r
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.message.*" or "mj.essentials.message":
+			if arg-1 is set:
+				set {_reply} to mj_editfiles("temp", "data.%player's uuid%.essentials.message.reply")
+				if {_reply} is set:
+					set {_reply} to {_reply} parsed as offlineplayer
+					if {_reply} is online:
+						mj_essentials_message(player, {_reply}, arg-1)
+					else:
+						mj_core_message(player, "essentials", "data.message.prefix", "essentials", "data.message.disconnect")
+				else:
+					mj_core_message(player, "essentials", "data.message.prefix", "essentials", "data.message.noreply")
+			else:
+				mj_core_message(player, "essentials", "data.message.prefix", "essentials", "data.message.empty")
+		else:
+			mj_core_permission(player, "essentials", "data.message.prefix", "mj.essentials.message")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	set {_check} to mj_editfiles("temp", "data.%player's uuid%.essentials.message.reply")
+	if {_check} is set:
+		mj_editfiles("temp", "data.%player's uuid%.essentials.message.reply", "delete")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_message_check(player: player, target: player, message: text) :: text:
+	if {_player} has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.message.*" or "mj.essentials.message":
+		if {_target} is set:
+			set {_check} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.vanish")
+			if {_check} is false:
+				if {_message} is set:
+					mj_essentials_message({_player}, {_target}, {_message})
+				else:
+					mj_core_message({_player}, "essentials", "data.message.prefix", "essentials", "data.message.empty")
+			else:
+				mj_core_message({_player}, "essentials", "data.message.prefix", "core", "data.argument.player")
+		else:
+			mj_core_message({_player}, "essentials", "data.message.prefix", "core", "data.argument.player")
+	else:
+		mj_core_permission({_player}, "essentials", "data.message.prefix", "mj.essentials.message")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_message(player: player, target: player, message: text) :: text:
+	set {_message} to colored {_message}
+	set {_send} to mj_essentials_message_conversion({_player}, {_target}, {_message})
+	send formatted "%{_send}%" to {_player}
+	set {_send} to mj_essentials_message_conversion({_target}, {_player}, {_message}, "reverse")
+	send formatted "%{_send}%" to {_target}
+	set {_send} to mj_essentials_message_conversion({_player}, {_target}, {_message}, "spy")
+	loop all players:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.spy")
+		if {_check} is true:
+			send "%{_send}%" to loop-player
+	mj_editfiles("temp", "data.%{_target}'s uuid%.essentials.message.reply", "modify", "%{_player}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_message_conversion(player: player, target: player, message: text, mode: text="default") :: text:
+	set {_me} to mj_editfiles_gettext("essentials", "data.message.me", {_player})
+	set {_prefix} to mj_editfiles_gettext("essentials", "data.message.prefix", {_player})
+	if {_mode} is "spy":
+		set {_me} to "%{_player}%"
+		set {_prefix} to mj_editfiles_gettext("essentials", "data.spy.prefix")
+	set {_send} to mj_editfiles("essentials.config", "data.format.message")
+	if {_mode} is "reverse":
+		replace "$0" with "%{_target}%" in {_send}
+		replace "$1" with "%{_me}%" in {_send}
+	else:
+		replace "$0" with "%{_me}%" in {_send}
+		replace "$1" with "%{_target}%" in {_send}
+	replace "$2" with "%{_message}%" in {_send}
+	return "%{_prefix}% %{_send}%"
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Message
+# =====================================================================================================================
+# APIxMJ - Gamemode
+# ---------------------------------------------------------------------------------------------------------------------
+command /gamemode [<text>] [<player>]:
+	aliases: gm
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.gamemode.*" or "mj.essentials.gamemode":
+			if arg-1 is set:
+				if arg-1 is "0" or "survival" or "s":
+					set {_type} to "survival"
+				else if arg-1 is "1" or "creative" or "c":
+					set {_type} to "creative"
+				else if arg-1 is "2" or "adventure" or "a":
+					set {_type} to "adventure"
+				else if arg-1 is "3" or "spectator" or "sp":
+					set {_type} to "spectator"
+				else:
+					mj_core_message(player, "essentials", "data.gamemode.prefix", "core", "data.argument.number")
+					stop
+				if arg-2 is set:
+					if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.gamemode.*" or "mj.essentials.gamemode.other":
+						mj_essentials_gamemode(player, arg-2, {_type}, true)
+					else:
+						mj_core_permission(player, "essentials", "data.gamemode.prefix", "mj.essentials.gamemode.other")
+				else:
+					mj_essentials_gamemode(player, player, {_type})
+			else:
+				mj_core_message(player, "essentials", "data.gamemode.prefix", "core", "data.argument.number")
+		else:
+			mj_core_permission(player, "essentials", "data.gamemode.prefix", "mj.essentials.gamemode")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/gamemode" or "/gm":
+	set tab completions for position 1 to "0", "1", "2", "3", "survival", "creative", "adventure", "spectator", "s", "c", "a" and "sp"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_gamemode(player: player, target: offlineplayer, type: text="survival", mode: boolean=false):
+	if {_type} is "survival" or "creative" or "adventure" or "spectator":
+		set {_gm1} to {_type} parsed as gamemode
+	set {_target}'s gamemode to {_gm1}
+	set {_gm2} to mj_editfiles_gettext("essentials", "data.gamemode.%{_type}%", {_player})
+	if {_mode} is true:
+		mj_core_message({_player}, "essentials", "data.gamemode.prefix", "essentials", "data.gamemode.message", "%{_target}%", "%{_gm2}%")
+		set {_gm2} to mj_editfiles_gettext("essentials", "data.gamemode.%{_type}%", {_target})
+		mj_core_message({_target}, "essentials", "data.gamemode.prefix", "essentials", "data.gamemode.message", "%{_target}%", "%{_gm2}%")
+		mj_core_logger(1, "%{_player}%'s has gamemode changed %{_target}% as mode %{_gm2}%")
+	else:
+		mj_core_message({_player}, "essentials", "data.gamemode.prefix", "essentials", "data.gamemode.message", "%{_player}%", "%{_gm2}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gamemode
+# =====================================================================================================================
+# APIxMJ - StaffChat
+# ---------------------------------------------------------------------------------------------------------------------
+command /staffchat [<text>]:
+	aliases: sc
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.staffchat.*" or "mj.essentials.staffchat":
+			if arg-1 is set:
+				mj_essentials_staffchat(player, arg-1)
+			else:
+				mj_core_message(player, "essentials", "data.staffchat.prefix", "essentials", "data.staffchat.error")
+		else:
+			mj_core_permission(player, "essentials", "data.staffchat.prefix", "mj.essentials.staffchat")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on chat:
+	if message starts with "!":
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.staffchat":
+			cancel event
+			mj_timecount("mute_%player%", "backward", 0, 0, 5)
+			mj_essentials_staffchat(player, "%subtext of message from characters 2 to (length of message)%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_staffchat(player: player, message: text):
+	set {_prefix} to mj_editfiles_gettext("essentials", "data.staffchat.prefix")
+	set {_send} to mj_editfiles("essentials.config", "data.format.staffchat")
+	replace "$0" with "%{_player}%" in {_send}
+	replace "$1" with "%{_message}%" in {_send}
+	loop all players:
+		if loop-player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.staffchat":
+			send "%{_prefix}% %{_send}%" to loop-player
+	send "%{_prefix}% %{_send}%" to console
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - StaffChat
+# =====================================================================================================================
+# APIxMJ - Money
+# ---------------------------------------------------------------------------------------------------------------------
+command /money [<text>] [<offlineplayer>] [<number>]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.money.*" or "mj.essentials.money":
+				if arg-1 is "set" or "add" or "remove":
+					if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.money.*" or "mj.essentials.money.modify":
+						if arg-2 is set:
+							if arg-3 is set:
+								mj_essentials_money_edit(arg-2, arg-1, arg-3, "edit /money")
+								set {_money} to mj_core_format_money(false, arg-3)
+								mj_core_message(player, "essentials", "data.money.prefix", "essentials", "data.money.%arg-1%", {_money}, "%arg-2%")
+							else:
+								mj_core_message(player, "essentials", "data.money.prefix", "core", "data.argument.number")
+						else:
+							mj_core_message(player, "essentials", "data.money.prefix", "core", "data.argument.player")
+					else:
+						mj_core_permission(player, "essentials", "data.money.prefix", "mj.essentials.money.modify")
+				else if arg-1 is "upgrade":
+					mj_essentials_money_upgrade(player, "money")
+				else:
+					mj_essentials_money(player)
+			else:
+				mj_core_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
+		if sender is console:
+			mj_essentials_money_edit(arg-2, arg-1, arg-3, "edit /money")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/money":
+	set tab completions for position 1 to "upgrade"
+	if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.money.*" or "mj.essentials.money.modify":
+		set tab completions for position 1 to "set", "add", "remove" and "upgrade"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /pay [<player>] [<number>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.money.*" or "mj.essentials.money":
+			if arg-1 is set:
+				if arg-2 is set:
+					if arg-2 >= 0.1:
+						set {_money} to mj_essentials_money_modify(player, "all")
+						if {_money} >= arg-2+0.01:
+							set {_view} to mj_core_format_money(false, arg-2)
+							mj_essentials_money_system(player, arg-2)
+							mj_essentials_money_system(arg-1, arg-2, true)
+							mj_core_message(player, "essentials", "data.money.prefix", "essentials", "data.money.pay_me", {_view}, "%arg-1%")
+							mj_core_message(arg-1, "essentials", "data.money.prefix", "essentials", "data.money.pay_it", {_view}, "%player%")
+						else:
+							mj_core_message(player, "essentials", "data.money.prefix", "essentials", "data.money.high_value")
+					else:
+						mj_core_message(player, "essentials", "data.money.prefix", "essentials", "data.money.low_value")
+				else:
+					mj_core_message(player, "essentials", "data.money.prefix", "core", "data.argument.number")
+			else:
+				mj_core_message(player, "essentials", "data.money.prefix", "core", "data.argument.player")
+		else:
+			mj_core_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /balance:
+	aliases: balancetop, bal, baltop
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.money.*" or "mj.essentials.money":
+			mj_essentials_money_balance(player)
+		else:
+			mj_core_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 30 minute:
+	set {_check} to mj_editfiles_boolean("essentials.config", "data.money.economic_ranking_updater")
+	if {_check} is true:
+		mj_core_sorter_board("essentials_balancetop", "userdata", "data", "essentials.money.value", "essentials.bank.value", 9)
+		mj_core_logger(1, "Economic Ranking Update..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /bank [<text>] [<offlineplayer>] [<number>]:
+	executable by: player and console
+	trigger:		
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.bank.*" or "mj.essentials.bank":
+				set {_check} to mj_editfiles_boolean("essentials.config", "data.bank.condition")
+				if {_check} is true:
+					if arg-1 is "set" or "add" or "remove":
+						if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.bank.*" or "mj.essentials.bank.modify":
+							if arg-2 is set:
+								if arg-3 is set:
+									mj_essentials_bank_edit(arg-2, arg-1, arg-3, "edit /bank")
+									set {_money} to mj_core_format_money(false, arg-3)
+									mj_core_message(player, "essentials", "data.bank.prefix", "essentials", "data.money.%arg-1%", {_money}, "%arg-2%")
+								else:
+									mj_core_message(player, "essentials", "data.bank.prefix", "core", "data.argument.number")
+							else:
+								mj_core_message(player, "essentials", "data.bank.prefix", "core", "data.argument.player")
+						else:
+							mj_core_permission(player, "essentials", "data.bank.prefix", "mj.essentials.bank.modify")
+					else if arg-1 is "deposit" or "withdraw":
+						set {_list::*} to regex replace all "[^0-9-.]" with "" in "%arg-2%"
+						set {_value} to "%{_list::*}%" parsed as number
+						set {_view} to mj_core_format_money(false, {_value})
+						if arg-1 is "deposit":
+							set {_money} to mj_essentials_money_modify(player)
+							if {_money} >= {_value}:
+								mj_essentials_money_edit(player, "remove", {_value}, "deposit /bank")
+								mj_essentials_bank_edit(player, "add", {_value}, "deposit /bank")
+								mj_core_message(player, "essentials", "data.bank.prefix", "essentials", "data.bank.deposit", {_view})
+						else:
+							set {_bank} to mj_essentials_bank_modify(player)
+							if {_bank} >= {_value}:
+								mj_essentials_bank_edit(player, "remove", {_value}, "withdraw /bank")
+								mj_essentials_money_edit(player, "add", {_value}, "withdraw /bank")
+								mj_core_message(player, "essentials", "data.bank.prefix", "essentials", "data.bank.withdraw", {_view})
+					else if arg-1 is "upgrade":
+						mj_essentials_money_upgrade(player, "bank")
+					else:
+						mj_essentials_bank(player)
+				else:
+					mj_core_message(player, "essentials", "data.bank.prefix", "essentials", "data.bank.condition")
+			else:
+				mj_core_permission(player, "essentials", "data.bank.prefix", "mj.essentials.bank")
+		if sender is console:
+			mj_essentials_bank_edit(arg-2, arg-1, arg-3, "edit /bank")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/bank":
+	if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.bank.*" or "mj.essentials.bank":
+		set tab completions for position 1 to "deposit", "withdraw" and "upgrade"
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.bank.*" or "mj.essentials.bank.modify":
+			set tab completions for position 1 to "set", "add", "remove", "deposit", "withdraw" and "upgrade"
+		if tab arg-1 is "deposit" or "withdraw":
+			if tab arg-1 is "deposit":
+				set {_value} to mj_essentials_money_modify(player)
+				set tab completions for position 2 to "%{_value}%"
+			else:
+				set {_value} to mj_essentials_bank_modify(player)
+				set tab completions for position 2 to "%{_value}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on command:
+	if command is "money":
+		if complete command doesn't contain "set" or "add" or "remove" or "upgrade":
+			set {_check} to mj_editfiles_boolean("essentials.config", "data.bank.condition")
+			if {_check} is true:
+				wait 1 tick
+				mj_essentials_bank(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_money_logger(info: text, context: text="none"):
+	set {_date} to now formatted with "yyyy-MM-dd"
+	if file "plugins/APIxMJ/essentials/logs/%{_date}%.log" doesn't exist:
+		create file "plugins/APIxMJ/essentials/logs/%{_date}%.log"
+	set {_id} to mj_core_logger_id_generator()
+	set {_info} to uncolored {_info}
+	if {_context} isn't "none":
+		write "%{_id}% : %{_info}% (%{_context}%)" at line (file "plugins/APIxMJ/essentials/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/essentials/logs/%{_date}%.log"
+	else:
+		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/essentials/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/essentials/logs/%{_date}%.log"
+	mj_core_logger(3, {_info})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_money(player: offlineplayer, extract: boolean=false, context: text="none") :: text:
+	set {_value} to mj_essentials_money_modify({_player})
+	set {_result} to mj_core_format_money(false, {_value})
+	set {_check1} to mj_editfiles_boolean("essentials.config", "data.money.limit")
+	if {_check1} is true:
+		set {_check2} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.money.bypass")
+		if {_check2} is false:
+			set {_limit} to mj_essentials_money_limit({_player}, "money")
+			set {_result} to mj_core_format_money(true, {_value}, {_limit})
+			mj_essentials_money_logger("%{_player}% has in this amount of money : %{_result}%", {_context})
+	if {_extract} is false:
+		mj_core_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.view_money", {_result})
+		stop
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_money_modify(player: offlineplayer, mode: text="extract", value: number=0, context: text="none") :: number:
+	if {_mode} is "extract":
+		set {_result} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value")
+	else if {_mode} is "all":
+		set {_value1} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value")
+		set {_value2} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value")
+		set {_result} to {_value1} + {_value2}
+	else:
+		set {_old} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value")
+		mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value", "modify", {_value})
+		mj_essentials_money_logger("%{_player}% money changed : %{_old}% to %{_value}%", {_context})
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_money_edit(player: offlineplayer, type: text="add", value: number=0, context: text="none"):
+	set {_money} to mj_essentials_money_modify({_player})
+	if {_type} is "set" or "add" or "remove":
+		if {_type} is "add":
+			set {_result} to {_money} + {_value}
+		else if {_type} is "remove":
+			set {_result} to {_money} - {_value}
+		else:
+			set {_result} to {_value}
+	mj_essentials_money_logger("%{_player}% modified money : %{_money}% (%{_type}%=%{_value}%) = %{_result}%", {_context})
+	set {_check1} to mj_editfiles_boolean("essentials.config", "data.money.limit")
+	if {_check1} is true:
+		set {_check2} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.money.bypass")
+		if {_check2} is false:
+			set {_limit} to mj_essentials_money_limit({_player}, "money")
+			if {_result} >= {_limit} + 1:
+				set {_lost} to {_result} - {_limit}
+				set {_view} to mj_core_format_money(false, {_lost})
+				set {_result} to {_limit}
+				wait 1 tick
+				set {_check} to mj_editfiles_boolean("essentials.config", "data.bank.condition")
+				if {_check} is true:
+					mj_essentials_bank_edit({_player}, "add", {_lost})
+					mj_core_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.lost", {_view})
+				else:
+					mj_core_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.losted", {_view})
+					mj_essentials_money_logger("%{_player}% lost money : %{_view}%", {_context})
+	mj_essentials_money_modify({_player}, "modify", {_result}, {_context})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_money_limit(player: offlineplayer, type: text) :: number:
+	set {_value} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.%{_type}%.upgrade")
+	set {_result} to mj_editfiles_number("essentials.data", "data.upgrade.%{_type}%.%{_value}%.value")
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_money_system(player: offlineplayer, value: number=0, sell: boolean=false, context: text="none"):
+	if {_sell} is true: # add system (sell)
+		set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_add", {_player})
+		set {_cache} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.money")
+		add {_cache} to {_value}
+		set {_view} to mj_core_format_money(false, {_value})
+		mj_essentials_money_edit({_player}, "add", {_value}, {_context})
+		mj_essentials_money_logger("%{_player}% add money : %{_value}%", {_context})
+	else: # remove system (buy)
+		set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_remove", {_player})
+		set {_value1} to "-%{_value}%" parsed as number
+		set {_view} to mj_core_format_money(false, {_value1})
+		set {_money} to mj_essentials_money_modify({_player})
+		if {_money} >= {_value} + 1:
+			mj_essentials_money_edit({_player}, "remove", {_value}, {_context})
+			mj_essentials_money_logger("%{_player}% remove money : %{_value}%")
+		else:
+			set {_last} to {_value} - {_money}
+			set {_bank} to mj_essentials_bank_modify({_player})
+			if {_bank} >= {_last}:
+				mj_essentials_bank_edit({_player}, "remove", {_last})
+				mj_essentials_money_edit({_player}, "set", 0)
+				mj_essentials_money_logger("%{_player}% remove money : %{_value}%", {_context})
+			else:
+				mj_core_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.high_value")
+	set {_check} to mj_editfiles_boolean("essentials.config", "data.money.infobar")
+	if {_check} is true:
+		mj_core_infobar({_player}, 2, {_send}, {_view})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_money_upgrade(player: offlineplayer, type: text):
+	set {_value} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.%{_type}%.upgrade")
+	add 1 to {_value}
+	set {_price} to mj_editfiles_number("essentials.data", "data.upgrade.%{_type}%.%{_value}%.price")
+	if {_price} is set:
+		set {_money} to mj_essentials_money_modify({_player}, "all")
+		if {_money} >= {_price}:
+			mj_essentials_money_system({_player}, {_price})
+			mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.%{_type}%.upgrade", "modify", {_value})
+			mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.money.upgrade")
+		else:
+			set {_result} to {_price} - {_money}
+			set {_view} to mj_core_format_money(false, {_result})
+			mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.money.error_upgrade", {_view})
+	else:
+		mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.money.no_upgrade")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_money_balance(player: player):
+	mj_core_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.balance")
+	set {_list1::*} to mj_manager_nodes("temp", "data.sorterboard.essentials_balancetop")
+	loop {_list1::*}:
+		set {_count} to loop-value
+		set {_id} to mj_editfiles("temp", "data.sorterboard.essentials_balancetop.%loop-value%.id")
+		set {_target} to {_id} parsed as offlineplayer
+		set {_value} to mj_editfiles_number("temp", "data.sorterboard.essentials_balancetop.%loop-value%.value")
+		set {_money} to mj_core_format_money(false, {_value})
+		set {_send} to mj_editfiles("essentials.config", "data.format.balance")
+		replace "$0" with "%{_count}%" in {_send}
+		replace "$1" with "%{_target}%" in {_send}
+		replace "$2" with "%{_money}%" in {_send}
+		send {_send} to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_bank(player: offlineplayer, extract: boolean=false) :: text:
+	set {_value} to mj_essentials_bank_modify({_player})
+	set {_result} to mj_core_format_money(false, {_value})
+	set {_check1} to mj_editfiles_boolean("essentials.config", "data.bank.limit")
+	if {_check1} is true:
+		set {_check2} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.bank.bypass")
+		if {_check2} is false:
+			set {_limit} to mj_essentials_money_limit({_player}, "bank")
+			set {_result} to mj_core_format_money(true, {_value}, {_limit})
+	if {_extract} is false:
+		mj_core_message({_player}, "essentials", "data.bank.prefix", "essentials", "data.money.view_bank", {_result})
+		stop
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_bank_modify(player: offlineplayer, mode: text="extract", value: number=0, context: text="none") :: number:
+	if {_mode} is "extract":
+		set {_result} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value")
+	else:
+		set {_old} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value")
+		mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value", "modify", {_value})
+		mj_essentials_money_logger("%{_player}% money bank changed : %{_old}% to %{_value}%", {_context})
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_bank_edit(player: offlineplayer, type: text="add", value: number=0, context: text="none"):
+	set {_money} to mj_essentials_bank_modify({_player})
+	if {_type} is "set" or "add" or "remove":
+		if {_type} is "add":
+			set {_result} to {_money} + {_value}
+		else if {_type} is "remove":
+			set {_result} to {_money} - {_value}
+		else:
+			set {_result} to {_value}
+	mj_essentials_money_logger("%{_player}% modified money bank : %{_money}% (%{_type}%=%{_value}%) = %{_result}%", {_context})
+	set {_check1} to mj_editfiles_boolean("essentials.config", "data.bank.limit")
+	if {_check1} is true:
+		set {_check2} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.bank.bypass")
+		if {_check2} is false:
+			set {_limit} to mj_essentials_money_limit({_player}, "bank")
+			if {_result} >= {_limit} + 1:
+				set {_lost} to {_result} - {_limit}
+				set {_result} to {_limit}
+				set {_money2} to mj_essentials_money_modify({_player})
+				set {_limit2} to mj_essentials_money_limit({_player}, "money")
+				set {_view} to mj_core_format_money(false, {_lost})
+				if {_money2} >= {_limit2}:
+					mj_core_message({_player}, "essentials", "data.bank.prefix", "essentials", "data.money.losted", {_view})
+					mj_essentials_money_logger("%{_player}% lost money bank : %{_view}%", {_context})
+				else:
+					mj_essentials_money_edit({_player}, "add", {_lost})
+					wait 1 tick
+					mj_core_message({_player}, "essentials", "data.bank.prefix", "essentials", "data.bank.lost", {_view})
+	mj_essentials_bank_modify({_player}, "modify", {_result})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_bank_taxe(type: text, value: number=0) :: number:
+	set {_taxe} to mj_editfiles_number("essentials.config", "data.bank.taxes.%{_type}%")
+	set {_taxe} to 0
+	if {_taxe} isn't 0:
+		set {_value} to {_value} - ({_value}/100)/{_taxe}
+	return {_value}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Money
+# =====================================================================================================================
+# APIxMJ - Kits
+# ---------------------------------------------------------------------------------------------------------------------
+command /kit [<text>] [<text>]:
+	executable by: player
+	trigger:
+		if arg-1 is set:
+			if arg-1 is "give" or "giveall":
+				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kits.*" or "mj.essentials.kits.admin":
+					if arg-1 is "giveall":
+						set {_name} to mj_editfiles("data", "data.storage.%arg-2%.name")
+						set {_list::*} to mj_editfiles_list("data", "data.storage.%arg-2%.storage")
+						if {_list::*} doesn't contain "none":
+							loop all players:	
+								give {_list::*} to loop-player
+								mj_core_message(loop-player, "essentials", "data.kits.prefix", "core", "data.storage.give_all", {_name})
+					else:
+						mj_essentials_kits_gift(player, arg-2)
+				else:
+					mj_core_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits.admin")
+			else:
+				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kits.*" or "mj.essentials.kits":
+					set {_list::*} to mj_manager_nodes("data", "data.storage")
+					if {_list::*} contain arg-1:
+						mj_essentials_kits_gift(player, arg-1)
+					else:
+						mj_core_message(player, "essentials", "data.kits.prefix", "essentials", "data.kits.no_kits")
+				else:
+					mj_core_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits")
+		else:
+			mj_core_message(player, "essentials", "data.kits.prefix", "core", "data.argument.name")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/kit":
+	set {_list::*} to mj_editfiles_list("essentials.data", "data.kits")
+	if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kits.*" or "mj.essentials.kits.admin":
+		set tab completions for position 1 to "give", "giveall" and {_list::*}
+		if tab arg-1 is "give" or "giveall":
+			set tab completions for position 2 to {_list::*}
+	else:
+		set tab completions for position 1 to {_list::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /kits [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kits.*" or "mj.essentials.kits":
+			if arg-1 is set:
+				mj_essentials_kits_viewer(player, arg-1)
+			else:
+				set {_list::*} to mj_editfiles_list("essentials.data", "data.kits")
+				if {_list::*} doesn't contain "none":
+					mj_core_message(player, "essentials", "data.kits.prefix", "essentials", "data.kits.list", "%{_list::*}%")
+		else:
+			mj_core_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/kits":
+	set {_list::*} to mj_editfiles_list("essentials.data", "data.kits")
+	set tab completions for position 1 to {_list::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_kits_gift(player: player, id: text):
+	set {_name} to mj_editfiles("data", "data.storage.%{_id}%.name")
+	if {_name} is set:
+		set {_name} to mj_editfiles_gettext("core", "data.storage.catalog.%{_id}%", {_player})
+		set {_access} to mj_editfiles_boolean("data", "data.storage.%{_id}%.permission")
+		if {_access} is true:
+			if {_player} doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kits.*" or "mj.essentials.kits.%{_id}%":
+				mj_core_message({_player}, "essentials", "data.kits.prefix", "essentials", "data.kits.no_permission")
+				stop
+		set {_check} to mj_timecount_text("kits%{_id}%_%{_player}%", "name")
+		if {_check} is "none":
+			set {_money} to mj_editfiles_number("data", "data.storage.%{_id}%.money")
+			if {_money} isn't set:
+				mj_essentials_money_system({_player}, {_money}, true)
+			set {_list::*} to mj_editfiles_list("data", "data.storage.%{_id}%.storage")
+			if {_list::*} doesn't contain "none":
+				set {_count1} to 0
+				loop {_list::*}:
+					add 1 to {_count1}
+				set {_count2} to 0
+				set {_slot} to 0
+				loop 41 times:
+					if slot {_slot} of {_player}'s inventory is air:
+						add 1 to {_slot}
+						add 1 to {_count2}
+			if {_item} >= {_slots}:
+				mj_core_message({_player}, "essentials", "data.kits.prefix", "essentials", "data.kits.enough_slot", "%{_count1}%")
+				stop
+			else:
+				give {_list::*} to {_player}
+				set {_time} to mj_editfiles_number("data", "data.storage.%{_id}%.time")
+				mj_timecount("kits%{_id}%_%{_player}%", "backward", {_time}, 0, 0)
+				mj_core_message({_player}, "essentials", "data.kits.prefix", "essentials", "data.kits.reward", {_name})
+		else:
+			set {_time} to mj_timecount_viewer("kits%{_id}%_%{_player}%")
+			mj_core_message({_player}, "essentials", "data.kits.prefix", "core", "data.time.wait", {_time})
+	else:
+		mj_core_message({_player}, "essentials", "data.kits.prefix", "essentials", "data.kits.no_kits")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_kits_viewer(player: player, id: text):
+	set {_check} to mj_editfiles("data", "data.storage.%{_id}%.name")
+	if {_check} is set:
+		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.guiprotect", "modify", true)
+		set {_name} to mj_editfiles_gettext("core", {_check}, {_player})
+		set {_item1} to mj_core_item_lore({_player}, paper, 2, "essentials", "data.kits.view_name", {_name})
+		set {_money1} to mj_editfiles_number("data", "data.storage.%{_id}%.money")
+		set {_money2} to mj_core_format_money(false, {_money1})
+		set {_item2} to mj_core_item_lore({_player}, {_item1}, 3, "essentials", "data.kits.view_money", {_money2})
+		set {_time} to mj_editfiles_number("data", "data.storage.%{_id}%.time")
+		set {_item3} to mj_core_item_lore({_player}, {_item2}, 4, "essentials", "data.kits.view_time", "%{_time}%h")
+		set {_perm} to mj_editfiles_boolean("data", "data.storage.%{_id}%.permission")
+		set {_item4} to mj_core_item_lore({_player}, {_item3}, 5, "essentials", "data.kits.view_permission", "%{_perm}%")
+		set {_title} to mj_editfiles_gettext("essentials", "data.kits.view_title", {_player}, {_name})
+		set {_info} to mj_editfiles_gettext("essentials", "data.kits.information", {_player})
+		open virtual chest inventory with size 5 named "%{_title}%" to {_player}
+		make a gui slot 8 of {_player} with {_item4} named "%{_info}%" to run:
+			stop
+		make a gui slot 0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16 and 17 of {_player} with black stained glass pane named " " to run:
+			stop
+		set {_storage::*} to mj_editfiles_list("data", "data.storage.%{_id}%.storage")
+		set {_slot} to 18
+		loop {_storage::*}:
+			make a gui slot {_slot} of {_player} with loop-value to run:
+				stop
+			add 1 to {_slot}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Kits
+# =====================================================================================================================
+# APIxMJ - Ping
+# ---------------------------------------------------------------------------------------------------------------------
+command /ping [<player>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.ping.*" or "mj.essentials.ping":
+			if arg-1 is set:
+				set {_ping} to mj_essentials_ping(arg-1)
+				mj_core_message(player, "essentials", "data.ping.prefix", "essentials", "data.ping.other", "%{_ping}%", "%arg-1%")
+			else:
+				set {_ping} to mj_essentials_ping(player)
+				mj_core_message(player, "essentials", "data.ping.prefix", "essentials", "data.ping.me", "%{_ping}%")
+		else:
+			mj_core_permission(player, "essentials", "data.ping.prefix", "mj.essentials.ping")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /tps:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.tps.*" or "mj.essentials.tps":
+				set {_tps} to mj_essentials_tps()
+				mj_core_message(player, "essentials", "data.ping.prefix", "essentials", "data.ping.tps", "%{_tps}%")
+			else:
+				mj_core_permission(player, "essentials", "data.ping.prefix", "mj.essentials.tps")
+		if sender is console:
+			set {_prefix} to mj_editfiles_gettext("essentials", "data.ping.prefix")
+			set {_tps} to mj_essentials_tps()
+			set {_send} to mj_editfiles_gettext("essentials", "data.ping.tps")
+			replace "$0" with "%{_tps}%" in {_send}
+			send "%{_prefix}% %{_send}%" to console
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_ping(player: player) :: text:
+	if {_player}'s ping >= 150:
+		set {_ping} to "&c%{_player}'s ping%"
+	else if {_player}'s ping >= 100:
+		set {_ping} to "&6%{_player}'s ping%"
+	else if {_player}'s ping >= 50:
+		set {_ping} to "&e%{_player}'s ping%"
+	else:
+		set {_ping} to "&a%{_player}'s ping%"
+	return {_ping}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_tps() :: text:
+	set {_tps} to "&71m &a%tps%"
+	replace "," with "&7, 5m&a" in {_tps}
+	replace " and" with "&7, 15m&a" in {_tps}
+	return {_tps}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Ping
+# =====================================================================================================================
+# APIxMJ - Workbench
+# ---------------------------------------------------------------------------------------------------------------------
+command /workbench:
+	aliases: wb, craft
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.workbench.*" or "mj.essentials.workbench":
+			open workbench view to player
+		else:
+			mj_core_permission(player, "essentials", "data.prefix", "mj.essentials.workbench")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Workbench
+# =====================================================================================================================
+# APIxMJ - Quiet
+# ---------------------------------------------------------------------------------------------------------------------
+command /quiet:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.quiet.*" or "mj.essentials.quiet":
+			set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.quiet")
+			if {_check} is false:
+				mj_essentials_quiet(player, true)
+			else:
+				mj_essentials_quiet(player, false)
+		else:
+			mj_core_permission(player, "essentials", "data.prefix", "mj.essentials.quiet")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on command:
+	set {_list::*} to mj_editfiles_list("essentials.config", "data.quiet_command_list")
+	loop {_list::*}:
+		if loop-value contains command:
+			set {_arg::*} to arguments split at " "
+			set {_target} to {_arg::1} parsed as offlineplayer
+			set {_check} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.quiet")
+			if {_check} is true:
+				cancel event
+				mj_core_message(player, "essentials", "data.quiet.prefix", "essentials", "data.quiet.disturb", "%{_target}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_quiet(player: player, mode: boolean=false):
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.quiet", "modify", {_mode})
+	set {_type} to mj_editfiles_gettext("core", "data.type.disable", {_player})
+	if {_mode} is true:
+		set {_type} to mj_editfiles_gettext("core", "data.type.enable", {_player})
+	mj_core_message({_player}, "essentials", "data.quiet.prefix", "essentials", "data.quiet.message", "%{_type}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Quiet
+# =====================================================================================================================
+# APIxMJ - Heal & Feed
+# ---------------------------------------------------------------------------------------------------------------------
+command /heal [<player>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.heal.*" or "mj.essentials.heal":
+			if arg-1 is set:
+				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.heal.*" or "mj.essentials.heal.other":
+					mj_essentials_recovery(player, arg-1, "heal")
+				else:
+					mj_core_permission(player, "essentials", "data.heal.prefix", "mj.essentials.heal.other")
+			else:
+				mj_essentials_recovery(player, player, "heal")
+		else:
+			mj_core_permission(player, "essentials", "data.heal.prefix", "mj.essentials.heal")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /feed [<player>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.feed.*" or "mj.essentials.feed":
+			if arg-1 is set:
+				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.feed.*" or "mj.essentials.feed.other":
+					mj_essentials_recovery(player, arg-1, "feed")
+				else:
+					mj_core_permission(player, "essentials", "data.feed.prefix", "mj.essentials.feed.other")
+			else:
+				mj_essentials_recovery(player, player, "feed")
+		else:
+			mj_core_permission(player, "essentials", "data.feed.prefix", "mj.essentials.feed")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_recovery(player: player, target: player, type: text):
+	set {_name} to mj_timecount_text("%{_type}%_%{_player}%", "name")
+	if {_name} is "none":
+		set {_price} to 0
+		if {_player} doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.%{_type}%.*" or "mj.essentials.%{_type}%.bypass":
+			set {_price} to mj_editfiles_number("essentials.config", "data.%{_type}%.price")
+		set {_money} to mj_essentials_money_modify({_player}, "all")
+		if {_money} >= {_price}:
+			mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.%{_type}%.message_me", "%{_target}%")
+			if {_player} isn't {_target}:
+				mj_core_message({_target}, "essentials", "data.%{_type}%.prefix", "essentials", "data.%{_type}%.message_it", "%{_player}%")
+				mj_core_logger(1, "%{_player}% at %{_type}% %{_target}%")
+			set {_target}'s food level to 10
+			apply saturation 50 to {_target} for 1 seconds
+			if {_type} is "heal":
+				heal {_target}
+			if {_player} doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.%{_type}%.*" or "mj.essentials.%{_type}%.bypass":
+				set {_h} to mj_editfiles_number("essentials.config", "data.%{_type}%.time.hour")
+				set {_m} to mj_editfiles_number("essentials.config", "data.%{_type}%.time.minute")
+				set {_s} to mj_editfiles_number("essentials.config", "data.%{_type}%.time.second")
+				mj_timecount("%{_type}%_%{_player}%", "backward", {_h}, {_m}, {_s})
+				mj_essentials_money_system({_player}, {_price})
+		else:
+			set {_request} to {_price} - {_money}
+			set {_view} to mj_core_format_money(false, {_request})
+			mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.money.no_enough", "%{_view}%")
+	else:
+		set {_time} to mj_timecount_viewer("%{_type}%_%{_player}%")
+		mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "core", "data.time.wait", {_time})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Heal & Feed
+# =====================================================================================================================
+# APIxMJ - Repair
+# ---------------------------------------------------------------------------------------------------------------------
+command /repair [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.repair.*" or "mj.essentials.repair":
+			set {_name} to mj_timecount_text("repair_%player%", "name")
+			if {_name} is "none":
+				if arg-1 is "all":
+					if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.repair.*" or "mj.essentials.repair.all":
+						mj_essentials_repair(player, "all")
+					else:
+						mj_core_permission(player, "essentials", "data.repair.prefix", "mj.essentials.repair.all")
+				else:
+					if player's tool isn't air:
+						mj_essentials_repair(player)
+					else:
+						mj_core_message(player, "essentials", "data.repair.prefix", "core", "data.argument.hand")
+			else:
+				set {_time} to mj_timecount_viewer("repair_%{_player}%")
+				mj_core_message({_player}, "essentials", "data.repair.prefix", "core", "data.time.wait", {_time})
+		else:
+			mj_core_permission(player, "essentials", "data.repair.prefix", "mj.essentials.repair")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/repair":
+	set tab completions for position 1 to "all"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_repair(player: player, mode: text="hand"):
+	set {_price} to 0
+	if {_player} doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.repair.*" or "mj.essentials.repair.bypass":
+		set {_h} to mj_editfiles_number("essentials.config", "data.repair.time.hour")
+		set {_m} to mj_editfiles_number("essentials.config", "data.repair.time.minute")
+		set {_s} to mj_editfiles_number("essentials.config", "data.repair.time.second")
+		mj_timecount("repair_%{_player}%", "backward", {_h}, {_m}, {_s})
+		set {_price} to mj_editfiles_number("essentials.config", "data.repair.price")
+	set {_list::*} to mj_essentials_repair_itemlist()
+	set {_money} to mj_essentials_money_modify({_player}, "all")
+	if {_mode} is "all":
+		set {_count} to 0
+		loop all items in {_player}'s inventory:
+			loop {_list::*}:
+				if "%loop-item%" contains "%loop-value-2%":
+					add 1 to {_count}
+		set {_price} to {_price}*{_count}
+		if {_money} >= {_price}:
+			set {_view} to mj_core_format_money(false, {_price})
+			mj_core_message({_player}, "essentials", "data.repair.prefix", "essentials", "data.repair.all", "%{_count}%", {_view})
+			mj_essentials_money_system({_player}, {_price})
+			loop all items in {_player}'s inventory:
+				repair the loop-item
+		else:
+			mj_core_message({_player}, "essentials", "data.repair.prefix", "essentials", "data.repair.no_enough_money")
+	else:
+		if {_money} >= {_price}:
+			set {_view} to mj_core_format_money(false, {_price})
+			mj_core_message({_player}, "essentials", "data.repair.prefix", "essentials", "data.repair.tool", {_view})
+			mj_essentials_money_system({_player}, {_price})
+			repair tool of {_player}
+		else:
+			mj_core_message({_player}, "essentials", "data.repair.prefix", "essentials", "data.repair.no_enough_money")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_repair_itemlist() :: objects:
+	set {_list::*} to "fishing rod", "shield", "warped fungus on a stick", "carrot on stick", "elytra", "bow", "shear", "trident", "crossbow", "turtle helmet" and "flint and steel"
+	add "wood pickaxe", "wood shovel", "wood axe", "wood hoe", "wood sword", "leather helmet", "leather chestplate", "leather leggings" and "leather boots" to {_list::*}
+	add "stone pickaxe", "stone shovel", "stone axe", "stone hoe" and "stone sword" to {_list::*}
+	add "chain helmet", "chain chestplate", "chain leggings" and "chain boots" to {_list::*}
+	add "iron pickaxe", "iron shovel", "iron axe", "iron hoe", "iron sword", "iron helmet", "iron chestplate", "iron leggings" and "iron boots" to {_list::*}
+	add "gold pickaxe", "gold shovel", "gold axe", "gold hoe", "gold sword", "gold helmet", "gold chestplate", "gold leggings" and "gold boots" to {_list::*}
+	add "diamond pickaxe", "diamond shovel", "diamond axe", "diamond hoe" and "diamond sword" to {_list::*}
+	add "diamond helmet", "diamond chestplate", "diamond leggings" and "diamond boots" to {_list::*}
+	add "netherite pickaxe", "netherite shovel", "netherite axe", "netherite hoe" and "netherite sword" to {_list::*}
+	add "netherite helmet", "netherite chestplate", "netherite leggings" and "netherite boots" to {_list::*}
+	return {_list::*}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Repair
+# =====================================================================================================================
+# APIxMJ - Fly
+# ---------------------------------------------------------------------------------------------------------------------
+command /fly [<player>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.fly.*" or "mj.essentials.fly":
+			if arg-1 is set:
+				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.fly.*" or "mj.essentials.fly.other":
+					if arg-1's flight mode is false:
+						set arg-1's flight mode to true
+					else:
+						set arg-1's flight mode to false
+					mj_core_message(player, "essentials", "data.fly.prefix", "essentials", "data.fly.message_me", "%arg-1%")
+					mj_core_message(arg-1, "essentials", "data.fly.prefix", "essentials", "data.fly.message_it", "%player%")
+					mj_core_logger(1, "%player% at giving flying mode to %arg-1%")
+				else:
+					mj_core_permission(player, "essentials", "data.fly.prefix", "mj.essentials.fly.other")
+			else:
+				if player's flight mode is false:
+					set player's flight mode to true
+				else:
+					set player's flight mode to false
+				mj_core_message(player, "essentials", "data.fly.prefix", "essentials", "data.fly.message")
+		else:
+			mj_core_permission(player, "essentials", "data.fly.prefix", "mj.essentials.fly")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Fly
+# =====================================================================================================================
+# APIxMJ - Speed
+# ---------------------------------------------------------------------------------------------------------------------
+command /speed [<text>] [<number>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.speed.*" or "mj.essentials.speed":
+			if arg-1 is "0" or "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8" or "9" or "10":
+				if arg-1 is "10":
+					set {_value} to 1
+				else:
+					set {_value} to "0.%arg-1%" parsed as number
+				set the player's walk speed to {_value}
+				set the player's fly speed to {_value}
+				mj_core_message(player, "essentials", "data.speed.prefix", "essentials", "data.speed.global", arg-1)
+			else if arg-1 is "walk" or "fly":
+				if arg-1 is set:
+					if arg-2 is set:
+						if arg-2 is between 0 and 10:
+							if arg-2 is 10:
+								set {_value} to 1
+							else:
+								set {_value} to "0.%arg-2%" parsed as number
+						else:
+							mj_core_message(player, "essentials", "data.speed.prefix", "core", "data.argument.number")
+						if arg-1 is "walk":
+							set the player's walk speed to {_value}
+							mj_core_message(player, "essentials", "data.speed.prefix", "essentials", "data.speed.walk", "%arg-2%")
+						else:
+							set the player's fly speed to {_value}
+							mj_core_message(player, "essentials", "data.speed.prefix", "essentials", "data.speed.fly", "%arg-2%")
+					else:
+						mj_core_message(player, "essentials", "data.speed.prefix", "core", "data.argument.number")
+				else:
+					mj_core_message(player, "essentials", "data.speed.prefix", "essentials", "data.speed.error")
+			else:
+				set the player's walk speed to 0.2
+				set the player's fly speed to 0.1
+				mj_core_message(player, "essentials", "data.speed.prefix", "essentials", "data.speed.off")
+		else:
+			mj_core_permission(player, "essentials", "data.speed.prefix", "mj.essentials.speed")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/speed":
+	set tab completions for position 1 to "walk", "fly", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" and "10"
+	if tab arg-1 is "walk" or "fly":
+		set tab completions for position 2 to "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" and "10"
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		set the player's walk speed to 0.2
+		set the player's fly speed to 0.1
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Speed
+# =====================================================================================================================
+# APIxMJ - ClearLag
+# ---------------------------------------------------------------------------------------------------------------------
+command /clearlag [<text>]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.clearlag.*" or "mj.essentials.clearlag":
+				if arg-1 is "on" or "off":
+					if arg-1 is "on":
+						mj_editfiles_boolean("essentials.config", "data.clearlag.condition", "modify", true)
+						set {_type} to mj_editfiles_gettext("manager", "data.type.enable", player)
+						set {_time} to mj_editfiles_number("essentials.config", "data.clearlag.time")
+						mj_timecount("clearlag", "backward", 0, {_time}, 0, "/clearlag")
+					else:
+						mj_editfiles_boolean("essentials.config", "data.clearlag.condition", "modify", false)
+						set {_type} to mj_editfiles_gettext("manager", "data.type.disable", player)
+						mj_timecount_text("clearlag", "mode", "delete")
+					mj_core_message(player, "essentials", "data.clearlag.prefix", "essentials", "data.clearlag.changed_mode", "%{_type}%")
+				else:
+					mj_essentials_clearlag()
+					mj_core_logger(1, "Clearlag executed by %player%")
+			else:
+				mj_core_permission(player, "essentials", "data.clearlag.prefix", "mj.essentials.clearlag")
+		if sender is console:
+			mj_essentials_clearlag_prevent()
+			mj_core_logger(1, "Clearlag executed by console")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /cleartime:
+	executable by: player
+	trigger:
+		set {_time} to mj_timecount_viewer("clearlag")
+		set {_type} to mj_editfiles_gettext("core", "data.time.unknown")
+		if {_time} isn't {_type}:
+			mj_core_message(player, "essentials", "data.clearlag.prefix", "essentials", "data.clearlag.timer", {_time})
+		else:
+			mj_core_message(player, "essentials", "data.clearlag.prefix", "essentials", "data.clearlag.no_timer")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/clearlag":
+	set tab completions for position 1 to "on" and "off"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_clearlag_prevent():
+	set {_check1} to mj_editfiles_boolean("essentials.config", "data.clearlag.condition")
+	if {_check1} is true:
+		mj_essentials_clearlag_broadcast(30)
+		wait 20 seconds
+		set {_check2} to mj_editfiles_boolean("essentials.config", "data.clearlag.condition")
+		if {_check2} is true:
+			mj_essentials_clearlag_broadcast(10)
+			wait 7 seconds
+			set {_check3} to mj_editfiles_boolean("essentials.config", "data.clearlag.condition")
+			if {_check3} is true:
+				set {_time} to 3
+				loop 3 times:
+					mj_essentials_clearlag_broadcast({_time})
+					remove 1 from {_time}
+					wait 1 seconds
+					if {_time} is 0:
+						mj_essentials_clearlag()
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_clearlag():
+	set {_list::*} to mj_editfiles_list("essentials.config", "data.clearlag.list")
+	set {_count} to 0
+	loop all entities:
+		if "%region at loop-entity%" doesn't contain "spawn":
+			if {_list::*} doesn't contain "%loop-entity%":
+				if name of loop-entity isn't set:
+					clear loop-entity
+					add 1 to {_count}
+	loop all players:
+		mj_core_message(loop-player, "essentials", "data.clearlag.prefix", "essentials", "data.clearlag.message", "%{_count}%")
+	set {_check} to mj_editfiles_boolean("essentials.config", "data.clearlag.condition")
+	if {_check} is true:
+		set {_h} to mj_editfiles_number("essentials.config", "data.clearlag.time.hour")
+		set {_m} to mj_editfiles_number("essentials.config", "data.clearlag.time.minute")
+		set {_s} to mj_editfiles_number("essentials.config", "data.clearlag.time.second")
+		mj_timecount("clearlag", "backward", {_h}, {_m}, {_s}, "/clearlag")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_clearlag_broadcast(time: number):
+	loop all players:
+		mj_core_message(loop-player, "essentials", "data.clearlag.prefix", "essentials", "data.clearlag.alert", "%{_time}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - ClearLag
+# =====================================================================================================================
+# APIxMJ - Suicide
+# ---------------------------------------------------------------------------------------------------------------------
+command /suicide:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.suicide.*" or "mj.essentials.suicide":
+			mj_core_message(player, "essentials", "data.prefix", "essentials", "data.suicide")
+			kill the player
+		else:
+			mj_core_permission(player, "essentials", "data.prefix", "mj.essentials.suicide")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on death:
+	if victim is player:
+		set {_check} to mj_editfiles_boolean("essentials.config", "data.death_message")
+		if {_check} is false:
+			set the death message to ""
+		set {_location} to mj_core_location_viewer(victim, "show")
+		if attacker is set:
+			mj_core_message_simple(victim, "essentials", "data.killed", "%attacker%")
+			mj_core_logger(2, "&a%victim% &7was slain by &a%attacker% &7in %{_location}% &6: &a%victim's world%")
+		else:
+			mj_core_logger(2, "&a%victim% &7is die in %{_location}% &6: &a%victim's world%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Suicide
+# =====================================================================================================================
+# APIxMJ - Disposal
+# ---------------------------------------------------------------------------------------------------------------------
+command /disposal:
+	aliases: poubelle
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.disposal.*" or "mj.essentials.disposal":
+			set {_send} to mj_editfiles_gettext("essentials", "data.disposal", player)
+			open virtual chest inventory with size 3 named "%{_send}%" to player
+		else:
+			mj_core_permission(player, "essentials", "data.prefix", "mj.essentials.disposal")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Disposal
+# =====================================================================================================================
+# APIxMJ - Time
+# ---------------------------------------------------------------------------------------------------------------------
+command /time [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.time":
+			if arg-1 is set:
+				if arg-1 is "day" or "night":
+					if arg-1 is "night":
+						set {_type} to mj_editfiles_gettext("essentials", "data.time.night", player)
+						set time to 21:00
+					else:
+						set time to 7:00
+						set {_type} to mj_editfiles_gettext("essentials", "data.time.day", player)
+					mj_core_message(player, "essentials", "data.time.prefix", "essentials", "data.time.message", "%{_type}%")
+				else:
+					set {_time} to arg-1 parsed as time
+					set time to {_time}
+					set {_time} to "%{_time}%"
+					replace ":" with "h" in {_time}
+					mj_core_message(player, "essentials", "data.time.prefix", "essentials", "data.time.message", "%{_time}%")
+				mj_core_logger(2, "%player% use time %arg-1% in the map %player's world%")
+			else:
+				mj_core_message(player, "essentials", "data.time.prefix", "essentials", "data.time.error")
+		else:
+			mj_core_permission(player, "essentials", "data.time.prefix", "mj.essentials.time")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/time":
+	set tab completions for position 1 to "day", "night" and "12:00"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Time
+# =====================================================================================================================
+# APIxMJ - Skull
+# ---------------------------------------------------------------------------------------------------------------------
+command /skull [<offlineplayer>]:
+	aliases: head
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.skull.*" or "mj.essentials.skull":
+			if arg-1 is set:
+				give skull of arg-1 to player
+				mj_core_message(player, "essentials", "data.skull.prefix", "essentials", "data.skull.message", "%arg-1%")
+			else:
+				mj_core_message(player, "essentials", "data.skull.prefix", "core", "data.argument.player")
+		else:
+			mj_core_permission(player, "essentials", "data.skull.prefix", "mj.essentials.skull")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Skull
+# =====================================================================================================================
+# APIxMJ - Sign Editor
+# ---------------------------------------------------------------------------------------------------------------------
+command /editsign [<number>] [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.editsign.*" or "mj.essentials.editsign":
+			if targeted block is a sign:
+				if arg-1 is 1 or 2 or 3 or 4:
+					if arg-2 is set:
+						set line arg-1 of targeted block to colored arg-2
+						mj_core_message(player, "essentials", "data.editsign.prefix", "essentials", "data.editsign.message", "%arg-1%", arg-2)
+					else:
+						mj_core_message(player, "essentials", "data.editsign.prefix", "core", "data.argument.name")
+				else:
+					mj_core_message(player, "essentials", "data.editsign.prefix", "core", "data.argument.number")
+			else:
+				mj_core_message(player, "essentials", "data.editsign.prefix", "essentials", "data.editsign.no_target")
+		else:
+			mj_core_permission(player, "essentials", "data.editsign.prefix", "mj.essentials.editsign")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/editsign":
+	set tab completions for position 1 to "1", "2", "3" and "4"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Sign Editor
+# =====================================================================================================================
+# APIxMJ - AFK
+# ---------------------------------------------------------------------------------------------------------------------
+command /afk:
+	executable by: player
+	trigger:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.afk")
+		if {_check} is true:
+			mj_essentials_afk(player)
+		else:
+			mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.afk", "modify", true)
+			mj_core_message(player, "essentials", "data.afk.prefix", "essentials", "data.afk.enable")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 1 minute:
+	loop all players:
+		set {_count} to 0
+		set {_count} to mj_editfiles_number("temp", "data.%loop-player's uuid%.afk")
+		set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.afk")
+		set {_timer} to mj_editfiles_number("essentials.config", "data.afk.limit")
+		set {_limit} to {_timer} + 10
+		if {_count} < {_limit}:
+			add 1 to {_count}
+			mj_editfiles_number("temp", "data.%loop-player's uuid%.afk", "modify", {_count})
+		if {_count} >= {_timer}:
+			if {_check} is false:
+				mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.afk", "modify", true)
+				mj_core_message(loop-player, "essentials", "data.afk.prefix", "essentials", "data.afk.enable")
+		if {_count} >= {_limit}:
+			set {_mode} to mj_editfiles_boolean("essentials.config", "data.afk.kick")
+			if {_mode} is true:
+				if loop-player doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.afk.*" or "mj.essentials.afk.bypass":
+					set {_afk} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.afk")
+					if {_afk} is true:
+						set {_send} to mj_editfiles_gettext("essentials", "data.afk.kick", loop-player)
+						kick loop-player due to "%{_send}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on chat:
+	mj_essentials_afk(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on quit:
+	if event-entity is player:
+		mj_editfiles_number("temp", "data.%player's uuid%.afk", "modify", 0)
+		mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.afk", "modify", false)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on leftclick:
+	mj_essentials_afk(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on rightclick:
+	mj_essentials_afk(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on place:
+	if event-entity is player:
+		mj_essentials_afk(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on break:
+	if event-entity is player:
+		mj_essentials_afk(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on sneak toggle:
+	mj_essentials_afk(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on respawn:
+	if event-entity is player:
+		mj_essentials_afk(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_afk(player: player):
+	set {_time} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.afk")
+	if {_time} >= 3:
+		mj_editfiles_number("temp", "data.%{_player}'s uuid%.afk", "modify", 0)
+	set {_check} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.afk")
+	if {_check} is true:
+		wait 2 ticks
+		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.afk", "modify", false)
+		mj_core_message({_player}, "essentials", "data.afk.prefix", "essentials", "data.afk.disable")
+		mj_editfiles_number("temp", "data.%{_player}'s uuid%.afk", "modify", 0)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - AFK
+# =====================================================================================================================
+# APIxMJ - God Mode
+# ---------------------------------------------------------------------------------------------------------------------
+command /godmode [<player>]:
+	aliases: god
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.godmode.*" or "mj.essentials.godmode":
+			if arg-1 is set:
+				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.godmode.*" or "mj.essentials.godmode.other":
+					mj_essentials_godmode(player, arg-1, true)
+				else:
+					mj_core_permission(player, "essentials", "data.godmode.prefix", "mj.essentials.godmode.other")
+			else:
+				mj_essentials_godmode(player, player)
+		else:
+			mj_core_permission(player, "essentials", "data.godmode.prefix", "mj.essentials.godmode")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on damage:
+	if victim is player:
+		set {_name} to mj_timecount_text("godmode_%victim%", "name")
+		if {_name} isn't "none":
+			cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on damage:
+	if victim is player:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%victim's uuid%.essentials.godmode")
+		if {_check} is true:
+			cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on death:
+	if event-entity is player:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%victim's uuid%.essentials.godmode")
+		if {_check} is true:
+			cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on hunger meter change:
+	if event-entity is player:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.godmode")
+		if {_check} is true:
+			cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_godmode(player: player, target: offlineplayer, mode: boolean=false):
+	set {_check} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.godmode")
+	if {_check} is true:
+		mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.godmode", "modify", false)
+		set {_type1} to mj_editfiles_gettext("manager", "data.type.disable", {_player})
+		set {_type2} to mj_editfiles_gettext("manager", "data.type.disable", {_target})
+	else:
+		mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.godmode", "modify", true)
+		set {_type1} to mj_editfiles_gettext("manager", "data.type.enable", {_player})
+		set {_type2} to mj_editfiles_gettext("manager", "data.type.enable", {_target})
+	if {_mode} is true:
+		mj_core_message({_player}, "essentials", "data.godmode.prefix", "essentials", "data.godmode.message_me", "%{_target}%", "%{_type1}%")
+		mj_core_message({_target}, "essentials", "data.godmode.prefix", "essentials", "data.godmode.message_it", "%{_type2}%", "%{_player}%")
+	else:	
+		mj_core_message({_player}, "essentials", "data.godmode.prefix", "essentials", "data.godmode.message", "%{_type1}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - God Mode
+# =====================================================================================================================
+# APIxMJ - Invsee & Enderchest
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	mj_editfiles_boolean("temp", "data.essentials.openinv", "modify", false)
+	wait 1 second
+	loop plugins list:
+		if loop-value is "openinv":
+			mj_editfiles_boolean("temp", "data.essentials.openinv", "modify", true)
+			mj_core_logger(3, "Essentials : The OpenInv plugin is detected and activated")
+			exit loop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /invsee [<offlineplayer>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.invsee.*" or "mj.essentials.invsee":
+			if arg-1 is set:
+				mj_core_logger(1, "%player% is open inventory to %arg-1%")
+				set {_check} to mj_editfiles_boolean("temp", "data.essentials.openinv")
+				if {_check} is true:
+					player command "/openinv %arg-1%"
+				else:
+					open arg-1's inventory to player
+			else:
+				mj_core_message(player, "essentials", "data.invsee.prefix", "core", "data.argument.player")
+		else:
+			mj_core_permission(player, "essentials", "data.invsee.prefix", "mj.essentials.invsee")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /enderchest [<offlineplayer>]:
+	aliases: ec
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.enderchest.*" or "mj.essentials.enderchest":
+			if arg-1 is set:
+				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.enderchest.*" or "mj.essentials.enderchest.other":
+					mj_core_logger(1, "%player% is open enderchest to %arg-1%")
+					set {_check} to mj_editfiles_boolean("temp", "data.essentials.openinv")
+					if {_check} is true:
+						player command "/openender %arg-1%"
+					else:
+						open arg-1's enderchest to player
+				else:
+					mj_core_permission(player, "essentials", "data.enderchest.prefix", "mj.essentials.enderchest.other")
+			else:
+				open player's enderchest to player
+		else:
+			mj_core_permission(player, "essentials", "data.enderchest.prefix", "mj.essentials.enderchest")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Invsee & Enderchest
+# =====================================================================================================================
+# APIxMJ - Spy
+# ---------------------------------------------------------------------------------------------------------------------
+command /spy:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.spy":
+			set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.spy")
+			if {_check} is true:
+				mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.spy", "modify", false)
+				set {_type} to mj_editfiles_gettext("core", "data.type.disable", player)
+				mj_core_logger(1, "%player% to deactivate are spy mode")
+			else:
+				mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.spy", "modify", true)
+				set {_type} to mj_editfiles_gettext("core", "data.type.enable", player)
+				mj_core_logger(1, "%player% to activate are spy mode")
+			mj_core_message(player, "essentials", "data.spy.prefix", "essentials", "data.spy.message", "%{_type}%")
+		else:
+			mj_core_permission(player, "essentials", "data.spy.prefix", "mj.essentials.spy")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Spy
+# =====================================================================================================================
+# APIxMJ - Vanish
+# ---------------------------------------------------------------------------------------------------------------------
+command /vanish [<offlineplayer>]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.vanish.*" or "mj.essentials.vanish":
+				if arg-1 is set:
+					if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.vanish.*" or "mj.essentials.vanish.other":
+						mj_essentials_vanish(arg-1)
+					else:
+						mj_core_permission(player, "essentials", "data.vanish.prefix", "mj.essentials.vanish.other")
+				else:
+					mj_essentials_vanish(player)
+			else:
+				mj_core_permission(player, "essentials", "data.vanish.prefix", "mj.essentials.vanish")
+		if sender is console:
+			mj_essentials_vanish(arg-1)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on chat:
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.vanish")
+	if {_check} is true:
+		mj_timecount("mute_%player%", "backward", 0, 0, 5)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.vanish")
+	if {_check} is true:
+		mj_essentials_vanishactualizer()
+		mj_timecount("connect_%player%", "backward", 0, 0, 5)
+		mj_core_logger(1, "%player% at joined on vanish mode")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on quit:
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.vanish")
+	if {_check} is true:
+		mj_timecount("connect_%player%", "backward", 0, 0, 5)
+		mj_core_logger(1, "%player% at exit on vanish mode")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 2 minutes:
+	loop all players:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
+		if {_check} is true:
+			add loop-player to {_list::*}
+	if {_list::*} is set:
+		mj_core_logger(2, "List of all players with vanish mode : %{_list::*}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on pick up:
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.vanish")
+	if {_check} is true:
+		cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on server list ping:
+	set {_connected} to 0
+	loop all players:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
+		if {_check} isn't true:
+			add 1 to {_connected}
+		else:
+			add loop-player to {_list::*}
+	set fake count of online players to {_connected}
+	hide {_list::*} from the server list
+	#set the fake max players count to 50
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on death:
+	if event-entity is player:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%victim's uuid%.essentials.vanish")
+		if {_check} is true:
+			set the death message to ""
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 1 second:
+	loop all players:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
+		if {_check} is true:
+			set {_send} to mj_editfiles_gettext("essentials", "data.vanish.actionbar", loop-player)
+			mj_core_infobar(loop-player, 1, "%{_send}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_vanish(player: offlineplayer):
+	set {_check} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.vanish")
+	if {_check} is true:
+		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.vanish", "modify", false)
+		set {_type} to mj_editfiles_gettext("core", "data.type.disable", {_player})
+		if {_player} is online:
+			mj_essentials_join({_player}, "join")
+		mj_core_message({_player}, "essentials", "data.vanish.prefix", "essentials", "data.vanish.unvanished")
+	else:
+		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.vanish", "modify", true)
+		set {_type} to mj_editfiles_gettext("core", "data.type.enable", {_player})
+		if {_player} is online:
+			mj_essentials_join({_player}, "quit")
+		mj_core_message({_player}, "essentials", "data.vanish.prefix", "essentials", "data.vanish.vanished")
+	mj_essentials_vanishactualizer()
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_vanishactualizer():
+	loop all players:
+		if loop-player doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.vanish.*" or "mj.essentials.vanish":
+			add loop-player to {_list1::*}
+		set {_check1} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
+		if {_check1} is true:
+			add loop-player to {_list2::*}
+	reveal all players from all players
+	set {_check2} to mj_editfiles_boolean("essentials.config", "data.vanish.hide_on_staff")
+	if {_check2} is true:
+		hide {_list2::*} from all players
+	else:
+		hide {_list2::*} from {_list1::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Vanish
+# =====================================================================================================================
+# APIxMJ - Function Moderation
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_moderation_check_player(player: player, target: offlineplayer, type: text, reason: text="none", time: text="30d"):
+	if {_reason} is "none":
+		set {_reason} to mj_editfiles_gettext("essentials", "data.no_reason")
+	set {_format_reason} to "&a%{_player}% &6(&a%{_type}%&6) &6: &a%{_reason}%"
+	mj_essentials_warn({_target}, "%{_player}%", {_reason}, {_format_reason})
+	set {_list::*} to mj_editfiles_list("config", "data.access")
+	if {_list::*} contains "%{_target}%":
+		set {_send} to mj_editfiles_gettext("essentials", "data.kick.protect", {_player})
+		kick {_player} due to "%{_send}%"
+		stop
+	if {_player} isn't op:
+		if {_target} has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.protected":
+			set {_send} to mj_editfiles_gettext("essentials", "data.kick.protect", {_player})
+			kick {_player} due to "%{_send}%"
+			loop all players:
+				mj_core_message(loop-player, "essentials", "data.prefix", "essentials", "data.kick.broadcast", "%{_player}%", "%{_target}%")
+			stop
+	if {_type} is "ban":
+		mj_essentials_ban_player({_player}, {_target}, {_reason})
+	else if {_type} is "tempban":
+		mj_essentials_tempban_player({_player}, {_target}, {_reason}, {_time})
+	else if {_type} is "mute":
+		mj_essentials_mute_player({_player}, {_target}, {_reason})
+	else if {_type} is "tempmute":
+		mj_essentials_tempmute_player({_player}, {_target}, {_reason}, {_time})
+	else if {_type} is "kick":
+		mj_essentials_kick_player({_player}, {_target}, {_reason})
+	else if {_type} is "freeze":
+		mj_essentials_freeze_player({_player}, {_target}, {_reason})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_moderation_check_console(player: offlineplayer, type: text, reason: text="none", time: text="30d"):
+	if {_reason} is "none":
+		set {_reason} to mj_editfiles_gettext("essentials", "data.no_reason")
+	set {_format_reason} to "&a%{_player}% &6(&a%{_type}%&6) &6: &a%{_reason}%"
+	mj_essentials_warn({_player}, "Console", {_reason}, {_format_reason})
+	if {_type} is "ban":
+		mj_essentials_ban_console({_player}, {_reason})
+	else if {_type} is "tempban":
+		mj_essentials_tempban_console({_player}, {_reason}, {_time})
+	else if {_type} is "mute":
+		mj_essentials_mute_console({_player}, {_reason})
+	else if {_type} is "tempmute":
+		mj_essentials_tempmute_console({_player}, {_reason}, {_time})
+	else if {_type} is "kick":
+		mj_essentials_kick_console({_player}, {_reason})
+	else if {_type} is "freeze":
+		mj_essentials_freeze_console({_player}, {_reason})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function Moderation
+# =====================================================================================================================
+# APIxMJ - Ban
+# ---------------------------------------------------------------------------------------------------------------------
+command /ban [<offlineplayer>] [<text="none">]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.ban.*" or "mj.essentials.ban":
+				if arg-1 is set:
+					mj_essentials_moderation_check_player(player, arg-1, "ban", arg-2)
+				else:
+					mj_core_message(player, "essentials", "data.ban.prefix", "core", "data.argument.player")
+			else:
+				mj_core_permission(player, "essentials", "data.ban.prefix", "mj.essentials.ban")
+		if sender is console:
+			mj_essentials_moderation_check_console(arg-1, "ban", arg-2)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /tempban [<offlineplayer>] [<text="30d">] [<text="none">]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.ban.*" or "mj.essentials.tempban.*" or "mj.essentials.tempban":
+				if arg-1 is set:
+					mj_essentials_moderation_check_player(player, arg-1, "tempban", arg-3, arg-2)
+				else:
+					mj_core_message(player, "essentials", "data.ban.prefix", "core", "data.argument.player")
+			else:
+				mj_core_permission(player, "essentials", "data.ban.prefix", "mj.essentials.tempban")
+		if sender is console:
+			mj_essentials_moderation_check_console(arg-1, "tempban", arg-3, arg-2)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/tempban":
+	set tab completions for position 2 to "10s", "10m", "10h", "1d", "1j", "1w", "1mo", "1y" and "1a"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	set {_check1} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.ban")
+	if {_check1} is true:
+		set {_time} to mj_editfiles_date("userdata", "data.%player's uuid%.essentials.tempban")
+		if {_time} < now:
+			mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.ban", "modify", false)
+			mj_editfiles("userdata", "data.%player's uuid%.essentials.tempban", "modify", "")
+			mj_editfiles("userdata", "data.%player's uuid%.essentials.reason", "modify", "")
+			mj_core_logger(1, "%player% logs in and the ban has been purged")
+		else:
+			set {_reason} to mj_editfiles("userdata", "data.%player's uuid%.essentials.reason")
+			mj_timecount("connect_%player%", "backward", 0, 0, 5)
+			set {_check2} to mj_editfiles_boolean("essentials.config", "data.bungeecord.condition")
+			if {_check2} is true:
+				set {_server} to mj_editfiles("essentials.config", "data.bungeecord.server")
+				mj_core_message(player, "essentials", "data.tempban.prefix", "essentials", "data.tempban.info", "%{_reason}%", "%{_time}%")
+				send player to server "%{_server}%"
+			else:
+				set {_send} to mj_editfiles("essentials.config", "data.format.kick")
+				set {_sep} to mj_editfiles("essentials.config", "data.format.kick_separator")
+				replace "$0" with {_sep} in {_send}
+				set {_msg} to mj_editfiles_gettext("essentials", "data.tempban.kick_message", player)
+				replace "$1" with {_msg} in {_send}
+				set {_bak} to mj_editfiles_gettext("essentials", "data.kick.come_back", player, "%{_time}%")
+				replace "$2" with {_bak} in {_send}
+				set {_rea} to mj_editfiles_gettext("essentials", "data.kick.reason", player, {_reason})
+				replace "$3" with {_rea} in {_send}
+				kick player due to "%{_send}%"
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /unban [<offlineplayer>]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.ban.*" or "mj.essentials.unban.*" or "mj.essentials.unban":
+				if arg-1 is set:
+					mj_essentials_unban_player(player, arg-1)
+				else:
+					mj_core_message(player, "essentials", "data.ban.prefix", "core", "data.argument.player")
+			else:
+				mj_core_permission(player, "essentials", "data.ban.prefix", "mj.essentials.unban")
+		if sender is console:
+			mj_essentials_unban_console(arg-1)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /banlist:
+	executable by: player
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.ban.*" or "mj.essentials.banlist":
+				mj_essentials_banlist_player(player)
+			else:
+				mj_core_permission(player, "essentials", "data.ban.prefix", "mj.essentials.banlist")
+		if sender is console:
+			mj_essentials_banlist_console()
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_ban_player(player: player, target: offlineplayer, reason: text="none"):
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban", "modify", true)
+	mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.tempban", "modify", "")
+	set {_send} to mj_essentials_kick_format({_target}, "%{_player}%", {_reason}, "ban")
+	ban {_target} due to "%{_reason}%"
+	if {_target} is online:
+		kick {_target} due to "%{_send}%"
+	#mj_essentials_warn({_target}, "%{_player}%", {_reason})
+	mj_core_logger(1, "%{_player}% has banned %{_target}% for %{_reason}%")
+	loop all players:
+		mj_core_message(loop-player, "essentials", "data.ban.prefix", "essentials", "data.ban.broadcast", "%{_target}%", "%{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_ban_console(player: offlineplayer, reason: text="none"):
+	set {_list::*} to mj_editfiles_list("config", "data.access")
+	if {_list::*} contains "%{_player}%":
+		stop
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.ban", "modify", true)
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.tempban", "modify", "")
+	set {_send} to mj_essentials_kick_format({_player}, "Console", {_reason}, "ban")
+	ban {_player} due to "%{_reason}%"
+	if {_player} is online:
+		kick {_player} due to "%{_send}%"
+	#mj_essentials_warn({_player}, "Console", {_reason})
+	mj_core_logger(1, "Console has banned %{_player}% for %{_reason}%")
+	loop all players:
+		mj_core_message(loop-player, "essentials", "data.ban.prefix", "essentials", "data.ban.broadcast", "%{_player}%", "%{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_tempban_player(player: player, target: offlineplayer, reason: text="none", time: text):
+	set {_time} to mj_core_converter_time({_time})
+	set {_date} to now
+	add {_time} to {_date}
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban", "modify", true)
+	mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.reason", "modify", {_reason})
+	mj_editfiles_date("userdata", "data.%{_target}'s uuid%.essentials.tempban", "modify", {_date})
+	set {_send} to mj_essentials_kick_format({_target}, "%{_player}%", {_reason}, "tempban")
+	unban {_target}
+	if {_target} is online:
+		kick {_target} due to "%{_send}%"
+	#mj_essentials_warn({_target}, "%{_player}%", {_reason})
+	mj_core_logger(1, "%{_player}% temporarily banned %{_target}% during %{_time}% for %{_reason}%")
+	loop all players:
+		mj_core_message(loop-player, "essentials", "data.ban.prefix", "essentials", "data.ban.broadcast", "%{_target}%", "%{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_tempban_console(player: offlineplayer, reason: text="none", time: text):
+	set {_list::*} to mj_editfiles_list("config", "data.access")
+	if {_list::*} contains "%{_player}%":
+		stop
+	set {_time} to mj_core_converter_time({_time})
+	set {_date} to now
+	add {_time} to {_date}
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.ban", "modify", true)
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.reason", "modify", {_reason})
+	mj_editfiles_date("userdata", "data.%{_player}'s uuid%.essentials.tempban", "modify", {_date})
+	set {_send} to mj_essentials_kick_format({_player}, "Console", {_reason}, "tempban")
+	unban {_player}
+	if {_player} is online:
+		kick {_player} due to "%{_send}%"
+	#mj_essentials_warn({_player}, "Console", {_reason})
+	mj_core_logger(1, "Console temporarily banned %{_player}% during %{_time}% for %{_reason}%")
+	loop all players:
+		mj_core_message(loop-player, "essentials", "data.ban.prefix", "essentials", "data.ban.broadcast", "%{_player}%", "%{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_unban_player(player: player, target: offlineplayer):
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban", "modify", false)
+	mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.tempban", "modify", "")
+	unban {_target}
+	mj_core_message({_player}, "essentials", "data.ban.prefix", "essentials", "data.ban.unbanned", "%{_target}%")
+	mj_core_logger(1, "%{_player}% has unbanned %{_target}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_unban_console(player: offlineplayer):
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.ban", "modify", false)
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.tempban", "modify", "")
+	unban {_player}
+	mj_core_logger(1, "Console has unbanned %{_target}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_banlist_player(player: player):
+	set {_list1::*} to mj_manager_nodes("userdata")
+	loop {_list1::*}:
+		set {_target} to loop-value parsed as offlineplayer
+		set {_ban} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban")
+		if {_ban} is true:
+			set {_check} to ""
+			set {_check} to yaml value "data.%{_target}'s uuid%.essentials.tempban" from "mj.userdata"
+			if {_check} is "":
+				add {_target} to {_list2::*}
+			else:
+				add {_target} to {_list3::*}
+	if {_list2::*} isn't set:
+		add ".." to {_list2::*}
+	if {_list3::*} isn't set:
+		add ".." to {_list3::*}
+	mj_core_message({_player}, "essentials", "data.ban.prefix", "essentials", "data.ban.list", "%{_list2::*}%", "%{_list3::*}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_banlist_console():
+	set {_list1::*} to mj_manager_nodes("userdata")
+	loop {_list1::*}:
+		set {_target} to loop-value parsed as offlineplayer
+		set {_ban} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban")
+		if {_ban} is true:
+			set {_check} to ""
+			set {_check} to yaml value "data.%{_target}'s uuid%.essentials.tempban" from "mj.userdata"
+			if {_check} is "":
+				add {_target} to {_list2::*}
+			else:
+				add {_target} to {_list3::*}
+	if {_list2::*} isn't set:
+		add ".." to {_list2::*}
+	if {_list3::*} isn't set:
+		add ".." to {_list3::*}
+	set {_prefix} to mj_editfiles_gettext("essentials", "data.ban.prefix")
+	set {_send} to mj_editfiles_gettext("essentials", "data.ban.list")
+	replace "$0" with "%{_list2::*}%" in {_send}
+	replace "$0" with "%{_list3::*}%" in {_send}
+	send "%{_prefix}% %{_send}%" to console
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Ban
+# =====================================================================================================================
+# APIxMJ - Mute
+# ---------------------------------------------------------------------------------------------------------------------
+command /mute [<player>] [<text="none">]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.mute.*" or "mj.essentials.mute":
+				if arg-1 is set:
+					mj_essentials_moderation_check_player(player, arg-1, "mute", arg-2)
+				else:
+					mj_core_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+			else:
+				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.mute")
+		if sender is console:
+			mj_essentials_moderation_check_console(arg-1, "mute", arg-2)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /tempmute [<player>] [<text="30d">] [<text="none">]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.mute.*" or "mj.essentials.tempmute.*" or "mj.essentials.tempmute":
+				if arg-1 is set:
+					mj_essentials_moderation_check_player(player, arg-1, "tempmute", arg-3, arg-2)
+				else:
+					mj_core_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+			else:
+				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.tempmute")
+		if sender is console:
+			mj_essentials_moderation_check_console(arg-1, "tempmute", arg-3, arg-2)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/tempmute":
+	set tab completions for position 2 to "10s", "10m", "10h", "1d", "1j", "1w", "1mo", "1y" and "1a"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /unmute [<offlineplayer>]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.mute.*" or "mj.essentials.unmute.*" or "mj.essentials.unmute":
+				if arg-1 is set:
+					mj_essentials_unmute_player(player, arg-1)
+				else:
+					mj_core_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+			else:
+				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.unmute")
+		if sender is console:
+			mj_essentials_unmute_console(arg-1)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on chat:
+	set {_check1} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.mute")
+	if {_check1} is true:
+		set {_check2} to mj_editfiles_date("userdata", "data.%player's uuid%.essentials.tempmute")
+		if {_check2} is set:
+			if {_check2} < now:
+				mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.mute", "modify", false)
+				mj_editfiles("userdata", "data.%player's uuid%.essentials.tempmute", "modify", "")
+				mj_core_message(player, "essentials", "data.tempmute.prefix", "essentials", "data.mute.unmuted")
+			else:
+				cancel event
+				mj_core_message(player, "essentials", "data.tempmute.prefix", "essentials", "data.mute.prevent")
+				mj_core_message(player, "essentials", "data.tempmute.prefix", "essentials", "data.tempmute.wait", "%{_check2}%")
+		else:
+			cancel event
+			mj_core_message(player, "essentials", "data.mute.prefix", "essentials", "data.mute.prevent")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on command:
+	if command is "me":
+		set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.mute")
+		if {_check} is true:
+			cancel event
+			mj_core_message(player, "essentials", "data.mute.prefix", "essentials", "data.mute.prevent")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_mute_player(player: player, target: offlineplayer, reason: text="none"):
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", true)
+	mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.tempban", "modify", "")
+	mj_core_message({_player}, "essentials", "data.mute.prefix", "essentials", "data.mute.message", "%{_target}%", "%{_reason}%")
+	mj_core_message({_target}, "essentials", "data.mute.prefix", "essentials", "data.mute.muted", "%{_player}%")
+	#mj_essentials_warn({_target}, "%{_player}%", {_reason})
+	mj_core_logger(1, "%{_player}% at muted %{_target}% for %{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_mute_console(player: offlineplayer, reason: text):
+	set {_list::*} to mj_editfiles_list("config", "data.access")
+	if {_list::*} contains "%{_player}%":
+		stop
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", true)
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.tempban", "modify", "")
+	mj_core_message({_player}, "essentials", "data.mute.prefix", "essentials", "data.mute.muted", "Console")
+	#mj_essentials_warn({_player}, "Console", {_reason})
+	mj_core_logger(1, "Console at muted %{_player}% for %{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_tempmute_player(player: player, target: offlineplayer, reason: text="none", time: text):
+	set {_time} to mj_core_converter_time({_time})
+	set {_date} to now
+	add {_time} to {_date}
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", true)
+	mj_editfiles_date("userdata", "data.%{_target}'s uuid%.essentials.tempmute", "modify", {_date})
+	mj_core_message({_player}, "essentials", "data.tempmute.prefix", "essentials", "data.tempmute.message", "%{_target}%", "%{_reason}%")
+	mj_core_message({_target}, "essentials", "data.tempmute.prefix", "essentials", "data.tempmute.muted", "%{_player}%")
+	#mj_essentials_warn({_target}, "%{_player}%", {_reason})
+	mj_core_logger(1, "%{_player}% at temporarily muted %{_target}% for %{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_tempmute_console(player: offlineplayer, reason: text="none", time: text):
+	set {_list::*} to mj_editfiles_list("config", "data.access")
+	if {_list::*} contains "%{_player}%":
+		stop
+	set {_time} to mj_core_converter_time({_time})
+	set {_date} to now
+	add {_time} to {_date}
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", true)
+	mj_editfiles_date("userdata", "data.%{_player}'s uuid%.essentials.tempmute", "modify", {_date})
+	mj_core_message({_player}, "essentials", "data.tempmute.prefix", "essentials", "data.tempmute.muted", "Console")
+	#mj_essentials_warn({_player}, "Console", {_reason})
+	mj_core_logger(1, "Console at temporarily muted %{_player}% for %{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_unmute_player(player: player, target: offlineplayer):
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", false)
+	mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.tempmute", "modify", "")
+	mj_core_message({_player}, "essentials", "data.mute.prefix", "essentials", "data.mute.unmute", "%{_target}%")
+	mj_core_message({_target}, "essentials", "data.mute.prefix", "essentials", "data.mute.unmuted")
+	mj_core_logger(1, "%{_player}% is unmuted %{_target}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_unmute_console(player: offlineplayer):
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", false)
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.tempmute", "modify", "")
+	mj_core_message({_player}, "essentials", "data.mute.prefix", "essentials", "data.mute.unmuted")
+	mj_core_logger(1, "Console is unmuted %{_player}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Mute
+# =====================================================================================================================
+# APIxMJ - Kick
+# ---------------------------------------------------------------------------------------------------------------------
+command /kick [<player>] [<text="none">]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kick.*" or "mj.essentials.kick":
+				if arg-1 is set:
+					mj_essentials_moderation_check_player(player, arg-1, "kick", arg-2)
+				else:
+					mj_core_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+			else:
+				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.kick")
+		if sender is console:
+			mj_essentials_moderation_check_console(arg-1, "kick", arg-2)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_kick_player(player: player, target: offlineplayer, reason: text="none"):
+	mj_core_message({_player}, "essentials", "data.kick.prefix", "essentials", "data.kick.message", "%{_target}%", "%{_reason}%")
+	set {_send} to mj_essentials_kick_format({_target}, "%{_player}%", {_reason}, "kick")
+	if {_target} is online:
+		kick {_target} due to "%{_send}%"
+	#mj_essentials_warn({_target}, "%{_player}%", {_reason})
+	mj_core_logger(1, "%{_player}% at expluse %{_target}% for %{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_kick_console(player: offlineplayer, reason: text="none"):
+	set {_list::*} to mj_editfiles_list("config", "data.access")
+	if {_list::*} contains "%{_player}%":
+		stop
+	set {_send} to mj_essentials_kick_format({_player}, "Console", {_reason}, "kick")
+	if {_player} is online:
+		kick {_player} due to "%{_send}%"
+	#mj_essentials_warn({_player}, "Console", {_reason})
+	mj_core_logger(1, "Console at expluse %{_player}% for %{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_kick_format(player: offlineplayer, responsible: text, reason: text="none", type: text) :: text:
+	set {_send} to mj_editfiles("essentials.config", "data.format.kick")
+	set {_sep} to mj_editfiles("essentials.config", "data.format.kick_separator")
+	replace "$0" with {_sep} in {_send}
+	set {_msg} to mj_editfiles_gettext("essentials", "data.%{_type}%.kick_message", {_player})
+	replace "$1" with {_msg} in {_send}
+	set {_res} to mj_editfiles_gettext("essentials", "data.kick.responsible", {_player}, {_responsible})
+	replace "$2" with {_res} in {_send}
+	set {_rea} to mj_editfiles_gettext("essentials", "data.kick.reason", {_player}, {_reason})
+	replace "$3" with {_rea} in {_send}
+	return {_send}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Kick
+# =====================================================================================================================
+# APIxMJ - ClearChat
+# ---------------------------------------------------------------------------------------------------------------------
+command /clearchat:
+	aliases: clc
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.clearchat.*" or "mj.essentials.clearchat":
+			loop 100 times:
+				broadcast ""
+			mj_core_logger(2, "%player% cleaning up the game chat")
+			loop all players:
+				mj_core_message(loop-player, "essentials", "data.clearchat.prefix", "essentials", "data.clearchat.message", "%player%")
+		else:
+			mj_core_permission(player, "essentials", "data.clearchat.prefix", "mj.essentials.clearchat")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - ClearChat
+# =====================================================================================================================
+# APIxMJ - Warn
+# ---------------------------------------------------------------------------------------------------------------------
+command /warn [<offlineplayer>] [<text="none">]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warn.*" or "mj.essentials.warn":
+			if arg-1 is set:
+				if arg-2 is set:
+					mj_essentials_warn(player, arg-2)
+					mj_core_message(player, "essentials", "data.warn.prefix", "essentials", "data.warn.message", "%arg-1%", arg-2)
+				else:
+					mj_core_message(player, "essentials", "data.warn.prefix", "essentials", "data.warn.reasonindefined")
+			else:
+				mj_core_message(player, "essentials", "data.warn.prefix", "core", "data.argument.player")
+		else:
+			mj_core_permission(player, "essentials", "data.warn.prefix", "mj.essentials.warn")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /warns [<offlineplayer>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warn.*" or "mj.essentials.warn":
+			if arg-1 is set:
+				set {_count} to mj_manager_nodes_count("userdata", "data.%arg-1's uuid%.essentials.warn")
+				mj_core_message(player, "essentials", "data.warn.prefix", "essentials", "data.warn.read", "%arg-1%", "%{_count}%")
+				mj_core_data_read(player, "userdata", "data.%arg-1's uuid%.essentials.warn")
+			else:
+				mj_core_message(player, "essentials", "data.warn.prefix", "core", "data.argument.player")
+		else:
+			mj_core_permission(player, "essentials", "data.warn.prefix", "mj.essentials.warn")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_warn(player: offlineplayer, responsible: text, reason: text="none", format_reason: text="none"):
+	if {_reason} is "none":
+		set {_reason} to mj_editfiles_gettext("essentials", "data.no_reason")
+	mj_core_data_memory("userdata", "data.%{_player}'s uuid%.essentials.warn", {_format_reason})
+	mj_core_message({_player}, "essentials", "data.warn.prefix", "essentials", "data.warn.alert", {_responsible}, {_reason})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Warn
+# =====================================================================================================================
+# APIxMJ - Freeze
+# ---------------------------------------------------------------------------------------------------------------------
+command /freeze [<player>] [<text="none">]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.freeze.*" or "mj.essentials.freeze":
+				if arg-1 is set:
+					mj_essentials_moderation_check_player(player, arg-1, "freeze", arg-2)
+				else:
+					mj_core_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+			else:
+				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.freeze")
+		if sender is console:
+			mj_essentials_moderation_check_console(arg-1, "freeze", arg-2)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /unfreeze [<offlineplayer>]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.freeze.*" or "mj.essentials.freeze":
+				if arg-1 is set:
+					mj_essentials_unfreeze_player(player, arg-1)
+				else:
+					mj_core_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+			else:
+				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.freeze")
+		if sender is console:
+			mj_essentials_unfreeze_console(arg-1)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on any move:
+	if event-entity is player:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.freeze")
+		if {_check} is true:
+			cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on command:
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.freeze")
+	if {_check} is true:
+		if command isn't "message" or "msg" or "m" or "tell" or "reply" or "r":
+			cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on click:
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.freeze")
+	if {_check} is true:
+		cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on damage:
+	if victim is player:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%victim's uuid%.essentials.freeze")
+		if {_check} is true:
+			cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on drop:
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.freeze")
+	if {_check} is true:
+		cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_freeze_player(player: player, target: offlineplayer, reason: text="none"):
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.freeze", "modify", true)
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", true)
+	mj_core_message({_player}, "essentials", "data.freeze.prefix", "essentials", "data.freeze.message_me", "%{_target}%")
+	if {_target} is online:
+		mj_core_message({_target}, "essentials", "data.freeze.prefix", "essentials", "data.freeze.message_it_player", "%{_player}%")
+	mj_essentials_warn({_target}, "%{_player}%", {_reason})
+	mj_core_logger(1, "%{_player}% at freeze %{_target}% for %{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_freeze_console(player: offlineplayer, reason: text="none"):
+	set {_list::*} to mj_editfiles_list("config", "data.access")
+	if {_list::*} contains "%{_player}%":
+		stop
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.freeze", "modify", true)
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", true)
+	if {_player} is online:
+		mj_core_message({_player}, "essentials", "data.freeze.prefix", "essentials", "data.freeze.message_it_console")
+		set {_send} to mj_editfiles_gettext("essentials", "data.freeze.alert")
+		replace "$0" with {_reason} in {_send}
+		mj_core_logger(1, {_send})
+	mj_essentials_warn({_player}, "Console", {_reason})
+	mj_core_logger(1, "Console at freeze %{_player}% for %{_reason}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_unfreeze_player(player: player, target: offlineplayer):
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.freeze", "modify", false)
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", false)
+	mj_core_message({_player}, "essentials", "data.freeze.prefix", "essentials", "data.unfreeze.message_me", "%{_target}%")
+	if {_target} is online:
+		mj_core_message({_target}, "essentials", "data.freeze.prefix", "essentials", "data.unfreeze.message_it", "%{_player}%")
+	mj_core_logger(1, "%{_player}% at unfreeze %{_target}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_unfreeze_console(player: offlineplayer):
+	set {_list::*} to mj_editfiles_list("config", "data.access")
+	if {_list::*} contains "%{_player}%":
+		stop
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.freeze", "modify", false)
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", false)
+	if {_player} is online:
+		mj_core_message({_player}, "essentials", "data.freeze.prefix", "essentials", "data.unfreeze.message_it", "Console")
+	mj_core_logger(1, "Console at unfreeze %{_player}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Freeze
+# =====================================================================================================================
+# APIxMJ - Spawn
+# ---------------------------------------------------------------------------------------------------------------------
+command /spawn:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.spawn.*" or "mj.essentials.spawn":
+			set {_tp} to mj_core_location("essentials.config", "data.spawn")
+			mj_essentials_teleport(player, "spawn", {_tp})
+		else:
+			mj_core_permission(player, "essentials", "data.spawn.prefix", "mj.essentials.spawn")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /setspawn:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.spawn.*" or "mj.essentials.setspawn":
+			mj_core_location("essentials.config", "data.spawn", "modify", player)
+			mj_core_message(player, "essentials", "data.spawn.prefix", "essentials", "data.spawn.create")
+		else:
+			mj_core_permission(player, "essentials", "data.spawn.prefix", "mj.essentials.setspawn")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Spawn
+# =====================================================================================================================
+# APIxMJ - Lobby
+# ---------------------------------------------------------------------------------------------------------------------
+command /lobby:
+	aliases: hub
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.lobby.*" or "mj.essentials.lobby":
+			set {_mode} to mj_editfiles_boolean("manager.config", "data.bungeecord.condition")
+			if {_mode} is true:
+				set {_server} to mj_editfiles("manager.config", "data.bungeecord.server")
+				send player to server "%{_server}%"			
+			else:
+				set {_tp} to mj_core_location("essentials.config", "data.lobby")
+				mj_essentials_teleport(player, "lobby", {_tp})
+		else:
+			mj_core_permission(player, "essentials", "data.lobby.prefix", "mj.essentials.lobby")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /setlobby:
+	aliases: sethub
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.lobby.*" or "mj.essentials.setlobby":
+			mj_core_location("essentials.config", "data.lobby", "modify", player)
+			mj_core_message(player, "essentials", "data.lobby.prefix", "essentials", "data.lobby.create")
+		else:
+			mj_core_permission(player, "essentials", "data.lobby.prefix", "mj.essentials.lobby")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Lobby
+# =====================================================================================================================
+# APIxMJ - TP
+# ---------------------------------------------------------------------------------------------------------------------
+command /t [<player>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.tp.*" or "mj.essentials.tp":
+			if arg-1 is set:
+				mj_essentials_back(player)
+				mj_core_message(player, "essentials", "data.teleport.prefix", "essentials", "data.teleport.me_to_me", "%arg-1%")
+				set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.vanish")
+				if {_check} is false:
+					mj_core_message(arg-1, "essentials", "data.teleport.prefix", "essentials", "data.teleport.me_to_it", "%player%")
+				teleport player at arg-1
+			else:
+				mj_core_message(player, "essentials", "data.teleport.prefix", "core", "data.argument.player")
+		else:
+			mj_core_permission(player, "essentials", "data.teleport.prefix", "mj.essentials.tp")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /s [<player>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.tp.*" or "mj.essentials.tp":
+			if arg-1 is set:
+				mj_essentials_back(arg-1)
+				mj_core_message(player, "essentials", "data.teleport.prefix", "essentials", "data.teleport.it_to_me", "%arg-1%")
+				mj_core_message(arg-1, "essentials", "data.teleport.prefix", "essentials", "data.teleport.it_to_it", "%player%")
+				teleport arg-1 at player
+			else:
+				mj_core_message(player, "essentials", "data.teleport.prefix", "core", "data.argument.player")
+		else:
+			mj_core_permission(player, "essentials", "data.teleport.prefix", "mj.essentials.tp")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /rtp:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.rtp.*" or "mj.essentials.rtp":
+			if player doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.rtp.*" or "mj.essentials.rtp.bypass":
+				set {_check} to mj_editfiles_boolean("essentials.config", "data.teleport.mustbeatspawn")
+				if {_check} is true:
+					if "%region at player%" contains "spawn":
+						mj_essentials_teleport_random(player)
+					else:
+						mj_core_message(player, "essentials", "data.teleport.prefix", "essentials", "data.teleport.inspawn")
+				else:
+					mj_essentials_teleport_random(player)
+			else:
+				mj_essentials_teleport_random(player)
+		else:
+			mj_core_permission(player, "essentials", "data.teleport.prefix", "mj.essentials.rtp")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_teleport_random(player: player):
+	set {_limit1} to mj_editfiles_number("essentials.config", "data.teleport.random_limit")
+	set {_limit2} to "-%{_limit1}%" parsed as number
+	set {_x} to a random number from 150 to {_limit1}
+	set {_z} to a random number from 150 to {_limit1}
+	if chance of 50%:
+		set {_x} to a random number from -150 to {_limit2}
+	if chance of 50%:
+		set {_z} to a random number from -150 to {_limit2}
+	set {_world} to {_player}'s world
+	set {_result} to location({_x}, 200, {_z}, {_world}, 0, 0)
+	mj_essentials_teleport({_player}, "tpa", {_result})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_teleport(player: player, type: text, tp: location, info1: text="", info2: text="", other: boolean=false):
+	set {_name} to mj_timecount_text("%{_type}%_%{_player}%", "name")
+	if {_name} is "none":
+		if {_player} doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.%{_type}%.*" or "mj.essentials.%{_type}%.bypass":
+			mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.teleport.wait")
+			set {_xyz1} to mj_core_location_viewer({_player})
+			wait 5 seconds
+			set {_xyz2} to mj_core_location_viewer({_player})
+			if {_xyz1} is {_xyz2}:
+				mj_essentials_back({_player})		
+				set {_h} to mj_editfiles_number("essentials.config", "data.teleport.time.hour")
+				set {_m} to mj_editfiles_number("essentials.config", "data.teleport.time.minute")
+				set {_s} to mj_editfiles_number("essentials.config", "data.teleport.time.second")
+				mj_timecount("%{_type}%_%{_player}%", "backward", {_h}, {_m}, {_s})
+				mj_timecount("godmode_%{_player}%", "backward", 0, 0, 10)
+				if {_other} is true:
+					mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.%{_type}%.message_other", {_info1}, {_info2})
+				else:
+					mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.%{_type}%.message", {_info1}, {_info2})
+				teleport {_player} to {_tp}
+			else:
+				mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.teleport.cancel")
+		else:
+			mj_essentials_back({_player})
+			if {_other} is true:
+				mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.%{_type}%.message_other", {_info1}, {_info2})
+			else:
+				mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.%{_type}%.message", {_info1}, {_info2})
+			mj_timecount("godmode_%{_player}%", "backward", 0, 0, 10)
+			teleport {_player} to {_tp}
+	else:
+		set {_time} to mj_timecount_viewer("%{_type}%_%{_player}%")
+		mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "core", "data.time.wait", {_time})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - TP
+# =====================================================================================================================
+# APIxMJ - TPA
+# ---------------------------------------------------------------------------------------------------------------------
+command /tpa [<player>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.tpa.*" or "mj.essentials.tpa":
+			if arg-1 is set:
+				mj_essentials_tpa_request(player, arg-1)
+			else:
+				mj_core_message(player, "essentials", "data.tpa.prefix", "core", "data.argument.player")
+		else:
+			mj_core_permission(player, "essentials", "data.tpa.prefix", "mj.essentials.tpa")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /tpahere [<player>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.tpa.*" or "mj.essentials.tpahere":
+			if arg-1 is set:
+				mj_essentials_tpa_request(player, arg-1, true)
+			else:
+				mj_core_message(player, "essentials", "data.tpa.prefix", "core", "data.argument.player")
+		else:
+			mj_core_permission(player, "essentials", "data.tpa.prefix", "mj.essentials.tpahere")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /tpyes:
+	executable by: player
+	trigger:
+		mj_essentials_tpa_yes(player)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /tpno:
+	executable by: player
+	trigger:
+		mj_essentials_tpa_no(player)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_tpa_request(player: player, target: player, mode: boolean=false):
+	set {_name} to mj_timecount_text("tpa_%{_player}%", "name")
+	if {_name} is "none":
+		mj_editfiles("temp", "data.%{_target}'s uuid%.tpa.player", "modify", {_player}'s uuid)
+		mj_editfiles_boolean("temp", "data.%{_target}'s uuid%.tpa.type", "modify", {_mode})
+		mj_core_message({_player}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.send", "%{_target}%")
+		if {_mode} is true:
+			mj_core_message({_target}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.receive_to_it", "%{_player}%")
+		else:
+			mj_core_message({_target}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.receive_to_me", "%{_player}%")
+		mj_core_request({_target}, "essentials", "data.tpa.prefix", "/tpyes", "/tpno")
+		set {_send} to mj_editfiles_gettext("essentials", "data.tpa.bossbar", {_target}, "%{_player}%")
+		mj_core_bossbar({_target}, "cooldown", {_send}, 30)
+	else:
+		set {_time} to mj_timecount_viewer("tpa_%{_player}%")
+		mj_core_message({_player}, "essentials", "data.tpa.prefix", "core", "data.time.wait", {_time})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_tpa_teleport(player: player, target: player, mode: boolean=false):
+	mj_core_message({_target}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.accepted", "%{_player}%")
+	if {_mode} is true:
+		set {_temp} to {_player}
+		set {_player} to {_target}
+		set {_target} to {_temp}
+		mj_core_message({_player}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.accepted_to_it", "%{_target}%")
+	else:
+		mj_core_message({_player}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.accepted_to_me", "%{_target}%")
+	mj_essentials_teleport({_target}, "tpa", {_player}'s location)
+	mj_editfiles("temp", "data.%{_player}'s uuid%.tpa", "delete")
+	mj_core_bossbar({_player}, "delete")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_tpa_yes(player: player):
+	set {_target} to mj_editfiles("temp", "data.%{_player}'s uuid%.tpa.player")
+	if {_target} is set:
+		set {_target} to {_target} parsed as offlineplayer
+		if {_target} is online:
+			set {_type} to mj_editfiles_boolean("temp", "data.%{_player}'s uuid%.tpa.type")
+			if {_type} is true:
+				mj_essentials_tpa_teleport({_player}, {_target}, true)
+			else:
+				mj_essentials_tpa_teleport({_player}, {_target})
+		else:
+			mj_core_message({_player}, "essentials", "data.tpa.prefix", "essentials", "data.tp.disconnect")
+	else:
+		mj_core_message({_player}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.empty")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_tpa_no(player: player):
+	set {_target} to mj_editfiles("temp", "data.%{_player}'s uuid%.tpa.player")
+	if {_target} is set:
+		set {_target} to {_target} parsed as offlineplayer
+		if {_target} is online:
+			mj_core_message({_target}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.refused", "%{_player}%")
+		set {_type} to mj_editfiles_boolean("temp", "data.%{_player}'s uuid%.tpa.type")
+		if {_type} is true:
+			mj_core_message({_player}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.refused_to_it", "%{_target}%")
+		else:
+			mj_core_message({_player}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.refused_to_me", "%{_target}%")
+		mj_editfiles("temp", "data.%{_player}'s uuid%.tpa", "delete")
+		mj_core_bossbar({_player}, "delete")
+	else:
+		mj_core_message({_player}, "essentials", "data.tpa.prefix", "essentials", "data.tpa.empty")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - TPA
+# =====================================================================================================================
+# APIxMJ - Back
+# ---------------------------------------------------------------------------------------------------------------------
+command /back:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.back.*" or "mj.essentials.back":
+			set {_name} to mj_timecount_text("back_%{_player}%", "name")
+			if {_name} is "none":
+				set {_tp} to mj_core_location("userdata", "data.%player's uuid%.essentials.back")
+				mj_essentials_teleport(player, "back", {_tp})
+			else:
+				set {_time} to mj_timecount_viewer("back_%{_player}%")
+				mj_core_message({_player}, "essentials", "data.back.prefix", "core", "data.time.wait", {_time})
+		else:
+			mj_core_permission(player, "essentials", "data.back.prefix", "mj.essentials.back")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on death:
+	if victim is player:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.back.*" or "mj.essentials.back.death":
+			mj_essentials_back(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_back(player: player):
+	mj_core_location("userdata", "data.%{_player}'s uuid%.essentials.back", "modify", {_player})
+	mj_core_logger(5, "%{_player}% defined his return : %{_player}'s location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Back
+# =====================================================================================================================
+# APIxMJ - Home
+# ---------------------------------------------------------------------------------------------------------------------
+command /home [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home":
+			if arg-1 is set:
+				mj_essentials_home_tp(player, arg-1)
+			else:
+				mj_core_message(player, "essentials", "data.home.prefix", "core", "data.argument.name")
+		else:
+			mj_core_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/home" or "/sethome" or "/delhome":
+	set {_list1::*} to mj_core_id_converter("userdata", "data.%player's uuid%.essentials.home")
+	if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home.other":
+		set {_list2::*} to mj_manager_nodes("userdata")
+		loop {_list2::*}:
+			set {_player} to mj_editfiles("userdata", "data.%loop-value%.pseudo")
+			add {_player} to {_list1::*}
+	set tab completions for position 1 to {_list1::*}
+	if tab arg-1 contain ":":
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home.other":
+			set {_arg::*} to tab arg-1 split at ":"
+			set {_target} to {_arg::1} parsed as offlineplayer
+			set {_list3::*} to mj_essentials_home_list(player, true, true, {_target})
+			loop {_list3::*}:
+				add "%{_target}%:%loop-value%" to {_list4::*}
+			set tab completions for position 1 to {_list4::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /sethome [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home":
+			if arg-1 is set:
+				mj_essentials_home_define(player, arg-1)
+			else:
+				mj_core_message(player, "essentials", "data.home.prefix", "core", "data.argument.name")
+		else:
+			mj_core_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /delhome [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home":
+			if arg-1 is set:
+				mj_essentials_home_delete(player, arg-1)
+			else:
+				mj_core_message(player, "essentials", "data.home.prefix", "essentials", "data.home.nohome")
+		else:
+			mj_core_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /homes:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home":
+			mj_essentials_home_list(player)
+		else:
+			mj_core_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_home_tp(player: player, name: text):
+	if {_name} contain ":":
+		if {_player} has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home.other":
+			set {_arg::*} to {_name} split at ":"
+			set {_target} to {_arg::1} parsed as offlineplayer
+			if {_arg::2} isn't empty:
+				set {_id} to mj_core_id_checker("userdata", "data.%{_target}'s uuid%.essentials.home", {_arg::2})
+				if {_id} is set:
+					set {_tp} to mj_core_location("userdata", "data.%{_target}'s uuid%.essentials.home.%{_id}%")
+					mj_essentials_teleport({_player}, "home", {_tp}, {_arg::2}, "%{_target}%", true)
+				else:
+					mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.no_find")
+			else:
+				mj_essentials_home_list({_player}, true, true, {_target})
+		else:
+			mj_core_permission({_player}, "essentials", "data.home.prefix", "mj.essentials.home.other")
+	else:
+		set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.essentials.home", {_name})
+		if {_id} is set:
+			set {_tp} to mj_core_location("userdata", "data.%{_player}'s uuid%.essentials.home.%{_id}%")
+			mj_essentials_teleport({_player}, "home", {_tp}, {_name})
+		else:
+			mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.no_find")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_home_define(player: player, name: text):
+	set {_name} to mj_core_converter_name({_name})
+	set {_rank} to mj_ranker({_player}, "source")
+	set {_limit} to mj_editfiles_number("essentials.config", "data.home_limit.%{_rank}%")
+	if {_limit} is 0:
+		set {_limit} to 1
+	set {_count} to mj_manager_nodes_count("userdata", "data.%{_player}'s uuid%.essentials.home")
+	set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.essentials.home", {_name})
+	if {_id} is "none":
+		if {_count} >= {_limit}:
+			mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.limit")
+			stop
+		else:
+			set {_id} to mj_core_id_generator()
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.home.%{_id}%.name", "modify", {_name})
+	mj_core_location("userdata", "data.%{_player}'s uuid%.essentials.home.%{_id}%", "modify", {_player})
+	mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.define", {_name})
+	mj_core_logger(3, "%{_player}% has created the home : %{_name}% (%{_id}%) in %{_player}'s location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_home_delete(player: player, name: text):
+	if {_name} contain ":":
+		if {_player} has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home.other":
+			set {_arg::*} to {_name} split at ":"
+			set {_target} to {_arg::1} parsed as offlineplayer
+			if {_arg::2} isn't empty:
+				set {_id} to mj_core_id_checker("userdata", "data.%{_target}'s uuid%.essentials.home", {_arg::2})
+				if {_id} is set:
+					mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.delete_other", {_arg::2}, "%{_target}%")
+					mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.home.%{_id}%", "delete")
+					mj_core_logger(3, "%{_player}% has deleted the home : %{_arg::2}% (%{_id}%) of %{_target}%")
+				else:
+					mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.no_find")
+			else:
+				mj_essentials_home_list({_player}, true, true, {_target})
+		else:
+			mj_core_permission({_player}, "essentials", "data.home.prefix", "mj.essentials.home.other")
+	else:
+		set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.essentials.home", {_name})
+		if {_id} is set:
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.home.%{_id}%", "delete")
+			mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.delete", {_name})
+			mj_core_logger(3, "%{_player}% has deleted the home : %{_name}% (%{_id}%)")
+		else:
+			mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.no_find")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_home_list(player: player, mode: boolean=false, other: boolean=false, target: offlineplayer="none") :: objects:
+	if {_other} is true:
+		set {_list::*} to mj_core_id_converter("userdata", "data.%{_target}'s uuid%.essentials.home")
+	else:
+		set {_list::*} to mj_core_id_converter("userdata", "data.%{_player}'s uuid%.essentials.home")
+	if {_mode} isn't true:
+		if {_list::*} doesn't contain "none":
+			if {_other} is true:
+				mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.list_other", "%{_target}%", "%{_list::*}%")
+			else:
+				mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.list", "%{_list::*}%")
+		else:
+			mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.no_home")
+		stop
+	return {_list::*}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Home
+# =====================================================================================================================
+# APIxMJ - Warp
+# ---------------------------------------------------------------------------------------------------------------------
+command /warp [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warp.*" or "mj.essentials.warp":
+			if arg-1 is set:
+				mj_essentials_warp_tp(player, arg-1)
+			else:
+				mj_core_message(player, "essentials", "data.warp.prefix", "essentials", "data.warp.delerror")
+		else:
+			mj_core_permission(player, "essentials", "data.warp.prefix", "mj.essentials.warp")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/warp" or "/setwarp" or "/delwarp":
+	set {_list::*} to mj_essentials_warp_list(player, true)
+	set tab completions for position 1 to {_list::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /setwarp [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warp.*" or "mj.essentials.setwarp":
+			if arg-1 is set:
+				mj_essentials_warp_define(player, arg-1)
+			else:
+				mj_core_message(player, "essentials", "data.warp.prefix", "core", "data.argument.name")
+		else:
+			mj_core_permission(player, "essentials", "data.warp.prefix", "mj.essentials.setwarp")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /delwarp [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warp.*" or "mj.essentials.setwarp":
+			if arg-1 is set:
+				mj_essentials_warp_delete(player, arg-1)
+			else:
+				mj_core_message(player, "essentials", "data.warp.prefix", "core", "data.argument.name")
+		else:
+			mj_core_permission(player, "essentials", "data.warp.prefix", "mj.essentials.setwarp")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /warps:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warp.*" or "mj.essentials.warp":
+			mj_essentials_warp_list(player, false)
+		else:
+			mj_core_permission(player, "essentials", "data.warp.prefix", "mj.essentials.warp")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_warp_tp(player: player, name: text):
+	set {_id} to mj_core_id_checker("essentials.data", "data.warp", {_name})
+	if {_id} is set:
+		set {_tp} to mj_core_location("essentials.data", "data.warp.%{_id}%")
+		set {_check} to mj_editfiles_boolean("essentials.data", "data.warp.%{_id}%.permission")
+		if {_check} is true:
+			if {_player} has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warp.*" or "mj.essentials.warp.%{_name}%":
+				mj_essentials_teleport({_player}, "warp", {_tp}, {_name})
+			else:
+				mj_core_permission({_player}, "essentials", "data.warp.prefix", "mj.essentials.warp.%{_name}%")
+		else:
+			mj_essentials_teleport({_player}, "warp", {_tp}, {_name})
+	else:
+		mj_core_message({_player}, "essentials", "data.warp.prefix", "essentials", "data.teleport.error")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_warp_define(player: player, name: text):
+	set {_name} to mj_core_converter_name({_name})
+	set {_id} to mj_core_id_checker("essentials.data", "data.warp", {_name})
+	if {_id} is "none":
+		set {_id} to mj_core_id_generator()
+	mj_editfiles("essentials.data", "data.warp.%{_id}%.name", "modify", {_name})
+	mj_editfiles_boolean("essentials.data", "data.warp.%{_id}%.permission", "modify", false)
+	if {_player}'s tool is air:
+		mj_editfiles("essentials.data", "data.warp.%{_id}%.item", "modify", "compass")
+	else:
+		mj_editfiles_stock("essentials.data", "data.warp.%{_id}%.item", "modify", {_player}'s tool)
+	mj_core_location("essentials.data", "data.warp.%{_id}%", "modify", {_player})
+	mj_core_message({_player}, "essentials", "data.warp.prefix", "essentials", "data.warp.define", {_name})
+	mj_core_logger(1, "%{_player}% has created the warp : %{_name}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_warp_delete(player: player, name: text):
+	set {_id} to mj_core_id_checker("essentials.data", "data.warp", {_name})
+	if {_id} is set:
+		mj_editfiles("essentials.data", "data.warp.%{_id}%", "delete")
+		mj_core_message({_player}, "essentials", "data.warp.prefix", "essentials", "data.warp.delete", {_name})
+		mj_core_logger(1, "%{_player}% has deleted the warp : %{_name}%")
+	else:
+		mj_core_message({_player}, "essentials", "data.warp.prefix", "essentials", "data.warp.no_find")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_essentials_warp_list(player: player, mode: boolean=false) :: objects:
+	set {_list::*} to mj_core_id_converter("essentials.data", "data.warp")
+	if {_mode} isn't true:
+		if {_list::*} doesn't contain "none":
+			mj_core_message({_player}, "essentials", "data.warp.prefix", "essentials", "data.warp.list", "%{_list::*}%")
+		else:
+			mj_core_message({_player}, "essentials", "data.warp.prefix", "essentials", "data.warp.no_warp")
+		stop
+	return {_list::*}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Warp
+# =====================================================================================================================

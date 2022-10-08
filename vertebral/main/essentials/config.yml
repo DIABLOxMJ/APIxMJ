@@ -1,0 +1,151 @@
+data:
+    maintenance:
+        # Whether or not to activate maintenance to work without the presence of players, default : false
+        condition: false
+    link:
+        # The link to the discord of the server when there is maintenance where various skript will use it to display it, default : http://www.your_link.com
+        discord: http://www.your_link.com
+        # The link to the server website various skript will use to display it, default : http://www.your_link.com
+        website: http://www.your_link.com
+    afk:
+        # Whether or not to enable the server to kick players from the server for inactivity, default : true
+        kick: true
+        # The time limit to know before the away mode activates to the player, default : 15
+        limit: 15
+    money:
+        # The starting money when the player logs in for the first time, default : 250
+        starting: 250
+        # If we impose a limit of possible money in its storage, it is possible to increase it thanks to the improvement in data.yml, default : false
+        limit: false
+        # If we have to display it in the infobar the activity of his money, default : false
+        infobar: false
+        # Whether or not to activate the automatic updating of the economic classification, default : false
+        economic_ranking_updater: false
+    bank:
+        # Whether or not to enable the banking system on the server, default : false
+        condition: false
+        # If we impose a limit of possible money in its storage, it is possible to increase it thanks to the improvement in data.yml, default : false
+        limit: false
+        # Specify which source to use for the banking system, default : essentials
+        source: essentials
+        # A tax system for each transaction between the wallet and the bank
+        taxe:
+            # We withdraw 15% of the amount to be deposited in the bank, default : 15
+            add: 15
+            # We withdraw 5% of the amount to be recovered from the bank, default : 5
+            remove: 5
+    clearlag:
+        # Whether or not to enable the automatic entity cleanup system, default : false
+        condition: false
+        # The time between each cleaning provided that the automatic mode is activated
+        time:
+            # In second, default : 0
+            second: 0
+            # In minute, default : 40
+            minute: 40
+            # In hour, default : 0
+            hour: 0
+        # A filtration system that saves certain type of entity, default : armor stand
+        list:
+        - armor stand
+    # Whether or not to enable the display of vanilla death messages, default : true
+    death_message: true
+    teleport:
+        # The maximum distance when randomly teleporting, default : 3000
+        random_limit: 3000
+        # Whether or not to allow random teleportation only to server spawn or not, default : false
+        must_beat_spawn: false
+        # How long before each teleport
+        time:
+            # In second, default : 30
+            second: 30
+            # In minute, default : 0
+            minute: 0
+            # In hour, default : 0
+            hour: 0
+    heal:
+        # The price for using the /heal command, free with bypass permission, default : 1750
+        price: 1750
+        # How long before each use
+        time:
+            # In second, default : 0
+            second: 0
+            # In minute, default : 30
+            minute: 30
+            # In hour, default : 0
+            hour: 0
+    feed:
+        # The price for using the /feed command, free with bypass permission, default : 650
+        price: 650
+        # How long before each use
+        time:
+            # In second, default : 0
+            second: 0
+            # In minute, default : 15
+            minute: 15
+            # In hour, default : 0
+            hour: 0
+    repair:
+        # The price for using the /repair command, free with bypass permission, default : 750
+        price: 750
+        # How long before each use
+        time:
+            # In second, default : 0
+            second: 0
+            # In minute, default : 15
+            minute: 15
+            # In hour, default : 0
+            hour: 0
+    vanish:
+        # If we have to hide the players invisible even to the staff member, default : false
+        hide_on_staff: false
+    home_limit:
+        # The number of home possible per rank, default : "default: 3"
+        default: 3
+    quiet_command_list:
+    # The command list that will be unusable on players in do not disturb mode, default : message, msg, m, tell, tpa and tpahere
+    - message
+    - msg
+    - m
+    - tell
+    - tpa
+    - tpahere
+    format:
+        # The type of player login message, default : "&6[&a+&6] &e$0"
+        join: "&6[&a+&6] &e$0"
+        # The type of message when the player disconnects, default : "&6[&c-&6] &e$0"
+        quit: "&6[&c-&6] &e$0"
+        # The format of messages in game chat provided that "custom_chat=true" and "chat_priority=essentials" in "config.yml" of "core", default : "&6[&r$0&6] &r$1&6: &r$2"
+        chat: "&6[&r$0&6] &r$1&6: &r$2"
+        # The format of private messages, default : "&6[&b$0&e->&b$1&6] :&r $2"
+        message: "&6[&b$0&e->&b$1&6] :&r $2"
+        # The format for displaying player names on the tablist, default : "&6[&r$0&6] &r$1"
+        tablist: "&6[&r$0&6] &r$1"
+        # The format of personal messages, default : "&c$0&6: &r$1"
+        staffchat: "&c$0&6: &r$1"
+        # The economic ranking display model, default : "&6[&a$0&6] &b$1 &6: &a$2"
+        balance: "&6[&a$0&6] &b$1 &6: &a$2"
+        # The display format of the message during a kick and ban, default : "$0%nl%%nl%$1%nl%%nl%$0%nl%%nl%$2%nl%$3%nl%%nl%$0%nl%"
+        kick: '$0
+
+
+            $1
+
+
+            $0
+
+
+            $2
+
+            $3
+
+
+            $0
+
+            '
+        # A separator visible only during a kick and ban, default : "&6-----------------------------------"
+        kick_separator: "&6-----------------------------------"
+    # The location of the server center in general that of the spawn, default : ""
+    spawn: ''
+    # Local lobby location there is no bungeecord, default : ""
+    lobby: ''

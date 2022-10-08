@@ -6,7 +6,6 @@ function mj_files_core():
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.data"
 	load yaml "plugins/APIxMJ/%{_folder}%/temp.yml" as "mj.temp"
-	load yaml "plugins/APIxMJ/%{_folder}%/timer.yml" as "mj.timer"
 	load yaml "plugins/APIxMJ/%{_folder}%/stats.yml" as "mj.stats"
 	load yaml "plugins/APIxMJ/%{_folder}%/inventory.yml" as "mj.inventory"
 	load yaml "plugins/APIxMJ/%{_folder}%/userdata.yml" as "mj.userdata"
@@ -22,7 +21,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2022.10.06.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2022.10.08.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -642,25 +641,25 @@ function mj_core_inventory_restore(player: player, type: text):
 function mj_timecount(name: text="default", type: text="backward", hour: number=0, minute: number=0, second: number=0, cmd: text="none", player: offlineplayer="none", cdt: text="none"):
 	if {_type} is "backward" or "forward":
 		if {_type} is "backward":
-			set yaml value "data.%{_name}%.timer.mode" from "mj.timer" to "backward"
+			set yaml value "data.mj_sys_timer.%{_name}%.timer.mode" from "mj.temp" to "backward"
 		else:
-			set yaml value "data.%{_name}%.timer.mode" from "mj.timer" to "forward"
-		set yaml value "data.%{_name}%.timer.name" from "mj.timer" to {_name}
-		set yaml value "data.%{_name}%.timer.command" from "mj.timer" to {_cmd}
-		set yaml value "data.%{_name}%.timer.condition" from "mj.timer" to {_condition}
-		set yaml value "data.%{_name}%.timer.owner" from "mj.timer" to {_player}
-		set yaml value "data.%{_name}%.timer.hour" from "mj.timer" to {_hour}
-		set yaml value "data.%{_name}%.timer.minute" from "mj.timer" to {_minute}
-		set yaml value "data.%{_name}%.timer.second" from "mj.timer" to {_second}
-		save yaml "mj.timer"
+			set yaml value "data.mj_sys_timer.%{_name}%.timer.mode" from "mj.temp" to "forward"
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.name" from "mj.temp" to {_name}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.command" from "mj.temp" to {_cmd}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.condition" from "mj.temp" to {_condition}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.owner" from "mj.temp" to {_player}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.hour" from "mj.temp" to {_hour}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.minute" from "mj.temp" to {_minute}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.second" from "mj.temp" to {_second}
+		save yaml "mj.temp"
 		mj_core_logger(3, "Chrono Start : %{_name}%, Owner : %{_player}%, Type : %{_type}%, Command : %{_cmd}%, Condition : %{_cdt}%, Time : %{_hour}%h %{_minute}%m %{_second}%s")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_timecount_text(name: text="default", source: text="name", mode: text="extract") :: text:
 	if {_mode} is "delete":
-		mj_editfiles("timer", "data.%{_name}%", "delete")
+		mj_editfiles("temp", "data.mj_sys_timer.%{_name}%", "delete")
 	else:	
-		set {_return} to mj_editfiles("timer", "data.%{_name}%.timer.%{_source}%")
+		set {_return} to mj_editfiles("temp", "data.mj_sys_timer.%{_name}%.timer.%{_source}%")
 		if {_return} isn't set:
 			set {_return} to "none"
 	return {_return}
@@ -668,13 +667,13 @@ function mj_timecount_text(name: text="default", source: text="name", mode: text
 function mj_timecount_number(name: text="default", source: text="second", mode: text="extract", value: number=0) :: number:
 	if {_source} is "hour" or "minute" or "second":
 		if {_mode} is "modify":
-			mj_editfiles_number("timer", "data.%{_name}%.timer.%{_source}%", "modify", {_value})
+			mj_editfiles_number("temp", "data.mj_sys_timer.%{_name}%.timer.%{_source}%", "modify", {_value})
 		else:
-			set {_return} to mj_editfiles_number("timer", "data.%{_name}%.timer.%{_source}%")
+			set {_return} to mj_editfiles_number("temp", "data.mj_sys_timer.%{_name}%.timer.%{_source}%")
 	return {_return}
 # ---------------------------------------------------------------------------------------------------------------------
 every 1 second:
-	set {_list::*} to mj_manager_nodes("timer")
+	set {_list::*} to mj_manager_nodes("temp", "data.mj_sys_timer")
 	if {_list::*} is set:
 		loop {_list::*}:
 			set {_mode} to mj_timecount_text(loop-value, "mode")

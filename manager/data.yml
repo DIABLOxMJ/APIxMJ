@@ -132,24 +132,20 @@ data:
                     '1': mj.config
                     '2': mj.data
                     '3': mj.temp
-                    '4': mj.timer
-                    '5': mj.stats
-                    '6': mj.inventory
-                    '7': mj.userdata
+                    '4': mj.stats
+                    '5': mj.inventory
+                    '6': mj.userdata
                 reset:
                     '1':
                         file: mj.temp
                         data: data
                     '2':
-                        file: mj.timer
-                        data: data
-                    '3':
                         file: mj.stats
                         data: data
-                    '4':
+                    '3':
                         file: mj.inventory
                         data: data
-                    '5':
+                    '4':
                         file: mj.userdata
                         data: data
                 item: command block
@@ -578,24 +574,20 @@ data:
                     '1': mj.config
                     '2': mj.data
                     '3': mj.temp
-                    '4': mj.timer
-                    '5': mj.stats
-                    '6': mj.inventory
-                    '7': mj.userdata
+                    '4': mj.stats
+                    '5': mj.inventory
+                    '6': mj.userdata
                 reset:
                     '1':
                         file: mj.temp
                         data: data
                     '2':
-                        file: mj.timer
-                        data: data
-                    '3':
                         file: mj.stats
                         data: data
-                    '4':
+                    '3':
                         file: mj.inventory
                         data: data
-                    '5':
+                    '4':
                         file: mj.userdata
                         data: data
                 item: command block

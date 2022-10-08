@@ -1,0 +1,30 @@
+data:
+    # Whether or not we must have silk touch to harvest a spawner, default : false
+    silk_touch: false
+    # The probability that it works with silk touch, default : 100
+    silk_touch_pourcent: 100
+    # This is settings for a dedicated spawner pickaxe
+    custom_pickaxe:
+        # Whether or not you need a special pickaxe to harvest the spawner, default : false
+        condition: false
+        # Whether or not it is mandatory to impose a breakable spawner limit with this parameter, default : true
+        break_condition: true
+        # The possible limit of breaking the spawners on the other hand the durability of the vanilla with the
+        # pickaxe will be ignored, except for the blocks other than the spawners, default : 5
+        break_limit: 5
+        # The item that will be used, it is possible to put any item even custom, default : diamond pickaxe
+        item: diamond pickaxe
+    chunk:
+        # Whether or not we impose a spawner limit per chunk, default : false
+        condition: false
+        # Spawner limit per chunk, default : 1
+        chunk_limit: 1
+    format:
+        # The text that will be displayed in its use, default : "&6Spawner"
+        spawner_name: "&6Spawner"
+        # The text that will be displayed in its use, default : "&7Type&6: &a"
+        spawner_type: "&7Type&6: &a"
+        # The text that will be displayed in its use, default : "&fSpawner Pickaxe"
+        pickaxe_name: "&fSpawner Pickaxe"
+        # The text that will be displayed in its use, default : "&7Breakable Spawner &6: &a"
+        break_limit: "&7Breakable Spawner &6: &a"

@@ -1,0 +1,47 @@
+data:
+    spawner:
+        name: "&aGénérateur à monstres"
+        type: command
+        description:
+            '1': "&0- &aUn système traditionnaire, ajoutant son"
+            '2': "&0- &alot d'originalité."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.spawner.*"
+        - "mj.spawner.give"
+        info:
+            '1': "&6- &a/spawner <mob name>"
+            '2': "&0- &7Il permet de récupérer un générateur à monstres."
+            '3': "&6- &a/spawner custom_pickaxe"
+            '4': "&0- &7Il permet de récupérer une pioche spéciale."
+    take:
+        name: "&aRécupérer un générateur"
+        type: command
+        description:
+            '1': "&0- &aUn système traditionnaire, ajoutant son"
+            '2': "&0- &alot d'originalité."
+        permission:
+        - "none"
+        info:
+            '1': "&6- &7Avec l'option &asilk_touch &7permet à toute"
+            '2': "&0- &7les pioches de récolter un spawner."
+            '3': "&0"
+            '4': "&0- &7L'option &asilk_touch_pourcent &7change la"
+            '5': "&0- &7probabilité de récupérer un spawner."
+            '6': "&0"
+            '7': "&6- &7Avec l'option &acustom pickaxe &7donne une"
+            '8': "&0- &7pioche spécialement que pour les spawners."
+    chunk:
+        name: "&aLimiteur par Chunk"
+        type: command
+        description:
+            '1': "&0- &aCette option permet d'imposer une limite"
+            '2': "&0- &ade spawner par chunk."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &acondition &7Active ou non l'option de limiteur."
+            '2': "&0"
+            '3': "&0- &achunk_limit &7Le nombre de spawner autoriser"
+            '4': "&0- &7par chunk."

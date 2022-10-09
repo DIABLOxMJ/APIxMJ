@@ -81,6 +81,33 @@ data:
             item: chest
             gui_background:
                 item: black stained glass pane
+        enderium:
+            name: data.index.enderium.name
+            visible: false
+            menu_back: main
+            menu_next: enderium
+            slot: 11
+            item: chest
+            gui_background:
+                item: cyan stained glass pane
+        enderium_main:
+            name: data.index.enderium_main.name
+            visible: true
+            menu_back: enderium
+            menu_next: enderium_main
+            slot: 11
+            item: chest
+            gui_background:
+                item: cyan stained glass pane
+        enderium_extension:
+            name: data.index.enderium_extension.name
+            visible: false
+            menu_back: enderium_main
+            menu_next: enderium_extension
+            slot: 16
+            item: chest
+            gui_background:
+                item: cyan stained glass pane
     addon:
         main:
             manager:
@@ -593,3 +620,128 @@ data:
                 item: command block
                 gui_background:
                     item: purple stained glass pane
+        enderium_main:
+            core:
+                name: data.addon.enderium_main.core.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: true
+                index: enderium_main
+                depends:
+                    '1': main.manager
+                source: none
+                github_folder: enderium/main/core
+                folder: main/core
+                slot: 10
+                kick: true
+                skript:
+                    '1': apixmj
+                yml:
+                    '1': config
+                file:
+                    '1': mj.config
+                    '2': mj.data
+                    '3': mj.temp
+                    '4': mj.stats
+                    '5': mj.inventory
+                    '6': mj.userdata
+                reset:
+                    '1':
+                        file: mj.temp
+                        data: data
+                    '2':
+                        file: mj.stats
+                        data: data
+                    '3':
+                        file: mj.inventory
+                        data: data
+                    '4':
+                        file: mj.userdata
+                        data: data
+                item: command block
+                gui_background:
+                    item: purple stained glass pane
+            ranker:
+                name: data.addon.enderium_main.ranker.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': enderium_main.core
+                source: none
+                github_folder: enderium/main/ranker
+                folder: main/ranker
+                slot: 11
+                kick: false
+                skript:
+                    '1': apixmj_ranker
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.config
+                    '2': mj.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: iron chestplate
+                gui_background:
+                    item: blue stained glass pane
+            essentials:
+                name: data.addon.enderium_main.essentials.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': enderium_main.core
+                    '3': enderium_main.ranker
+                source: none
+                github_folder: enderium/main/essentials
+                folder: main/essentials
+                slot: 12
+                kick: true
+                skript:
+                    '1': apixmj_essentials
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.essentials.config
+                    '2': mj.essentials.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: command block
+                gui_background:
+                    item: light blue stained glass pane
+        enderium_extension:
+            lobby:
+                name: data.addon.enderium_extension.lobby.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: false
+                depends:
+                    '1': main.manager
+                    '2': enderium_main.core
+                github_folder: enderium/extension/lobby
+                folder: main/extension/lobby
+                slot: 23
+                kick: false
+                skript:
+                    '1': apixmj_lobby
+                yml:
+                    '1': config
+                file:
+                    '1': mj.lobby.config
+                    '2': mj.lobby.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: beacon
+                gui_background:
+                    item: green stained glass pane

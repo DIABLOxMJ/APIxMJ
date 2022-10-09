@@ -1,0 +1,14 @@
+data:
+    kits:
+    - nokit
+    report: ''
+    warp: ''
+    upgrade:
+        money:
+            '0':
+                price: 20000
+                value: 25000
+        bank:
+            '0':
+                price: 45000
+                value: 50000

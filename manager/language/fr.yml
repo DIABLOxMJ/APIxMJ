@@ -149,6 +149,23 @@ data:
             lore:
                 '1': " &6- &7Une alternative sans permission donc"
                 '2': " &0- &7penser pour fonctionner en vanilla."
+        enderium:
+            name: "&3Enderium"
+            name_lite: "&3Enderium"
+            lore:
+                '1': " &6- &7Des Skripts destiné à être sur Enderium."
+        enderium_main:
+            name: "&5Module centrale"
+            name_lite: "&5Module centrale"
+            lore:
+                '1': " &6- &7Les Skripts qui font fonctionner APIxMJ"
+                '2': " &0- &7sans lui rien de tout ça ne serait possible."
+        enderium_extension:
+            name: "&aExtension"
+            name_lite: "&aExtension"
+            lore:
+                '1': " &6- &7Des Skripts sous-dépendant des principaux"
+                '2': " &0- &7remplis de fonctionnalités très attirants !"
     addon:
         main:
             manager:

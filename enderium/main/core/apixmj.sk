@@ -1,0 +1,1638 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_core():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.enderium_main.core.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.data"
+	load yaml "plugins/APIxMJ/%{_folder}%/temp.yml" as "mj.temp"
+	load yaml "plugins/APIxMJ/%{_folder}%/stats.yml" as "mj.stats"
+	load yaml "plugins/APIxMJ/%{_folder}%/inventory.yml" as "mj.inventory"
+	load yaml "plugins/APIxMJ/%{_folder}%/userdata.yml" as "mj.userdata"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.core.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.core.help.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk":
+		send "[APIxMJ] Loading core..." to console
+		mj_files_core()
+		mj_editfiles("manager.data", "data.addon.enderium_main.core.version", "modify", "2022.10.09.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
+		unload script file "apixmj.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj.sk" to "-apixmj.sk"
+	send "[APIxMJ] Unloading core.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Core
+# ---------------------------------------------------------------------------------------------------------------------
+command /apixmj [<text>] [<text>] [<text>]:
+	aliases: mj
+	executable by: player and console
+	trigger:
+		if player is set:
+			set {_list::*} to mj_editfiles_list("config", "data.access")
+			if {_list::*} doesn't contain "%player%":
+				stop
+		if arg-1 is "reload":
+			if arg-2 is set:
+				if arg-2 is "files":
+					mj_files_core()
+					send "[APIxMJ] Data reloaded"
+				else:
+					#reload script arg-2
+					player command "sk reload %arg-2%"
+			else:
+				#reload script "apixmj"
+				player command "sk reload apixmj"
+		else if arg-1 is "debug":
+			if arg-2 is "uuid":
+				set {_player} to player
+				if arg-3 is set:
+					set {_player} to arg-3 parsed as offlineplayer
+				send formatted "[APIxMJ] UUID of %{_player}% : <sgt:%{_player}'s uuid%>%{_player}'s uuid%"
+			else if arg-2 is "unload":
+				unload yaml arg-3
+				send "[APIxMJ] Unloading %arg-3%"
+			else if arg-2 is "loadskript":
+				enable script file "%arg-3%.sk"
+				send "[APIxMJ] Loading %arg-3%.sk"
+			else if arg-2 is "unloadskript":
+				unload script file "%arg-3%.sk"
+				send "[APIxMJ] Unloading %arg-3%.sk"
+			else if arg-2 is "check":
+				if arg-3 is "hand":
+					send "[APIxMJ] Item in hand : %player's tool%"
+				if arg-3 is "target":
+					send "[APIxMJ] Target block : %targeted block%"
+					send "[APIxMJ] Target block location : %targeted block's location%"
+			else if arg-2 is "checknbt":
+				if arg-3 is "hand":
+					set {_nbt} to nbt compound of player's tool
+					send formatted "[APIxMJ] NBT of item in hand : <sgt:%{_nbt}%>%{_nbt}%"
+				if arg-3 is "target":
+					if targeted entity is set:
+						set {_nbt} to nbt compound of targeted entity
+						send formatted "[APIxMJ] NBT of target entity : <sgt:%{_nbt}%>%{_nbt}%"
+					else:
+						set {_nbt} to nbt compound of targeted block
+						send formatted "[APIxMJ] NBT of target block : <sgt:%{_nbt}%>%{_nbt}%"
+			else if arg-2 is "online":
+				set {_player} to arg-3 parsed as offlineplayer
+				if {_player} is online:
+					send "[APIxMJ] The player %{_player}% is online"
+				else:
+					send "[APIxMJ] The player %{_player}% is offline"
+			else if arg-2 is "checkslot":
+				set {_slot} to arg-3 parsed as number
+				set {_check} to slot {_slot} of player's inventory
+				send "%{_check}% in %{_slot}%"
+			else if arg-2 is "checkentity":
+				set {_radius} to 50
+				if arg-3 is set:
+					set {_radius} to arg-3 parsed as number
+				loop all entities in radius {_radius} around player:
+					send "[APIxMJ] - Value : %loop-entity%, Location : %location of loop-entity%"
+			else if arg-2 is "rename":
+				set name of player's tool to colored arg-3
+				send "[APIxMJ] Name set to item in hand : %arg-3%"
+			else:
+				set {_list::*} to the currently loaded yaml files
+				send "%{_list::*}%"
+		else:
+			set {_list::*} to mj_editfiles_list("config", "data.access")
+			if {_list::*} contains "%player%":
+				open virtual chest inventory with size 1 named "&8&k:&r &6APIxMJ &8&k:&r" to player
+				make a gui slot 0 of player with emerald block named "&7Become a &aAdmin" to close:
+					op the player
+					send "&6[&c&lAPIxMJ&6]&r &7Switch to mode &aAdmin"
+				make a gui slot 1 of player with dirt named "&7Become a &aJoueur" to close:
+					deop the player
+					send "&6[&c&lAPIxMJ&6]&r &7Switch to mode &aJoueur"
+				make a gui slot 4 of player with barrier named "&cSTOP" to close:
+					if gui-click-type is middle mouse button:
+						stop the server
+				make a gui slot 6 of player with iron pickaxe named "&7Switch to mode &aSurvival" to run:
+					set player's gamemode to survival
+					send "&6[&c&lAPIxMJ&6]&r &7Your game mode is set to &aSurvival"
+				make a gui slot 7 of player with barrier named "&7Switch to mode &aCreative" to run:
+					set player's gamemode to creative
+					send "&6[&c&lAPIxMJ&6]&r &7Your game mode is set to &aCreative"
+				make a gui slot 8 of player with glass pane named "&7Switch to mode &aSpectator" to run:
+					set player's gamemode to spectator
+					send "&6[&c&lAPIxMJ&6]&r &7Your game mode is set to &aSpectator"
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/mj" or "/apixmj":
+	set tab completions for position 1 to "reload" and "debug"
+	set {_player::*} to mj_core_id_converter("userdata", "data", "pseudo")
+	set {_list1::*} to mj_core_skript_list()
+	if tab arg-1 is "reload":
+		set tab completions for position 2 to {_list1::*} and "files"
+	if tab arg-1 is "debug":
+		set tab completions for position 2 to "uuid", "list", "unload", "loadskript", "unloadskript", "check", "checknbt", "checkentity", "checkslot", "online" and "rename"
+		if tab arg-2 is "unload" or "delete":
+			set {_list3::*} to the currently loaded yaml files
+			set tab completions for position 3 to {_list3::*}
+		if tab arg-2 is "loadskript" or "unloadskript":
+			set tab completions for position 3 to {_list1::*}
+		if tab arg-2 is "check":
+			set tab completions for position 3 to "hand" and "target"
+		if tab arg-2 is "checknbt":
+			set tab completions for position 3 to "hand" and "target"
+		if tab arg-2 is "checkentity":
+			set tab completions for position 3 to "50"
+		if tab arg-2 is "uuid" or "online":
+			set tab completions for position 3 to {_player::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Core
+# =====================================================================================================================
+# APIxMJ - DataEditor
+# ---------------------------------------------------------------------------------------------------------------------
+command /dataeditor [<text>] [<text>] [<text>] [<text>]:
+	aliases: dae
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player isn't op:
+				stop
+		if arg-1 is set:
+			if arg-1 is "item" or "list" or "boolean" or "number" or "text":
+				set {_result} to arg-4
+				if arg-1 is "boolean":
+					set {_data} to arg-4 parsed as boolean
+				else if arg-1 is "number":
+					set {_data} to arg-4 parsed as number
+				else if arg-1 is "list":
+					set {_data::*} to arg-4 split at ", "
+					set yaml list arg-3 from arg-2 to {_data::*}
+					save yaml arg-2
+					mj_core_logger(2, "&aData changed&6: &b%arg-2% &6> &e%arg-3% &6> &a%{_result}%")
+					stop
+				else if arg-1 is "item":
+					set {_data} to player's tool
+					set {_result} to "%player's tool%"
+				else:
+					set {_data} to arg-4
+				set yaml value arg-3 from arg-2 to {_data}
+				save yaml arg-2
+				mj_core_logger(2, "&aData changed&6: &b%arg-2% &6> &e%arg-3% &6> &a%{_result}%")
+			else if arg-1 is "delete":
+				delete yaml value arg-3 from arg-2
+				save yaml arg-2
+				mj_core_logger(2, "&aData removed&6: &b%arg-2% &6> &e%arg-3%")
+			else if arg-1 is "item_name":
+				if arg-2 is set:
+					if arg-3 is set:
+						if arg-4 is set:
+							set {_name} to colored "%arg-2% %arg-3% %arg-4%"
+						else:
+							set {_name} to colored "%arg-2% %arg-3%"
+					else:
+						set {_name} to colored arg-2
+					set name of player's tool to "%{_name}%"
+					send "[APIxMJ] Name set to item in hand : %{_name}%"
+				else:
+					mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+			else if arg-1 is "item_lore":
+				if arg-2 is set:
+					set {_slot} to arg-2 parsed as number
+					if arg-3 is set:
+						if arg-4 is set:
+							set {_name} to colored "%arg-3% %arg-4%"
+						else:
+							set {_name} to colored arg-3
+						set line {_slot} of lore of player's tool to {_name}
+						send "[APIxMJ] In slot %{_slot}% the lore is set to item in hand : %{_name}%"
+					else:
+						mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+				else:
+					mj_core_message(player, "core", "data.prefix", "core", "data.argument.number")
+			else if arg-1 is "item_enchant":
+				if arg-2 is set:
+					if arg-3 is set:
+						if arg-4 is set:
+							set {_enchant} to "%arg-2% %arg-3% %arg-4%" parsed as enchantment type
+						else:
+							set {_enchant} to "%arg-2% %arg-3%" parsed as enchantment type
+						enchant player's tool with {_enchant}
+					else:
+						mj_core_message(player, "core", "data.prefix", "core", "data.argument.number")
+				else:
+					mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+			else if arg-1 is "editgui":
+				mj_editor_storage_edit(player)
+			else if arg-1 is "gui":
+				mj_editor_storage_open(player)
+			else:
+				mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+		else:
+			mj_core_permission(player, "core", "data.prefix", "operator")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/dataeditor" or "/dae":
+	if player has permission "*" or "mj.*" or "mj.dataeditor.*" or "mj.dataeditor":
+		set tab completions for position 1 to "text", "number", "boolean", "list", "item", "item_name", "item_lore", "item_enchant", "editgui", "gui" and "delete"
+		if tab arg-1 is "text" or "number" or "boolean" or "list" or "delete":
+			set {_list1::*} to the currently loaded yaml files
+			set tab completions for position 2 to {_list1::*}
+			if tab arg-2 is set:
+				loop yaml node keys "data" from tab arg-2:
+					add "data.%loop-node%" to {_list2::*}
+					# add loop-node to {_list2::*}
+				set tab completions for position 3 to {_list2::*}
+				if tab arg-3 is set:
+					loop yaml node keys tab arg-3 from tab arg-2:
+						add "%tab arg-3%.%loop-node%" to {_list3::*}
+						# add loop-node to {_list3::*}
+					set tab completions for position 3 to {_list3::*}
+					set {_data} to yaml value tab arg-3 from tab arg-2
+					set tab completions for position 4 to {_data}
+	if tab arg-1 is "item_name":
+		set tab completions for position 2 to "define name"
+	if tab arg-1 is "item_lore":
+		set tab completions for position 2 to "1"
+		set tab completions for position 3 to "define text"
+	if tab arg-1 is "item_enchant":
+		set {_list1::*} to "Frost Walker", "Feather Falling", "Unbreaking", "Knockback", "Projectile Protection", "Respiration", "Punch", "Protection" and "Blast Protection"
+		set {_list2::*} to "Lure", "Impaling", "Smite", "Silk Touch", "Infinity", "Luck of The Sea", "Thorns", "Multishot", "Curse of Vanishing", "Fire Aspect" and "Flame"
+		set {_list3::*} to "Depth Strider", "Piercing", "Fire Protection", "Sharpness", "Power", "Sweeping Edge", "Aqua Affinity", "Curse of Binding" and "Bane of Arthropods"
+		set {_list4::*} to "Soul Speed", "Looting", "Efficiency", "Mending", "Riptide", "Quick Charge", "Fortune", "Loyalty" and "Channeling"
+		add {_list2::*} to {_list1::*}
+		add {_list3::*} to {_list1::*}
+		add {_list4::*} to {_list1::*}
+		set tab completions for position 2 to {_list1::*}
+		set tab completions for position 3 to 1, 2, 3, 4, 5 and 255
+		set tab completions for position 4 to 1, 2, 3, 4, 5 and 255
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editor_storage_open(player: player):
+	set {_inv} to chest with 6 rows named "&cAdmin Storage"
+	set {_storage} to mj_editfiles("data", "data.admin_storage")
+	set {_inv}'s serialized contents to {_storage}
+	open {_inv} to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editor_storage_edit(player: player):
+	mj_editfiles_boolean("temp", "data.%{_player}'s uuid%.dataeditor.editgui", "modify", true)
+	set {_inv} to chest with 6 rows named "&cAdmin Storage Editor"
+	set {_storage} to mj_editfiles("data", "data.admin_storage")
+	set {_inv}'s serialized contents to {_storage}
+	open {_inv} to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory close:
+	set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.dataeditor.editgui")
+	if {_check} is true:
+		mj_editfiles("temp", "data.%player's uuid%.dataeditor.editgui", "delete")
+		if "%event-inventory%" is "inventory of <none>":
+			set {_storage} to event-inventory's serialized contents
+			mj_editfiles("data", "data.admin_storage", "modify", {_storage})
+			send "&aAdmin Storage Updated"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - DataEditor
+# =====================================================================================================================
+# APIxMJ - Console
+# ---------------------------------------------------------------------------------------------------------------------
+command /console [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.console.*" or "mj.console":
+			console command arg-1
+		else:
+			mj_core_permission(player, "core", "data.prefix", "mj.console")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Console
+# =====================================================================================================================
+# APIxMJ - Logger
+# ---------------------------------------------------------------------------------------------------------------------
+command /log [<text>]:
+	executable by: console
+	trigger:
+		mj_core_logger(1, arg-1)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /loglevel [<number=0>] [<offlineplayer>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.logger.*" or "mj.logger":
+			if arg-1 is set:
+				if arg-2 is set:
+					mj_editfiles_number("userdata", "data.%arg-2's uuid%.log", "modify", arg-1)
+					mj_core_message(player, "core", "data.prefix", "core", "data.logger.other_me", "%arg-2%", "%arg-1%")
+					if arg-2 is online:
+						mj_core_message(arg-2, "core", "data.prefix", "core", "data.logger.other_it", "%arg-1%", "%arg-2%")
+				else if arg-1 is 0:
+					mj_editfiles_number("userdata", "data.%player's uuid%.log", "modify", arg-1)
+					mj_core_message(player, "core", "data.prefix", "core", "data.logger.disable")
+				else:
+					mj_editfiles_number("userdata", "data.%player's uuid%.log", "modify", arg-1)
+					mj_core_message(player, "core", "data.prefix", "core", "data.logger.enable", "%arg-1%")
+			else:
+				mj_core_message(player, "core", "data.prefix", "core", "data.argument.number")
+		else:
+			mj_core_permission(player, "core", "data.prefix", "mj.logger")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/loglevel":
+	if player has permission "*" or "mj.*" or "mj.logger.*" or "mj.logger":
+		set tab completions for position 1 to "0", "1", "2", "3", "4" and "5"
+		if tab arg-1 is set:
+			set {_player::*} to mj_core_id_converter("userdata", "data", "pseudo")
+			set tab completions for position 2 to {_player::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_logger(level: number=0, message: text):
+	set {_prefix} to mj_editfiles_gettext("core", "data.logger.prefix")
+	send "%{_prefix}% &r%{_message}%" to console
+	set {_date} to mj_core_logger_id_generator()
+	set {_log} to uncolored {_message}
+	mj_core_logger_save_data("%{_log}%")
+	loop all players:
+		if loop-player has permission "*" or "mj.*" or "mj.logger.*" or "mj.logger":
+			set {_check} to mj_editfiles_number("userdata", "data.%loop-player's uuid%.log")
+			if {_check} >= {_level}:
+				send "%{_prefix}% &r%{_message}%" to loop-player
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_logger_save_data(info: text):
+	set {_folder} to mj_editfiles("manager.data", "data.addon.enderium_main.core.folder")
+	set {_date} to now formatted with "yyyy-MM-dd"
+	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log" doesn't exist:
+		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
+	set {_id} to mj_core_logger_id_generator()
+	write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_logger_id_generator() :: text:
+	set {_date} to now formatted with "yyyy-MM-dd_HH-mm-ss_"
+	set {_code} to "%{_date}%"
+	loop 4 times:
+		set {_random} to a random integer from 0 to 9
+		set {_code} to "%{_code}%%{_random}%"
+	return {_code}
+# ---------------------------------------------------------------------------------------------------------------------
+on command:
+	mj_core_logger_save_data("%sender% has execute command /%complete command%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	mj_core_logger_save_data("%player% has join the server")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on quit:
+	mj_core_logger_save_data("%player% has quit the server")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on chat:
+	mj_core_logger_save_data("%player% sended message : %message%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on pickup:
+	mj_core_logger_save_data("%event-entity% has pickup item at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on drop:
+	mj_core_logger_save_data("%event-entity% is dropped at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on portal:
+	mj_core_logger_save_data("%event-entity% used portal %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on craft:
+	mj_core_logger_save_data("%player% has crafted item %event-item%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on consume:
+	mj_core_logger_save_data("%event-entity% used item %event-item%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on teleport:
+	mj_core_logger_save_data("%event-entity% teleported to %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on gamemode change:
+	mj_core_logger_save_data("%player% has changed gamemode to %player's gamemode%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on region enter:
+	mj_core_logger_save_data("%event-entity% enter on region %event-region% at %location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on region exit:
+	mj_core_logger_save_data("%event-entity% exit a region %event-region% at %location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on rightclick:
+	if "%event-block%" contains "chest" or "trapped chest" or "shulker box" or "enderchest":
+		mj_core_logger_save_data("%player% has open %event-block% is %location of event-block%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on place:
+	mj_core_logger_save_data("%player% on place block %event-block%") #at %location of event-block%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on break:
+	mj_core_logger_save_data("%player% on break block %event-block%") #at %location of event-block%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on death:
+	if attacker is set:
+		mj_core_logger_save_data("%victim% has killed by %attacker% in %victim's location%")
+	else:
+		mj_core_logger_save_data("%victim% is die in %victim's location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Logger
+# =====================================================================================================================
+# APIxMJ - Operator
+# ---------------------------------------------------------------------------------------------------------------------
+command /op [<offlineplayer>]:
+	executable by: console
+	trigger:
+		op arg-1
+		mj_core_logger(1, "%arg-1% is now an operator")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /deop [<offlineplayer>]:
+	executable by: console
+	trigger:
+		deop arg-1
+		mj_core_logger(1, "%arg-1% is no longer an operator")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Operator
+# =====================================================================================================================
+# APIxMJ - Userdata
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_core_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	wait 3 seconds
+	if event-entity is player:
+		set {_check1} to mj_editfiles("userdata", "data.%player's uuid%.pseudo")
+		if {_check1} isn't "none":
+			mj_editfiles_date("userdata", "data.%player's uuid%.connect.last", "modify", now)
+			set {_check2} to mj_editfiles("userdata", "data.%player's uuid%.pseudo")
+			if {_check2} isn't "%player%":
+				mj_editfiles("userdata", "data.%player's uuid%.pseudo", "modify", "%player%")
+				mj_editfiles("userdata", "data.%player's uuid%.lastpseudo", "modify", "%{_check2}%")
+				mj_core_logger(1, "%player% to change nickname he name himself %{_check2}% before (still uses the same UUID)")
+			set {_check3} to mj_editfiles("userdata", "data.%player's uuid%.ip")
+			if {_check3} isn't player's ip:
+				mj_editfiles("userdata", "data.%player's uuid%.ip", "modify", player's ip)
+				mj_core_logger(1, "%player% it is connected with another IP")
+				set {_list::*} to mj_manager_nodes("userdata")
+				loop {_list::*}:
+					set {_target} to loop-value parsed as offlineplayer
+					set {_ip} to mj_editfiles("userdata", "data.%{_target}'s uuid%.ip")
+					if player's ip is {_ip}:
+						if player's uuid isn't {_target}'s uuid:
+							mj_core_logger(1, "%player% at the same IP address as the player %{_target}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on quit:
+	if event-entity is player:
+		mj_core_location("userdata", "data.%player's uuid%", "modify", player)
+		mj_editfiles("userdata", "data.%player's uuid%.playtime", "modify", "%player's time played%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_playerdata(player: offlineplayer):
+	set {_check} to yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata"
+	if {_check} isn't set:
+		set yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata" to "%{_player}%"
+		set yaml value "data.%{_player}'s uuid%.lastpseudo" from "mj.userdata" to "none"
+		set yaml value "data.%{_player}'s uuid%.ip" from "mj.userdata" to "0.0.0.0"
+		set yaml value "data.%{_player}'s uuid%.language" from "mj.userdata" to "fr"
+		set yaml value "data.%{_player}'s uuid%.mute" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.log" from "mj.userdata" to 0
+		set yaml value "data.%{_player}'s uuid%.gui" from "mj.userdata" to "none"
+		set yaml value "data.%{_player}'s uuid%.guiprotect" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.connect.first" from "mj.userdata" to now
+		set yaml value "data.%{_player}'s uuid%.connect.last" from "mj.userdata" to now
+		set yaml value "data.%{_player}'s uuid%.playtime" from "mj.userdata" to "none"
+		set yaml value "data.%{_player}'s uuid%.money" from "mj.userdata" to 0
+		save yaml "mj.userdata"
+		if {_player} is online:
+			mj_core_location("userdata", "data.%{_player}'s uuid%", "modify", {_player})
+		else:
+			set yaml value "data.%{_player}'s uuid%.location" from "mj.userdata" to "none"
+			save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% core data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Userdata
+# =====================================================================================================================
+# APIxMJ - Inventory
+# ---------------------------------------------------------------------------------------------------------------------
+command /inventory [<text>] [<player>] [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.inventory.*" or "mj.inventory":
+			if arg-1 is "save" or "restore":
+				if arg-2 is set:
+					if arg-3 is set:
+						if arg-1 is "save":
+							mj_core_inventory_save(arg-2, arg-3)
+						else:
+							mj_core_inventory_restore(arg-2, arg-3)
+					else:
+						mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+				else:
+					mj_core_message(player, "core", "data.prefix", "core", "data.argument.player")
+			else:
+				mj_core_message(player, "core", "data.prefix", "core", "data.inventory.help")
+		else:
+			mj_core_permission(player, "core", "data.prefix", "mj.inventory")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/inventory":
+	if player has permission "*" or "mj.*" or "mj.inventory.*" or "mj.inventory":
+		set tab completions for position 1 to "save" and "restore"
+		if tab arg-1 is set:
+			if tab arg-2 is set:
+				set {_player} to tab arg-2 parsed as offlineplayer
+				set {_list::*} to mj_manager_nodes("inventory", "data.%{_player}'s uuid%")
+				set tab completions for position 3 to {_list::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on death:
+	if event-entity is player:
+		mj_core_inventory_save(player, "death")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on quit:
+	if event-entity is player:
+		mj_core_inventory_save(player, "last")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 5 minutes:
+	set {_check} to mj_editfiles_boolean("config", "data.inventory.backup")
+	if {_check} is true:
+		loop all players:
+			mj_core_inventory_save(loop-player, "backup")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_inventory_save(player: player, type: text):
+	mj_editfiles("inventory", "data.%{_player}'s uuid%.%{_type}%", "delete")
+	set {_slot} to 0
+	loop 36 times:
+		set {_inv::%{_slot}%} to slot {_slot} of {_player}'s inventory
+		add 1 to {_slot}
+	mj_editfiles_date("inventory", "data.%{_player}'s uuid%.%{_type}%.date", "modify", now)
+	mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.helmet", "modify", {_player}'s helmet)
+	mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.chestplate", "modify", {_player}'s chestplate)
+	mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.leggings", "modify", {_player}'s leggings)
+	mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.boots", "modify", {_player}'s boots)
+	mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.offhand", "modify", {_player}'s offhand)
+	mj_editfiles_number("inventory", "data.%{_player}'s uuid%.%{_type}%.level", "modify", {_player}'s xp)
+	mj_editfiles_list("inventory", "data.%{_player}'s uuid%.%{_type}%.inventory", "modify", {_inv::*})
+	mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.enderchest", "modify", {_player}'s enderchest's serialized contents)
+	mj_core_logger(2, "Saving inventory to %{_player}% in the %{_type}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_inventory_restore(player: player, type: text):
+	clear {_player}'s inventory
+	clear {_player}'s enderchest
+	set {_player}'s xp to 0
+	set {_inv::*} to mj_editfiles_list("inventory", "data.%{_player}'s uuid%.%{_type}%.inventory")
+	set {_slot} to 0
+	loop {_inv::*}:
+		set slot {_slot} of {_player}'s inventory to loop-value
+		add 1 to {_slot}
+	set {_helmet} to mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.helmet")
+	set {_player}'s helmet to {_helmet}
+	set {_plate} to mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.chestplate")
+	set {_player}'s chestplate to {_plate}
+	set {_leg} to mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.leggings")
+	set {_player}'s leggings to {_leg}
+	set {_boots} to mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.boots")
+	set {_player}'s boots to {_boots}
+	set {_hand} to mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.offhand")
+	set {_player}'s offhand to {_hand}
+	set {_xp} to mj_editfiles_number("inventory", "data.%{_player}'s uuid%.%{_type}%.level")
+	set {_player}'s xp to {_xp}
+	set {_ec} to mj_editfiles_stock("inventory", "data.%{_player}'s uuid%.%{_type}%.enderchest")
+	set serialized contents of {_player}'s enderchest to {_ec}
+	mj_core_logger(2, "Restored inventory to %{_player}% from the %{_type}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Inventory
+# =====================================================================================================================
+# APIxMJ - TimeCount
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_timecount(name: text="default", type: text="backward", hour: number=0, minute: number=0, second: number=0, cmd: text="none", player: offlineplayer="none", cdt: text="none"):
+	if {_type} is "backward" or "forward":
+		if {_type} is "backward":
+			set yaml value "data.mj_sys_timer.%{_name}%.timer.mode" from "mj.temp" to "backward"
+		else:
+			set yaml value "data.mj_sys_timer.%{_name}%.timer.mode" from "mj.temp" to "forward"
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.name" from "mj.temp" to {_name}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.command" from "mj.temp" to {_cmd}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.condition" from "mj.temp" to {_condition}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.owner" from "mj.temp" to {_player}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.hour" from "mj.temp" to {_hour}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.minute" from "mj.temp" to {_minute}
+		set yaml value "data.mj_sys_timer.%{_name}%.timer.second" from "mj.temp" to {_second}
+		save yaml "mj.temp"
+		mj_core_logger(3, "Chrono Start : %{_name}%, Owner : %{_player}%, Type : %{_type}%, Command : %{_cmd}%, Condition : %{_cdt}%, Time : %{_hour}%h %{_minute}%m %{_second}%s")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_timecount_text(name: text="default", source: text="name", mode: text="extract") :: text:
+	if {_mode} is "delete":
+		mj_editfiles("temp", "data.mj_sys_timer.%{_name}%", "delete")
+	else:	
+		set {_return} to mj_editfiles("temp", "data.mj_sys_timer.%{_name}%.timer.%{_source}%")
+		if {_return} isn't set:
+			set {_return} to "none"
+	return {_return}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_timecount_number(name: text="default", source: text="second", mode: text="extract", value: number=0) :: number:
+	if {_source} is "hour" or "minute" or "second":
+		if {_mode} is "modify":
+			mj_editfiles_number("temp", "data.mj_sys_timer.%{_name}%.timer.%{_source}%", "modify", {_value})
+		else:
+			set {_return} to mj_editfiles_number("temp", "data.mj_sys_timer.%{_name}%.timer.%{_source}%")
+	return {_return}
+# ---------------------------------------------------------------------------------------------------------------------
+every 1 second:
+	set {_list::*} to mj_manager_nodes("temp", "data.mj_sys_timer")
+	if {_list::*} is set:
+		loop {_list::*}:
+			set {_mode} to mj_timecount_text(loop-value, "mode")
+			if {_mode} is "backward":
+				mj_timecount_modify(loop-value)
+			#else:
+			#	mj_timecount_modify(source: text="default")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_timecount_modify(source: text="default"):
+	set {_second} to mj_timecount_number({_source}, "second")
+	remove 1 from {_second}
+	mj_timecount_number({_source}, "second", "modify", {_second})
+	if {_second} is -1:
+		set {_second} to 59
+		mj_timecount_number({_source}, "second", "modify", {_second})
+		set {_minute} to mj_timecount_number({_source}, "minute")
+		remove 1 from {_minute}
+		mj_timecount_number({_source}, "minute", "modify", {_minute})
+	if {_minute} is -1:
+		set {_minute} to 59
+		mj_timecount_number({_source}, "minute", "modify", {_minute})
+		set {_hour} to mj_timecount_number({_source}, "hour")
+		remove 1 from {_hour}
+		mj_timecount_number({_source}, "hour", "modify", {_hour})
+	if {_hour} is -1:
+		set {_cmd} to mj_timecount_text({_source}, "command")
+		mj_timecount_text({_source}, "mode", "delete")
+		wait 5 ticks
+		mj_core_logger(3, "Chrono Stop : %{_source}%")
+		if {_cmd} isn't "none":
+			console command "%{_cmd}%"
+	stop
+	#	if {mj.var.timer::f::*} is set:
+	#		loop {mj.var.timer::f::*}:
+	#			add 1 to {mj.var.timer::f::%loop-value%::s}
+	#			if {mj.var.timer::f::%loop-value%::s} is {mj.var.timer::f::%loop-value%::sl}:
+	#				delete {mj.var.timer::f::%loop-value%::*}
+	#				delete {mj.var.timer::f::%loop-value%}
+	#				#log "mj.timer.finish : %loop-value%"
+	#				stop
+	#			if {mj.var.timer::f::%loop-value%::s} is 60:
+	#				set {mj.var.timer::f::%loop-value%::s} to 0
+	#				add 1 to {mj.var.timer::f::%loop-value%::m}
+	#			if {mj.var.timer::f::%loop-value%::m} is {mj.var.timer::f::%loop-value%::ml}:
+	#				delete {mj.var.timer::f::%loop-value%::*}
+	#				delete {mj.var.timer::f::%loop-value%}
+	#				#log "mj.timer.finish : %loop-value%"
+	#				stop
+	#			if {mj.var.timer::f::%loop-value%::m} is 60:
+	#				set {mj.var.timer::f::%loop-value%::m} to 0
+	#				add 1 to {mj.var.timer::f::%loop-value%::h}
+	#			if {mj.var.timer::f::%loop-value%::h} is {mj.var.timer::f::%loop-value%::hl}:
+	#				delete {mj.var.timer::f::%loop-value%::*}
+	#				delete {mj.var.timer::f::%loop-value%}
+	#				#log "mj.timer.finish : %loop-value%"
+	#				stop
+	#			#log "mj.timer : %loop-value% : %{mj.var.timer::f::%loop-value%::minute}%min, %{mj.var.timer::f::%loop-value%::second}%sec"
+	#	else:
+	#		stop
+	#else:
+	#	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_timecount_viewer(name: text) :: text:
+	set {_h} to mj_timecount_number({_name}, "hour")
+	set {_m} to mj_timecount_number({_name}, "minute")
+	set {_s} to mj_timecount_number({_name}, "second")
+	if {_h} isn't 0:
+		set {_type} to mj_editfiles_gettext("core", "data.time.hour")
+	else if {_m} isn't 0:
+		set {_type} to mj_editfiles_gettext("core", "data.time.minute")
+	else:
+		set {_type} to mj_editfiles_gettext("core", "data.time.second")
+	replace "$2" with "%{_h}%" in {_type}
+	replace "$1" with "%{_m}%" in {_type}
+	replace "$0" with "%{_s}%" in {_type}
+	set {_check} to mj_timecount_text({_name}, "name")
+	if {_check} is "none":
+		set {_type} to mj_editfiles_gettext("core", "data.time.unknown")
+	return {_type}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - TimeCount
+# =====================================================================================================================
+# APIxMJ - PlayTime
+# ---------------------------------------------------------------------------------------------------------------------
+command /playtime [<number=1>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.playtime.*" or "mj.playtime":
+			set {_list::*} to mj_manager_nodes("userdata")
+			set {_now} to now
+			set {_count} to 0
+			set {_total} to 0
+			loop arg-1 times:
+				subtract a day from {_now}
+			loop {_list::*}:
+				add 1 to {_total}
+				set {_date} to mj_editfiles_date("userdata", "data.%loop-value%.connect.last")
+				if {_date} > {_now}:
+					set {_player} to mj_editfiles("userdata", "data.%loop-value%.pseudo")
+					set {_time} to mj_editfiles("userdata", "data.%loop-value%.playtime")
+					set {_view} to {_date} formatted with "dd/MM HH-mm"
+					replace "-" with "h" in {_view}
+					replace " years" or " year" with "y" in {_time}
+					replace " months" or " month" with "m" in {_time}
+					replace " weeks" or " week" with "w" in {_time}
+					replace " days" or " day" with "d" in {_time}
+					replace " hours" or " hour" with "h" in {_time}
+					replace " minutes" or " minute" with "min" in {_time}
+					replace " seconds" or " second" with "sec" in {_time}
+					replace " and" with "," in {_time}
+					mj_core_message(player, "core", "data.prefix", "core", "data.playtime.player", "%{_player}%", "%arg-1%", "%{_view}%", "%{_time}%")
+					add 1 to {_count}
+			mj_core_message(player, "core", "data.prefix", "core", "data.playtime.total", "%{_count}%", "%{_total}%")
+		else:
+			mj_core_permission(player, "core", "data.prefix", "mj.playtime")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - PlayTime
+# =====================================================================================================================
+# APIxMJ - Report
+# ---------------------------------------------------------------------------------------------------------------------
+command /report [<text>]:
+	executable by: player
+	trigger:
+		if arg-1 is set:
+			mj_core_report(player, arg-1)
+		else:
+			mj_core_message(player, "manager", "data.report.prefix", "manager", "data.report.error")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /reports:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.report.*" or "mj.report.admin":
+			set {_count} to mj_manager_nodes_count("manager.data", "data.report")
+			if {_count} is set:
+				mj_core_message(player, "manager", "data.report.prefix", "manager", "data.report.read", "%{_count}%")
+				mj_core_data_read(player, "manager.data", "data.report")
+			else:
+				mj_core_message(player, "manager", "data.report.prefix", "manager", "data.report.empty")
+		else:
+			mj_core_permission(player, "manager", "data.report.prefix", "mj.manager.report.admin")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	wait 5 seconds
+	if player has permission "*" or "mj.*" or "mj.report.*" or "mj.report.admin":
+		set {_count} to mj_manager_nodes_count("manager.data", "data.report")
+		if {_count} isn't 0:
+			mj_core_message(player, "manager", "data.report.prefix", "manager", "data.report.news")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_report(player: player, info: text):
+	mj_core_data_memory("manager.data", "data.report", "&a%{_player}% &6: &c%{_info}%")
+	mj_core_message({_player}, "manager", "data.report.prefix", "manager", "data.report.message", {_info})
+	loop all players:
+		if loop-player has permission "*" or "mj.*" or "mj.report.*" or "mj.report.admin":
+			mj_core_message(loop-player, "manager", "data.report.prefix", "manager", "data.report.alert", "%{_player}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Report
+# =====================================================================================================================
+# APIxMJ - Storage
+# ---------------------------------------------------------------------------------------------------------------------
+command /storage [<text>] [<text>] [<text>] [<text>]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.storage.*" or "mj.storage":
+				if arg-1 is set:
+					if arg-1 is "create":
+						if arg-2 is set:
+							set {_name} to mj_core_converter_name("%arg-2% %arg-3% %arg-4%")
+							mj_core_storage_data_generator({_name})
+							mj_core_message(player, "core", "data.prefix", "core", "data.storage.create", {_name})
+						else:
+							mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+					else if arg-1 is "set":
+						if arg-3 is set:
+							if arg-3 is "price" or "quantity" or "limit" or "timer_second" or "timer_minute" or "timer_hour" or "money":
+								set {_value} to arg-4 parsed as number
+								if arg-3 contains "timer":
+									if arg-3 is "timer_hour":
+										mj_editfiles_number("data", "data.storage.%arg-2%.timer.hour", "modify", {_value})
+									else if arg-3 is "timer_minute":
+										mj_editfiles_number("data", "data.storage.%arg-2%.timer.minute", "modify", {_value})
+									else:
+										mj_editfiles_number("data", "data.storage.%arg-2%.timer.second", "modify", {_value})
+								else:
+									mj_editfiles_number("data", "data.storage.%arg-2%.%arg-3%", "modify", {_value})
+								mj_core_message(player, "core", "data.prefix", "core", "data.storage.value", "%arg-3%", "%arg-4%", "%arg-2%")
+							else if arg-3 is "permission":
+								if arg-4 is "true" or "false":
+									set {_value} to arg-4 parsed as boolean
+									mj_editfiles_number("data", "data.storage.%arg-2%.permission", "modify", {_value})
+									mj_core_message(player, "core", "data.prefix", "core", "data.storage.value", "%arg-3%", "%arg-4%", "%arg-2%")
+								else:
+									mj_core_message(player, "core", "data.prefix", "core", "data.argument.boolean", "true", "false")
+							else if arg-3 is "time" or "rank" or "command":
+								mj_editfiles("data", "data.storage.%arg-2%.%arg-3%", "modify", arg-4)
+								mj_core_message(player, "core", "data.prefix", "core", "data.storage.value", "%arg-3%", "%arg-4%", "%arg-2%")
+							else:
+								mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+						else:
+							mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+					else if arg-1 is "edit":
+						mj_core_storage_save(player, "data", "data.storage.%arg-2%")
+					else if arg-1 is "give":
+						if arg-2 is set:
+							if arg-3 is set:
+								set {_id} to mj_editfiles("data", "data.storage.%arg-3%.name")
+								set {_name} to mj_editfiles_gettext("core", {_id})
+								if arg-2 is "all":
+									set {_list::*} to mj_editfiles_list("data", "data.storage.%arg-3%.storage")
+									if {_list::*} is set:
+										loop all players:
+											give {_list::*} to loop-player
+											mj_core_message(loop-player, "core", "data.prefix", "core", "data.storage.give_all", {_name})
+								else if arg-2 isn't "all":
+									set {_player} to arg-2 parsed as player
+									if {_player} is online:
+										mj_core_storage_gift(arg-2, arg-3)
+										mj_core_message(player, "core", "data.prefix", "core", "data.storage.give_other", {_name}, arg-2)
+								else:
+									mj_core_storage_gift("%player%", arg-3)
+									mj_core_message(player, "core", "data.prefix", "core", "data.storage.give", {_name})
+							else:
+								mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+						else:
+							mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+					else:
+						mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+			else:
+				mj_core_permission(player, "core", "data.prefix", "mj.storage")
+		if sender is console:
+			mj_core_storage_gift(arg-1, arg-2, true)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/storage":
+	if player has permission "*" or "mj.*" or "mj.storage":
+		set {_list::*} to mj_manager_nodes("data", "data.storage")
+		set {_players::*} to all players
+		set tab completions for position 1 to "create", "set", "edit" and "give"
+		if tab arg-1 is set:
+			if tab arg-1 is "create":
+				set tab completions for position 2 to {_list::*} and "new_storage"
+			if tab arg-1 is "set" or "edit":
+				set tab completions for position 2 to {_list::*}
+				if tab arg-2 is set:
+					set tab completions for position 3 to "price", "permission", "quantity", "limit", "command", "time", "timer_second", "timer_minute", "timer_hour", "money" and "rank"
+					if tab arg-3 is "permission":
+						set {_value} to mj_editfiles_boolean("data", "data.storage.%tab arg-2%.%tab arg-3%")
+						set tab completions for position 4 to "%{_value}%"
+					if tab arg-3 is "time" or "rank":
+						set {_value} to mj_editfiles("data", "data.storage.%tab arg-2%.%tab arg-3%")
+						set tab completions for position 4 to "%{_value}%"
+						#if tab arg-3 is "time":
+						#	set tab completions for position 4 to "10s", "10m", "10h", "1d", "1j", "1w", "1mo", "1y" and "1a"
+					if tab arg-3 is "price" or "quantity" or "limit" or "timer_second" or "timer_minute" or "timer_hour" or "money":
+						set {_value} to mj_editfiles_number("data", "data.storage.%tab arg-2%.%tab arg-3%")
+						set tab completions for position 4 to "%{_value}%"
+			if tab arg-1 is "give":
+				set tab completions for position 2 to {_players::*} and "all"
+				set tab completions for position 3 to {_list::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /reward:
+	executable by: player
+	trigger:
+		mj_core_storage_reward(player)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory close:
+	set {_check1} to mj_editfiles("temp", "data.%player's uuid%.storage.edit")
+	if {_check1} is set:
+		mj_editfiles("temp", "data.%player's uuid%.storage.edit", "delete")
+		set {_source} to mj_editfiles("temp", "data.%player's uuid%.storage.source")
+		set {_find} to mj_editfiles("temp", "data.%player's uuid%.storage.find")
+		if "%event-inventory%" is "inventory of <none>":
+			set {_slot} to 0
+			loop 18 times:
+				if slot {_slot} of event-inventory isn't air:
+					set {_list::%{_slot}%} to slot {_slot} of event-inventory
+				add 1 to {_slot}
+			mj_editfiles("%{_source}%", "%{_find}%.storage", "modify", "")
+			if {_list::*} is set:
+				mj_editfiles_list("%{_source}%", "%{_find}%.storage", "modify", {_list::*})
+			wait 2 ticks
+			set {_check2} to mj_editfiles_boolean("temp", "data.%player's uuid%.storage.silent")
+			if {_check2} is false:
+				set {_name} to mj_editfiles_gettext("core", "%{_check1}%", player)
+				mj_core_message(player, "core", "data.prefix", "core", "data.storage.saved", {_name})
+				mj_core_logger(2, "Saving storage mj.%{_source}% / %{_find}% (%{_name}%&r)")
+			else:
+				mj_editfiles_boolean("temp", "data.%player's uuid%.storage.silent", "modify", false)
+		else:
+			mj_core_message({_player}, "core", "data.prefix", "core", "data.storage.error_inv")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_storage_data_generator(name: text):
+	set {_check} to mj_editfiles_stock("data", "data.storage.%{_name}%")
+	if {_check} isn't set:
+		set yaml value "data.storage.%{_name}%.name" from "mj.data" to "data.storage.catalog.%{_name}%"
+		set yaml value "data.storage.%{_name}%.price" from "mj.data" to 0
+		set yaml value "data.storage.%{_name}%.permission" from "mj.data" to true
+		set yaml value "data.storage.%{_name}%.quantity" from "mj.data" to 0
+		set yaml value "data.storage.%{_name}%.limit" from "mj.data" to 0
+		set yaml value "data.storage.%{_name}%.command.1" from "mj.data" to "/none"
+		set yaml value "data.storage.%{_name}%.time" from "mj.data" to "1d"
+		set yaml value "data.storage.%{_name}%.timer.second" from "mj.data" to 0
+		set yaml value "data.storage.%{_name}%.timer.minute" from "mj.data" to 0
+		set yaml value "data.storage.%{_name}%.timer.hour" from "mj.data" to 24
+		set yaml value "data.storage.%{_name}%.money" from "mj.data" to 0
+		set yaml value "data.storage.%{_name}%.rank" from "mj.data" to "none"
+		set yaml value "data.storage.%{_name}%.storage" from "mj.data" to ""
+		save yaml "mj.data"
+		set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+		loop {_list::*}:
+			mj_editfiles("core.language.%loop-value%", "data.storage.catalog.%{_name}%", "modify", "&a%{_name}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_storage_gift(player: text, id: text, broadcast: boolean=false):
+	set {_player} to {_player} parsed as offlineplayer
+	set {_find} to mj_editfiles("data", "data.storage.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("core", "%{_find}%", {_player})
+	if {_name} is set:
+		set {_cmd1} to mj_editfiles("data", "data.storage.%{_id}%.command.1")
+		if {_cmd1} isn't "/none":
+			set {_count} to mj_manager_nodes_count("data", "data.storage.%{_id}%.command")
+			loop {_count} times:
+				set {_cmd2} to mj_editfiles("data", "data.storage.%{_id}%.command.%loop-value%")
+				replace "$0" with "%{_player}%" in {_cmd}
+				console command "%{_cmd2}%"
+		set {_money1} to mj_editfiles_number("data", "data.storage.%{_id}%.money")
+		if {_money1} isn't 0:
+			set {_money2} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.storage.money")
+			add {_money1} to {_money2}
+			mj_editfiles_number("temp", "data.%{_player}'s uuid%.storage.money", "modify", {_money2})
+		set {_rank} to mj_editfiles("data", "data.storage.%{_id}%.rank")
+		if {_rank} isn't "none":
+			mj_editfiles("temp", "data.%{_player}'s uuid%.storage.rank", "modify", {_rank})
+		set {_list1::*} to mj_editfiles_list("data", "data.storage.%{_id}%.storage")
+		if {_list1::*} doesn't contain "none":
+			set {_list2::*} to mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage")
+			add {_list1::*} to {_list2::*}
+			mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage", "modify", {_list2::*})
+		if {_broadcast} is true:
+			loop all players:
+				mj_core_message(loop-player, "core", "data.prefix", "core", "data.storage.broadcast", "%{_player}%", {_name})
+		wait 1 second
+		if {_player} is online:
+			mj_core_message({_player}, "core", "data.prefix", "core", "data.storage.alert_reward", {_name})
+	else:
+		mj_core_message({_player}, "core", "data.prefix", "core", "data.storage.error")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_storage_reward(player: player):
+	set {_reward} to false
+	set {_money} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.storage.money")
+	if {_money} >= 0.001:
+		set {_cache} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.money")
+		add {_money} to {_cache}
+		mj_editfiles_number("userdata", "data.%{_player}'s uuid%.money", "modify", {_cache})
+		mj_core_logger(2, "%{_player}% to collect his reward %{_money}%$")
+		mj_editfiles_number("temp", "data.%{_player}'s uuid%.storage.money", "modify", 0)
+		set {_reward} to true
+	set {_rank} to mj_editfiles("temp", "data.%{_player}'s uuid%.storage.rank")
+	if {_rank} isn't "none":
+		console command "/manuadd %{_player}% %{_rank}%"
+		mj_editfiles("temp", "data.%{_player}'s uuid%.storage.rank", "modify", "none")
+		mj_core_logger(2, "%{_player}% to collect his reward %{_rank}%")
+		set {_reward} to true
+	set {_list1::*} to mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage")
+	if {_list1::*} is set:
+		mj_editfiles("temp", "data.%{_player}'s uuid%.storage.storage", "modify", "")
+		loop {_list1::*}:
+			if {_player}'s inventory has space for loop-value:
+				give loop-value to {_player}
+				mj_core_logger(2, "%{_player}% to collect his reward %loop-value%")
+				set {_reward} to true
+			else:
+				add loop-value to {_list2::*}
+		if {_list2::*} is set:
+			mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage", "modify", {_list2::*})
+	if {_reward} is true:
+		mj_core_message({_player}, "core", "data.prefix", "core", "data.storage.give_reward")
+	else:
+		mj_core_message({_player}, "core", "data.prefix", "core", "data.storage.error_reward")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_storage_save(player: player, source: text, find: text, silent: boolean=false):
+	set {_check} to mj_editfiles("%{_source}%", "%{_find}%.name")
+	if {_check} is set:
+		set {_name} to mj_editfiles_gettext("core", "%{_check}%", {_player})
+		set {_title} to mj_editfiles_gettext("core", "data.storage.name", {_player}, {_name})
+		open virtual chest inventory with size 2 named {_title} to {_player}
+		mj_editfiles("temp", "data.%{_player}'s uuid%.storage.edit", "modify", {_check})
+		mj_editfiles("temp", "data.%{_player}'s uuid%.storage.source", "modify", {_source})
+		mj_editfiles("temp", "data.%{_player}'s uuid%.storage.find", "modify", {_find})
+		mj_editfiles_boolean("temp", "data.%{_player}'s uuid%.storage.silent", "modify", {_silent})
+		set {_slot} to 0
+		set {_list::*} to mj_editfiles_list("%{_source}%", "%{_find}%.storage")
+		loop {_list::*}:
+			set {_item} to loop-value
+			make a gui slot {_slot} of {_player} with {_item} to run:
+				give {_item} to {_player}
+				make a gui slot {_slot} of {_player} with air
+				mj_core_storage_save({_player}, {_source}, {_find}, true)
+			add 1 to {_slot}
+	else:
+		mj_core_message({_player}, "core", "data.prefix", "core", "data.storage.error")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Storage
+# =====================================================================================================================
+# APIxMJ - MobGriefing
+# ---------------------------------------------------------------------------------------------------------------------
+on spawn of bat:
+	set {_check} to mj_editfiles_boolean("config", "data.no_spawn_bat")
+	if {_check} is true:
+		cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on enderman pickup:
+	set {_check} to mj_editfiles_boolean("config", "data.no_enderman_griefing")
+	if {_check} is true:
+		cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on explode:
+	set {_check} to mj_editfiles_boolean("config", "data.anti_explode")
+	if {_check} is true:
+		cancel event
+		create a safe explosion of force 1
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on explode:
+	if "%region at event-entity%" contain "spawn" or "safe":
+		cancel event
+		create a safe explosion of force 1
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - MobGriefing
+# =====================================================================================================================
+# APIxMJ - Keep Inventory
+# ---------------------------------------------------------------------------------------------------------------------
+on death of player:
+	if victim has permission "*" or "mj.*" or "mj.keepinv" or "mj.keepinventory":
+		set {_check} to mj_editfiles_boolean("config", "data.inventory.keep")
+		if {_check} is true:
+			keep inventory
+			clear drops
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on death of player:
+	if victim has permission "*" or "mj.*" or "mj.keepexp" or "mj.keepexperience":
+		set {_check} to mj_editfiles_boolean("config", "data.inventory.keep")
+		if {_check} is true:
+			keep experience
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Keep Inventory
+# =====================================================================================================================
+# APIxMJ - Gui Protection
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory click:
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.guiprotect")
+	if {_check} is true:
+		cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory close:
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.guiprotect")
+	if {_check} is true:
+		mj_editfiles_boolean("userdata", "data.%player's uuid%.guiprotect", "modify", false)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory close:
+	set {_check} to mj_editfiles("userdata", "data.%player's uuid%.gui")
+	if {_check} is set:
+		mj_editfiles("userdata", "data.%player's uuid%.gui", "modify", "none")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Protection
+# =====================================================================================================================
+# APIxMJ - GodMode
+# ---------------------------------------------------------------------------------------------------------------------
+on region exit:
+	if "%region at player%" contains "spawn" or "safe" or "center":
+		mj_timecount("godmode_%player%", "backward", 0, 0, 5, "none", player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on damage:
+	if victim is player:
+		set {_name} to mj_timecount_text("godmode_%victim%", "name")
+		if {_name} isn't "none":
+			cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - GodMode
+# =====================================================================================================================
+# APIxMJ - Stats
+# ---------------------------------------------------------------------------------------------------------------------
+on place:
+	if player is player:
+		if player's tool isn't item frame or painting:
+			set {_obj} to mj_core_stats_convert("%event-block%")
+			set {_count} to mj_editfiles_number("stats", "data.%player's uuid%.place.%{_obj}%")
+			add 1 to {_count}
+			mj_editfiles_number("stats", "data.%player's uuid%.place.%{_obj}%", "modify", {_count})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on break:
+	if player is player:
+		if event-block is set:
+			set {_obj} to mj_core_stats_convert("%event-block%")
+			set {_count} to mj_editfiles_number("stats", "data.%player's uuid%.break.%{_obj}%")
+			add 1 to {_count}
+			if "%event-block%" contains "double":
+				add 1 to {_count}
+			mj_editfiles_number("stats", "data.%player's uuid%.break.%{_obj}%", "modify", {_count})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_stats_convert(item: text) :: text:
+	replace "northward " or "downward " or "westward " or "eastward " or "southward " or "top " or "double " or "hanging " or "unbroken " or "damaged " or "chipped " with "" in {_item}
+	replace "ascending " or "z-aligned " or "east " or "east-" or "west " or "south " or "upward " or "powered " or "floor " or "wall " or "top-half " or "short " with "" in {_item}
+	replace "tall " or "north" or "south" or "open " or "two " or "three " or "four " or "five " or "six " or "seven " or "eight " or "single " or "ceiling " with "" in {_item}
+	replace "flat " or "basedrum " or "bass " or "guitar " or "snare " or "hat " or "bell " or "flute " or "chime " or "xylophone " with "" in {_item}
+	replace all " " with "_" in {_item}
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Stats
+# =====================================================================================================================
+# APIxMJ - Security
+# ---------------------------------------------------------------------------------------------------------------------
+on rightclick:
+	if "%event-block%" or "%event-entity%" contains "command":
+		if player isn't op:
+			cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on dispense:
+	if "%event-item%" contains "command":
+		cancel event
+		wait 2 ticks
+		remove all event-item from event-block's inventory
+		mj_core_logger(1, "attempt to make a forbidden block appear by %event-block's location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Security
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+on chat:
+	set {_check1} to mj_editfiles_boolean("config", "data.custom_chat")
+	if {_check1} is true:
+		cancel event
+		set {_check2} to mj_editfiles("config", "data.chat_priority")
+		if {_check2} is "core":
+			set {_check3} to mj_editfiles_boolean("userdata", "data.%player's uuid%.mute")
+			if {_check3} is false:
+				set {_send} to mj_editfiles("config", "data.format.chat")
+				replace "$0" with "%player%" in {_send}
+				replace "$1" with message in {_send}
+				mj_core_chat(player, {_send})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_chat(player: player, message: text):
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.mute", "modify", false)
+	if {_player} is op:
+		send formatted "%{_message}%" to all players
+	else:
+		send "%{_message}%" to all players
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_id_generator() :: text:
+	set {_code} to "mj-"
+	set {_date} to now formatted with "yyyyMMddHHmmss-"
+	set {_code} to "%{_code}%%{_date}%"
+	loop 4 times:
+		set {_random} to a random integer from 0 to 9
+		set {_code} to "%{_code}%%{_random}%"
+	return {_code}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_id_checker(source: text, find: text="data", name: text) :: text:
+	set {_id} to "none"
+	set {_list::*} to mj_manager_nodes({_source}, {_find})
+	loop {_list::*}:
+		set {_id} to "%loop-value%"
+		set {_check} to mj_editfiles({_source}, "%{_find}%.%{_id}%.name")
+		if "%{_name}%" is "%{_check}%":
+			exit loop
+		else:
+			set {_id} to "none"
+	return {_id}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_id_converter(source: text, find: text="data", head: text="name") :: objects:
+	set {_list1::*} to mj_manager_nodes({_source}, {_find})
+	loop {_list1::*}:
+		set {_name} to mj_editfiles({_source}, "%{_find}%.%loop-value%.%{_head}%")
+		if {_head} is loop-value:
+			set {_name} to mj_editfiles({_source}, "%{_find}%.%loop-value%")
+		add {_name} to {_list2::*}
+	return {_list2::*}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_skript_list() :: objects:
+	loop files in dir "plugins/Skript/scripts":
+		set {_value} to loop-value-1
+		set {_list1::*} to {_value} split at "/"
+		loop {_list1::*}:
+			if loop-value-2 contains ".sk":
+				add loop-value-2 to {_list2::*}
+	replace all ".sk" with "" in {_list2::*}
+	return {_list2::*}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_reset_database():
+	set {_send} to mj_editfiles_gettext("core", "data.database.reset")
+	kick all players due to "%{_send}%"
+	set {_list1::*} to mj_manager_nodes("directory")
+	loop {_list1::*}:
+		set {_list2::*} to mj_manager_nodes("directory", "data.%loop-value-1%.reset")
+		loop {_list2::*}:
+			set {_file} to mj_editfiles("directory", "data.%loop-value-1%.reset.%loop-value-2%.file")
+			if {_file} is set:
+				set {_source} to mj_editfiles("directory", "data.%loop-value-1%.reset.%loop-value-2%.source")
+				delete yaml value "%{_source}%" from "%{_file}%"
+				save yaml "%{_file}%"
+				if {_file} is "mj.userdata":
+					mj_core_playerdata("DIABLOxMJ" parsed as offlineplayer)
+					mj_core_playerdata("Nyceidu" parsed as offlineplayer)
+	set {_file::*} to mj_editfiles_list("config", "data.reset.file")
+	loop {_file::*}:
+		delete file "%loop-value%"
+	set {_folder::*} to mj_editfiles_list("config", "data.reset.folder")
+	loop {_folder::*}:
+		delete directory "%loop-value%"
+		create script "%loop-value%/log.txt"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_converter_name(name: text) :: text:
+	replace all " <none>" with "" in {_name}
+	replace all " " with "_" in {_name}
+	set {_list::*} to regex replace all "[^a-z_A-Z_0-9_-]" with "" in {_name}
+	loop {_list::*}:
+		if {_rename} is set:
+			set {_rename} to "%{_rename}%%loop-value%"
+		else:
+			set {_rename} to "%loop-value%"
+	return {_rename}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_converter_item(source: text, find: text) :: item:
+	set {_item} to yaml value "%{_find}%" from "mj.%{_source}%"
+	set {_item} to {_item} parsed as item
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_converter_time(time: text) :: timespan:
+	if {_time} contains "s":
+		replace "s" with "" in {_time}
+		set {_time} to "%{_time}% second" parsed as timespan
+	if {_time} contains "m":
+		replace "m" with "" in {_time}
+		set {_time} to "%{_time}% minute" parsed as timespan
+	if {_time} contains "h":
+		replace "h" with "" in {_time}
+		set {_time} to "%{_time}% hour" parsed as timespan
+	if {_time} contains "d" or "j":
+		replace "d" or "j" with "" in {_time}
+		set {_time} to "%{_time}% day" parsed as timespan
+	if {_time} contains "mo":
+		replace "mo" with "" in {_time}
+		set {_time} to "%{_time}% month" parsed as timespan
+	if {_time} contains "y" or "a":
+		replace "y" or "a" with "" in {_time}
+		set {_time} to "%{_time}% year" parsed as timespan
+	return {_time}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_gui_generator(player: player, size: number=1, locked: boolean=true, type: boolean=false, title: text="No gui name"):
+	if {_locked} is true:
+		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.guiprotect", "modify", true)
+	set {_item} to mj_core_converter_item("config", "data.gui_background.item")
+	open virtual chest inventory with size {_size} named {_title} to {_player}
+	set {_time} to 9*{_size}
+	set {_slot} to 0
+	loop {_time} times:
+		make a gui slot {_slot} of {_player} with {_item} named " " to run:
+			stop
+		add 1 to {_slot}
+	if {_type} is true:
+		if {_size} >= 3:
+			make a gui slot 10, 11, 12, 13, 14, 15 and 16 of {_player} with air to run:
+				stop
+		if {_size} >= 4:
+			make a gui slot 19, 20, 21, 22, 23, 24 and 25 of {_player} with air to run:
+				stop
+		if {_size} >= 5:
+			make a gui slot 28, 29, 30, 31, 32, 33 and 34 of {_player} with air to run:
+				stop
+		if {_size} >= 6:
+			make a gui slot 37, 38, 39, 40, 41, 42 and 43 of {_player} with air to run:
+				stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_language(player: player) :: text:
+	set {_lang} to mj_editfiles("userdata", "data.%{_player}'s uuid%.language")
+	if {_lang} isn't set:
+		set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	return {_lang}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_message(player: player, source1: text, prefix1: text, source2: text, send1: text, int0: text="", int1: text="", int2: text="", int3: text="", int4: text=""):
+	set {_lang} to mj_core_language({_player})
+	set {_prefix} to yaml value "%{_prefix1}%" from "mj.%{_source1}%.language.%{_lang}%"
+	set {_send} to yaml value "%{_send1}%" from "mj.%{_source2}%.language.%{_lang}%"
+	replace "$0" with {_int0} in {_send}
+	replace "$1" with {_int1} in {_send}
+	replace "$2" with {_int2} in {_send}
+	replace "$3" with {_int3} in {_send}
+	replace "$4" with {_int4} in {_send}
+	if {_prefix} isn't set:
+		set {_prefix} to {_prefix1}
+	if {_send} isn't set:
+		set {_send} to {_send1}
+	send formatted "%{_prefix}% %{_send}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_message_simple(player: player, source1: text, send1: text, int0: text="", int1: text="", int2: text="", int3: text="", int4: text=""):
+	set {_lang} to mj_core_language({_player})
+	set {_send} to yaml value "%{_send1}%" from "mj.%{_source1}%.language.%{_lang}%"
+	replace "$0" with {_int0} in {_send}
+	replace "$1" with {_int1} in {_send}
+	replace "$2" with {_int2} in {_send}
+	replace "$3" with {_int3} in {_send}
+	replace "$4" with {_int4} in {_send}
+	if {_send} isn't set:
+		set {_send} to {_send1}
+	send formatted "%{_send}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_permission(player: player, source: text="core", prefix1: text="data.prefix", int0: text="*"):
+	set {_lang} to mj_core_language({_player})
+	set {_prefix} to yaml value "%{_prefix1}%" from "mj.%{_source}%.language.%{_lang}%"
+	set {_send} to yaml value "data.argument.no_permission" from "mj.core.language.%{_lang}%"
+	if {_send} isn't set:
+		set {_send} to "data.argument.no_permission"
+	set {_check} to yaml value "data.show_permission" from "mj.config"
+	if {_check} is true:
+		set {_send} to yaml value "data.argument.show_permission" from "mj.core.language.%{_lang}%"
+		replace "$0" with {_int0} in {_send}
+		if {_send} isn't set:
+			set {_send} to "data.argument.show_permission"
+	send formatted "%{_prefix}% %{_send}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_request(player: player, source: text, find: text, cmd.accept: text, cmd.refuse: text):
+	set {_prefix} to mj_editfiles_gettext({_source}, {_find}, {_player})
+	set {_accept} to mj_editfiles_gettext("manager", "data.type.accept", {_player})
+	set {_refuse} to mj_editfiles_gettext("manager", "data.type.refuse", {_player})
+	send formatted "%{_prefix}% <cmd:%{_cmd.accept}%>%{_accept}% <cmd:%{_cmd.refuse}%>%{_refuse}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_location(source: text, find: text, mode: text="extract", player: player="") :: location:
+	if {_mode} is "extract":
+		set {_x} to yaml value "%{_find}%.location.x" from "mj.%{_source}%"
+		set {_y} to yaml value "%{_find}%.location.y" from "mj.%{_source}%"
+		set {_z} to yaml value "%{_find}%.location.z" from "mj.%{_source}%"
+		set {_world} to yaml value "%{_find}%.location.world" from "mj.%{_source}%"
+		set {_ya} to yaml value "%{_find}%.location.yaw" from "mj.%{_source}%"
+		set {_pi} to yaml value "%{_find}%.location.pitch" from "mj.%{_source}%"
+		set {_result} to location({_x}, {_y}, {_z}, ({_world} parsed as world), {_ya}, {_pi})
+	else:
+		set yaml value "%{_find}%.location.x" from "mj.%{_source}%" to {_player}'s x-coordinate
+		set yaml value "%{_find}%.location.y" from "mj.%{_source}%" to {_player}'s y-coordinate
+		set yaml value "%{_find}%.location.z" from "mj.%{_source}%" to {_player}'s z-coordinate
+		set yaml value "%{_find}%.location.world" from "mj.%{_source}%" to "%{_player}'s world%"
+		set yaml value "%{_find}%.location.yaw" from "mj.%{_source}%" to {_player}'s yaw
+		set yaml value "%{_find}%.location.pitch" from "mj.%{_source}%" to {_player}'s pitch	
+		save yaml "mj.%{_source}%"
+		mj_core_logger(2, "%{_find}%.location for %{_player}% in mj.%{_source}%")
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_location_block(source: text, find: text, mode: text="extract", loc: location="") :: location:
+	if {_mode} is "extract":
+		set {_x} to yaml value "%{_find}%.location.x" from "mj.%{_source}%"
+		set {_y} to yaml value "%{_find}%.location.y" from "mj.%{_source}%"
+		set {_z} to yaml value "%{_find}%.location.z" from "mj.%{_source}%"
+		set {_world} to yaml value "%{_find}%.location.world" from "mj.%{_source}%"
+		set {_result} to location({_x}, {_y}, {_z}, ({_world} parsed as world))
+	else:
+		set yaml value "%{_find}%.location.x" from "mj.%{_source}%" to {_loc}'s x-coordinate
+		set yaml value "%{_find}%.location.y" from "mj.%{_source}%" to {_loc}'s y-coordinate
+		set yaml value "%{_find}%.location.z" from "mj.%{_source}%" to {_loc}'s z-coordinate
+		set yaml value "%{_find}%.location.world" from "mj.%{_source}%" to "%{_loc}'s world%"
+		save yaml "mj.%{_source}%"
+		mj_core_logger(2, "%{_find}%.location in mj.%{_source}%")
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_location_viewer(target: player, mode: text="compare") :: text:
+	set {_x} to round down x-coordinate of {_target}
+	set {_y} to round down y-coordinate of {_target}
+	set {_z} to round down z-coordinate of {_target}
+	set {_result} to "%{_x}% %{_y}% %{_z}%"
+	if {_mode} is "show":
+		set {_result} to "&7X&6:&a%{_x}%&6, &7Y&6:&a%{_y}%&6, &7Z&6:&a%{_z}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_data_memory(source: text, find: text, info: text):
+	set {_id} to mj_core_id_generator()
+	set {_date} to now formatted with "dd/MM/yyyy"
+	set {_time} to mj_core_hour()
+	mj_editfiles({_source}, "%{_find}%.%{_id}%", "modify", "&3%{_date}% &e%{_time}% &6- &r%{_info}%")
+	mj_core_logger(3, "Memory data : &3%{_date}% &e%{_time}% &6- &r%{_info}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_data_read(player: player, source: text, find: text="data"):
+	set {_list1::*} to mj_manager_nodes({_source}, {_find})
+	if {_list1::*} is set:
+		loop {_list1::*}:
+			set {_info} to mj_editfiles({_source}, "%{_find}%.%loop-value%")
+			send formatted "&6- <cmd:/console /dataeditor delete mj.%{_source}% %{_find}%.%loop-value%>&c✗<reset> &f%{_info}%" to {_player}
+	else:
+		mj_core_message_simple({_player}, "core", "data.empty")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_infobar(player: player, time: number, send: text, info: text=""):
+	replace "$0" with {_info} in {_send}
+	loop {_time} times:
+		send action bar "%{_send}%" to {_player}
+		wait 1 second
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_number_convert(value: number) :: text:
+	set {_value} to "%{_value}%"
+	if {_value} contain ".":
+		set {_value1::*} to {_value} split at "."
+		set {_unit} to "%{_value1::2}%"
+		set {_value} to "%{_value1::1}%"
+	set {_value2::*} to {_value} split at ""
+	set {_number} to ""
+	set {_count} to 0
+	loop {_value2::*}:
+		add 1 to {_count}
+	loop {_value2::*}:
+		if "%loop-value%" is "0" or "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8" or "9":
+			set {_value3::%{_count}%} to loop-value
+			remove 1 from {_count}
+	set {_count} to 0
+	loop {_value3::*}:
+		if {_count} >= 3:
+			set {_count} to 1
+			set {_number} to "%loop-value% %{_number}%"
+		else: 
+			add 1 to {_count}
+			set {_number} to "%loop-value%%{_number}%"
+	set {_result} to "%{_number}%"
+	if {_unit} is set:
+		set {_result} to "%{_number}%,%{_unit}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_format_money(type: boolean=false, value: number, limit: number=0) :: text:
+	set {_icon} to mj_editfiles("config", "data.format.money")
+	set {_view1} to mj_core_number_convert({_value})
+	if {_type} is true:
+		set {_pourcent} to 100*{_value}/{_limit}
+		set {_pourcent} to "%{_pourcent}%"
+		set {_pourcent::*} to {_pourcent} split at "."
+		set {_view2} to mj_core_number_convert({_limit})
+		if "%{_value}%" contains "-":
+			set {_view1} to "&c-%{_view1}%%{_icon}%"
+		else:
+			set {_view1} to "&a%{_view1}%%{_icon}%"
+		set {_result} to "&a%{_view1}%&6/&a%{_view2}%%{_icon}% &6(&a%{_pourcent::1}%%%&6)"
+	else:
+		if "%{_value}%" contains "-":
+			set {_result} to "&c-%{_view1}%%{_icon}%"
+		else:
+			set {_result} to "&a%{_view1}%%{_icon}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_item_lore(player: player, item: item, slot: number=1, source: text="core", find: text="data", replace1: text="none", replace2: text="none") :: item:
+	set {_text} to mj_editfiles_gettext({_source}, {_find}, {_player})
+	replace "$0" with "%{_replace1}%" in {_text}
+	replace "$1" with "%{_replace2}%" in {_text}
+	set line {_slot} of lore of {_item} to {_text}
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_bossbar(player: player, mode: text, info: text="none", count: number=30):
+	if {_mode} isn't "delete":
+		mj_editfiles_boolean("temp", "data.%{_player}'s uuid%.bossbar", "modify", true)
+		if {_mode} is "cooldown":
+			set {_count} to 30
+			set {_time} to {_count}
+			set {_value} to 100
+			loop {_time} times:
+				set {_check} to yaml value "data.%{_player}'s uuid%.bossbar" from "mj.temp"
+				if {_check} is true:
+					# style (notched_6|notched_10|notched_12|notched_20|progress)
+					mj_core_bossbar_view({_player}, {_value}, "blue", "%{_info}% &6: &a%{_count}% secondes")
+					remove 1 from {_count}
+					if {_time} is 30:
+						set {_value} to {_value}-3.35
+					wait 1 second
+					set {_check} to false
+				else:
+					exit loop
+			mj_core_bossbar({_player}, "delete")
+	else:
+		set {_check} to mj_editfiles_boolean("temp", "data.%{_player}'s uuid%.bossbar")
+		if {_check} is true:
+			remove bossbar "bossbar_%{_player}%"
+			mj_editfiles("temp", "data.%{_player}'s uuid%.bossbar", "delete")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_bossbar_view(player: player, value: number, color: text="green", info: text="none"):
+	remove bossbar "bossbar_%{_player}%"
+	if {_color} is "blue":
+		create bossbar titled "%{_info}%" and id "bossbar_%{_player}%" for {_player} with value {_value} with colors blue with style solid
+	else if {_color} is "pink":
+		create bossbar titled "%{_info}%" and id "bossbar_%{_player}%" for {_player} with value {_value} with colors pink with style solid
+	else if {_color} is "purple":
+		create bossbar titled "%{_info}%" and id "bossbar_%{_player}%" for {_player} with value {_value} with colors purple with style solid
+	else if {_color} is "red":
+		create bossbar titled "%{_info}%" and id "bossbar_%{_player}%" for {_player} with value {_value} with colors red with style solid
+	else if {_color} is "white":
+		create bossbar titled "%{_info}%" and id "bossbar_%{_player}%" for {_player} with value {_value} with colors white with style solid
+	else if {_color} is "yellow":
+		create bossbar titled "%{_info}%" and id "bossbar_%{_player}%" for {_player} with value {_value} with colors yellow with style solid
+	else:
+		create bossbar titled "%{_info}%" and id "bossbar_%{_player}%" for {_player} with value {_value} with colors green with style solid
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_hour() :: text:
+	set {_hour} to now formatted with "HH"
+	set {_minute} to now formatted with "mm"
+	return "%{_hour}%h%{_minute}%"
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_sorter_board(name: text="default", source: text="none", find: text="data", head1: text="value", head2: text="none", time: number=10):
+	if {_source} isn't "none":
+		mj_editfiles("temp", "data.sorterboard.%{_name}%", "delete")
+		set {_list1::*} to mj_manager_nodes({_source}, {_find})
+		loop {_list1::*}:
+			set {_value1} to mj_editfiles_number({_source}, "%{_find}%.%loop-value%.%{_head1}%")
+			if {_head2} isn't "none":
+				set {_value2} to mj_editfiles_number({_source}, "%{_find}%.%loop-value%.%{_head2}%")
+				add {_value2} to {_value1}
+			add {_value1} to {_list2::%loop-value%}
+		set {_count} to 1
+		loop {_time} times:
+			loop {_list2::*}:
+				if {_value3} isn't set:
+					set {_value3} to loop-value-2
+				if loop-value-2 >= {_value3}:
+					set {_value3} to loop-value-2
+					set {_index} to loop-index-1
+					mj_editfiles("temp", "data.sorterboard.%{_name}%.%{_count}%.id", "modify", loop-index-1)
+					mj_editfiles_number("temp", "data.sorterboard.%{_name}%.%{_count}%.value", "modify", loop-value-2)
+			clear {_list2::%{_index}%}
+			delete {_value3}
+			add 1 to {_count}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function
+# =====================================================================================================================

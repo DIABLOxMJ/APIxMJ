@@ -1,0 +1,15 @@
+data:
+    # Important to know if your grades have capitals you must respect the capitals here too
+    # ESPECIALLY DO NOT DELETE THE "default" VALUES THEY ARE MANDATORY, BECAUSE IF THE PLAYER HAS THE DEFAULT GRADE OR WHO HAS NO GRADE AT ALL, THESE HIM WHO TAKES CHARGE
+    prefix:
+        # rank per default, default : &fdefault
+        default: "&fdefault"
+    compact:
+        # rank per default, default : &fdflt
+        default: "&fdflt"
+    tabulation:
+        # rank per default, default : &fdefault
+        default: "&fdefault"
+    color:
+        # rank per default, default : &f
+        default: "&f"

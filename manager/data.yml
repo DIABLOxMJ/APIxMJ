@@ -86,7 +86,7 @@ data:
             visible: false
             menu_back: main
             menu_next: enderium
-            slot: 11
+            slot: 15
             item: chest
             gui_background:
                 item: cyan stained glass pane
@@ -95,7 +95,7 @@ data:
             visible: true
             menu_back: enderium
             menu_next: enderium_main
-            slot: 11
+            slot: 10
             item: chest
             gui_background:
                 item: cyan stained glass pane
@@ -104,7 +104,7 @@ data:
             visible: false
             menu_back: enderium_main
             menu_next: enderium_extension
-            slot: 16
+            slot: 11
             item: chest
             gui_background:
                 item: cyan stained glass pane
@@ -729,7 +729,7 @@ data:
                     '2': enderium_main.core
                 github_folder: enderium/extension/lobby
                 folder: main/extension/lobby
-                slot: 23
+                slot: 10
                 kick: false
                 skript:
                     '1': apixmj_lobby

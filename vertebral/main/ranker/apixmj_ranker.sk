@@ -12,7 +12,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading ranker..." to console
 		mj_files_ranker()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.ranker.version", "modify", "2022.10.18.0002")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.ranker.version", "modify", "2022.10.18.0003")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_ranker.sk"
@@ -29,41 +29,30 @@ on skript stop:
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	wait 5 seconds
-	set {_data} to mj_editfiles("ranker.config", "data.system.use")
-	if {_data} isn't set:
-		loop plugins list:
-			if loop-value is "groupmanager":
-				set yaml value "data.system.use" from "mj.ranker.config" to loop-value
-				set yaml value "data.system.version" from "mj.ranker.config" to version of loop-value
-				save yaml "mj.ranker.config"
-				mj_core_logger(1, "Ranker : %loop-value% is detected and installed in the configuration")
-				wait 2 ticks
-				mj_ranker_config()
-				stop
-			else:
-				set yaml value "data.system.use" from "mj.ranker.config" to "apixmj"
-				set {_version} to mj_editfiles("manager.data", "data.main.ranker.version")
-				set yaml value "data.system.version" from "mj.ranker.config" to {_version}
-				save yaml "mj.ranker.config"
-				mj_core_logger(1, "Ranker : Nothing was detected and the default is installed in the configuration")
+	set {_default} to true
+	loop plugins list:
+		if loop-value is "groupmanager":
+			set yaml value "data.system.use" from "mj.ranker.config" to loop-value
+			set yaml value "data.system.version" from "mj.ranker.config" to version of loop-value
+			save yaml "mj.ranker.config"
+			mj_core_logger(1, "Ranker : %loop-value% is detected and installed in the configuration")
+			set {_default} to false
+			exit loop
+	if {_default} is true:
+		set yaml value "data.system.use" from "mj.ranker.config" to "apixmj"
+		set {_version} to mj_editfiles("manager.data", "data.addon.vertebral_main.ranker.version")
+		set yaml value "data.system.version" from "mj.ranker.config" to {_version}
+		save yaml "mj.ranker.config"
+		mj_core_logger(1, "Ranker : Nothing was detected and the default is installed in the configuration")
+	wait 2 ticks
+	mj_ranker_config()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_ranker_config():
-	set {_type} to mj_editfiles("ranker.config", "data.system.use")
-	if {_type} is "groupmanager":
-		mj_ranker_config_groupmanager()
-	set {_check} to yaml value "data" from "mj.ranker.data"
-	if {_check} isn't set:
-		set yaml value "data.prefix.default" from "mj.ranker.data" to "&fdefault"
-		set yaml value "data.compact.default" from "mj.ranker.data" to "&fdflt"
-		set yaml value "data.tabulation.default" from "mj.ranker.data" to "&fdefault"
-		set yaml value "data.color.default" from "mj.ranker.data" to "&f"
-		save yaml "mj.ranker.data"
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_ranker_config_groupmanager():
-	set {_world} to mj_editfiles("config", "data.world.name")
-	load yaml "plugins/GroupManager/worlds/%{_world}%/users.yml" as "mj.ranker.users"
+	set {_source} to mj_editfiles("ranker.config", "data.system.use")
+	if {_source} is "groupmanager":
+		set {_world} to mj_editfiles("config", "data.world.name")
+		load yaml "plugins/GroupManager/worlds/%{_world}%/users.yml" as "mj.ranker.users"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Detector
@@ -71,22 +60,30 @@ function mj_ranker_config_groupmanager():
 # APIxMJ - Function
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_ranker(player: offlineplayer, type: text="prefix", color: boolean=true) :: text:
-	set {_type} to mj_editfiles("ranker.config", "data.system.use")
-	if {_type} is "groupmanager":
+	set {_source} to mj_editfiles("ranker.config", "data.system.use")
+	if {_source} is "groupmanager":
 		set {_rank1} to mj_editfiles("ranker.users", "users.%{_player}'s uuid%.group")
 		set {_rank2} to mj_ranker_convert({_rank1}, {_type}, {_color})
 	return {_rank2}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_ranker_convert(id: text, type: text="prefix", color: boolean=true) :: text:
-	if {_type} isn't "source":
-		set {_rank} to mj_editfiles("ranker.data", "data.%{_type}%.%{_id}%")
+	if {_type} is "source":
+		set {_rank} to {_id}
 	else:
-		set {_rank} to {_type}
+		set {_rank} to mj_editfiles("ranker.data", "data.%{_type}%.%{_id}%")
 	if {_color} isn't true:
 		set {_rank} to uncolored {_rank}
 	if {_rank} isn't set:
 		set {_rank} to "default"
 	return {_rank}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_ranker_modify(player: offlineplayer, rank: text="none"):
+	set {_source} to mj_editfiles("ranker.config", "data.system.use")
+	if {_source} is "groupmanager":
+		console command "/manuadd %{_player}% %{_rank}%"
+	mj_ranker_config()
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Function
 # =====================================================================================================================

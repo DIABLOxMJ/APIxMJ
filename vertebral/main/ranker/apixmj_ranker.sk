@@ -3,7 +3,6 @@
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_files_ranker():
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.ranker.folder")
-	broadcast "%{_folder}%"
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.ranker.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.ranker.data"
 	stop
@@ -13,7 +12,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading ranker..." to console
 		mj_files_ranker()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.ranker.version", "modify", "2022.10.18.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.ranker.version", "modify", "2022.10.18.0002")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_ranker.sk"
@@ -81,18 +80,12 @@ function mj_ranker(player: offlineplayer, type: text="prefix", color: boolean=tr
 function mj_ranker_convert(id: text, type: text="prefix", color: boolean=true) :: text:
 	if {_type} isn't "source":
 		set {_rank} to mj_editfiles("ranker.data", "data.%{_type}%.%{_id}%")
-		broadcast "ranker.data = data.%{_type}%.%{_id}%"
-		broadcast "type 1 : %{_rank}%"
 	else:
 		set {_rank} to {_type}
-		broadcast "type 2 : %{_rank}%"
 	if {_color} isn't true:
 		set {_rank} to uncolored {_rank}
-		broadcast "uncolored : %{_rank}%"
 	if {_rank} isn't set:
 		set {_rank} to "default"
-		broadcast "type 3 : %{_rank}%"
-	broadcast "result : %{_rank}%"
 	return {_rank}
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Function

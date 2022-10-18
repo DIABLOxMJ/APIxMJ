@@ -1,0 +1,16 @@
+data:
+    rankup:
+        name: "&aRankUP"
+        type: command
+        description:
+            '1': "&0- &aUne boutique virtuel pour permettre au joueur"
+            '2': "&0- &ade progresser en achetent des rangs en jeu"
+            '3': "&0- &aoù en ligne via une boutique lié au serveur."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.rankup.*"
+        - "mj.rankup"
+        info:
+            '1': "&6- &a/rankup"
+            '2': "&0- &7Ouvre une interface de commerce."

@@ -1,0 +1,18 @@
+data:
+    default:
+        # Never modify except the "default" it is the path to indicate the name to display from the language file, default : data.product.default.name
+        name: data.product.default.name
+        # Whether to display in the interface or not, default : true
+        visible: true
+        # The location in the interface, default : 0
+        slot: 0
+        # It's the price at stake, default : 1
+        price: 1
+        # The price in the store on the server's site, default : 10PB (1€)
+        web_price: 10PB (1€)
+        # This is the rank the player needs for this purchase, default : player
+        request: player
+        # This is the rank the player will get after purchasing, default : vip
+        rank: vip
+        # the item to display in the interface it takes into account the personalized items, default : stone block
+        item: stone block

@@ -1,0 +1,27 @@
+data:
+    prefix: "&6[&c&lRankUP&6]&r"
+    title: "&eBoutique de grade"
+    title_confirm: "&eConfirmation"
+    item_name: "&eGrade &6: &a$0"
+    item_request: "&7Grade requis &6: &a$0"
+    item_rank: "&7Grade après l'achat &6: &a$0"
+    item_price: "&7Prix IN-GAME &6: &a$0"
+    item_web_price: "&7Prix en boutique &6: &a$0"
+    link_website_store: "&7Cliquer sur le bouton suivant pour aller sur la boutique &6:&r <link:$0>&6[&a&lBOUTIQUE&6]"
+    functionality: "&7Contenu du grade &6:&r"
+    buy: "&aAcheter"
+    buy_confirm: "&eAcheter le rang &6:&r &a$0"
+    click_buy: "&aAcheter ce rang"
+    click_buy_confirm: "&aConfirmer cette achat"
+    click_open_store: "&aOuvrir la boutique en ligne"
+    click_rank_request: "&cVous n'avez pas le rang requis…"
+    click_money_request: "&cVous n'avez pas l'argent requis…"
+    store: "&eVisiter la boutique"
+    no_eligible: "&cVous ne remplissez pas les conditions requises…"
+    product:
+        default:
+            name: "&aDéfaut"
+            info:
+                '1': "&aInfo 1"
+                '2': "&aInfo 2"
+                '3': "&aInfo 3"

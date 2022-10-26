@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.10.07.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.10.26.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -539,6 +539,23 @@ function mj_manager_update():
 			if "%{_check}%" doesn't contain "%{_version}%":
 				mj_manager_menu_control_installer({_source}, {_value1}, {_value2}, "update")
 				wait 8 seconds
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 1 hour:
+	broadcast "auto update data file"
+	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
+	set {_github} to mj_editfiles("manager.data", "data.addon.main.manager.github_folder")
+	delete file "plugins/APIxMJ/manager/data.yml"
+	download file from "%{_link}%/%{_github}%/apixmj_data.sk" to file "plugins/Skript/scripts/apixmj_data.sk"
+	wait 1 second
+	reload script "apixmj_data"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_update_data():
+	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
+	delete file "plugins/APIxMJ/manager/data.yml"
+	download file from "%{_link}%/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
+	mj_files_manager()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Control (Update)

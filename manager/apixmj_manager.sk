@@ -541,20 +541,22 @@ function mj_manager_update():
 				wait 8 seconds
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-every 1 hour:
-	broadcast "auto update data file"
+every 1 minute:
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
 	set {_github} to mj_editfiles("manager.data", "data.addon.main.manager.github_folder")
-	delete file "plugins/APIxMJ/manager/data.yml"
 	download file from "%{_link}%/%{_github}%/apixmj_data.sk" to file "plugins/Skript/scripts/apixmj_data.sk"
-	wait 1 second
+	wait 2 ticks
 	reload script "apixmj_data"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_update_data():
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
-	delete file "plugins/APIxMJ/manager/data.yml"
+	loop files in dir "plugins/APIxMJ/manager":
+		if loop-value contains "data.yml":
+			delete file "plugins/APIxMJ/manager/data.yml"
+	wait 2 ticks
 	download file from "%{_link}%/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
+	wait 2 ticks
 	mj_files_manager()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

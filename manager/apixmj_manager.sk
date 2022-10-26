@@ -554,8 +554,12 @@ function mj_manager_update_data():
 	loop files in dir "plugins/APIxMJ/manager":
 		if loop-value contains "data.yml":
 			delete file "plugins/APIxMJ/manager/data.yml"
+			delete file "plugins/APIxMJ/manager/language/fr.yml"
+			delete file "plugins/APIxMJ/manager/help/fr.yml"
 	wait 2 ticks
 	download file from "%{_link}%/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
+	download file from "%{_link}%/manager/language/fr.yml" to file "plugins/APIxMJ/manager/language/fr.yml"
+	download file from "%{_link}%/manager/help/fr.yml" to file "plugins/APIxMJ/manager/help/fr.yml"
 	wait 6 ticks
 	mj_files_manager()
 	stop

@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.10.26.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.10.28.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -446,6 +446,9 @@ function mj_manager_menu_control_installer_file(player: player, source: text, id
 	set {_list::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.yml")
 	loop {_list::*}:
 		set {_file} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.yml.%loop-value%")
+		broadcast "data : data.addon.%{_source}%.%{_id}%.yml.%loop-value%"
+		broadcast "download : %{_link}%/%{_github}%/%{_file}%.yml"
+		broadcast "paste : plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
 		download file from "%{_link}%/%{_github}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

@@ -198,8 +198,8 @@ data:
                 name: "&aDuel"
                 name_lite: "&aDuel"
                 lore:
-                    '1': " &6- &7Lore 1"
-                    '2': " &0- &7Lore 2"
+                    '1': " &6- &7Vous aimez parier et affronter des joueurs ?"
+                    '2': " &0- &7Affrontez en duel dans un environnement contrôlé !"
             expbank:
                 name: "&aBanque d'expérience"
                 name_lite: "&aBanque d'expérience"
@@ -209,38 +209,39 @@ data:
                 name: "&aHôtel des ventes"
                 name_lite: "&aHôtel des ventes"
                 lore:
-                    '1': " &6- &7Lore 1"
-                    '2': " &0- &7Lore 2"
+                    '1': " &6- &7Les poches pleines après une expédition ?"
+                    '2': " &0- &7Échangez vos ressources contre de l'argent,"
+                    '3': " &0- &7peut-être qu'un joueur vous rendra riche !"
             lootbox:
                 name: "&aLootBox"
                 name_lite: "&aLootBox"
                 lore:
-                    '1': " &6- &7Lore 1"
-                    '2': " &0- &7Lore 2"
+                    '1': " &6- &7Avez-vous des clés? Jouez à la boîte mystère et"
+                    '2': " &0- &7obtenez des récompenses diverses et variées."
             menu:
                 name: "&aMenu"
                 name_lite: "&aMenu"
                 lore:
-                    '1': " &6- &7Lore 1"
-                    '2': " &0- &7Lore 2"
+                    '1': " &6- &7Un menu permettent de tout réunir dans un seul"
+                    '2': " &0- &7et même endroit idéal pour s'y retrouver en jeu."
             portal:
                 name: "&aPortail"
                 name_lite: "&aPortail"
                 lore:
-                    '1': " &6- &7Lore 1"
-                    '2': " &0- &7Lore 2"
+                    '1': " &6- &7Créer des portails à travers l'univers le moyen"
+                    '2': " &0- &7de transport le plus rapide qui existe."
             rankup:
                 name: "&aRankUP"
                 name_lite: "&aRankUP"
                 lore:
-                    '1': " &6- &7Lore 1"
-                    '2': " &0- &7Lore 2"
+                    '1': " &6- &7Un système de progression en achetant des rangs"
+                    '2': " &0- &7et en s'améliorant en jouant."
             multitools:
                 name: "&aBoite à outils"
                 name_lite: "&aBoite à outils"
                 lore:
-                    '1': " &6- &7Lore 1"
-                    '2': " &0- &7Lore 2"
+                    '1': " &6- &7Une petite boîte à outils pour améliorer les"
+                    '2': " &0- &7possibilités en jeu et améliorer le spawn."
             shop:
                 name: "&aMagasin"
                 name_lite: "&aMagasin"

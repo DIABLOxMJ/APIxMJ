@@ -398,7 +398,7 @@ data:
                 name: data.addon.vertebral_extension.rankup.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: false
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core

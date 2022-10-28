@@ -19,7 +19,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading spawner..." to console
 		mj_files_spawner()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.spawner.version", "modify", "2022.10.08.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.spawner.version", "modify", "2022.10.28.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_spawner.sk"
@@ -89,7 +89,7 @@ on tab complete of "/spawner":
 on break:
 	if event-block is mob spawner:
 		if player has permission "*" or "mj.*" or "mj.spawner.*" or "mj.spawner":
-			set {_check} to mj_editfiles_boolean("spawner.config", "data.silktouch")
+			set {_check} to mj_editfiles_boolean("spawner.config", "data.silk_touch")
 			if {_check} is true:
 				if player's tool is enchanted with silk touch:
 					set {_nbt} to nbt compound of event-block

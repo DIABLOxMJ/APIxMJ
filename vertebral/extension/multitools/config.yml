@@ -1,0 +1,48 @@
+data:
+    # Whether or not we make automatic messages, default : false
+    auto_broadcast: false
+    # We list the list of servers according to (Bungeecord), default : server01 and server02
+    server_list:
+    - server01
+    - server02
+    # A propulsion plate system
+    launch_pads:
+        # We indicate the power towards the direction (upwards), default : 1
+        upwards: 1
+        # We indicate the power towards the direction (forwards), default : 5
+        forwards: 5
+        # We indicate the regions in which we want the pressure plates to act as a propulsion plate (WorldGuard), default : spawn and rg_spawn
+        region_list:
+        - spawn
+        - rg_spawn
+    # You must indicate the names of the regions in which the anvils are indestructible (WorldGuard), default : spawn and rg_spawn
+    anvil_region_list:
+    - spawn
+    - rg_spawn
+    # We indicate the regions where fishing rods are prohibited (WorldGuard), default : spawn and rg_spawn
+    no_rod_region_list:
+    - spawn
+    - rg_spawn
+    # It allows to deactivate the damage in this list of world name, default : world, world_nether and world_the_end
+    no_damage_world_list:
+    - world
+    - world_nether
+    - world_the_end
+    tab_list:
+        # Whether or not we display a custom tablist, default : false
+        condition: false
+        # A rank organization system for the tablist
+        order:
+            # Here we find a list of grades from (Ranker, GroupManager, LuckyPerm...)
+            admin:
+                # The tag represents its level of location in the tablist in ascending
+                # order (A) being the highest in the list up to (Z) which is the lowest
+                # Respect the format (*-rank_name) * = from A to Z followed by its rank, default : a-owner
+                tag: a-owner
+                # It is necessary to link the rank of the player to the tag up to the top, default : owner
+                rank: owner
+            player:
+                # Same information as above, default : b-player
+                tag: b-player
+                # It is necessary to link the rank of the player to the tag up to the top, default : player
+                rank: player

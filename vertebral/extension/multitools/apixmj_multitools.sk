@@ -1,7 +1,7 @@
 # =====================================================================================================================
 # APIxMJ - Files
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_files_rankup():
+function mj_files_multitools():
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.multitools.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.multitools.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.multitools.data"

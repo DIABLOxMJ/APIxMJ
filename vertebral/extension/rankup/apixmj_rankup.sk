@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading rankup..." to console
 		mj_files_rankup()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.rankup.version", "modify", "2022.10.18.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.rankup.version", "modify", "2022.10.28.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk, apixmj_ranker.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_rankup.sk"
@@ -68,8 +68,11 @@ function mj_rankup_menu_main_button_choice(player: player, id: text):
 	set {_money} to mj_essentials_money_modify({_player}, "all")
 	set {_rank} to mj_ranker({_player}, "source")
 	set {_request} to mj_editfiles("rankup.data", "data.%{_id}%.request")
+	set {_new_rank} to mj_editfiles("rankup.data", "data.%{_id}%.rank")
 	set {_buy} to false
-	if {_rank} is {_request}:
+	if {_rank} is {_new_rank}:
+		set {_item2} to mj_manager_item_button({_player}, {_item1}, "left_click", "rankup", "data.click_rank_acquired")
+	else if {_rank} is {_request}:
 		if {_money} >= {_price}:
 			set {_item2} to mj_manager_item_button({_player}, {_item1}, "left_click", "rankup", "data.click_buy")
 			set {_buy} to true
@@ -121,17 +124,16 @@ function mj_rankup_menu_confirm_button_buy(player: player, id: text, slot: numbe
 	set {_rank1} to mj_editfiles("rankup.data", "data.%{_id}%.rank")
 	set {_rank2} to mj_ranker_convert({_rank1})
 	set {_web_price} to mj_editfiles("rankup.data", "data.%{_id}%.web_price")
-	set {_upgrade} to mj_editfiles("rankup.data", "data.%{_id}%.rank")
 	set {_price1} to mj_editfiles_number("rankup.data", "data.%{_id}%.price")
 	set {_price2} to mj_core_format_money(false, {_price1})
 	set {_item} to mj_core_item_lore({_player}, lime stained glass pane, 2, "rankup", "data.item_price", {_price2})
 	set {_title} to mj_editfiles_gettext("rankup", "data.buy_confirm", {_player}, {_rank2})
 	set {_item1} to mj_manager_item_button({_player}, {_item}, "left_click", "rankup", "data.click_buy_confirm")
 	make a gui slot {_slot} of {_player} with {_item1} named {_title} to close:
-		mj_essentials_money_system({_player}, {_price})
-		mj_ranker_modify({_player}, {_upgrade})
+		mj_essentials_money_system({_player}, {_price1})
+		mj_ranker_modify({_player}, {_rank1})
 		loop all players:
-			mj_core_message(loop-player, "rankup", "data.prefix", "rankup", "data.success", "%{_player}%", "%{_name}%")
+			mj_core_message(loop-player, "rankup", "data.prefix", "rankup", "data.success", "%{_player}%", {_rank2})
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

@@ -56,7 +56,7 @@ data:
                 item: gray stained glass pane
         gamemodes:
             name: data.index.gamemodes.name
-            visible: false
+            visible: true
             menu_back: main
             menu_next: gamemodes
             slot: 14
@@ -65,7 +65,7 @@ data:
                 item: black stained glass pane
         gamemodes_faction:
             name: data.index.gamemodes_faction.name
-            visible: true
+            visible: false
             menu_back: gamemodes
             menu_next: gamemodes_faction
             slot: 10

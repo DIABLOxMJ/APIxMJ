@@ -73,7 +73,7 @@ function mj_update_data():
 	set {_48} to yaml value "data.addon.enderium_main.essentials.visible" from "%{_source}%"
 	wait 5 ticks
 	mj_manager_update_data()
-	wait 5 ticks
+	wait 5 seconds
 	set yaml value "data.addon.vertebral_main.core.version" from "%{_source}%" to {_01}
 	set yaml value "data.addon.vertebral_main.core.installed" from "%{_source}%" to {_02}
 	set yaml value "data.addon.vertebral_main.core.visible" from "%{_source}%" to {_03}

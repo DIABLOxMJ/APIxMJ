@@ -21,7 +21,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.gamemodes_classic.core.version", "modify", "2022.11.01.0001")
+		mj_editfiles("manager.data", "data.addon.gamemodes_classic.core.version", "modify", "2022.11.02.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -423,13 +423,13 @@ on gamemode change:
 	mj_core_logger_save_data("%player% has changed gamemode to %player's gamemode%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-on region enter:
-	mj_core_logger_save_data("%event-entity% enter on region %event-region% at %location%")
-	stop
+#on region enter:
+	#mj_core_logger_save_data("%event-entity% enter on region %event-region% at %location%")
+	#stop
 # ---------------------------------------------------------------------------------------------------------------------
-on region exit:
-	mj_core_logger_save_data("%event-entity% exit a region %event-region% at %location%")
-	stop
+#on region exit:
+	#mj_core_logger_save_data("%event-entity% exit a region %event-region% at %location%")
+	#stop
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:
 	if "%event-block%" contains "chest" or "trapped chest" or "shulker box" or "enderchest":
@@ -1097,11 +1097,11 @@ on explode:
 		create a safe explosion of force 1
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-on explode:
-	if "%region at event-entity%" contain "spawn" or "safe":
-		cancel event
-		create a safe explosion of force 1
-	stop
+#on explode:
+	#if "%region at event-entity%" contain "spawn" or "safe":
+	#	cancel event
+	#	create a safe explosion of force 1
+	#stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - MobGriefing
 # =====================================================================================================================
@@ -1148,10 +1148,10 @@ on inventory close:
 # =====================================================================================================================
 # APIxMJ - GodMode
 # ---------------------------------------------------------------------------------------------------------------------
-on region exit:
-	if "%region at player%" contains "spawn" or "safe" or "center":
-		mj_timecount("godmode_%player%", "backward", 0, 0, 5, "none", player)
-	stop
+#on region exit:
+	#if "%region at player%" contains "spawn" or "safe" or "center":
+	#	mj_timecount("godmode_%player%", "backward", 0, 0, 5, "none", player)
+	#stop
 # ---------------------------------------------------------------------------------------------------------------------
 on damage:
 	if victim is player:

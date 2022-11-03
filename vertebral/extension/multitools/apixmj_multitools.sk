@@ -2,24 +2,22 @@
 # APIxMJ - Files
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_files_multitools():
-	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.multitools.folder")
-	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.multitools.config"
-	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.multitools.data"
+	load yaml "plugins/APIxMJ/extension/multitools/config.yml" as "mj.multitools.config"
+	load yaml "plugins/APIxMJ/extension/multitools/data.yml" as "mj.multitools.data"
 	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
 	if {_list::*} is set:
 		loop {_list::*}:
-			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.multitools.language.%loop-value%"
-			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.multitools.help.%loop-value%"
+			load yaml "plugins/APIxMJ/extension/multitools/language/%loop-value%.yml" as "mj.multitools.language.%loop-value%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk" and "apixmj_essentials.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading multitools..." to console
 		mj_files_multitools()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.multitools.version", "modify", "2022.10.29.0001")
+		mj_editfiles("manager.data", "data.extension.multitools.version", "modify", "2022.08.31.0001")
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk, apixmj_ranker.sk and apixmj_essentials.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_multitools.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

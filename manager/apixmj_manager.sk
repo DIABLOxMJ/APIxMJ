@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.10.28.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.11.03.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -146,11 +146,18 @@ command /manager [<text>]:
 	executable by: player
 	trigger:
 		if player is op:
-			if arg-1 is "reload":
-				player command "/sk reload apixmj_manager"
+			if arg-1 is set:
+				if arg-1 is "reload":
+					player command "/sk reload apixmj_manager"
+				else if arg-1 is "data_update":
+					mj_manager_update_data()
 			else:
 				mj_manager_menu(player)
 		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/manager":
+	set tab completions for position 1 to "reload" and "data_update"
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Command
 # =====================================================================================================================
@@ -381,6 +388,7 @@ function mj_manager_menu_control_button_installer(player: player, source: text, 
 	if {_value1} isn't "none":
 		set {_count} to mj_manager_nodes_count("manager.data", "data.addon.%{_source}%.%{_id}%.depends")
 		loop {_count} times:
+			# A MODIFIER POUR CHECK LE FICHIER SK ET NON LA SOURCE
 			set {_value1} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.depends.%loop-value%")
 			set {_value2} to mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.installed")
 			set {_value3} to mj_editfiles("manager.data", "data.addon.%{_value1}%.name")
@@ -521,6 +529,7 @@ function mj_manager_menu_control_button_update_check(player: player, source: tex
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 every 1 hour:
+	mj_manager_update_data()
 	set {_check1} to mj_editfiles_boolean("manager.config", "data.auto_update")
 	if {_check1} is true:
 		mj_manager_update()
@@ -541,27 +550,33 @@ function mj_manager_update():
 				wait 8 seconds
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-every 1 hour:
-	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
-	set {_github} to mj_editfiles("manager.data", "data.addon.main.manager.github_folder")
-	download file from "%{_link}%/%{_github}%/apixmj_data.sk" to file "plugins/Skript/scripts/apixmj_data.sk"
-	wait 2 ticks
-	reload script "apixmj_data"
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_update_data():
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
-	loop files in dir "plugins/APIxMJ/manager":
-		if loop-value contains "data.yml":
-			delete file "plugins/APIxMJ/manager/data.yml"
-			delete file "plugins/APIxMJ/manager/language/fr.yml"
-			delete file "plugins/APIxMJ/manager/help/fr.yml"
+	rename file "plugins/APIxMJ/manager/data.yml" to "data_old.yml"
+	delete file "plugins/APIxMJ/manager/language/fr.yml"
+	delete file "plugins/APIxMJ/manager/help/fr.yml"
 	wait 2 ticks
 	download file from "%{_link}%/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
 	download file from "%{_link}%/manager/language/fr.yml" to file "plugins/APIxMJ/manager/language/fr.yml"
 	download file from "%{_link}%/manager/help/fr.yml" to file "plugins/APIxMJ/manager/help/fr.yml"
-	wait 6 ticks
+	wait 2 ticks
 	mj_files_manager()
+	load yaml "plugins/APIxMJ/manager/data_old.yml" as "mj.manager.data_old"
+	set {_list1::*} to mj_manager_nodes("manager.data_old", "data.addon")
+	loop {_list1::*}:
+		set {_value1} to loop-value-1
+		if {_value1} isn't "main":
+			set {_list2::*} to mj_manager_nodes("manager.data_old", "data.addon.%{_value1}%")
+			loop {_list2::*}:
+				set {_value2} to loop-value-2
+				set {_value3} to mj_editfiles_boolean("manager.data_old", "data.addon.%{_value1}%.%{_value2}%.installed")
+				if {_value3} is true:
+					mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.installed", "modify", {_value3})
+					set {_value4} to mj_editfiles("manager.data_old", "data.addon.%{_value1}%.%{_value2}%.version")
+					mj_editfiles("manager.data", "data.addon.%{_value1}%.%{_value2}%.version", "modify", {_value4})
+	unload yaml "mj.manager.data_old"
+	delete file "plugins/APIxMJ/manager/data_old.yml"
+	send "[APIxMJ] Database for Manager Updated !" to console
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Control (Update)

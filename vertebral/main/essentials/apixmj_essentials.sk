@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2022.10.08.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2022.11.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -588,15 +588,16 @@ on command:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_money_logger(info: text, context: text="none"):
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.folder")
 	set {_date} to now formatted with "yyyy-MM-dd"
-	if file "plugins/APIxMJ/essentials/logs/%{_date}%.log" doesn't exist:
-		create file "plugins/APIxMJ/essentials/logs/%{_date}%.log"
+	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log" doesn't exist:
+		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
 	set {_id} to mj_core_logger_id_generator()
 	set {_info} to uncolored {_info}
 	if {_context} isn't "none":
-		write "%{_id}% : %{_info}% (%{_context}%)" at line (file "plugins/APIxMJ/essentials/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/essentials/logs/%{_date}%.log"
+		write "%{_id}% : %{_info}% (%{_context}%)" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
 	else:
-		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/essentials/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/essentials/logs/%{_date}%.log"
+		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
 	mj_core_logger(3, {_info})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

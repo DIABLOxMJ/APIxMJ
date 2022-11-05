@@ -1,0 +1,49 @@
+data:
+    shop:
+        name: "&aMagasin"
+        type: command
+        description:
+            '1': "&0- &aLe meilleur de faire du commerce reste le"
+            '2': "&0- &amagasin, grâce à ceci vous pourrais faire"
+            '3': "&0- &ades achats et de la vente en masse."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.shop.*"
+        - "mj.shop"
+        info:
+            '1': "&6- &a/shop"
+            '2': "&0- &7Ouvre un menu interactive."
+    sell:
+        name: "&aVendeur"
+        type: command
+        description:
+            '1': "&0- &aVendre n'as jamais était si simple depuis"
+            '2': "&0- &aque cette commande et arrivé."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.shop.*"
+        - "mj.shop.sell.*"
+        - "mj.shop.sell"
+        info:
+            '1': "&6- &a/sell [<all>]"
+            '2': "&0- &7Il permet de vendre l'item en main où"
+            '3': "&0- &7préciser &aall &7et votre inventaire sera"
+            '4': "&0- &7vendu aussi, les items qui font pas partie"
+            '5': "&0- &7du magasin seront préserver."
+    sell_stick:
+        name: "&aLe bâton du vendeur"
+        type: function
+        description:
+            '1': "&0- &aDepuis un simple clic avec un bâton en bois"
+            '2': "&0- &avendez le contenu d'un coffre rapidement."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.shop.*"
+        - "mj.shop.sell.*"
+        - "mj.shop.sell.stick"
+        info:
+            '1': "&6- &7Très simple un bâton en main suffit à vendre"
+            '2': "&6- &7le contenu d'un coffre."

@@ -1,0 +1,5 @@
+data:
+    # Apply taxe for all product, default : 1
+    taxe: 1
+    # Whether or not we must have silk touch to harvest a spawner, default : stick
+    sell_item: stick

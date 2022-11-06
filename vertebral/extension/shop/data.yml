@@ -20,6 +20,8 @@ data:
             visible: true
             # The slot at which it will be displayed in the main menu, default : 0
             slot: 0
+            # This is the page it will be placed on, default : 1
+            page: 1
             # It is in this category that the product will be cataloged, default : default
             category: default
             # Whether or not the quantity and use, default : false

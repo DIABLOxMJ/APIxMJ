@@ -1,0 +1,26 @@
+data:
+    portal:
+        name: "&aPortail"
+        type: command
+        description:
+            '1': "&0- &aUn système de zone de téléportation incroyable"
+            '2': "&0- &apratique pour toutes les situations"
+            '3': "&0- &aet toutes les possibilités."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.portal.*"
+        - "mj.portal"
+        info:
+            '1': "&6- &a/portal create <name>"
+            '2': "&0- &7Créer une nouvelle donnée."
+            '3': "&6- &a/portal point1 <name>"
+            '4': "&0- &7Défini le premier point pour définir la zone."
+            '5': "&6- &a/portal point2 <name>"
+            '6': "&0- &7Défini le premier point pour définir la zone."
+            '7': "&6- &a/portal pose <name>"
+            '8': "&0- &7Défini le point d'arrivé en cas d'une téléportation."
+            '9': "&6- &a/portal condition <name>"
+            '10': "&0- &7Pour activer ou désactiver le portail."
+            '11': "&6- &a/portal permission <name>"
+            '12': "&0- &7Si oui ou non il faut l'autorisation &amj.portal.<name>&7."

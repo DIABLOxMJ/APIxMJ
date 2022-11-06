@@ -1,0 +1,3 @@
+data:
+    # A condition for whether or not portals are enabled for the server, default : true
+    condition: true

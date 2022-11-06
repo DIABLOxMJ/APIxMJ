@@ -1,0 +1,141 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_portal():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.portal.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.portal.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.portal.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.portal.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.portal.help.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+		send "[APIxMJ] Loading portal..." to console
+		mj_files_portal()
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.portal.version", "modify", "2022.11.06.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		unload script file "apixmj_portal.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_portal.sk" to "-apixmj_portal.sk"
+	send "[APIxMJ] Unloading portal.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Portal
+# ---------------------------------------------------------------------------------------------------------------------
+command /portal [<text>] [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.portal.*" or "mj.portal":
+			if arg-1 is set:
+				if arg-1 is "create":
+					mj_portal_create(player, arg-2)
+				else if arg-1 is "point1" or "point2":
+					if arg-2 is set:
+						mj_portal_define_point(player, arg-2, arg-1, targeted block's location)
+					else:
+						mj_core_message(player, "portal", "data.prefix", "core", "data.argument.name")
+				else if arg-1 is "pose":
+					mj_portal_define_pose(player, arg-2)
+				else if arg-1 is "condition":
+					mj_portal_condition(player, arg-2)
+				else if arg-1 is "permission":
+					mj_portal_permission(player, arg-2)
+				else:
+					mj_core_message(player, "portal", "data.prefix", "core", "data.argument.name")
+			else:
+				mj_core_message(player, "portal", "data.prefix", "core", "data.argument.name")
+		else:
+			mj_core_permission(player, "portal", "data.prefix", "mj.portal")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/portal":
+	if player has permission "*" or "mj.*" or "mj.portal.*" or "mj.portal":
+		set tab completions for position 1 to "create", "point1", "point2", "pose", "condition" and "permission"
+		if tab arg-1 is set:
+			set {_list1::*} to mj_manager_nodes("portal.data")
+			loop {_list1::*}:
+				set {_name} to mj_editfiles("portal.data", "data.%loop-value%.name")
+				add {_name} to {_list2::*}
+			set tab completions for position 2 to {_list2::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_portal_create(player: player, name: text):
+	set {_id} to mj_core_id_generator()
+	mj_editfiles("portal.data", "data.%{_id}%.name", "modify", {_name})
+	mj_editfiles_boolean("portal.data", "data.%{_id}%.condition", "modify", false)
+	mj_editfiles_boolean("portal.data", "data.%{_id}%.permission", "modify", true)
+	mj_editfiles("portal.data", "data.%{_id}%.point1", "modify", "none")
+	mj_editfiles("portal.data", "data.%{_id}%.point2", "modify", "none")
+	mj_editfiles("portal.data", "data.%{_id}%.pose", "modify", "none")
+	mj_core_message({_player}, "portal", "data.prefix", "portal", "data.create", {_name})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_portal_define_point(player: player, name: text, type: text, value: location):
+	set {_id} to mj_core_id_checker("portal.data", "data", {_name})
+	mj_core_location_block("portal.data", "data.%{_id}%.%{_type}%", "modify", {_value})
+	mj_core_message({_player}, "portal", "data.prefix", "portal", "data.point", {_type}, {_name})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_portal_define_pose(player: player, name: text):
+	set {_id} to mj_core_id_checker("portal.data", "data", {_name})
+	mj_core_location("portal.data", "data.%{_id}%.pose", "modify", {_player})
+	mj_core_message({_player}, "portal", "data.prefix", "portal", "data.pose", {_name})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_portal_condition(player: player, name: text):
+	set {_id} to mj_core_id_checker("portal.data", "data", {_name})
+	set {_check} to mj_editfiles_boolean("portal.data", "data.%{_id}%.condition")
+	mj_editfiles_boolean("portal.data", "data.%{_id}%.condition", "modify", true)
+	set {_result} to mj_editfiles_gettext("manager", "data.type.enable", {_player})
+	if {_check} is true:
+		mj_editfiles_boolean("portal.data", "data.%{_id}%.condition", "modify", false)
+		set {_result} to mj_editfiles_gettext("manager", "data.type.disable", {_player})
+	mj_core_message({_player}, "portal", "data.prefix", "portal", "data.condition", {_name}, {_result})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_portal_permission(player: player, name: text):
+	set {_id} to mj_core_id_checker("portal.data", "data", {_name})
+	set {_check} to mj_editfiles_boolean("portal.data", "data.%{_id}%.permission")
+	mj_editfiles_boolean("portal.data", "data.%{_id}%.permission", "modify", true)
+	set {_result} to mj_editfiles_gettext("manager", "data.type.enable", {_player})
+	if {_check} is true:
+		mj_editfiles_boolean("portal.data", "data.%{_id}%.permission", "modify", false)
+		set {_result} to mj_editfiles_gettext("manager", "data.type.disable", {_player})
+	mj_core_message({_player}, "portal", "data.prefix", "portal", "data.permission", {_name}, {_result})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 1 tick:
+	set {_check1} to mj_editfiles_boolean("portal.config", "data.condition")
+	if {_check1} is true:
+		set {_list1::*} to mj_manager_nodes("portal.data")
+		loop {_list1::*}:
+			set {_check2} to mj_editfiles_boolean("portal.data", "data.%loop-value%.condition")
+			if {_check2} is true:
+				set {_point1} to mj_core_location_block("portal.data", "data.%loop-value%.point1")
+				set {_point2} to mj_core_location_block("portal.data", "data.%loop-value%.point2")
+				set {_pose} to mj_core_location("portal.data", "data.%loop-value%.pose")
+				loop blocks within {_point1} to {_point2}:
+					loop entities in radius 0.9 of loop-block:
+						set {_player} to "%loop-entities%" parsed as player
+						set {_check3} to mj_editfiles_boolean("portal.data", "data.%{_id}%.permission")
+						if {_check3} is true:
+							if {_player} has permission "*" or "mj.*" or "mj.portal.*" or "mj.portal.%{_id}%":
+								teleport {_player} to {_pose}
+							else:
+								mj_core_permission({_player}, "portal", "data.prefix", "mj.portal.%{_id}%")
+						else:
+							teleport {_player} to {_pose}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Portal
+# =====================================================================================================================

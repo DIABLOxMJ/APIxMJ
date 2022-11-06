@@ -1,0 +1,7 @@
+data:
+    prefix: "&6[&a&lPortal&6]&r"
+    create: "&7Vous avez créé un nouveau portail sous le nom de &a$0"
+    point: "&7Vous avez défini le &a$0 &7comme portail pour le portail &a$1"
+    pose: "&7Point de téléportation défini pour le portail &a$0"
+    condition: "&7L'utilisation du portail &a$0 &7à était changé en &a$1"
+    permission: "&7La permission du portail &a$0 &7à était changé en &a$1"

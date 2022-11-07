@@ -463,6 +463,7 @@ data:
                     '1': apixmj_shop
                 yml:
                     '1': config
+                    '2': data
                 file:
                     '1': mj.shop.config
                     '2': mj.shop.data
@@ -517,6 +518,7 @@ data:
                     '1': apixmj_store
                 yml:
                     '1': config
+                    '2': data
                 file:
                     '1': mj.store.config
                     '2': mj.store.data

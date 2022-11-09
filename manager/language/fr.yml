@@ -145,7 +145,7 @@ data:
                 '2': " &0- &7penser pour fonctionner en vanilla."
         gamemodes_classic_main:
             name: "&5Module centrale &6(&7Classique&6)"
-            name_lite: "&5Module c.. &6(&7C&6)"
+            name_lite: "&5Module c… &6(&7C&6)"
             lore:
                 '1': " &6- &7Les Skripts qui font fonctionner APIxMJ"
                 '2': " &0- &7sans lui rien de tout ça ne serait possible."

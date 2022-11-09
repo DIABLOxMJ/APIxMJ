@@ -25,6 +25,7 @@ data:
         installed: "&eInstallation du Skript &a$0 &eTerminé !"
         uninstalled: "&eDésinstallation du Skript &a$0 &eTerminé !"
     kick_install: "&aInstallation de &r$0&a..\n&aConnectez-vous dans un instant pour générer vos données !"
+    data_update: "&aMise à jour des données terminé !"
     button:
         return: "&eRetour"
         installer:

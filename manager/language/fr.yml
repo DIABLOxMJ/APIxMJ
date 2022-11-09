@@ -285,6 +285,11 @@ data:
                     '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
                     '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
         gamemodes_classic_extension:
+            expbank:
+                name: "&aBanque d'expérience"
+                name_lite: "&aBanque d'expérience"
+                lore:
+                    '1': " &6- &7Un système de stockage est de gestion de point d'expérience."
             spawner:
                 name: "&aSpawner"
                 name_lite: "&aSpawner"

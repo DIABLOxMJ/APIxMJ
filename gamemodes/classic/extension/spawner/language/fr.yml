@@ -1,0 +1,6 @@
+data:
+    prefix: "&6[&cSpawner&6]&r"
+    give: "&7Vous avez récupéré un spawner &a$0"
+    give_tool: "&7Vous avez récupéré &a$0"
+    no_give: "&cVous ne pouvez pas récupérer un spawner inexistant"
+    chunk_limit: "&cVous ne pouvez pas poser de spawner ici.. &6(&a$0&6)"

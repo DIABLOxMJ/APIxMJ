@@ -617,7 +617,7 @@ data:
                 name: data.addon.gamemodes_classic_extension.expbank.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: false
+                visible: true
                 depends:
                     '1': main.manager
                     '2': gamemodes_classic_main.core
@@ -643,7 +643,7 @@ data:
                 name: data.addon.gamemodes_classic_extension.spawner.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: false
+                visible: true
                 depends:
                     '1': main.manager
                     '2': gamemodes_classic_main.core

@@ -212,6 +212,11 @@ data:
                     '1': " &6- &7Les poches pleines après une expédition ?"
                     '2': " &0- &7Échangez vos ressources contre de l'argent,"
                     '3': " &0- &7peut-être qu'un joueur vous rendra riche !"
+            lobby:
+                name: "&aLobby"
+                name_lite: "&aLobby"
+                lore:
+                    '1': " &6- &7Un gestionnaire pour les lobbys de serveur."
             lootbox:
                 name: "&aLootBox"
                 name_lite: "&aLootBox"
@@ -224,6 +229,12 @@ data:
                 lore:
                     '1': " &6- &7Un menu permettent de tout réunir dans un seul"
                     '2': " &0- &7et même endroit idéal pour s'y retrouver en jeu."
+            multitools:
+                name: "&aBoite à outils"
+                name_lite: "&aBoite à outils"
+                lore:
+                    '1': " &6- &7Une petite boîte à outils pour améliorer les"
+                    '2': " &0- &7possibilités en jeu et améliorer le spawn."
             portal:
                 name: "&aPortail"
                 name_lite: "&aPortail"
@@ -236,12 +247,6 @@ data:
                 lore:
                     '1': " &6- &7Un système de progression en achetant des rangs"
                     '2': " &0- &7et en s'améliorant en jouant."
-            multitools:
-                name: "&aBoite à outils"
-                name_lite: "&aBoite à outils"
-                lore:
-                    '1': " &6- &7Une petite boîte à outils pour améliorer les"
-                    '2': " &0- &7possibilités en jeu et améliorer le spawn."
             shop:
                 name: "&aMagasin"
                 name_lite: "&aMagasin"
@@ -261,11 +266,20 @@ data:
                 lore:
                     '1': " &6- &7Un système de magasin virtuel inter-compatible"
                     '2': " &0- &7avec un magasin en ligne."
-            lobby:
-                name: "&aLobby"
-                name_lite: "&aLobby"
+        gamemodes_classic_main:
+            core:
+                name: "&5Cœur"
                 lore:
-                    '1': " &6- &7Un gestionnaire pour les lobbys de serveur."
+                    '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
+                    '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
+        gamemodes_classic_extension:
+            spawner:
+                name: "&aSpawner"
+                name_lite: "&aSpawner"
+                lore:
+                    '1': " &6- &7Un système de gestion à spawner puissant capable"
+                    '2': " &0- &7de géré la limite de spawner par chunk, et de"
+                    '3': " &0- &7comment les récupérer en bref tout est gérable."
         gamemodes_faction:
             faction:
                 name: "&cFaction"
@@ -273,12 +287,6 @@ data:
                     '1': " &6- &7Le système de faction est plus qu'une extension"
                     '2': " &0- &7est un mode de jeu a par en tiers idéal pour"
                     '3': " &0- &7créer un serveur type PVP-Faction."
-        gamemodes_classic:
-            core:
-                name: "&5Cœur"
-                lore:
-                    '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
-                    '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
         enderium_main:
             core:
                 name: "&5Cœur"

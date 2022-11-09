@@ -63,24 +63,42 @@ data:
             item: chest
             gui_background:
                 item: black stained glass pane
-        gamemodes_faction:
-            name: data.index.gamemodes_faction.name
-            visible: false
-            menu_back: gamemodes
-            menu_next: gamemodes_faction
-            slot: 10
-            item: chest
-            gui_background:
-                item: red stained glass pane
         gamemodes_classic:
             name: data.index.gamemodes_classic.name
             visible: true
             menu_back: gamemodes
             menu_next: gamemodes_classic
+            slot: 10
+            item: chest
+            gui_background:
+                item: black stained glass pane
+        gamemodes_classic_main:
+            name: data.index.gamemodes_classic_main.name
+            visible: true
+            menu_back: gamemodes_classic
+            menu_next: gamemodes_classic_main
+            slot: 10
+            item: chest
+            gui_background:
+                item: black stained glass pane
+        gamemodes_classic_extension:
+            name: data.index.gamemodes_classic_extension.name
+            visible: true
+            menu_back: gamemodes_classic
+            menu_next: gamemodes_classic_extension
             slot: 11
             item: chest
             gui_background:
                 item: black stained glass pane
+        gamemodes_faction:
+            name: data.index.gamemodes_faction.name
+            visible: false
+            menu_back: gamemodes
+            menu_next: gamemodes_faction
+            slot: 11
+            item: chest
+            gui_background:
+                item: red stained glass pane
         enderium:
             name: data.index.enderium.name
             visible: false
@@ -316,6 +334,32 @@ data:
                 item: emerald
                 gui_background:
                     item: gray stained glass pane
+            lobby:
+                name: data.addon.vertebral_extension.lobby.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: false
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                github_folder: vertebral/extension/lobby
+                folder: main/extension/lobby
+                slot: 13
+                kick: false
+                skript:
+                    '1': apixmj_lobby
+                yml:
+                    '1': config
+                file:
+                    '1': mj.lobby.config
+                    '2': mj.lobby.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: beacon
+                gui_background:
+                    item: green stained glass pane
             lootbox:
                 name: data.addon.vertebral_extension.lootbox.name
                 version: 0000.00.00.0000
@@ -326,7 +370,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/lootbox
                 folder: main/extension/lootbox
-                slot: 13
+                slot: 14
                 kick: false
                 skript:
                     '1': apixmj_lootbox
@@ -352,7 +396,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/menu
                 folder: main/extension/menu
-                slot: 14
+                slot: 15
                 kick: false
                 skript:
                     '1': apixmj_menu
@@ -368,6 +412,32 @@ data:
                 item: paper
                 gui_background:
                     item: black stained glass pane
+            multitools:
+                name: data.addon.vertebral_extension.multitools.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                github_folder: vertebral/extension/multitools
+                folder: main/extension/multitools
+                slot: 16
+                kick: false
+                skript:
+                    '1': apixmj_multitools
+                yml:
+                    '1': config
+                file:
+                    '1': mj.multitools.config
+                    '2': mj.multitools.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: oak log
+                gui_background:
+                    item: light gray stained glass pane
             portal:
                 name: data.addon.vertebral_extension.portal.name
                 version: 0000.00.00.0000
@@ -378,7 +448,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/portal
                 folder: main/extension/portal
-                slot: 15
+                slot: 19
                 kick: false
                 skript:
                     '1': apixmj_portal
@@ -404,7 +474,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/rankup
                 folder: main/extension/rankup
-                slot: 16
+                slot: 20
                 kick: false
                 skript:
                     '1': apixmj_rankup
@@ -421,32 +491,6 @@ data:
                 item: netherite ingot
                 gui_background:
                     item: lime stained glass pane
-            multitools:
-                name: data.addon.vertebral_extension.multitools.name
-                version: 0000.00.00.0000
-                installed: false
-                visible: true
-                depends:
-                    '1': main.manager
-                    '2': vertebral_main.core
-                github_folder: vertebral/extension/multitools
-                folder: main/extension/multitools
-                slot: 19
-                kick: false
-                skript:
-                    '1': apixmj_multitools
-                yml:
-                    '1': config
-                file:
-                    '1': mj.multitools.config
-                    '2': mj.multitools.data
-                reset:
-                    '1':
-                        file: none
-                        data: data
-                item: oak log
-                gui_background:
-                    item: light gray stained glass pane
             shop:
                 name: data.addon.vertebral_extension.shop.name
                 version: 0000.00.00.0000
@@ -457,7 +501,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/shop
                 folder: main/extension/shop
-                slot: 20
+                slot: 21
                 kick: false
                 skript:
                     '1': apixmj_shop
@@ -484,7 +528,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/spawner
                 folder: main/extension/spawner
-                slot: 21
+                slot: 22
                 kick: false
                 skript:
                     '1': apixmj_spawner
@@ -512,7 +556,7 @@ data:
                     '4': vertebral_main.essentials
                 github_folder: vertebral/extension/store
                 folder: main/extension/store
-                slot: 22
+                slot: 23
                 kick: false
                 skript:
                     '1': apixmj_store
@@ -529,64 +573,9 @@ data:
                 item: gold nugget
                 gui_background:
                     item: green stained glass pane
-            lobby:
-                name: data.addon.vertebral_extension.lobby.name
-                version: 0000.00.00.0000
-                installed: false
-                visible: false
-                depends:
-                    '1': main.manager
-                    '2': vertebral_main.core
-                github_folder: vertebral/extension/lobby
-                folder: main/extension/lobby
-                slot: 23
-                kick: false
-                skript:
-                    '1': apixmj_lobby
-                yml:
-                    '1': config
-                file:
-                    '1': mj.lobby.config
-                    '2': mj.lobby.data
-                reset:
-                    '1':
-                        file: none
-                        data: data
-                item: beacon
-                gui_background:
-                    item: green stained glass pane
-        gamemodes_faction:
-            faction:
-                name: data.addon.gamemodes_faction.faction.name
-                version: 0000.00.00.0000
-                installed: false
-                visible: true
-                depends:
-                    '1': main.manager
-                    '2': vertebral_main.core
-                    '3': vertebral_main.essentials
-                source: none
-                github_folder: gamemodes/faction/main/faction
-                folder: gamemodes/faction/main/faction
-                slot: 10
-                kick: true
-                skript:
-                    '1': apixmj_faction
-                yml:
-                    '1': config
-                file:
-                    '1': mj.faction.config
-                    '2': mj.faction.data
-                reset:
-                    '1':
-                        file: mj.faction.data
-                        data: data
-                item: iron sword
-                gui_background:
-                    item: red stained glass pane
-        gamemodes_classic:
+        gamemodes_classic_main:
             core:
-                name: data.addon.gamemodes_classic.core.name
+                name: data.addon.gamemodes_classic_main.core.name
                 version: 0000.00.00.0000
                 installed: false
                 visible: true
@@ -623,6 +612,88 @@ data:
                 item: command block
                 gui_background:
                     item: purple stained glass pane
+        gamemodes_classic_extension:
+            expbank:
+                name: data.addon.gamemodes_classic_extension.expbank.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: false
+                depends:
+                    '1': main.manager
+                    '2': gamemodes_classic_main.core
+                github_folder: gamemodes/classic/extension/expbank
+                folder: gamemodes/classic/extension/expbank
+                slot: 10
+                kick: false
+                skript:
+                    '1': apixmj_expbank
+                yml:
+                    '1': config
+                file:
+                    '1': mj.expbank.config
+                    '2': mj.expbank.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: bottle o' enchanting
+                gui_background:
+                    item: lime stained glass pane
+            spawner:
+                name: data.addon.gamemodes_classic_extension.spawner.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: false
+                depends:
+                    '1': main.manager
+                    '2': gamemodes_classic_main.core
+                github_folder: gamemodes/classic/extension/spawner
+                folder: gamemodes/classic/extension/spawner
+                slot: 11
+                kick: false
+                skript:
+                    '1': apixmj_spawner
+                yml:
+                    '1': config
+                file:
+                    '1': mj.spawner.config
+                    '2': mj.spawner.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: mob spawner
+                gui_background:
+                    item: black stained glass pane
+        gamemodes_faction:
+            faction:
+                name: data.addon.gamemodes_faction.faction.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.essentials
+                source: none
+                github_folder: gamemodes/faction/main/faction
+                folder: gamemodes/faction/main/faction
+                slot: 10
+                kick: true
+                skript:
+                    '1': apixmj_faction
+                yml:
+                    '1': config
+                file:
+                    '1': mj.faction.config
+                    '2': mj.faction.data
+                reset:
+                    '1':
+                        file: mj.faction.data
+                        data: data
+                item: iron sword
+                gui_background:
+                    item: red stained glass pane
         enderium_main:
             core:
                 name: data.addon.enderium_main.core.name

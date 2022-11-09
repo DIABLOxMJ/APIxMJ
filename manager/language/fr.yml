@@ -137,18 +137,30 @@ data:
             lore:
                 '1': " &6- &7Une version des skripts pour le vanilla"
                 '2': " &0- &7Sans permissions juste vanilla quoi !"
-        gamemodes_faction:
-            name: "&4PVP-Faction"
-            name_lite: "&4PVP-Faction"
-            lore:
-                '1': " &6- &7Du combat, du sang, de la rivalité, du challenge"
-                '2': " &0- &7tout se qu'on aime on appelle-ça du Faction !"
         gamemodes_classic:
             name: "&7Jeu classique"
             name_lite: "&7Jeu classique"
             lore:
                 '1': " &6- &7Une alternative sans permission donc"
                 '2': " &0- &7penser pour fonctionner en vanilla."
+        gamemodes_classic_main:
+            name: "&5Module centrale &6(&7Classique&6)"
+            name_lite: "&5Module centrale &6(&7C&6)"
+            lore:
+                '1': " &6- &7Les Skripts qui font fonctionner APIxMJ"
+                '2': " &0- &7sans lui rien de tout ça ne serait possible."
+        gamemodes_classic_extension:
+            name: "&aExtension &6(&7Classique&6)"
+            name_lite: "&aExtension &6(&7C&6)"
+            lore:
+                '1': " &6- &7Des Skripts sous-dépendant des principaux"
+                '2': " &0- &7remplis de fonctionnalités très attirants !"
+        gamemodes_faction:
+            name: "&4PVP-Faction"
+            name_lite: "&4PVP-Faction"
+            lore:
+                '1': " &6- &7Du combat, du sang, de la rivalité, du challenge"
+                '2': " &0- &7tout se qu'on aime on appelle-ça du Faction !"
         enderium:
             name: "&3Enderium"
             name_lite: "&3Enderium"

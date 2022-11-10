@@ -423,7 +423,6 @@ function mj_manager_menu_control_installer(player: player, source: text, id: tex
 	delete file "plugins/APIxMJ/%{_folder}%/help/log.txt"
 	mj_manager_menu_control_installer_skript({_player}, {_source}, {_id}, {_option})
 	mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed", "modify", true)
-	broadcast "%{_player}% : %{_option}%"
 	if {_option} is "install":	
 		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.installed", {_name})
 		set {_kick} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.kick")

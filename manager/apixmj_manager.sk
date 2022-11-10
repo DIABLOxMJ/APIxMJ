@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.11.09.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.11.10.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -392,7 +392,6 @@ function mj_manager_menu_control_button_installer(player: player, source: text, 
 	if {_value1} isn't "none":
 		set {_count} to mj_manager_nodes_count("manager.data", "data.addon.%{_source}%.%{_id}%.depends")
 		loop {_count} times:
-			# A MODIFIER POUR CHECK LE FICHIER SK ET NON LA SOURCE
 			set {_value1} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.depends.%loop-value%")
 			set {_value2} to mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.installed")
 			set {_value3} to mj_editfiles("manager.data", "data.addon.%{_value1}%.name")
@@ -447,6 +446,7 @@ function mj_manager_menu_control_installer_skript(player: player, source: text, 
 		download file from "%{_link}%/%{_github}%/apixmj_update.sk" to file "plugins/Skript/scripts/apixmj_update.sk"
 		wait 2 seconds
 		reload script "apixmj_update"
+		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.updated")
 	wait 2 seconds
 	set {_start} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.skript.1")
 	reload script "%{_start}%"
@@ -582,8 +582,10 @@ function mj_manager_update_data():
 					mj_editfiles("manager.data", "data.addon.%{_value1}%.%{_value2}%.version", "modify", {_value4})
 	unload yaml "mj.manager.data_old"
 	delete file "plugins/APIxMJ/manager/data_old.yml"
-	send "[APIxMJ] Database for Manager Updated !" to op
 	send "[APIxMJ] Database for Manager Updated !" to console
+	loop all players:
+		if loop-player is op:
+			send "[APIxMJ] Database for Manager Updated !" to loop-player
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Control (Update)
@@ -631,8 +633,10 @@ function mj_manager_reset_data():
 	download file from "%{_link}%/manager/help/fr.yml" to file "plugins/APIxMJ/manager/help/fr.yml"
 	wait 1 second
 	mj_files_manager()
-	send "[APIxMJ] Database for Manager Reset !" to op
 	send "[APIxMJ] Database for Manager Reset !" to console
+	loop all players:
+		if loop-player is op:
+			send "[APIxMJ] Database for Manager Reset !" to loop-player
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Control (Reset)

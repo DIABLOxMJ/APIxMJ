@@ -22,7 +22,7 @@ data:
     argument: " &6- &a$0"
     none: "&cAucune"
     process:
-        Updated: "&eMise à jour du Skript &a$0 &eTerminé !"
+        updated: "&eMise à jour du Skript &a$0 &eTerminé !"
         installed: "&eInstallation du Skript &a$0 &eTerminé !"
         uninstalled: "&eDésinstallation du Skript &a$0 &eTerminé !"
     kick_install: "&aInstallation de &r$0&a..\n&aConnectez-vous dans un instant pour générer vos données !"

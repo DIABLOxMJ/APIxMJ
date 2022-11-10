@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.11.10.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.11.10.0002")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -423,15 +423,20 @@ function mj_manager_menu_control_installer(player: player, source: text, id: tex
 	delete file "plugins/APIxMJ/%{_folder}%/help/log.txt"
 	mj_manager_menu_control_installer_skript({_player}, {_source}, {_id}, {_option})
 	mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed", "modify", true)
-	mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.installed", {_name})
+	broadcast "%{_player}% : %{_option}%"
 	if {_option} is "install":	
+		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.installed", {_name})
 		set {_kick} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.kick")
 		if {_kick} is true:
 			set {_send} to mj_editfiles_gettext("manager", "data.kick_install", {_player}, {_name})
 			kick all players due to "%{_send}%"
+	else if {_option} is "update":
+		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.updated", {_name})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_installer_skript(player: player, source: text, id: text, option: text):
+	set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
 	set {_github} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.github_folder")
 	set {_list::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.skript")
@@ -446,7 +451,6 @@ function mj_manager_menu_control_installer_skript(player: player, source: text, 
 		download file from "%{_link}%/%{_github}%/apixmj_update.sk" to file "plugins/Skript/scripts/apixmj_update.sk"
 		wait 2 seconds
 		reload script "apixmj_update"
-		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.updated")
 	wait 2 seconds
 	set {_start} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.skript.1")
 	reload script "%{_start}%"
@@ -513,7 +517,7 @@ function mj_manager_menu_control_button_update(player: player, source: text, id:
 		else if {_choice} is 3:			
 			set {_item} to mj_manager_item_button({_player}, {_item}, "left_click", "manager", "data.open.update_now")
 			make a gui slot {_slot} of {_player} with {_item} named {_name} to close:		
-				mj_manager_menu_control_installer({_source}, {_source}, {_id}, "update")
+				mj_manager_menu_control_installer({_player}, {_source}, {_id}, "update")
 				stop
 		else:
 			make a gui slot {_slot} of {_player} with {_item} named {_name} to run:

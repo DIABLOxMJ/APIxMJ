@@ -254,6 +254,33 @@ data:
                 gui_background:
                     item: light blue stained glass pane
         vertebral_extension:
+            calendar:
+                name: data.addon.vertebral_extension.calendar.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: false
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                github_folder: vertebral/extension/calendar
+                folder: main/extension/calendar
+                slot: 10
+                kick: false
+                open_gui: manager
+                skript:
+                    '1': apixmj_calendar
+                yml:
+                    '1': config
+                file:
+                    '1': mj.calendar.config
+                    '2': mj.calendar.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: shield
+                gui_background:
+                    item: red stained glass pane
             duel:
                 name: data.addon.vertebral_extension.duel.name
                 version: 0000.00.00.0000
@@ -264,7 +291,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/duel
                 folder: main/extension/duel
-                slot: 10
+                slot: 11
                 kick: false
                 open_gui: manager
                 skript:
@@ -292,7 +319,7 @@ data:
                     '3': vertebral_main.essentials
                 github_folder: vertebral/extension/expbank
                 folder: main/extension/expbank
-                slot: 11
+                slot: 12
                 kick: false
                 skript:
                     '1': apixmj_expbank
@@ -318,7 +345,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/hdv
                 folder: main/extension/hdv
-                slot: 12
+                slot: 13
                 kick: false
                 skript:
                     '1': apixmj_hdv
@@ -344,7 +371,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/lobby
                 folder: main/extension/lobby
-                slot: 13
+                slot: 14
                 kick: false
                 skript:
                     '1': apixmj_lobby
@@ -370,7 +397,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/lootbox
                 folder: main/extension/lootbox
-                slot: 14
+                slot: 15
                 kick: false
                 skript:
                     '1': apixmj_lootbox
@@ -396,7 +423,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/menu
                 folder: main/extension/menu
-                slot: 15
+                slot: 16
                 kick: false
                 skript:
                     '1': apixmj_menu
@@ -422,7 +449,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/multitools
                 folder: main/extension/multitools
-                slot: 16
+                slot: 19
                 kick: false
                 skript:
                     '1': apixmj_multitools
@@ -448,7 +475,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/portal
                 folder: main/extension/portal
-                slot: 19
+                slot: 20
                 kick: false
                 skript:
                     '1': apixmj_portal
@@ -474,7 +501,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/rankup
                 folder: main/extension/rankup
-                slot: 20
+                slot: 21
                 kick: false
                 skript:
                     '1': apixmj_rankup
@@ -501,7 +528,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/shop
                 folder: main/extension/shop
-                slot: 21
+                slot: 22
                 kick: false
                 skript:
                     '1': apixmj_shop
@@ -528,7 +555,7 @@ data:
                     '2': vertebral_main.core
                 github_folder: vertebral/extension/spawner
                 folder: main/extension/spawner
-                slot: 22
+                slot: 23
                 kick: false
                 skript:
                     '1': apixmj_spawner
@@ -556,7 +583,7 @@ data:
                     '4': vertebral_main.essentials
                 github_folder: vertebral/extension/store
                 folder: main/extension/store
-                slot: 23
+                slot: 24
                 kick: false
                 skript:
                     '1': apixmj_store

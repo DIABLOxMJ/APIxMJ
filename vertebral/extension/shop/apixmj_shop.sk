@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading shop..." to console
 		mj_files_shop()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.shop.version", "modify", "2022.11.05.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.shop.version", "modify", "2022.11.17.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_shop.sk"
@@ -120,7 +120,7 @@ function mj_shop_menu_main(player: player):
 function mj_shop_menu_main_button_category(player: player, value: text):
 	set {_name} to mj_editfiles_gettext("shop", "data.index.category.%{_value}%.name", {_player})
 	set {_slot} to mj_editfiles_number("shop.data", "data.category.%{_value}%.slot")
-	set {_item1} to mj_core_converter_item("shop.data", "data.category.%{_value}%.item")
+	set {_item1} to mj_manager_item_convert("shop.data", "data.category.%{_value}%.item")
 	set {_item2} to mj_shop_menu_main_button_category_description({_player}, {_value}, {_item1})
 	set {_item3} to mj_manager_item_button({_player}, {_item2}, "left_click", "shop", "data.click.product")
 	make a gui slot {_slot} of {_player} with {_item3} named {_name} to run:
@@ -172,7 +172,7 @@ function mj_shop_menu_product_button(player: player, value: text, page: number, 
 	set {_name} to mj_editfiles_gettext("shop", "data.index.product.%{_value}%.name", {_player})
 	if {_mode} is false:
 		set {_slot} to mj_editfiles_number("shop.data", "data.product.%{_value}%.slot")
-	set {_item} to mj_core_converter_item("shop.data", "data.product.%{_value}%.item")
+	set {_item} to mj_manager_item_convert("shop.data", "data.product.%{_value}%.item")
 	set {_lore::*} to lore of {_item}
 	loop {_lore::*}:
 		add 1 to {_count}
@@ -247,7 +247,7 @@ function mj_shop_menu_trade(player: player, value: text, page: number=1, return:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_menu_trade_button_buy(player: player, value: text, page: number, slot: number, price: number, multiply: number=1):
 	set {_name} to mj_editfiles_gettext("shop", "data.index.product.%{_value}%.name", {_player})
-	set {_item} to mj_core_converter_item("shop.data", "data.product.%{_value}%.item")
+	set {_item} to mj_manager_item_convert("shop.data", "data.product.%{_value}%.item")
 	set {_price1} to {_price}*{_multiply}
 	set {_price2} to "-%{_price1}%" parsed as number
 	set {_price_view1} to mj_core_format_money(false, {_price1})
@@ -272,7 +272,7 @@ function mj_shop_menu_trade_button_buy(player: player, value: text, page: number
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_menu_trade_button_sell(player: player, value: text, page: number, slot: number, price: number, multiply: number=1):
 	set {_name} to mj_editfiles_gettext("shop", "data.index.product.%{_value}%.name", {_player})
-	set {_item} to mj_core_converter_item("shop.data", "data.product.%{_value}%.item")
+	set {_item} to mj_manager_item_convert("shop.data", "data.product.%{_value}%.item")
 	set {_price1} to {_price}*{_multiply}
 	set {_price_view} to mj_core_format_money(false, {_price1})
 	set {_count} to amount of {_item} in {_player}'s inventory
@@ -330,7 +330,7 @@ on tab complete of "/sell":
 # ---------------------------------------------------------------------------------------------------------------------
 on leftclick:
 	if player has permission "*" or "mj.*" or "mj.shop.*" or "mj.shop.sell.*" or "mj.shop.sell.stick":
-		set {_item} to mj_core_converter_item("shop.config", "data.sell_item")
+		set {_item} to mj_manager_item_convert("shop.config", "data.sell_item")
 		if player's tool is {_item}:
 			set {_list::*} to "chest", "eastward chest", "southward chest", "westward chest", "trapped chest", "eastward trapped chest", "southward trapped chest" and "westward trapped chest"
 			if {_list::*} contains "%event-block%":
@@ -341,7 +341,7 @@ function mj_shop_sell(player: player):
 	set {_value} to {_player}'s tool
 	set {_list::*} to mj_manager_nodes("shop.data", "data.product")
 	loop {_list::*}:
-		set {_item} to mj_core_converter_item("shop.data", "data.product.%loop-value%.item")
+		set {_item} to mj_manager_item_convert("shop.data", "data.product.%loop-value%.item")
 		if "%{_value}%" contains "%{_item}%":
 			set {_count} to item amount of {_player}'s tool
 			set {_cat} to mj_editfiles("shop.data", "data.product.%loop-value%.category")
@@ -366,7 +366,7 @@ function mj_shop_sell_all(player: player, block: object="none"):
 	set {_nosell} to true
 	set {_list::*} to mj_manager_nodes("shop.data", "data.product")
 	loop {_list::*}:
-		set {_item} to mj_core_converter_item("shop.data", "data.product.%loop-value%.item")
+		set {_item} to mj_manager_item_convert("shop.data", "data.product.%loop-value%.item")
 		if "%{_block}%" is "none":
 			set {_count} to amount of {_item} in {_player}'s inventory
 		else:

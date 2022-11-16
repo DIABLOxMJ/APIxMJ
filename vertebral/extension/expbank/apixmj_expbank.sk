@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading expbank..." to console
 		mj_files_expbank()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.expbank.version", "modify", "2022.10.08.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.expbank.version", "modify", "2022.11.17.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_expbank.sk"
@@ -190,7 +190,7 @@ command /bottlexp [<number>] [<text="level">]:
 	trigger:
 		if arg-1 >= 1:
 			set {_name} to mj_editfiles("expbank.config", "data.bottle.name")
-			set {_item} to mj_core_converter_item("expbank.config", "data.bottle.item")
+			set {_item} to mj_manager_item_convert("expbank.config", "data.bottle.item")
 			set {_item} to {_item} named {_name}
 			if arg-2 is "level":
 				if player's level >= 1:
@@ -228,7 +228,7 @@ on tab complete of "bottlexp" or "xpb" or "bottle" and "/expbottle":
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:
-	set {_item} to mj_core_converter_item("expbank.config", "data.bottle.item")
+	set {_item} to mj_manager_item_convert("expbank.config", "data.bottle.item")
 	if 1 of player's tool is {_item}:
 		set {_name} to mj_editfiles("expbank.config", "data.bottle.name")
 		if name of player's tool is {_name}:

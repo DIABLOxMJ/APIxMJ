@@ -21,7 +21,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2022.10.08.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2022.11.17.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -244,7 +244,7 @@ command /dataeditor [<text>] [<text>] [<text>] [<text>]:
 on tab complete of "/dataeditor" or "/dae":
 	if player has permission "*" or "mj.*" or "mj.dataeditor.*" or "mj.dataeditor":
 		set tab completions for position 1 to "text", "number", "boolean", "list", "item", "item_name", "item_lore", "item_enchant", "editgui", "gui" and "delete"
-		if tab arg-1 is "text" or "number" or "boolean" or "list" or "delete":
+		if tab arg-1 is "text" or "number" or "boolean" or "list" or "delete" or "item":
 			set {_list1::*} to the currently loaded yaml files
 			set tab completions for position 2 to {_list1::*}
 			if tab arg-2 is set:
@@ -1325,11 +1325,6 @@ function mj_core_converter_name(name: text) :: text:
 			set {_rename} to "%loop-value%"
 	return {_rename}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_converter_item(source: text, find: text) :: item:
-	set {_item} to yaml value "%{_find}%" from "mj.%{_source}%"
-	set {_item} to {_item} parsed as item
-	return {_item}
-# ---------------------------------------------------------------------------------------------------------------------
 function mj_core_converter_time(time: text) :: timespan:
 	if {_time} contains "s":
 		replace "s" with "" in {_time}
@@ -1354,7 +1349,7 @@ function mj_core_converter_time(time: text) :: timespan:
 function mj_core_gui_generator(player: player, size: number=1, locked: boolean=true, type: boolean=false, title: text="No gui name"):
 	if {_locked} is true:
 		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.guiprotect", "modify", true)
-	set {_item} to mj_core_converter_item("config", "data.gui_background.item")
+	set {_item} to mj_manager_item_convert("config", "data.gui_background.item")
 	open virtual chest inventory with size {_size} named {_title} to {_player}
 	set {_time} to 9*{_size}
 	set {_slot} to 0

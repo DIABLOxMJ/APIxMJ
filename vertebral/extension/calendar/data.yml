@@ -1,0 +1,376 @@
+data:
+    current_calendar:
+        '1':
+            type: hide
+            money: 0
+            item: air
+        '2':
+            type: hide
+            money: 0
+            item: air
+        '3':
+            type: hide
+            money: 0
+            item: air
+        '4':
+            type: hide
+            money: 0
+            item: air
+        '5':
+            type: hide
+            money: 0
+            item: air
+        '6':
+            type: hide
+            money: 0
+            item: air
+        '7':
+            type: hide
+            money: 0
+            item: air
+        '8':
+            type: hide
+            money: 0
+            item: air
+        '9':
+            type: hide
+            money: 0
+            item: air
+        '10':
+            type: hide
+            money: 0
+            item: air
+        '11':
+            type: hide
+            money: 0
+            item: air
+        '12':
+            type: hide
+            money: 0
+            item: air
+        '13':
+            type: hide
+            money: 0
+            item: air
+        '14':
+            type: hide
+            money: 0
+            item: air
+        '15':
+            type: hide
+            money: 0
+            item: air
+        '16':
+            type: hide
+            money: 0
+            item: air
+        '17':
+            type: hide
+            money: 0
+            item: air
+        '18':
+            type: hide
+            money: 0
+            item: air
+        '19':
+            type: hide
+            money: 0
+            item: air
+        '20':
+            type: hide
+            money: 0
+            item: air
+        '21':
+            type: hide
+            money: 0
+            item: air
+        '22':
+            type: hide
+            money: 0
+            item: air
+        '23':
+            type: hide
+            money: 0
+            item: air
+        '24':
+            type: hide
+            money: 0
+            item: air
+        '25':
+            type: hide
+            money: 0
+            item: air
+        '26':
+            type: hide
+            money: 0
+            item: air
+        '27':
+            type: hide
+            money: 0
+            item: air
+        '28':
+            type: hide
+            money: 0
+            item: air
+        '29':
+            type: hide
+            money: 0
+            item: air
+        '30':
+            type: hide
+            money: 0
+            item: air
+        '31':
+            type: hide
+            money: 0
+            item: air
+    next_calendar:
+        '1':
+            type: hide
+            money: 0
+            item: air
+        '2':
+            type: hide
+            money: 0
+            item: air
+        '3':
+            type: hide
+            money: 0
+            item: air
+        '4':
+            type: hide
+            money: 0
+            item: air
+        '5':
+            type: hide
+            money: 0
+            item: air
+        '6':
+            type: hide
+            money: 0
+            item: air
+        '7':
+            type: hide
+            money: 0
+            item: air
+        '8':
+            type: hide
+            money: 0
+            item: air
+        '9':
+            type: hide
+            money: 0
+            item: air
+        '10':
+            type: hide
+            money: 0
+            item: air
+        '11':
+            type: hide
+            money: 0
+            item: air
+        '12':
+            type: hide
+            money: 0
+            item: air
+        '13':
+            type: hide
+            money: 0
+            item: air
+        '14':
+            type: hide
+            money: 0
+            item: air
+        '15':
+            type: hide
+            money: 0
+            item: air
+        '16':
+            type: hide
+            money: 0
+            item: air
+        '17':
+            type: hide
+            money: 0
+            item: air
+        '18':
+            type: hide
+            money: 0
+            item: air
+        '19':
+            type: hide
+            money: 0
+            item: air
+        '20':
+            type: hide
+            money: 0
+            item: air
+        '21':
+            type: hide
+            money: 0
+            item: air
+        '22':
+            type: hide
+            money: 0
+            item: air
+        '23':
+            type: hide
+            money: 0
+            item: air
+        '24':
+            type: hide
+            money: 0
+            item: air
+        '25':
+            type: hide
+            money: 0
+            item: air
+        '26':
+            type: hide
+            money: 0
+            item: air
+        '27':
+            type: hide
+            money: 0
+            item: air
+        '28':
+            type: hide
+            money: 0
+            item: air
+        '29':
+            type: hide
+            money: 0
+            item: air
+        '30':
+            type: hide
+            money: 0
+            item: air
+        '31':
+            type: hide
+            money: 0
+            item: air
+    christmas_calendar:
+        '1':
+            type: hide
+            money: 0
+            item: air
+        '2':
+            type: hide
+            money: 0
+            item: air
+        '3':
+            type: hide
+            money: 0
+            item: air
+        '4':
+            type: hide
+            money: 0
+            item: air
+        '5':
+            type: hide
+            money: 0
+            item: air
+        '6':
+            type: hide
+            money: 0
+            item: air
+        '7':
+            type: hide
+            money: 0
+            item: air
+        '8':
+            type: hide
+            money: 0
+            item: air
+        '9':
+            type: hide
+            money: 0
+            item: air
+        '10':
+            type: hide
+            money: 0
+            item: air
+        '11':
+            type: hide
+            money: 0
+            item: air
+        '12':
+            type: hide
+            money: 0
+            item: air
+        '13':
+            type: hide
+            money: 0
+            item: air
+        '14':
+            type: hide
+            money: 0
+            item: air
+        '15':
+            type: hide
+            money: 0
+            item: air
+        '16':
+            type: hide
+            money: 0
+            item: air
+        '17':
+            type: hide
+            money: 0
+            item: air
+        '18':
+            type: hide
+            money: 0
+            item: air
+        '19':
+            type: hide
+            money: 0
+            item: air
+        '20':
+            type: hide
+            money: 0
+            item: air
+        '21':
+            type: hide
+            money: 0
+            item: air
+        '22':
+            type: hide
+            money: 0
+            item: air
+        '23':
+            type: hide
+            money: 0
+            item: air
+        '24':
+            type: hide
+            money: 0
+            item: air
+        '25':
+            type: hide
+            money: 0
+            item: air
+        '26':
+            type: hide
+            money: 0
+            item: air
+        '27':
+            type: hide
+            money: 0
+            item: air
+        '28':
+            type: hide
+            money: 0
+            item: air
+        '29':
+            type: hide
+            money: 0
+            item: air
+        '30':
+            type: hide
+            money: 0
+            item: air
+        '31':
+            type: hide
+            money: 0
+            item: air

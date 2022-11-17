@@ -1,0 +1,15 @@
+data:
+    # A condition that has no interest in being modified, it is managed automatically, default : true
+    condition: true
+    # Show or not the item in the menu, default : true
+    item_viewer: true
+    item_viewer_type:
+        # The previous item the player missed, default : red concrete
+        previous:
+            item: red concrete
+        # The item that was picked up by the player, default : lime concrete
+        gifted:
+            item: lime concrete
+        # The next item to be revealed, default : orange concrete
+        next:
+            item: orange concrete

@@ -1,0 +1,38 @@
+data:
+    calendar_player:
+        name: "&aCalendrier"
+        type: command
+        description:
+            '1': "&0- &aUn système de récompense journalier"
+            '2': "&0- &aavec un beau calendrier !"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.calendar.*"
+        - "mj.calendar"
+        info:
+            '1': "&6- &a/cal"
+            '2': "&6- &a/calendar"
+            '3': "&6- &a/calendrier"
+            '4': "&0- &7Ouvre un calendrier."
+    calendar_admin:
+        name: "&aCalendrier Admin"
+        type: command
+        description:
+            '1': "&0- &aUn système de récompense journalier"
+            '2': "&0- &amodifiable."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.calendar.*"
+        - "mj.calendar.admin"
+        info:
+            '1': "&6- &a/calendar item <day_number>"
+            '2': "&0- &7Défini l'item de votre main pour le jour indiquer."
+            '3': "&6- &a/calendar money <day_number> <money>"
+            '4': "&0- &7Défini la somme d'argent pour le jour indiquer."
+            '5': "&6- &a/calendar hide <day_number>"
+            '6': "&0- &7Rénitialise le jour pour le désactiver."
+            '7': "&6- &a/calendar reset"
+            '8': "&0- &7Remet les données à zéro et met la configuration."
+            '9': "&0- &7du mois suivant à disposition de tous."

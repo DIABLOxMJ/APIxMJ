@@ -258,7 +258,7 @@ data:
                 name: data.addon.vertebral_extension.calendar.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: false
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -271,6 +271,7 @@ data:
                     '1': apixmj_calendar
                 yml:
                     '1': config
+                    '2': data
                 file:
                     '1': mj.calendar.config
                     '2': mj.calendar.data

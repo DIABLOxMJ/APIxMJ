@@ -2,7 +2,7 @@
 # APIxMJ - Files
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_files_core():
-	set {_folder} to mj_editfiles("manager.data", "data.addon.gamemodes_classic.core.folder")
+	set {_folder} to mj_editfiles("manager.data", "data.addon.gamemodes_classic_main.core.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.data"
 	load yaml "plugins/APIxMJ/%{_folder}%/temp.yml" as "mj.temp"
@@ -21,7 +21,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.gamemodes_classic.core.version", "modify", "2022.11.02.0001")
+		mj_editfiles("manager.data", "data.addon.gamemodes_classic_main.core.version", "modify", "2022.11.20.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"

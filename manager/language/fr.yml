@@ -208,6 +208,11 @@ data:
                     '1': " &6- &7Essentielles et un outil de gestion de"
                     '2': " &0- &7serveur complet est parfait pour la modération."
         vertebral_extension:
+            calendar:
+                name: "&aCalendrier"
+                name_lite: "&aCalendrier"
+                lore:
+                    '1': " &6- &7Tu as était sage pour avoir ton cadeau du jour ?"
             duel:
                 name: "&aDuel"
                 name_lite: "&aDuel"

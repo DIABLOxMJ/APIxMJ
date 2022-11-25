@@ -254,6 +254,32 @@ data:
                 gui_background:
                     item: light blue stained glass pane
         vertebral_extension:
+            auction:
+                name: data.addon.vertebral_extension.auction.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: false
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                github_folder: vertebral/extension/auction
+                folder: main/extension/auction
+                slot: 13
+                kick: false
+                skript:
+                    '1': apixmj_auction
+                yml:
+                    '1': config
+                file:
+                    '1': mj.auction.config
+                    '2': mj.auction.data
+                reset:
+                    '1':
+                        file: mj.auction.data
+                        data: data
+                item: emerald
+                gui_background:
+                    item: gray stained glass pane
             calendar:
                 name: data.addon.vertebral_extension.calendar.name
                 version: 0000.00.00.0000
@@ -336,32 +362,6 @@ data:
                 item: bottle o' enchanting
                 gui_background:
                     item: lime stained glass pane
-            hdv:
-                name: data.addon.vertebral_extension.hdv.name
-                version: 0000.00.00.0000
-                installed: false
-                visible: false
-                depends:
-                    '1': main.manager
-                    '2': vertebral_main.core
-                github_folder: vertebral/extension/hdv
-                folder: main/extension/hdv
-                slot: 13
-                kick: false
-                skript:
-                    '1': apixmj_hdv
-                yml:
-                    '1': config
-                file:
-                    '1': mj.hdv.config
-                    '2': mj.hdv.data
-                reset:
-                    '1':
-                        file: mj.hdv.data
-                        data: data
-                item: emerald
-                gui_background:
-                    item: gray stained glass pane
             lobby:
                 name: data.addon.vertebral_extension.lobby.name
                 version: 0000.00.00.0000

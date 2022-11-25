@@ -208,6 +208,13 @@ data:
                     '1': " &6- &7Essentielles et un outil de gestion de"
                     '2': " &0- &7serveur complet est parfait pour la modération."
         vertebral_extension:
+            auction:
+                name: "&aHôtel des ventes"
+                name_lite: "&aHôtel des ventes"
+                lore:
+                    '1': " &6- &7Les poches pleines après une expédition ?"
+                    '2': " &0- &7Échangez vos ressources contre de l'argent,"
+                    '3': " &0- &7peut-être qu'un joueur vous rendra riche !"
             calendar:
                 name: "&aCalendrier"
                 name_lite: "&aCalendrier"
@@ -224,13 +231,6 @@ data:
                 name_lite: "&aBanque d'expérience"
                 lore:
                     '1': " &6- &7Un système de stockage est de gestion de point d'expérience."
-            hdv:
-                name: "&aHôtel des ventes"
-                name_lite: "&aHôtel des ventes"
-                lore:
-                    '1': " &6- &7Les poches pleines après une expédition ?"
-                    '2': " &0- &7Échangez vos ressources contre de l'argent,"
-                    '3': " &0- &7peut-être qu'un joueur vous rendra riche !"
             lobby:
                 name: "&aLobby"
                 name_lite: "&aLobby"

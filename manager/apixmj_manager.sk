@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.11.17.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.11.25.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -272,7 +272,7 @@ function mj_manager_menu_index_button_generator(player: player, id: text):
 		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
 		set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
 		set {_slot} to mj_editfiles_number("manager.data", "data.index.%{_id}%.slot")
-		set {_item} to mj_manager_item_convert("manager.data", "data.index.%{_id}%.item")
+		set {_item} to mj_manager_item_convert("manager.data", "data.index.%{_id}%.item", true)
 		set {_item} to mj_manager_item_description({_player}, {_item}, "data.index.%{_id}%")
 		set {_item} to mj_manager_item_button({_player}, {_item}, "left_click", "manager", "data.open.gui_folder")
 		make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
@@ -289,7 +289,7 @@ function mj_manager_menu_addon_button_generator(player: player, source: text, id
 		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
 		set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
 		set {_slot} to mj_editfiles_number("manager.data", "data.addon.%{_source}%.%{_id}%.slot")
-		set {_item} to mj_manager_item_convert("manager.data", "data.addon.%{_source}%.%{_id}%.item")
+		set {_item} to mj_manager_item_convert("manager.data", "data.addon.%{_source}%.%{_id}%.item", true)
 		set {_item} to mj_manager_item_description({_player}, {_item}, "data.addon.%{_source}%.%{_id}%")
 		set {_count} to mj_manager_item_lore_count({_player}, {_item})
 		set {_item} to mj_manager_item_button({_player}, {_item}, "left_click", "manager", "data.open.gui_panel")

@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading calendar..." to console
 		mj_files_calendar()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.calendar.version", "modify", "2022.11.17.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.calendar.version", "modify", "2022.11.25.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_calendar.sk"
@@ -118,7 +118,12 @@ function mj_calendar_menu_button(player: player, value: number, slot: number):
 		if {_day} > {_value}:
 			set {_item1} to mj_manager_item_button({_player}, {_item}, "refuse", "calendar", "data.button.previous_day")
 		else if {_day} = {_value}:
-			set {_item1} to mj_manager_item_button({_player}, {_item}, "left_click", "calendar", "data.button.today")
+			if {_check1} is true:
+				set {_item1} to mj_manager_item_button({_player}, {_item}, "left_click", "calendar", "data.button.today")
+			else:
+				set {_item} to mj_manager_item_convert("calendar.config", "data.item_viewer_type.today.item", true)
+				set {_item} to mj_calendar_menu_button_description({_player}, {_item}, {_value})
+				set {_item1} to mj_manager_item_button({_player}, {_item}, "left_click", "calendar", "data.button.today")
 		else:
 			if {_check1} is true:
 				set {_item1} to mj_manager_item_button({_player}, {_item}, "refuse", "calendar", "data.button.next_day")

@@ -7,6 +7,9 @@ data:
         # The previous item the player missed, default : red concrete
         previous:
             item: red concrete
+        # The item that available for the player, default : white concrete
+        today:
+            item: white concrete
         # The item that was picked up by the player, default : lime concrete
         gifted:
             item: lime concrete

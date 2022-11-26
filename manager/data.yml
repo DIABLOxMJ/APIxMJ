@@ -63,19 +63,10 @@ data:
             item: chest
             gui_background:
                 item: black stained glass pane
-        gamemodes_classic:
-            name: data.index.gamemodes_classic.name
-            visible: true
-            menu_back: gamemodes
-            menu_next: gamemodes_classic
-            slot: 10
-            item: chest
-            gui_background:
-                item: black stained glass pane
         gamemodes_classic_main:
             name: data.index.gamemodes_classic_main.name
             visible: true
-            menu_back: gamemodes_classic
+            menu_back: gamemodes
             menu_next: gamemodes_classic_main
             slot: 10
             item: chest
@@ -84,9 +75,9 @@ data:
         gamemodes_classic_extension:
             name: data.index.gamemodes_classic_extension.name
             visible: true
-            menu_back: gamemodes_classic
+            menu_back: gamemodes_classic_main
             menu_next: gamemodes_classic_extension
-            slot: 11
+            slot: 16
             item: chest
             gui_background:
                 item: black stained glass pane

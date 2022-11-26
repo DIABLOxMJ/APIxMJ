@@ -96,6 +96,7 @@ data:
         disable: "&cDésactivé&r"
         accept: "&6[&aAccepter&6]&r"
         refuse: "&6[&cRefuser&6]&r"
+        lock: "&6[&aVerrouiller&6]&r"
         left_click: "&6[&aClic Gauche&6]&r"
         left_click_shift: "&6[&aShift + CG&6]&r"
         right_click: "&6[&aClic Droit&6]&r"

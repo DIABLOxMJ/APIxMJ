@@ -18,7 +18,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.11.25.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.11.26.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -151,10 +151,10 @@ command /manager [<text>]:
 					player command "/sk reload apixmj_manager"
 				else if arg-1 is "data_update":
 					mj_manager_update_data()
-					mj_manager_message(player, "manager", "data.prefix", "manager", "data_update")
+					mj_manager_message(player, "manager", "data.prefix", "manager", "data.data_update")
 				else if arg-1 is "data_reset":
 					mj_manager_reset_data()
-					mj_manager_message(player, "manager", "data.prefix", "manager", "data_reset")
+					mj_manager_message(player, "manager", "data.prefix", "manager", "data.data_reset")
 			else:
 				mj_manager_menu(player)
 		stop

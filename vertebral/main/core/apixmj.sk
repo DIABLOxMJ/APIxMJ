@@ -21,7 +21,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2022.11.17.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2022.12.01.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -1181,7 +1181,8 @@ on damage:
 on place:
 	if player is player:
 		if player's tool isn't item frame or painting:
-			set {_obj} to mj_core_stats_convert("%event-block%")
+			set {_item} to mj_core_stats_convert_location(player, "%event-block%", location of event-block)
+			set {_obj} to mj_core_stats_convert_name({_item})
 			set {_count} to mj_editfiles_number("stats", "data.%player's uuid%.place.%{_obj}%")
 			add 1 to {_count}
 			mj_editfiles_number("stats", "data.%player's uuid%.place.%{_obj}%", "modify", {_count})
@@ -1190,7 +1191,8 @@ on place:
 on break:
 	if player is player:
 		if event-block is set:
-			set {_obj} to mj_core_stats_convert("%event-block%")
+			set {_item} to mj_core_stats_convert_location(player, "%event-block%", location of event-block)
+			set {_obj} to mj_core_stats_convert_name({_item})
 			set {_count} to mj_editfiles_number("stats", "data.%player's uuid%.break.%{_obj}%")
 			add 1 to {_count}
 			if "%event-block%" contains "double":
@@ -1198,7 +1200,15 @@ on break:
 			mj_editfiles_number("stats", "data.%player's uuid%.break.%{_obj}%", "modify", {_count})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_stats_convert(item: text) :: text:
+function mj_core_stats_convert_location(player: player, item: text, location: location) :: text:
+	set {_x} to {_location}'s x-coordinate
+	set {_y} to {_location}'s y-coordinate
+	set {_z} to {_location}'s z-coordinate
+	replace all "'" with "" in {_item}
+	replace " at %{_x}%, %{_y}%, %{_z}% in world %{_player}'s world%" with "" in {_item}
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_stats_convert_name(item: text) :: text:
 	replace "northward " or "downward " or "westward " or "eastward " or "southward " or "top " or "double " or "hanging " or "unbroken " or "damaged " or "chipped " with "" in {_item}
 	replace "ascending " or "z-aligned " or "east " or "east-" or "west " or "south " or "upward " or "powered " or "floor " or "wall " or "top-half " or "short " with "" in {_item}
 	replace "tall " or "north" or "south" or "open " or "two " or "three " or "four " or "five " or "six " or "seven " or "eight " or "single " or "ceiling " with "" in {_item}
@@ -1346,7 +1356,8 @@ function mj_core_converter_time(time: text) :: timespan:
 		set {_time} to "%{_time}% year" parsed as timespan
 	return {_time}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_gui_generator(player: player, size: number=1, locked: boolean=true, type: boolean=false, title: text="No gui name"):
+function mj_core_gui_generator(player: player, size: number=1, locked: boolean=true, type: boolean=false, title: text="No gui name", gui: text="none"):
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.gui", "modify", {_gui})
 	if {_locked} is true:
 		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.guiprotect", "modify", true)
 	set {_item} to mj_manager_item_convert("config", "data.gui_background.item")

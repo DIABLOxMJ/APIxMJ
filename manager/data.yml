@@ -119,6 +119,31 @@ data:
                 item: cyan stained glass pane
     addon:
         main:
+            custom:
+                name: data.addon.main.custom.name
+                version: 0000.00.00.0000
+                installed: true
+                visible: false
+                depends:
+                    '1': none
+                source: none
+                github_folder: none
+                folder: none
+                slot: 0
+                kick: false
+                skript:
+                    '1': none
+                yml:
+                    '1': none
+                file:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: command block
+                gui_background:
+                    item: yellow stained glass pane
             manager:
                 name: data.addon.main.manager.name
                 version: 0000.00.00.0000

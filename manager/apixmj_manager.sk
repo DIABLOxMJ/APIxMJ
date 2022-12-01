@@ -13,12 +13,13 @@ function mj_files_manager():
 		loop {_list::*}:
 			load yaml "plugins/APIxMJ/manager/language/%loop-value%.yml" as "mj.manager.language.%loop-value%"
 			load yaml "plugins/APIxMJ/manager/help/%loop-value%.yml" as "mj.manager.help.%loop-value%"
+			load yaml "plugins/APIxMJ/manager/help_custom/%loop-value%.yml" as "mj.custom.help.%loop-value%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.11.26.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2022.12.01.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -998,6 +999,9 @@ function mj_manager_help_menu_viewer(player: player, source: text, id: text, man
 	set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
 	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
 	set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name})
+	if length of {_name} >= 16:
+		set {_name} to mj_editfiles_gettext("manager", "%{_find_name}%_lite", {_player})
+		set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name})
 	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
 	mj_manager_help_menu_viewer_button({_player}, {_source}, {_id})

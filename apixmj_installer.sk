@@ -13,6 +13,7 @@ on load:
 	download file from "%{_link}%/manager/config.yml" to file "plugins/APIxMJ/manager/config.yml"
 	download file from "%{_link}%/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
 	download file from "%{_link}%/manager/help/fr.yml" to file "plugins/APIxMJ/manager/help/fr.yml"
+	download file from "%{_link}%/manager/help_custom/fr.yml" to file "plugins/APIxMJ/manager/help_custom/fr.yml"
 	download file from "%{_link}%/manager/language/fr.yml" to file "plugins/APIxMJ/manager/language/fr.yml"
 	download file from "%{_link}%/manager/apixmj_manager.sk" to file "plugins/Skript/scripts/apixmj_manager.sk"
 	wait 1 seconds

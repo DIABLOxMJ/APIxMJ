@@ -177,8 +177,14 @@ data:
                 '2': " &0- &7remplis de fonctionnalités très attirants !"
     addon:
         main:
+            custom:
+                name: "&eInformation du serveur"
+                name_lite: "&eInformation"
+                lore:
+                    '1': " &6- &7None"
             manager:
                 name: "&eGestionnaire"
+                name_lite: "&eGestionnaire"
                 lore:
                     '1': " &6- &7Un gestionnaire d'installation, mise à jour et de"
                     '2': " &0- &7suppression de Skript dans l'environnement d'APIxMJ."
@@ -187,11 +193,13 @@ data:
         vertebral_main:
             core:
                 name: "&5Cœur"
+                name_lite: "&5Cœur"
                 lore:
                     '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
                     '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
             ranker:
                 name: "&bRank Manager"
+                name_lite: "&bRank Manager"
                 lore:
                     '1': " &6- &7Un utilitaire indispensable pour géré les grades,"
                     '2': " &0- &7il est compatible avec GroupManager, LuckPerm, etc..."
@@ -199,6 +207,7 @@ data:
                     '4': " &0- &7de grade donc plus besoin de GroupManager est autres..."
             essentials:
                 name: "&bEssentielle"
+                name_lite: "&bEssentielle"
                 lore:
                     '1': " &6- &7Essentielles et un outil de gestion de"
                     '2': " &0- &7serveur complet est parfait pour la modération."
@@ -283,6 +292,7 @@ data:
         gamemodes_classic_main:
             core:
                 name: "&5Cœur"
+                name_lite: "&5Cœur"
                 lore:
                     '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
                     '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
@@ -302,6 +312,7 @@ data:
         gamemodes_faction:
             faction:
                 name: "&cFaction"
+                name_lite: "&cFaction"
                 lore:
                     '1': " &6- &7Le système de faction est plus qu'une extension"
                     '2': " &0- &7est un mode de jeu a par en tiers idéal pour"
@@ -309,11 +320,13 @@ data:
         enderium_main:
             core:
                 name: "&5Cœur"
+                name_lite: "&5Cœur"
                 lore:
                     '1': " &6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
                     '2': " &0- &7de faire fonctionner son environnement de fonctionnalité."
             ranker:
                 name: "&bRank Manager"
+                name_lite: "&bRank Manager"
                 lore:
                     '1': " &6- &7Un utilitaire indispensable pour géré les grades,"
                     '2': " &0- &7il est compatible avec GroupManager, LuckPerm, etc..."
@@ -321,6 +334,7 @@ data:
                     '4': " &0- &7de grade donc plus besoin de GroupManager est autres..."
             essentials:
                 name: "&bEssentielle"
+                name_lite: "&bEssentielle"
                 lore:
                     '1': " &6- &7Essentielles et un outil de gestion de"
                     '2': " &0- &7serveur complet est parfait pour la modération."

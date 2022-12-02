@@ -48,7 +48,7 @@ command /rankup:
 function mj_rankup_menu_main(player: player):
 	set {_name} to mj_editfiles_gettext("rankup", "data.title", {_player})
 	set {_size} to mj_editfiles_number("rankup.config", "data.gui_size")
-	mj_core_gui_generator({_player}, {_size}, true, false, {_name})
+	mj_core_gui_generator({_player}, {_size}, true, false, {_name}, "rankup")
 	set {_list::*} to mj_manager_nodes("rankup.data")
 	loop {_list::*}:
 		set {_value} to loop-value
@@ -115,7 +115,7 @@ function mj_rankup_menu_main_button_choice_info(player: player, id: text) :: ite
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_rankup_menu_confirm(player: player, id: text):
 	set {_name} to mj_editfiles_gettext("rankup", "data.title_confirm", {_player})
-	mj_core_gui_generator({_player}, 3, true, false, {_name})
+	mj_core_gui_generator({_player}, 3, true, false, {_name}, "rankup")
 	mj_rankup_menu_confirm_button_buy({_player}, {_id}, 11)
 	mj_rankup_menu_confirm_button_store({_player}, {_id}, 15)
 	stop

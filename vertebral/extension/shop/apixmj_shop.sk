@@ -106,9 +106,8 @@ function mj_shop_menu(player: player):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_menu_main(player: player):
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.gui", "modify", "shop")
 	set {_title} to mj_editfiles_gettext("shop", "data.title.category", {_player})
-	mj_core_gui_generator({_player}, 5, true, false, {_title})
+	mj_core_gui_generator({_player}, 5, true, false, {_title}, "shop")
 	set {_list::*} to mj_manager_nodes("shop.data", "data.category")
 	loop {_list::*}:
 		set {_value} to loop-value
@@ -146,13 +145,12 @@ function mj_shop_menu_main_button_category_description(player: player, value: te
 # APIxMJ - Menu Product
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_menu_product(player: player, value: text, page: number=1, return: boolean=false):
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.gui", "modify", "shop")
 	if {_page} >= 2:
 		set {_title} to mj_editfiles_gettext("shop", "data.title.page", {_player}, "%{_page}%")
 	else:
 		set {_name} to mj_editfiles_gettext("shop", "data.index.category.%{_value}%.name", {_player})
 		set {_title} to mj_editfiles_gettext("shop", "data.title.named", {_player}, {_name})
-	mj_core_gui_generator({_player}, 6, true, false, {_title})
+	mj_core_gui_generator({_player}, 6, true, false, {_title}, "shop")
 	set {_list::*} to mj_manager_nodes("shop.data", "data.product")
 	loop {_list::*}:
 		set {_value2} to loop-value
@@ -218,9 +216,8 @@ function mj_shop_menu_product_button_admin(player: player, value: text, item: it
 # APIxMJ - Menu Trade
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_menu_trade(player: player, value: text, page: number=1, return: boolean=true):
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.gui", "modify", "shop")
 	set {_title} to mj_editfiles_gettext("shop", "data.title.offer")
-	mj_core_gui_generator({_player}, 5, true, false, {_title})
+	mj_core_gui_generator({_player}, 5, true, false, {_title}, "shop")
 	set {_category} to mj_editfiles("shop.data", "data.product.%{_value}%.category")
 	set {_buy_price} to mj_editfiles_number("shop.data", "data.product.%{_value}%.dynamic_value.buy.price")
 	set {_sell_price} to mj_editfiles_number("shop.data", "data.product.%{_value}%.dynamic_value.sell.price")

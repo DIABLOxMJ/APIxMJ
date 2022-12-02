@@ -82,10 +82,9 @@ on tab complete of "/store" or "/boutique":
 # APIxMJ - Menu
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_store_menu(player: player):
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.gui", "modify", "store")
 	set {_title} to mj_editfiles_gettext("store", "data.title", {_player})
 	set {_line} to mj_editfiles_number("store.config", "data.gui_size")
-	mj_core_gui_generator({_player}, {_line}, true, false, {_title})
+	mj_core_gui_generator({_player}, {_line}, true, false, {_title}, "store")
 	set {_list::*} to mj_manager_nodes("store.data")
 	loop {_list::*}:
 		set {_check} to mj_editfiles_boolean("store.data", "data.%loop-value%.visible")

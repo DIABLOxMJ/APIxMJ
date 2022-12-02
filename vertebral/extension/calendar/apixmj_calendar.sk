@@ -81,9 +81,8 @@ on tab complete of "/calendar" or "/cal" or "/calendrier":
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_calendar_menu(player: player):
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.gui", "modify", "calendar")
 	set {_name} to mj_editfiles_gettext("calendar", "data.title", {_player})
-	mj_core_gui_generator({_player}, 5, true, false, {_name})
+	mj_core_gui_generator({_player}, 5, true, false, {_name}, "calendar")
 	wait 1 tick
 	set {_slot} to 1
 	set {_list::*} to mj_manager_nodes("calendar.data", "data.current_calendar")

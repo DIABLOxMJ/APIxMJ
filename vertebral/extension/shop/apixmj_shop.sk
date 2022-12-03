@@ -49,7 +49,7 @@ command /shop [<text>] [<text>] [<text>]:
 					else if arg-1 is "slot":
 						if arg-2 is set:
 							if arg-3 is set:
-								mj_shop_data_money(player, arg-2, arg-3)
+								mj_shop_data_slot(player, arg-2, arg-3)
 							else:
 								mj_core_message(player, "shop", "data.prefix", "core", "data.argument.number")
 						else:
@@ -91,7 +91,7 @@ on tab complete of "/shop":
 		if tab arg-1 is "add":
 			set tab completions for position 2 to "enter_the_ID"
 			set tab completions for position 3 to {_list::*}
-		if tab arg-1 is "edit_money_buy" or "edit_money_sell":
+		if tab arg-1 is "slot" or "edit_money_buy" or "edit_money_sell":
 			set tab completions for position 2 to {_list2::*}
 			set tab completions for position 3 to 0
 	stop
@@ -123,7 +123,7 @@ function mj_shop_data(player: player, id: text, category: text, item: item):
 	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
 	if {_list::*} is set:
 		loop {_list::*}:
-			set yaml value "data.index.category.%{_id}%.name" from "mj.shop.language.%loop-value%" to {_id}
+			set yaml value "data.index.product.%{_id}%.name" from "mj.shop.language.%loop-value%" to "&a%{_id}%"
 			save yaml "mj.shop.language.%loop-value%"
 	send "[APIxMJ] SHOP : data for %{_item}% is added in %{_id}%" to {_player}
 	stop
@@ -137,7 +137,7 @@ function mj_shop_data_money(player: player, id: text, value: text, type: text):
 	send "[APIxMJ] SHOP : set money %{_value}% for %{_id}%" to {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_data_slot(player: player, id: text, value: text, type: text):
+function mj_shop_data_slot(player: player, id: text, value: text):
 	set {_value} to {_value} parsed as number
 	set yaml value "data.product.%{_id}%.slot" from "mj.shop.data" to {_value}
 	save yaml "mj.shop.data"

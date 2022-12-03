@@ -152,7 +152,7 @@ data:
             lore:
                 '1': " &6- &7Des Skripts sous-dépendant des principaux"
                 '2': " &0- &7remplis de fonctionnalités très attirants !"
-        gamemodes_faction:
+        gamemodes_faction_main:
             name: "&4PVP-Faction"
             name_lite: "&4PVP-Faction"
             lore:
@@ -309,7 +309,7 @@ data:
                     '1': " &6- &7Un système de gestion à spawner puissant capable"
                     '2': " &0- &7de géré la limite de spawner par chunk, et de"
                     '3': " &0- &7comment les récupérer en bref tout est gérable."
-        gamemodes_faction:
+        gamemodes_faction_main:
             faction:
                 name: "&cFaction"
                 name_lite: "&cFaction"

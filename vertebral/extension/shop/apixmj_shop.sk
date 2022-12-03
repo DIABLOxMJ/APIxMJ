@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading shop..." to console
 		mj_files_shop()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.shop.version", "modify", "2022.11.17.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.shop.version", "modify", "2022.12.03.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_shop.sk"
@@ -46,6 +46,22 @@ command /shop [<text>] [<text>] [<text>]:
 								mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
 						else:
 							mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
+					if arg-1 is "edit_money_buy":
+						if arg-2 is set:
+							if arg-3 is set:
+								mj_shop_data_money(player, arg-2, arg-3, "buy")
+							else:
+								mj_core_message(player, "shop", "data.prefix", "core", "data.argument.number")
+						else:
+							mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
+					if arg-1 is "edit_money_sell":
+						if arg-2 is set:
+							if arg-3 is set:
+								mj_shop_data_money(player, arg-2, arg-3, "sell")
+							else:
+								mj_core_message(player, "shop", "data.prefix", "core", "data.argument.number")
+						else:
+							mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
 					else:
 						mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
 			else:
@@ -56,13 +72,17 @@ command /shop [<text>] [<text>] [<text>]:
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/shop":
 	if player has permission "*" or "mj.*" or "mj.shop.*" or "mj.shop" or "mj.shop.admin":
-		set {_list::*} to mj_manager_nodes("shop.data", "data.category")
-		loop {_list::*}:
+		set {_list1::*} to mj_manager_nodes("shop.data", "data.category")
+		set {_list2::*} to mj_manager_nodes("shop.data", "data.product")
+		loop {_list1::*}:
 			add loop-value to {_list::*}
-		set tab completions for position 1 to "add"
-		if tab arg-1 is set:
+		set tab completions for position 1 to "add", "edit_money_buy" and "edit_money_sell"
+		if tab arg-1 is "add":
 			set tab completions for position 2 to "enter_the_ID"
 			set tab completions for position 3 to {_list::*}
+		if tab arg-1 is "edit_money_buy" or "edit_money_sell":
+			set tab completions for position 2 to {_list2::*}
+			set tab completions for position 3 to 0
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_data(player: player, id: text, category: text, item: item):
@@ -95,6 +115,15 @@ function mj_shop_data(player: player, id: text, category: text, item: item):
 			set yaml value "data.index.category.%{_id}%.name" from "mj.shop.language.%loop-value%" to {_id}
 			save yaml "mj.shop.language.%loop-value%"
 	send "[APIxMJ] SHOP : data for %{_item}% is added in %{_id}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_shop_data_money(player: player, id: text, value: text, type: text):
+	set {_id} to mj_core_converter_name({_id})
+	set {_value} to {_value} parsed as number
+	set yaml value "data.product.%{_id}%.base_value.%{_type}%.price" from "mj.shop.data" to {_value}
+	set yaml value "data.product.%{_id}%.dynamic_value.%{_type}%.price" from "mj.shop.data" to {_value}
+	save yaml "mj.shop.data"
+	send "[APIxMJ] SHOP : set money %{_value}% for %{_id}%" to {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Shop

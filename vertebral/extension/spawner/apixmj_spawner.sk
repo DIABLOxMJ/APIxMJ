@@ -19,7 +19,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading spawner..." to console
 		mj_files_spawner()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.spawner.version", "modify", "2022.11.09.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.spawner.version", "modify", "2022.12.06.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_spawner.sk"
@@ -56,7 +56,7 @@ command /spawner [<text>]:
 					set {_name} to mj_editfiles("spawner.config", "data.format.pickaxe_name")
 					set {_type} to mj_editfiles("spawner.config", "data.format.break_limit")
 					set {_count} to mj_editfiles_number("spawner.config", "data.custom_pickaxe.break_limit")
-					set {_item} to mj_core_converter_item("spawner.config", "data.custom_pickaxe.item")
+					set {_item} to mj_manager_item_convert("spawner.config", "data.custom_pickaxe.item")
 					set {_item} to {_item} named {_name}
 					set line 2 of lore of {_item} to "%{_type}%%{_count}%"
 					give {_item} to player

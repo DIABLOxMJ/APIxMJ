@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2022.11.05.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2022.12.16.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -1778,13 +1778,13 @@ function mj_essentials_vanish(player: offlineplayer):
 	set {_check} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.vanish")
 	if {_check} is true:
 		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.vanish", "modify", false)
-		set {_type} to mj_editfiles_gettext("core", "data.type.disable", {_player})
+		set {_type} to mj_editfiles_gettext("manager", "data.type.disable", {_player})
 		if {_player} is online:
 			mj_essentials_join({_player}, "join")
 		mj_core_message({_player}, "essentials", "data.vanish.prefix", "essentials", "data.vanish.unvanished")
 	else:
 		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.vanish", "modify", true)
-		set {_type} to mj_editfiles_gettext("core", "data.type.enable", {_player})
+		set {_type} to mj_editfiles_gettext("manager", "data.type.enable", {_player})
 		if {_player} is online:
 			mj_essentials_join({_player}, "quit")
 		mj_core_message({_player}, "essentials", "data.vanish.prefix", "essentials", "data.vanish.vanished")
@@ -1895,7 +1895,7 @@ command /tempban [<offlineplayer>] [<text="30d">] [<text="none">]:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/tempban":
-	set tab completions for position 2 to "10s", "10m", "10h", "1d", "1j", "1w", "1mo", "1y" and "1a"
+	set tab completions for position 2 to "10s", "10m", "10h", "1d", "1mo" and "1y"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
@@ -2297,7 +2297,7 @@ command /warn [<offlineplayer>] [<text="none">]:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warn.*" or "mj.essentials.warn":
 			if arg-1 is set:
 				if arg-2 is set:
-					mj_essentials_warn(player, arg-2)
+					mj_essentials_warn(player, "%arg-1%", arg-2)
 					mj_core_message(player, "essentials", "data.warn.prefix", "essentials", "data.warn.message", "%arg-1%", arg-2)
 				else:
 					mj_core_message(player, "essentials", "data.warn.prefix", "essentials", "data.warn.reasonindefined")

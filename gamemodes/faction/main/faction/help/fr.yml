@@ -1,0 +1,10 @@
+data:
+    none:
+        name: "none"
+        type: function
+        description:
+            '1': "none"
+        permission:
+        - "*"
+        info:
+            '1': "none"

@@ -1,0 +1,135 @@
+data:
+    prefix: "&6[&c&lFACTION&6]&r"
+    none: "Aucun"
+    rank:
+        recruit: "Recrue"
+        member: "Membre"
+        officer: "Officier"
+        leader: "Chef"
+        neutral: "Neutre"
+        ally: "Alliée"
+        enemy: "Ennemie"
+    request:
+        rank_member: "&cVous devez être minimum membre pour faire cela.."
+        rank_officer: "&cVous devez être un officier minimum pour faire cela.."
+        rank_leader: "&cVous n'êtes pas le chef de la faction pour faire ça.."
+        guild_lost: "&cVous devez faire partie d'une faction pour faire cela.."
+        guild_both: "&cVous devez faire tous les deux partie de la même faction pour faire cela.."
+        guild_no_found: "&cLa faction n'existe pas.."
+    create:
+        character_limit: "&cVotre nom de faction doit comporter entre 3 et $0 caractères.."
+        no_free: "&cVous êtes actuellement dans une faction.."
+        description: "Aucune description définie"
+        success: "&7Félicitations, vous avez créé la faction &6: &a$0"
+        broadcast: "&7Le joueur &a$0 &7à créer la faction &a$1"
+        is_created: "&cVous ne pouvez pas créer une faction déjà existante.."
+    rename:
+        success: "&7Vous avez changé le nom de votre faction en &a$0"
+        error: "&cVous ne pouvez pas avoir le même nom qu'une autre faction.."
+    description: "&7Vous avez défini comme description &6: &a$0"
+    list: "&7Liste de faction &6: &a$0"
+    delete:
+        request: "&7Voulez-vous vraiment supprimer la faction ?"
+        confirm: "&cVous devez confirmer la suppression et non mettre autre chose."
+        success: "&7Votre faction &a$0 &7a été supprimé."
+        free_player: "&7Vous êtes libre, car votre faction a été supprimée."
+    power:
+        view: "&7Votre Power &6: &a$0&6/&a$1"
+        view_other: "&7Power de $0 &6: &a$1&6/&a$2"
+    info: 
+        title: "&7Profil de faction"
+        primary: "&6- &7Nom &6: &a$0%nl%&6- &7Description &6: &a$1%nl%&6- &7Date de création &6: &a$2"
+        score: "&6- &7Score &6: &a$0"
+        power: "&6- &7Nombre de claim &6: &a$0%nl%&6- &7Puissance &6: &a$1&6/&a$2"
+        alliance: "&6- &7Allié &6: &a$0%nl%&6- &7Ennemi &6: &a$1"
+        member: "&6- &7Membre connecté &6: &a$0%nl%&6- &7Membre déconnecté &6: &a$1"
+        no_found: "&cAucun résultat à votre demande le joueur où la faction que vous demandez n'existe pas.."
+    guest:
+        no_free: "&cCe joueur fait déjà partie d'une faction.."
+        no_request: "&cVous n'avez aucune demande d'invitation en cours.."
+        limite: "&cVous avez déjà atteint la limite de personnes dans la faction.."
+        request: "&7Vous avez envoyé une demande d'invitation à &a$0&7."
+        invitation: "&7Vous avez reçu une demande d'invitation pour rejoindre la faction &a$0&7."
+        bossbar: "&7Invitation à rejoindre &a$0"
+        join: "&7Vous avez accepté de rejoindre la faction &a$0&7."
+        join_broadcast: "&a$0 &7à accepté de rejoindre votre faction."
+        refuse: "&cVous avez refusé la demande d'invitation.."
+        refuse_broadcast: "&cLa demande d'invitation a été refusée.."
+    kick: 
+        player: "&7Vous expulsez &a$0 &7de la faction."
+        broadcast: "&7Vous avez été expulsé de la faction &6: &a$0"
+        leader: "&cVous ne pouvez pas exclure votre chef de faction.."
+    leader:
+        old: "&aVous n'êtes plus le chef de la faction."
+        new: "&aVous devenez le nouveau chef de faction."
+    leave:
+        request: "&7Vous êtes sûr de vouloir quitter la faction &a$0 &7?"
+        cancel: "&7Vous avez décidé de rester dans la faction."
+        success: "&7Tu as quitté la faction &6: &a$0"
+        alert: "&a$0 &7à quitté votre faction."
+        leader: "&cVous ne pouvez pas quitter la faction en tant que chef, vous pouvez soit donner la faction soit la supprimer.."
+    rank_post:
+        no_promote: "&7Vous ne pouvez pas augmenter/diminuer le statut du joueur."
+        promote:
+            me: "&7Vous avez donné une promotion à &a$0&7, il devient &a$1"
+            it: "&7Vous avez été promu &a$0"
+        demote:
+            me: "&7Vous avez rétrogradé &a$0 &7en &a$1"
+            it: "&7Vous avez été rétrogradé en &a$0"
+    alliance:
+        no_oneself: "&cVous ne pouvez pas faire ceci avec votre propre faction.."
+        no_request: "&7Vous n'avez aucune demande d'alliance en attente."
+        new_relation: "&7Vous avez ajouté la faction &a$0 &7comme &a$1"
+        new_relation_broadcast: "&7La faction &a$0 &7vous à mis &a$1"
+        request:
+            me: "&7Vous avez envoyé une demande d'alliance à la faction &a$0&7."
+            it: "&7La faction &a$0 &7vous à envoyer une demande d'alliance."
+        refused:
+            me: "&7Vous avez refusé la demande d'alliance de &a$0&7."
+            it1: "&a$0 &7a refusé la demande d'alliance avec la faction &a$0&7."
+            it2: "&7Votre demande d'alliance avec la faction &a$0 &7a été refusée."
+    relation_changed: "&7Vous avez défini la faction &a$0 &7comme &a$1"
+    already_relation_changed: "&7Vous avez déjà cette faction dans &a$0&7."
+    no_relation_changed: "&cVous êtes déjà neutre avec cette faction.."
+    claim:
+        no_world: "&cVous ne pouvez pas faire de claim dans ce monde.."
+        no_wilderness: "&cVous ne pouvez pas utiliser la commande ici.."
+        already_claimed: "&cCe chunk est déjà claim.."
+        already_claimed_other: "&cCe chunk est déjà claim par une autre faction.."
+        max_claimed: "&cVous ne pouvez pas avoir plus de claim.."
+        too_much_power: "&cVous devez faire descendre les powers de cette faction pour récupérer le claim.."
+        success: "&aVous avez réussi à claim ce chunk."
+        no_claimed: "&cCe chunk ne vous appartient pas.."
+        unclaimed: "&aCe chunk ne vous appartient plus.."
+        unclaimed_all: "&aVous n'avez plus aucun claim."
+        infobar: "&6< &eVous êtes dans les claims de la faction &a$0 &6>"
+    claim_info: "&cVous ne pouvez pas récupérer ce bloc le chunk et claim par la faction &a$0&c.."
+    chat:
+        change_mode: "&7Vous avez réglé votre chat de faction sur &a$0"
+    permission: 
+        error: 
+            info: "&cVous pouvez utiliser ceci pour le moment%nl%$0%nl%$1%nl%$2"
+            friendly_fire: "&6- &afriendlyfire &6: &7il permet d'autoriser ou non le pvp entre les joueurs de la même faction."
+            mob_spawning: "&6- &amobspawning &6: &7il permet d'autoriser ou non le spawn naturel des entités dans un chunk."
+            ally_access: "&6- &aallyaccess &6: &7il permet d'autoriser ou non les alliés à utiliser un chunk."
+        friendly_fire: "&7Vous avez $0 &7Autorise ou non le pvp entre les joueurs de la même faction."
+        claim: 
+            mob_spawning: "&7Vous avez $0 &7L'apparition d'entité dans ce chunk."
+            ally_access: "&7Vous avez $0 &7la possibilité pour les alliés d'utiliser ce chunk."
+    home: 
+        set_success: "&aVous avez défini le nouveau point de téléportation."
+        success: "&aVous êtes téléporté à votre base de la faction."
+        no_set: "&cAucun point de téléportation défini.."
+    map_title: "&7La carte des claims"
+    map_info: 
+        l1: "&7&b⬛ Vous &a⬛ Les claim de votre faction &2⬛ Claim alliés"
+        l2: "&c⬛ Claim d'une faction ennemi &7⬛ Claim d'une faction neutre &f⬛ Chunk libre"
+    requestenemy: "&cVous devez être un ennemi de cette faction pour faire cela !"
+    infofree: "&cVous devez faire partie d'une faction pour regarder vos infos."
+    noplayerfaction: "&cCe joueur ne fait pas partie d'une faction.."
+    editor: 
+        rename: "&7Vous avez renommé la faction &a$0 &7en &a$1"
+        description: "&7Nouvelle description pour la faction &a$0 &7avec &a$1"
+        power: "&7Nouvelle valeur pour les powers de &a$0 &7il y a &a$1 &apowers"
+        rank: "&7Le rang de &a$0 &7et passé de &a$1 &7à &a$2"
+        guild: "&7La faction de &a$0 &7et passé de &a$1 &7à &a$2"

@@ -1,0 +1,30 @@
+data:
+    create:
+        # The number of characters for the guild name, default : 10
+        character_limit: 10
+        # The price to create a guild, default : 7500
+        price: 7500
+    # Should we impose the list of people for claim or not, default : false
+    claim_in_world_list: false
+    # The list of worlds allowing to claim, default : world
+    world:
+    - world
+    # The maximum number of power per player, default : 10
+    max_power: 10
+    # Should we display a message when we are present in a claim, default : false
+    claim_indicator: false
+    money:
+        # Should we impose a money limit for the guild, default : false
+        limit: false
+    format:
+        chat: "&6[&r$0&6] &r$1&6: &r$2"
+        message: "&6[&r$0&6] &r$1&6: &r$2"
+    upgrade:
+        player_slot:
+            '0':
+                price: 0
+                value: 8
+        money:
+            '0':
+                price: 0
+                value: 75000

@@ -1,0 +1,993 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	console command "/sk reload apixmj_faction"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_playerdata(player: offlineplayer):
+	set {_check} to yaml value "data.%{_player}'s uuid%.faction" from "mj.userdata"
+	if {_check} isn't set:
+		wait 2 seconds
+		set yaml value "data.%{_player}'s uuid%.faction.chat" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.faction.guild" from "mj.userdata" to "none"
+		set yaml value "data.%{_player}'s uuid%.faction.rank" from "mj.userdata" to "free"
+		set yaml value "data.%{_player}'s uuid%.faction.power" from "mj.userdata" to 10
+		save yaml "mj.userdata"
+		mj_core_logger(true, "%{_player}% génération des données Faction..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Tool
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_getname(target: text) :: boolean:
+	set {_result} to true
+	set {_list::*} to mj_core_nodes("faction.data", "data.guild")
+	loop {_list::*}:
+		set {_value} to mj_editfiles("faction.data", "data.guild.%loop-value%.name")
+		if {_target} is {_value}:
+			set {_result} to false
+			exit loop
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_getid(target: text) :: text:
+	set {_list::*} to mj_core_nodes("faction.data", "data.guild")
+	loop {_list::*}:
+		set {_value} to mj_editfiles("faction.data", "data.guild.%loop-value%.name")
+		if {_target} is {_value}:
+			set {_result} to loop-value
+			exit loop
+		else:
+			set {_result} to "none"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_powercount(id: text, type: boolean=false) :: number:
+	set {_count1} to 0
+	set {_count2} to 0
+	set {_list::*} to mj_core_nodes("userdata")
+	loop {_list::*}:
+		set {_value1} to mj_editfiles("userdata", "data.%loop-value%.faction.guild")
+		if {_value1} is {_id}:
+			set {_value2} to mj_editfiles_number("userdata", "data.%loop-value%.faction.power")
+			add {_value2} to {_count1}
+			add 10 to {_count2}
+	set {_result} to {_count1}
+	if {_type} is true:
+		set {_result} to {_count2}
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_claimcount(id: text) :: number:
+	set {_count} to 0
+	set {_list::*} to mj_core_nodes("faction.data", "data.claim")
+	loop {_list::*}:
+		set {_value} to mj_editfiles("faction.data", "data.claim.%loop-value%.owner")
+		if {_value} is {_id}:
+			add 1 to {_count}
+	return {_count}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Tool
+# =====================================================================================================================
+# APIxMJ - Data
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_data_generator(name: text, id: text="none"):
+	if {_id} is "none":
+		set {_id} to mj_core_idgenerator()
+	set yaml value "data.guild.%{_id}%.name" from "mj.faction.data" to {_name}
+	set {_desc} to mj_editfiles_gettext("faction", "data.create.description")
+	set yaml value "data.guild.%{_id}%.description" from "mj.faction.data" to {_desc}
+	set yaml value "data.guild.%{_id}%.date" from "mj.faction.data" to now
+	set yaml value "data.guild.%{_id}%.point" from "mj.faction.data" to 0
+	set yaml value "data.guild.%{_id}%.money.value" from "mj.faction.data" to 0
+	set yaml value "data.guild.%{_id}%.money.bypass" from "mj.faction.data" to false
+	set yaml value "data.guild.%{_id}%.upgrade.playerslot" from "mj.faction.data" to 0
+	set yaml value "data.guild.%{_id}%.upgrade.money" from "mj.faction.data" to 0
+	set yaml value "data.guild.%{_id}%.permission.friendlyfire" from "mj.faction.data" to true
+	set yaml value "data.guild.%{_id}%.extension.alliance" from "mj.faction.data" to "none"
+	set yaml value "data.guild.%{_id}%.ally" from "mj.faction.data" to ""
+	set yaml value "data.guild.%{_id}%.enemy" from "mj.faction.data" to ""
+	set yaml value "data.guild.%{_id}%.home" from "mj.faction.data" to ""
+	save yaml "mj.faction.data"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_create_admin(player: player, name: text):
+	if length of {_name} >= 3:
+		if length of {_name} <= 32:
+			set {_check} to mj_faction_getname({_name})
+			if {_check} is true:
+				mj_faction_data_generator({_name})
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.success", {_name})
+			else:
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.iscreated")
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.limit", "32")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.limit", "32")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_create_condition(player: player, name: text):
+	set {_limit} to mj_editfiles_number("faction.config", "data.characterlimit")
+	if length of {_name} >= 3:
+		if length of {_name} <= {_limit}:
+			set {_price} to mj_editfiles_number("faction.config", "data.createprice")
+			set {_money} to mj_essentials_money_modify({_player}, "all")
+			if {_money} >= {_price}:
+				set {_name} to uncolored {_name}
+				set {_list::*} to regex replace all "[^a-z_A-Z_0-9]" with "" in {_name}
+				set {_name} to "%{_list::*}%"
+				mj_faction_create({_player}, {_name})
+			else:
+				set {_priceview} to mj_core_format_money(false, {_price})
+				mj_core_message({_player}, "faction", "data.prefix", "essentials", "data.money.noenough", {_priceview})
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.limit", "%{_limit}%")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.limit", "%{_limit}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_create(player: player, name: text):
+	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank} is "free":
+		set {_check} to mj_faction_getname({_name})
+		if {_check} is true:
+			set {_id} to mj_core_idgenerator()
+			mj_faction_data_generator({_name}, {_id})
+			set {_price} to mj_editfiles_number("faction.config", "data.createprice")
+			mj_essentials_money_system({_player}, {_price})
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild", "modify", {_id})
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank", "modify", "leader")
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.success", {_name})
+			loop all players:
+				mj_core_message(loop-player, "faction", "data.prefix", "faction", "data.broadcastcreate", "%{_player}%", {_name})
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.iscreated")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.nofree")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_rename(player: player, name: text):
+	set {_limit} to mj_editfiles_number("faction.config", "data.characterlimit")
+	if length of {_name} >= 3:
+		if length of {_name} <= {_limit}:
+			set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+			if {_rank} is "leader":
+				set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+				set {_name} to uncolored {_name}
+				set {_list::*} to regex replace all "[^a-z_A-Z_0-9]" with "" in {_name}
+				set {_name} to "%{_list::*}%"
+				set {_check} to mj_faction_getname({_name})
+				if {_check} is true:
+					mj_editfiles("faction.data", "data.guild.%{_id}%.name", "modify", {_name})
+					mj_core_message({_player}, "faction", "data.prefix", "faction", "data.rename", {_name})
+				else:
+					mj_core_message({_player}, "faction", "data.prefix", "faction", "data.duplicatename")
+			else:
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noleader")
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.limit", "%{_limit}%")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.limit", "%{_limit}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_description(player: player, name: text):
+	if length of {_name} >= 3:
+		if length of {_name} <= 64:
+			set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+			if {_rank} is "leader" or "officer":
+				set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+				set {_name} to uncolored {_name}
+				mj_editfiles("faction.data", "data.guild.%{_id}%.description", "modify", {_name})
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.setdescription", {_name})
+			else:
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noofficer")
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.limit", "64")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.limit", "64")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_delete_request(player: player):
+	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank} is "leader":
+		set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+		set {_name} to mj_editfiles("faction.data", "data.guild.%{_id}%.name")
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.disbandrequest", {_name})
+		mj_core_request({_player}, "faction", "data.prefix", "/faction delete confirm", "/faction delete cancel")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noleader")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_delete_confirm(player: player):
+	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank} is "leader":
+		set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+		set {_name} to mj_editfiles("faction.data", "data.guild.%{_id}%.name")
+		mj_faction_delete({_id})
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.disband", {_name})
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noleader")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_delete(id: text):
+	set {_list1::*} to mj_core_nodes("userdata")
+	loop {_list1::*}:
+		set {_value1} to loop-value parsed as offlineplayer
+		set {_id1} to mj_editfiles("userdata", "data.%{_value1}'s uuid%.faction.guild")
+		if {_id1} is {_id}:
+			mj_editfiles("userdata", "data.%{_value1}'s uuid%.faction.guild", "modify", "none")
+			mj_editfiles("userdata", "data.%{_value1}'s uuid%.faction.rank", "modify", "free")
+			if {_value1} is online:
+				mj_core_message({_value1}, "faction", "data.prefix", "faction", "data.freeplayer")
+	set {_list2::*} to mj_core_nodes("faction.data", "data.claim")
+	loop {_list2::*}:
+		set {_value2} to mj_editfiles("faction.data", "data.claim.%loop-value%.owner")
+		if {_value2} is {_id}:
+			delete yaml value "data.claim.%loop-value%" from "mj.faction.data"
+	save yaml "mj.faction.data"
+	set {_list3::*} to mj_core_nodes("faction.data", "data.guild")
+	loop {_list3::*}:
+		if {_id} isn't loop-value:
+			mj_faction_alliance_change("neutral", {_id}, loop-value)
+	mj_editfiles("faction.data", "data.guild.%{_id}%", "delete")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_list(player: player):
+	set {_list1::*} to mj_core_nodes("faction.data", "data.guild")
+	loop {_list1::*}:
+		set {_name} to mj_editfiles("faction.data", "data.guild.%loop-value%.name")
+		add {_name} to {_list2::*}
+	if {_list2::*} isn't set:
+		set {_empty} to mj_editfiles_gettext("faction", "data.none", {_player})
+		add {_empty} to {_list2::*}
+	mj_core_message({_player}, "faction", "data.prefix", "faction", "data.list", "%{_list2::*}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_power(player: player):
+	set {_power1} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.faction.power")
+	set {_max} to mj_editfiles_number("faction.config", "data.maxpower")
+	mj_core_message({_player}, "faction", "data.prefix", "faction", "data.viewpower", "%{_power1}%", "%{_max}%")
+	set {_guild1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+	if {_guild1} isn't "none":
+		send "" to {_player}
+		set {_list::*} to mj_core_nodes("userdata")
+		loop {_list::*}:
+			set {_target} to loop-value parsed as offlineplayer
+			if {_target} isn't {_player}:
+				set {_guild2} to mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.guild")
+				if {_guild2} is {_guild1}:
+					set {_power2} to mj_editfiles_number("userdata", "data.%{_target}'s uuid%.faction.power")
+					mj_core_message({_player}, "faction", "data.prefix", "faction", "data.viewpowerother", "%{_target}%", "%{_power2}%", "%{_max}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_power_modify(player: player, mode: boolean=false):
+	set {_power} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.faction.power")
+	set {_max} to mj_editfiles_number("faction.config", "data.maxpower")
+	if {_mode} is true:
+		if {_power} <= {_max}-1:
+			add 1 to {_power}
+			mj_editfiles_number("userdata", "data.%{_player}'s uuid%.faction.power", "modify", {_power})
+	else:
+		if {_power} >= 1:
+			remove 1 from {_power}
+			mj_editfiles_number("userdata", "data.%{_player}'s uuid%.faction.power", "modify", {_power})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_info_inspect(player: player, target: text):
+	set {_check} to {_target} parsed as offlineplayer
+	set {_list1::*} to mj_core_nodes("userdata")
+	set {_list2::*} to mj_core_nodes("faction.data", "data.guild")
+	set {_skip} to false
+	loop {_list1::*}:
+		if {_check}'s uuid is loop-value:
+			set {_id} to mj_editfiles("userdata", "data.%{_check}'s uuid%.faction.guild")
+			set {_skip} to true
+			exit loop
+		else:
+			set {_id} to "none"
+	if {_skip} is false:
+		loop {_list2::*}:
+			set {_id} to loop-value
+			set {_value} to mj_editfiles("faction.data", "data.guild.%{_id}%.name")
+			if {_value} is {_target}:
+				exit loop
+			else:
+				set {_id} to "none"
+	mj_faction_info({_player}, {_id})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_info(player: player, id: text):
+	if {_id} isn't "none":
+		set {_name} to mj_editfiles("faction.data", "data.guild.%{_id}%.name")
+		set {_desc} to mj_editfiles("faction.data", "data.guild.%{_id}%.description")
+		set {_date} to mj_editfiles_date("faction.data", "data.guild.%{_id}%.date")
+		set {_point} to 0
+		set {_claim} to mj_faction_claimcount({_id})
+		set {_power} to 0
+		set {_maxpower} to 0
+		set {_ally1::*} to mj_editfiles_list("faction.data", "data.guild.%{_id}%.ally")
+		if {_ally1::*} is set:
+			loop {_ally1::*}:
+				set {_value5} to mj_editfiles("faction.data", "data.guild.%loop-value%.name")
+				add {_value5} to {_ally::*}
+		else:
+			set {_ally::*} to mj_editfiles_gettext("faction", "data.none", {_player})
+		set {_enemy1::*} to mj_editfiles_list("faction.data", "data.guild.%{_id}%.enemy")
+		if {_enemy1::*} is set:
+			loop {_enemy1::*}:
+				set {_value5} to mj_editfiles("faction.data", "data.guild.%loop-value%.name")
+				add {_value5} to {_enemy::*}
+		else:
+			set {_enemy::*} to mj_editfiles_gettext("faction", "data.none", {_player})
+		set {_player::*} to mj_core_nodes("userdata")
+		loop {_player::*}:
+			set {_value1} to loop-value parsed as offlineplayer
+			delete {_value2}
+			set {_value2} to mj_editfiles("userdata", "data.%{_value1}'s uuid%.faction.guild")
+			if {_value2} is {_id}:
+				set {_value3} to mj_editfiles_number("userdata", "data.%{_value1}'s uuid%.faction.power")
+				add {_value3} to {_power}
+				set {_max} to mj_editfiles_number("faction.config", "data.maxpower")
+				add {_max} to {_maxpower}
+				set {_rank} to mj_editfiles("userdata", "data.%{_value1}'s uuid%.faction.rank")
+				if {_rank} is "leader":
+					set {_value4} to "**%{_value1}%"
+				else if {_rank} is "officer":
+					set {_value4} to "*%{_value1}%"
+				else if {_rank} is "member":
+					set {_value4} to "+%{_value1}%"
+				else:
+					set {_value4} to "-%{_value1}%"
+				if {_value1} is online:
+					add {_value4} to {_online::*}
+				else:
+					add {_value4} to {_offline::*}
+		if {_online::*} isn't set:
+			set {_online::*} to mj_editfiles_gettext("faction", "data.none", {_player})
+		if {_offline::*} isn't set:
+			set {_offline::*} to mj_editfiles_gettext("faction", "data.none", {_player})
+		send "&6------------------------------------------" to {_player}
+		set {_info} to mj_editfiles_gettext("faction", "data.info.title", {_player})
+		send "%{_info}%" to {_player}
+		set {_info1} to mj_editfiles_gettext("faction", "data.info.primary", {_player}, "%{_name}%", "%{_desc}%", "%{_date}%")
+		send "%{_info1}%" to {_player}
+		set {_info2} to mj_editfiles_gettext("faction", "data.info.score", {_player}, "%{_point}%")
+		send "%{_info2}%" to {_player}
+		set {_info3} to mj_editfiles_gettext("faction", "data.info.power", {_player}, "%{_claim}%", "%{_power}%", "%{_maxpower}%")
+		send "%{_info3}%" to {_player}
+		set {_info4} to mj_editfiles_gettext("faction", "data.info.alliance", {_player}, "%{_ally::*}%", "%{_enemy::*}%")
+		send "%{_info4}%" to {_player}
+		set {_info5} to mj_editfiles_gettext("faction", "data.info.member", {_player}, "%{_online::*}%", "%{_offline::*}%")
+		send "%{_info5}%" to {_player}
+		send "&6------------------------------------------" to {_player}
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.nofound")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_invite(player: player, target: player):
+	set {_rank1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank1} is "leader" or "officer":
+		mj_faction_playerdata({_target})
+		set {_rank2} to mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.rank")
+		if {_rank2} is "free":
+			set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+			set {_list::*} to mj_core_nodes("userdata")
+			loop {_list::*}:
+				set {_check} to mj_editfiles("userdata", "data.%loop-value%.faction.guild")
+				if {_check} is {_id}:
+					add 1 to {_count}
+			set {_upgrade} to mj_editfiles_number("faction.data", "data.guild.%{_id}%.upgrade.playerslot")
+			set {_limit} to mj_editfiles_number("faction.config", "data.upgrade.playerslot.%{_upgrade}%.value")
+			if {_count} >= {_limit}:
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.limitedinvite")
+				stop
+			else:
+				set {_name} to mj_editfiles("faction.data", "data.guild.%{_id}%.name")
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.request", "%{_target}%")
+				mj_core_message({_target}, "faction", "data.prefix", "faction", "data.invite", {_name})
+				mj_core_request({_target}, "faction", "data.prefix", "/faction join", "/faction refuse")
+				set {_title} to mj_editfiles_gettext("faction", "data.bosstitleinvite", {_target}, {_name})
+				mj_core_bossbar({_target}, "cooldown", {_title}, 30)
+				mj_editfiles("temp", "data.%{_target}'s uuid%.faction.request", "modify", {_id})
+				wait 30 seconds
+				set {_check} to mj_editfiles("temp", "data.%{_target}'s uuid%.faction.request")
+				if {_check} is set:
+					mj_core_bossbar({_target}, "delete")
+					mj_editfiles("temp", "data.%{_target}'s uuid%.faction.request", "delete")
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.nofreeinvite")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noofficer")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_kick(player: player, target: offlineplayer):
+	set {_rank1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank1} is "leader" or "officer":
+		set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+		set {_rank2} to mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.rank")
+		if {_rank2} isn't "leader":
+			mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.guild", "modify", "none")
+			mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.rank", "modify", "free")
+			set {_name} to mj_editfiles("faction.data", "data.guild.%{_id}%.name")
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.kick", "%{_target}%")
+			mj_core_message({_target}, "faction", "data.prefix", "faction", "data.kicked", {_name})
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.nokickleader")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noofficer")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_leader(player: player, target: offlineplayer):
+	set {_id1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+	set {_id2} to mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.guild")
+	if {_id1} is {_id2}:
+		set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+		if {_rank} is "leader":
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank", "modify", "officer")
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.oldleader")
+			mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.rank", "modify", "leader")
+			mj_core_message({_target}, "faction", "data.prefix", "faction", "data.newleader")
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noleader")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.factionboth")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_join(player: player):
+	set {_id} to mj_editfiles("temp", "data.%{_player}'s uuid%.faction.request")
+	if {_id} is set:
+		set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+		if {_rank} is "free":
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild", "modify", {_id})
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank", "modify", "recruit")
+			set {_name} to mj_editfiles("faction.data", "data.guild.%{_id}%.name")
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.join", {_name})
+			loop all players:
+				set {_value} to mj_editfiles("userdata", "data.%loop-player's uuid%.faction.guild")
+				if {_value} is {_id}:
+					if loop-player isn't "%{_player}%":
+						mj_core_message(loop-player, "faction", "data.prefix", "faction", "data.joined", "%{_player}%")
+			mj_core_bossbar({_player}, "delete")
+			mj_editfiles("temp", "data.%{_player}'s uuid%.faction.request", "delete")
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.nofree")
+			set {_check} to mj_editfiles("temp", "data.%{_player}'s uuid%.faction.request")
+			if {_check} is set:
+				mj_core_bossbar({_player}, "delete")
+				mj_editfiles("temp", "data.%{_player}'s uuid%.faction.request", "delete")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.norequest")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_refuse(player: player):
+	set {_id} to mj_editfiles("temp", "data.%{_player}'s uuid%.faction.request")
+	if {_id} is set:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.refuse")
+		loop all players:
+			set {_value} to mj_editfiles("userdata", "data.%loop-player's uuid%.faction.guild")
+			if {_value} is {_id}:
+				mj_core_message(loop-player, "faction", "data.prefix", "faction", "data.refused")
+		mj_core_bossbar({_player}, "delete")
+		mj_editfiles("temp", "data.%{_player}'s uuid%.faction.request", "delete")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.norequest")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_leave_request(player: player):
+	set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+	if {_id} isn't "none":
+		set {_name} to mj_editfiles("faction.data", "data.guild.%{_id}%.name")
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.leaverequest", {_name})
+		mj_core_request({_player}, "faction", "data.prefix", "/faction leave confirm", "/faction leave cancel")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.factionpart")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_leave_confirm(player: player):
+	set {_id1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+	if {_id1} isn't "none":
+		set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+		if {_rank} isn't "leader":
+			set {_name} to mj_editfiles("faction.data", "data.guild.%{_id1}%.name")
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank", "modify", "free")
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild", "modify", "none")
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.leave", {_name})
+			loop all players:
+				set {_id2} to mj_editfiles("userdata", "data.%loop-player's uuid%.faction.guild")
+				if {_id2} is {_id1}:
+					mj_core_message(loop-player, "faction", "data.prefix", "faction", "data.leavealert", "%{_player}%")
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noleaderleave")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.factionpart")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_changerpost(player: player, target: offlineplayer, mode: text):
+	if {_mode} is "promote" or "demote":
+		if {_mode} is "promote":
+			set {_choice1} to "recruit"
+			set {_choice2} to "officer"
+		else:
+			set {_choice1} to "officer"
+			set {_choice2} to "recruit"
+	set {_rank1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank1} is "leader":
+		set {_id1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+		set {_id2} to mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.guild")
+		if {_id1} is {_id2}:
+			set {_rank2} to mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.rank")
+			if {_rank2} is {_choice1}:
+				mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.rank", "modify", "member")
+				set {_info1} to mj_editfiles_gettext("faction", "data.member", {_player})
+				set {_info2} to mj_editfiles_gettext("faction", "data.member", {_target})
+			else if {_rank2} is "member":
+				mj_editfiles("userdata", "data.%{_target}'s uuid%.faction.rank", "modify", {_choice2})
+				set {_info1} to mj_editfiles_gettext("faction", "data.%{_choice2}%", {_player})
+				set {_info2} to mj_editfiles_gettext("faction", "data.%{_choice2}%", {_target})
+			else:
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.nopromote")
+				stop
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.%{_mode}%", "%{_target}%", {_info1})
+			mj_core_message({_target}, "faction", "data.prefix", "faction", "data.%{_mode}%d", {_info2})
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.factionboth")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noleader")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_alliance_reset(type: text, id1: text, id2: text):
+	if {_type} is "ally" or "enemy":
+		set {_list::*} to mj_editfiles_list("faction.data", "data.guild.%{_id1}%.%{_type}%")
+		if {_list::*} contains {_id2}:
+			set {_count} to 0
+			loop {_list::*}:
+				add 1 to {_count}
+			if {_count} >= 2:
+				remove {_id2} from {_list::*}
+				mj_editfiles_list("faction.data", "data.guild.%{_id1}%.%{_type}%", "modify", {_list::*})
+			else:
+				mj_editfiles("faction.data", "data.guild.%{_id1}%.%{_type}%", "modify", "")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_alliance_change(type: text, id1: text, id2: text):
+	if {_type} is "neutral" or "ally" or "enemy":
+		if {_type} is "ally" or "enemy":
+			mj_faction_alliance_change("neutral", {_id1}, {_id2})
+			set {_list1::*} to mj_editfiles_list("faction.data", "data.guild.%{_id1}%.%{_type}%")
+			add {_id2} to {_list1::*}
+			mj_editfiles_list("faction.data", "data.guild.%{_id1}%.%{_type}%", "modify", {_list1::*})
+			set {_list2::*} to mj_editfiles_list("faction.data", "data.guild.%{_id2}%.%{_type}%")
+			add {_id1} to {_list2::*}
+			mj_editfiles_list("faction.data", "data.guild.%{_id2}%.%{_type}%", "modify", {_list2::*})
+		else:
+			mj_faction_alliance_reset("ally", {_id1}, {_id2})
+			mj_faction_alliance_reset("enemy", {_id1}, {_id2})
+			mj_faction_alliance_reset("ally", {_id2}, {_id1})
+			mj_faction_alliance_reset("enemy", {_id2}, {_id1})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_alliance(player: player, target: text, type: text):
+	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank} is "leader" or "officer":
+		set {_id1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+		set {_name} to mj_editfiles("faction.data", "data.guild.%{_id1}%.name")
+		set {_id2} to mj_faction_getid({_target})
+		if {_id2} isn't "none":
+			if {_id1} isn't {_id2}:
+				if {_type} is "neutral" or "ally" or "enemy":
+					if {_type} is "neutral" or "enemy":
+						mj_faction_alliance_change({_type}, {_id1}, {_id2})
+						set {_view} to mj_editfiles_gettext("faction", "data.%{_type}%")
+						mj_core_message({_player}, "faction", "data.prefix", "faction", "data.newrelationchanged", {_target}, {_view})
+						#mj_core_message({_player}, "faction", "data.prefix", "faction", "data.relationchanged", {_target}, {_typeview})
+						loop all players:
+							set {_id3} to mj_editfiles("userdata", "data.%loop-player's uuid%.faction.guild")
+							if {_id2} is {_id3}:
+								mj_core_message(loop-player, "faction", "data.prefix", "faction", "data.alertrelationchanged", {_name}, {_view})
+					else:
+						mj_faction_alliance_request({_player}, {_id2})
+			else:
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.nointeractfaction")
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.nofaction")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noofficer")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_alliance_request(player: player, id1: text, mode: text="request"):
+	set {_id2} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+	if {_mode} is "accept" or "refuse":
+		set {_id1} to mj_editfiles("temp", "data.faction.request.%{_id2}%")
+	set {_name1} to mj_editfiles("faction.data", "data.guild.%{_id1}%.name")
+	set {_name2} to mj_editfiles("faction.data", "data.guild.%{_id2}%.name")
+	if {_mode} is "request":
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.allianceme", {_name1})
+		loop all players:
+			set {_id3} to mj_editfiles("userdata", "data.%loop-player's uuid%.faction.guild")
+			if {_id1} is {_id3}:
+				set {_rank} to mj_editfiles("userdata", "data.%loop-player's uuid%.faction.rank")
+				if {_rank} is "leader" or "officer":
+					mj_core_message(loop-player, "faction", "data.prefix", "faction", "data.allianceit", {_name2})
+					mj_core_request(loop-player, "faction", "data.prefix", "/faction request accept", "/faction request refuse")
+					mj_editfiles("temp", "data.faction.request.%{_id1}%", "modify", {_id2})
+	else:
+		set {_check} to mj_editfiles("temp", "data.faction.request.%{_id2}%")
+		if {_check} is set:
+			mj_editfiles("temp", "data.faction.request.%{_id2}%", "delete")
+			if {_mode} is "accept":
+				mj_faction_alliance_change("ally", {_id1}, {_id2})
+				set {_typeview} to mj_editfiles_gettext("faction", "data.ally", {_player})
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.newrelationchanged", {_name1}, {_typeview})
+				loop all players:
+					set {_id3} to mj_editfiles("userdata", "data.%loop-player's uuid%.faction.guild")
+					if {_id2} is {_id3}:
+						if loop-player isn't {_player}:
+							set {_typeview} to mj_editfiles_gettext("faction", "data.ally", loop-player)
+							mj_core_message(loop-player, "faction", "data.prefix", "faction", "data.alertrelationchanged", {_name1}, {_typeview})
+					if {_id1} is {_id3}:
+						mj_core_message(loop-player, "faction", "data.prefix", "faction", "data.alertrelationchanged", {_name2}, {_typeview})
+			else:
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.alliancerefusedme", {_name1})
+				loop all players:
+					set {_id3} to mj_editfiles("userdata", "data.%loop-player's uuid%.faction.guild")
+					if {_id2} is {_id3}:
+						if loop-player isn't {_player}:
+							mj_core_message(loop-player, "faction", "data.prefix", "faction", "data.alliancerefused", {_name1})
+					if {_id1} is {_id3}:
+						mj_core_message(loop-player, "faction", "data.prefix", "faction", "data.alliancerefusedit", {_name2})
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.norequestalliance")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_claim_generator(player: player, id: text):
+	mj_editfiles("faction.data", "data.claim.%chunk at {_player}%.owner", "modify", {_id})
+	mj_editfiles_number("faction.data", "data.claim.%chunk at {_player}%.price", "modify", 0)
+	mj_editfiles_boolean("faction.data", "data.claim.%chunk at {_player}%.permission.mobspawning", "modify", true)
+	mj_editfiles_boolean("faction.data", "data.claim.%chunk at {_player}%.permission.allyaccess", "modify", false)
+	mj_core_message({_player}, "faction", "data.prefix", "faction", "data.claimed")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_claim(player: player):
+	set {_check} to mj_editfiles_boolean("faction.config", "data.claiminworldlist")
+	if {_check} is true:
+		set {_list1::*} to mj_editfiles_list("faction.config", "data.world")
+		if {_list1::*} doesn't contain {_player}'s world:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noclaimworld")
+			stop
+	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank} is "leader" or "officer" or "member":
+		if "%region at {_player}%" doesn't contain "world":
+			set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+			set {_owner} to mj_editfiles("faction.data", "data.claim.%chunk at {_player}%.owner")
+			if {_owner} is {_id}:
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.alreadyclaimed")
+				stop
+			else:
+				set {_value1} to mj_faction_powercount({_id})
+				set {_claim1} to mj_faction_claimcount({_id})
+				if {_claim1} >= {_value1}:
+					mj_core_message({_player}, "faction", "data.prefix", "faction", "data.maxclaimed")
+					stop
+				if {_owner} is set:
+					set {_value2} to mj_faction_powercount({_owner})
+					set {_claim2} to mj_faction_claimcount({_owner})
+					if {_claim2} > {_value2}:
+						mj_faction_claim_generator({_player}, {_id})
+					else:
+						mj_core_message({_player}, "faction", "data.prefix", "faction", "data.toomuchpower")
+				else:
+					mj_faction_claim_generator({_player}, {_id})
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noclaimwilderness")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.nomember")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_unclaim(player: player):
+	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank} is "leader" or "officer" or "member":
+		set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+		set {_owner} to mj_editfiles("faction.data", "data.claim.%chunk at {_player}%.owner")
+		if {_id} is {_owner}:
+			mj_editfiles("faction.data", "data.claim.%chunk at {_player}%", "delete")
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.unclaimed")
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noclaimed")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_unclaimall(player: player):
+	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank} is "leader" or "officer":
+		set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+		set {_list::*} to mj_core_nodes("faction.data", "data.claim")
+		loop {_list::*}:
+			set {_owner} to mj_editfiles("faction.data", "data.claim.%loop-value%.owner")
+			if {_id} is {_owner}:
+				mj_editfiles("faction.data", "data.claim.%loop-value%", "delete")
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.unclaimedall")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_claim_info(player: player):
+	set {_owner} to mj_editfiles("faction.data", "data.claim.%chunk at {_player}%.owner")
+	if {_owner} is set:
+		set {_name} to mj_editfiles("faction.data", "data.%{_owner}%.name")
+		set {_info} to mj_editfiles_gettext("faction", "data.infobar", {_player}, {_name})
+		mj_core_infobar({_player}, 2, {_info})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_claim_permission(player: player, target: text):
+	set {_owner} to mj_editfiles("faction.data", "data.claim.%chunk at {_player}%.owner")
+	set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+	if {_id} is {_owner}:
+		set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+		if {_rank} is "leader" or "officer":
+			set {_check} to mj_editfiles_boolean("faction.data", "data.claim.%chunk at {_player}%.permission.%{_target}%")
+			mj_editfiles_boolean("faction.data", "data.claim.%chunk at {_player}%.permission.%{_target}%", "modify", true)
+			set {_type} to mj_editfiles_gettext("core", "data.type.enable", {_player})
+			if {_check} is true:
+				mj_editfiles_boolean("faction.data", "data.claim.%chunk at {_player}%.permission.%{_target}%", "modify", false)
+				set {_type} to mj_editfiles_gettext("core", "data.type.disable", {_player})
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.permission.claim.%{_target}%", {_type})
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noofficer")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noclaimed")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_chat(player: player):
+	set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+	if {_id} isn't "none":
+		set {_mode} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.faction.chat")
+		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.faction.chat", "modify", true)
+		set {_type} to mj_editfiles_gettext("core", "data.type.enable", {_player})
+		if {_mode} is true:
+			mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.faction.chat", "modify", false)
+			set {_type} to mj_editfiles_gettext("core", "data.type.disable", {_player})
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.changechatmode", {_type})
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.factionpart")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_permission(player: player, target: text):
+	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank} is "leader" or "officer":
+		set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+		if {_target} is "mobspawning" or "allyaccess":
+			mj_faction_claim_permission({_player}, {_target})
+		else if {_target} is "friendlyfire":
+			set {_check} to mj_editfiles_boolean("faction.data", "data.guild.%{_id}%.permission.%{_target}%")
+			mj_editfiles_boolean("faction.data", "data.guild.%{_id}%.permission.%{_target}%", "modify", true)
+			set {_type} to mj_editfiles_gettext("core", "data.type.enable", {_player})
+			if {_check} is true:
+				mj_editfiles_boolean("faction.data", "data.guild.%{_id}%.permission.%{_target}%", "modify", false)
+				set {_type} to mj_editfiles_gettext("core", "data.type.disable", {_player})
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.permission.%{_target}%", {_type})
+		else:
+			set {_info1} to mj_editfiles_gettext("faction", "data.permission.error.friendlyfire", {_player})
+			#set {_info2} to mj_editfiles_gettext("faction", "data.permission.error.mobspawning", {_player})
+			#set {_info3} to mj_editfiles_gettext("faction", "data.permission.error.allyaccess", {_player})
+			#mj_core_message({_player}, "faction", "data.prefix", "faction", "data.permission.error.info", {_info1}, {_info2}, {_info3})
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.permission.error.info", {_info1})
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noofficer")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_home_tp(player: player):
+	set {_name} to mj_timecount_text("factionhome_%{_player}%", "name")
+	if {_name} is "none":
+		set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+		set {_tp} to mj_core_location("faction.data", "data.guild.%{_id}%.home")
+		if {_tp} is set:
+			if {_player} don't have permission "*" or "mj.*" or "mj.faction.*" or "mj.faction.home.*" or "mj.faction.home.bypass":
+				mj_core_message({_player}, "faction", "data.prefix", "essentials", "data.teleport.wait")
+				set {_xyz1} to mj_core_location_viewer({_player})
+				wait 5 seconds
+				set {_xyz2} to mj_core_location_viewer({_player})
+				if {_xyz1} is {_xyz2}:
+					mj_essentials_back({_player})		
+					set {_time} to mj_editfiles_number("essentials.config", "data.teleport.time")
+					mj_timecount("factionhome_%{_player}%", "backward", 0, 0, {_time})
+					mj_timecount("godmode_%{_player}%", "backward", 0, 0, 10)
+					mj_core_message({_player}, "faction", "data.prefix", "faction", "data.home.success")
+					teleport {_player} to {_tp}
+				else:
+					mj_core_message({_player}, "faction", "data.prefix", "essentials", "data.teleport.cancel")
+			else:
+				mj_essentials_back({_player})
+				mj_core_message({_player}, "faction", "data.prefix", "faction", "data.home.success")
+				mj_timecount("godmode_%{_player}%", "backward", 0, 0, 10)
+				teleport {_player} to {_tp}
+		else:
+			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.home.noset")
+	else:
+		set {_time} to mj_timecount_viewer("factionhome_%{_player}%")
+		mj_core_message({_player}, "faction", "data.prefix", "core", "data.time.wait", {_time})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_home_define(player: player):
+	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank} is "leader" or "officer":
+		set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+		mj_core_location("faction.data", "data.guild.%{_id}%.home", "modify", {_player})
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.home.setsuccess")
+		#set {_owner} to mj_editfiles("faction.data", "data.claim.%chunk at {_player}%.owner")
+		#if {_id} is {_owner}:
+		#else:
+		#	mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noclaimwilderness")
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.noofficer")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_map(player: player):
+	set {_list1::*} to mj_faction_map_chunk({_player})
+	set {_l1} to ""
+	set {_l2} to ""
+	set {_l3} to ""
+	set {_l4} to ""
+	set {_l5} to ""
+	set {_l6} to ""
+	set {_l7} to ""
+	set {_l8} to ""
+	set {_l9} to ""
+	set {_cont} to 0
+	set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+	set {_list2::*} to mj_editfiles_list("faction.data", "data.guild.%{_id}%.ally")
+	set {_list3::*} to mj_editfiles_list("faction.data", "data.guild.%{_id}%.enemy")
+	loop {_list1::*}:
+		delete {_value1}
+		set {_value1} to mj_editfiles("faction.data", "data.claim.%loop-value%.owner")
+		if {_value1} is set:
+			if {_value1} is {_id}:
+				set {_ico} to "&a⬛&f"
+			else if {_list2::*} contains {_value1}:
+				set {_ico} to "&2⬛&f"
+			else if {_list3::*} contains {_value1}:
+				set {_ico} to "&c⬛&f"
+			else:
+				set {_ico} to "&7⬛&f"	
+		else if loop-value is chunk at {_player}'s location:
+			set {_ico} to "&b⬛&f"
+		else:
+			set {_ico} to "&f⬛&f"
+		if loop-value is chunk at {_player}'s location:
+			set {_ico} to "&b⬛&f"
+		set {_n} to "&3N"
+		set {_s} to "&3S"
+		set {_e} to "&3E"
+		set {_w} to "&3W"
+		if {_player}'s yaw is between 135 and 225:
+			set {_n} to "&cN"
+		else if {_player}'s yaw is between 45 and 135:
+			set {_w} to "&cW"
+		else if {_player}'s yaw is between 225 and 315:
+			set {_e} to "&cE"
+		else:
+			set {_s} to "&cS"
+		if {_cont} is less than 9:
+			set {_l1} to "%{_l1}% %{_ico}%"
+			add 1 to {_cont}
+		else if {_cont} is less than 18:
+			set {_l2} to "%{_l2}% %{_ico}%"
+			add 1 to {_cont}
+		else if {_cont} is less than 27:
+			set {_l3} to "%{_l3}% %{_ico}%"
+			add 1 to {_cont}
+		else if {_cont} is less than 36:
+			set {_l4} to "%{_l4}% %{_ico}%"
+			add 1 to {_cont}
+		else if {_cont} is less than 45:
+			set {_l5} to "%{_l5}% %{_ico}%"
+			add 1 to {_cont}
+		else if {_cont} is less than 54:
+			set {_l6} to "%{_l6}% %{_ico}%"
+			add 1 to {_cont}
+		else if {_cont} is less than 63:
+			set {_l7} to "%{_l7}% %{_ico}%"
+			add 1 to {_cont}
+		else if {_cont} is less than 72:
+			set {_l8} to "%{_l8}% %{_ico}%"
+			add 1 to {_cont}
+		else if {_cont} is less than 81:
+			set {_l9} to "%{_l9}% %{_ico}%"
+			add 1 to {_cont}
+	set {_prefix} to mj_editfiles_gettext("faction", "data.prefix", {_player})
+	set {_title} to mj_editfiles_gettext("faction", "data.titlemap", {_player})
+	set {_info1} to mj_editfiles_gettext("faction", "data.mapinfo.l1", {_player})
+	set {_info2} to mj_editfiles_gettext("faction", "data.mapinfo.l2", {_player})
+	set {_middle} to "%{_l4}% &6\%{_n}%&6/%nl%%{_l5}% &6%{_w}%&6+%{_e}%%nl%%{_l6}% &6/%{_s}%&6\"
+	send "&6%{_prefix}% %{_title}%%nl%%{_l1}%%nl%%{_l2}%%nl%%{_l3}%%nl%%{_middle}%%nl%%{_l7}%%nl%%{_l8}%%nl%%{_l9}%%nl%%{_info1}%%nl%%{_info2}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_map_chunk(player: player) :: objects:
+	set {_center} to {_player}'s location
+	set {_radius} to 4
+	set {_pos} to {_center}
+	set {_counter} to 1
+	if {_player}'s yaw is between 135 and 225:
+		loop 2 * {_radius} + 1 times:
+			set z-coordinate of {_pos} to z-coordinate of {_center} - 16 * {_radius} + (loop-number - 1) * 16
+			set x-coordinate of {_pos} to x-coordinate of {_center} - 16 * {_radius}
+			loop 2 * {_radius} + 1 times:
+				set {_chunks::%{_counter}%} to chunk at {_pos}
+				add 1 to {_counter}
+				add 16 to x-coordinate of {_pos}
+	else if {_player}'s yaw is between 45 and 135:
+		loop 2 * {_radius} + 1 times:
+			set x-coordinate of {_pos} to x-coordinate of {_center} - 16 * {_radius} + (loop-number - 1) * 16
+			set z-coordinate of {_pos} to z-coordinate of {_center} + 16 * {_radius}
+			loop 2 * {_radius} + 1 times:
+				set {_chunks::%{_counter}%} to chunk at {_pos}
+				add 1 to {_counter}
+				add -16 to z-coordinate of {_pos}
+	else if {_player}'s yaw is between 225 and 315:
+		loop 2 * {_radius} + 1 times:
+			set x-coordinate of {_pos} to x-coordinate of {_center} + 16 * {_radius} - (loop-number - 1) * 16
+			set z-coordinate of {_pos} to z-coordinate of {_center} - 16 * {_radius}
+			loop 2 * {_radius} + 1 times:
+				set {_chunks::%{_counter}%} to chunk at {_pos}
+				add 1 to {_counter}
+				add 16 to z-coordinate of {_pos}
+	else:
+		loop 2 * {_radius} + 1 times:
+			set z-coordinate of {_pos} to z-coordinate of {_center} + 16 * {_radius} - (loop-number - 1) * 16
+			set x-coordinate of {_pos} to x-coordinate of {_center} + 16 * {_radius}
+			loop 2 * {_radius} + 1 times:
+				set {_chunks::%{_counter}%} to chunk at {_pos}
+				add 1 to {_counter}
+				add -16 to x-coordinate of {_pos}
+	return {_chunks::*}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_money(player: offlineplayer, mode: text="deposit", value: number=0):
+	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank")
+	if {_rank} is "leader" or "officer" or "member":
+		set {_view} to mj_core_format_money(false, {_value})
+		if {_mode} is "deposit":
+			set {_money} to mj_essentials_money_modify({_player}, "all")
+			if {_money} >= {_value}:
+				mj_essentials_money_system({_player}, {_value})
+				mj_faction_money_edit({_player}, "add", {_value})
+				mj_core_message({_player}, "essentials", "data.bank.prefix", "essentials", "data.bank.deposit", {_view})
+		else:
+			set {_money} to mj_faction_money_modify({_player})
+			if {_money} >= {_value}:
+				mj_faction_money_edit({_player}, "remove", {_value})
+				mj_essentials_money_system({_player}, {_value}, true)
+				mj_core_message({_player}, "essentials", "data.bank.prefix", "essentials", "data.bank.withdraw", {_view})
+	else:
+		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.nomember")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_money_modify(player: offlineplayer, mode: text="extract", value: number=0) :: number:
+	set {_id} to mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild")
+	if {_mode} is "extract":
+		set {_result} to mj_editfiles_number("faction.data", "data.guild.%{_id}%.money.value")
+	else:
+		mj_editfiles_number("faction.data", "data.guild.%{_id}%.money.value", "modify", {_value})
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_faction_money_edit(player: offlineplayer, type: text="add", value: number=0):
+	set {_money} to mj_faction_money_modify({_player})
+	if {_type} is "set" or "add" or "remove":
+		if {_type} is "add":
+			set {_result} to {_money} + {_value}
+		else if {_type} is "remove":
+			set {_result} to {_money} - {_value}
+		else:
+			set {_result} to {_value}
+	set {_check1} to mj_editfiles_boolean("faction.config", "data.money.limit")
+	if {_check1} is true:
+		set {_check2} to mj_editfiles_boolean("faction.data", "data.guild.%{_id}%.money.bypass")
+		if {_check2} is false:
+			set {_upgrade} to mj_editfiles_number("faction.data", "data.guild.%{_id}%.upgrade.money")
+			set {_limit} to mj_editfiles_number("faction.data", "data.upgrade.money.%{_upgrade}%.value")
+			if {_result} >= {_limit} + 1:
+				set {_lost} to {_result} - {_limit}
+				set {_result} to {_limit}
+				set {_view} to mj_core_format_money(false, {_lost})
+				mj_essentials_money_system({_player}, {_lost}, true)
+				wait 1 tick
+				mj_core_message({_player}, "faction", "data.prefix", "essentials", "data.bank.lost", {_view})
+	mj_faction_money_modify({_player}, "modify", {_result})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Data
+# =====================================================================================================================

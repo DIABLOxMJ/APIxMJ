@@ -720,7 +720,7 @@ data:
                     '2': vertebral_main.core
                     '3': vertebral_main.essentials
                 source: none
-                github_folder: gamemodes/faction/main/
+                github_folder: gamemodes/faction/main/faction
                 folder: gamemodes/faction/main/
                 slot: 10
                 kick: true

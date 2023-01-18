@@ -82,8 +82,8 @@ data:
             gui_background:
                 item: black stained glass pane
         gamemodes_faction_main:
-            name: data.index.gamemodes_faction.name
-            visible: false
+            name: data.index.gamemodes_faction_main.name
+            visible: true
             menu_back: gamemodes
             menu_next: gamemodes_faction_main
             slot: 11

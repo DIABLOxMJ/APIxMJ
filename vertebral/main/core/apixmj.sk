@@ -21,7 +21,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2022.12.01.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.01.21.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -524,7 +524,7 @@ function mj_core_playerdata(player: offlineplayer):
 		set yaml value "data.%{_player}'s uuid%.mute" from "mj.userdata" to false
 		set yaml value "data.%{_player}'s uuid%.log" from "mj.userdata" to 0
 		set yaml value "data.%{_player}'s uuid%.gui" from "mj.userdata" to "none"
-		set yaml value "data.%{_player}'s uuid%.guiprotect" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.gui_protect" from "mj.userdata" to false
 		set yaml value "data.%{_player}'s uuid%.connect.first" from "mj.userdata" to now
 		set yaml value "data.%{_player}'s uuid%.connect.last" from "mj.userdata" to now
 		set yaml value "data.%{_player}'s uuid%.playtime" from "mj.userdata" to "none"
@@ -1043,7 +1043,8 @@ function mj_core_storage_reward(player: player):
 		set {_reward} to true
 	set {_rank} to mj_editfiles("temp", "data.%{_player}'s uuid%.storage.rank")
 	if {_rank} isn't "none":
-		console command "/manuadd %{_player}% %{_rank}%"
+		# change methode
+		# console command "/manuadd %{_player}% %{_rank}%"
 		mj_editfiles("temp", "data.%{_player}'s uuid%.storage.rank", "modify", "none")
 		mj_core_logger(2, "%{_player}% to collect his reward %{_rank}%")
 		set {_reward} to true
@@ -1141,15 +1142,15 @@ on death of player:
 # APIxMJ - Gui Protection
 # ---------------------------------------------------------------------------------------------------------------------
 on inventory click:
-	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.guiprotect")
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.gui_protect")
 	if {_check} is true:
 		cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on inventory close:
-	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.guiprotect")
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.gui_protect")
 	if {_check} is true:
-		mj_editfiles_boolean("userdata", "data.%player's uuid%.guiprotect", "modify", false)
+		mj_editfiles_boolean("userdata", "data.%player's uuid%.gui_protect", "modify", false)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on inventory close:
@@ -1359,7 +1360,7 @@ function mj_core_converter_time(time: text) :: timespan:
 function mj_core_gui_generator(player: player, size: number=1, locked: boolean=true, type: boolean=false, title: text="No gui name", gui: text="none"):
 	mj_editfiles("userdata", "data.%{_player}'s uuid%.gui", "modify", {_gui})
 	if {_locked} is true:
-		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.guiprotect", "modify", true)
+		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.gui_protect", "modify", true)
 	set {_item} to mj_manager_item_convert("config", "data.gui_background.item")
 	open virtual chest inventory with size {_size} named {_title} to {_player}
 	set {_time} to 9*{_size}

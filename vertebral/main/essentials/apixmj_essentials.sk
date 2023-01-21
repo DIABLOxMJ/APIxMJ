@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2022.12.16.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2023.01.21.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -895,7 +895,7 @@ function mj_essentials_kits_gift(player: player, id: text):
 function mj_essentials_kits_viewer(player: player, id: text):
 	set {_check} to mj_editfiles("data", "data.storage.%{_id}%.name")
 	if {_check} is set:
-		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.guiprotect", "modify", true)
+		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.gui_protect", "modify", true)
 		set {_name} to mj_editfiles_gettext("core", {_check}, {_player})
 		set {_item1} to mj_core_item_lore({_player}, paper, 2, "essentials", "data.kits.view_name", {_name})
 		set {_money1} to mj_editfiles_number("data", "data.storage.%{_id}%.money")

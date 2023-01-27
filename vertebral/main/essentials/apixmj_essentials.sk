@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2023.01.21.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2023.01.27.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -626,7 +626,7 @@ function mj_essentials_money_modify(player: offlineplayer, mode: text="extract",
 	else:
 		set {_old} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value")
 		mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value", "modify", {_value})
-		mj_essentials_money_logger("%{_player}% money changed : %{_old}% to %{_value}%", {_context})
+		#mj_essentials_money_logger("%{_player}% money changed : %{_old}% to %{_value}%", {_context})
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_money_edit(player: offlineplayer, type: text="add", value: number=0, context: text="none"):

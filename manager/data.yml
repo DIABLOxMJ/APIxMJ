@@ -90,6 +90,33 @@ data:
             item: chest
             gui_background:
                 item: red stained glass pane
+        gamemodes_minigames:
+            name: data.index.gamemodes_minigames.name
+            visible: false
+            menu_back: gamemodes
+            menu_next: gamemodes_minigames
+            slot: 12
+            item: chest
+            gui_background:
+                item: red stained glass pane
+        gamemodes_minigames_main:
+            name: data.index.gamemodes_minigames_main.name
+            visible: false
+            menu_back: gamemodes_minigames
+            menu_next: gamemodes_minigames_main
+            slot: 10
+            item: chest
+            gui_background:
+                item: red stained glass pane
+        gamemodes_minigames_games:
+            name: data.index.gamemodes_minigames_games.name
+            visible: false
+            menu_back: gamemodes_minigames
+            menu_next: gamemodes_minigames_games
+            slot: 11
+            item: chest
+            gui_background:
+                item: red stained glass pane
         enderium:
             name: data.index.enderium.name
             visible: false
@@ -269,6 +296,33 @@ data:
                 item: command block
                 gui_background:
                     item: light blue stained glass pane
+            account:
+                name: data.addon.vertebral_main.account.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: false
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                source: none
+                github_folder: vertebral/main/account
+                folder: main/account
+                slot: 14
+                kick: false
+                skript:
+                    '1': apixmj_account
+                yml:
+                    '1': config
+                file:
+                    '1': mj.account.config
+                    '2': mj.account.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: totem of undying
+                gui_background:
+                    item: magenta stained glass pane
         vertebral_extension:
             auction:
                 name: data.addon.vertebral_extension.auction.name
@@ -738,6 +792,67 @@ data:
                 item: iron sword
                 gui_background:
                     item: red stained glass pane
+        gamemodes_minigames_main:
+            teams:
+                name: data.addon.gamemodes_minigames_main.teams.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                source: none
+                github_folder: gamemodes/minigames/main/teams
+                folder: gamemodes/minigames/main/teams
+                slot: 10
+                kick: false
+                skript:
+                    '1': apixmj_teams
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.teams.config
+                    '2': mj.teams.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: iron chestplate
+                gui_background:
+                    item: white stained glass pane
+        gamemodes_minigames_games:
+            bedwars:
+                name: data.addon.gamemodes_minigames_games.bedwars.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: false
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': gamemodes_minigames_main.teams
+                source: bedwars
+                github_folder: gamemodes/bedwars/games/bedwars
+                folder: gamemodes/bedwars/games/bedwars
+                slot: 10
+                kick: false
+                skript:
+                    '1': apixmj_bedwars
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.bedwars.config
+                    '2': mj.bedwars.data
+                    '3': mj.bedwars.player
+                    '4': mj.bedwars.temp
+                reset:
+                    '1':
+                        file: mj.bedwars.temp
+                        data: data
+                item: red bed
+                gui_background:
+                    item: light blue stained glass pane
         enderium_main:
             core:
                 name: data.addon.enderium_main.core.name

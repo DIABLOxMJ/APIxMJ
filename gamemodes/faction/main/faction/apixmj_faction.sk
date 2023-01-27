@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading faction..." to console
 		mj_files_faction()
-		mj_editfiles("manager.data", "data.addon.gamemodes_faction_main.faction.version", "modify", "2023.01.18.0001")
+		mj_editfiles("manager.data", "data.addon.gamemodes_faction_main.faction.version", "modify", "2023.01.27.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_faction.sk"
@@ -453,7 +453,7 @@ function mj_faction_create_result(player: player, value: text):
 			set {_id} to mj_core_id_generator()
 			mj_faction_data_guild({_value}, {_id})
 			set {_price} to mj_editfiles_number("faction.config", "data.create.price")
-			mj_essentials_money_system({_player}, {_price})
+			mj_essentials_money_system({_player}, {_price}, false, "Create new guild named %{_value}%")
 			mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.guild", "modify", {_id})
 			mj_editfiles("userdata", "data.%{_player}'s uuid%.faction.rank", "modify", "leader")
 			mj_core_message({_player}, "faction", "data.prefix", "faction", "data.create.success", {_value})
@@ -578,7 +578,7 @@ function mj_faction_delete(id: text):
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Delete
 # =====================================================================================================================
-# APIxMJ - Power ⚠
+# APIxMJ - Power ✓
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_faction_power(player: player):
 	set {_power1} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.faction.power")
@@ -1330,14 +1330,14 @@ function mj_faction_money(player: offlineplayer, mode: text="deposit", value: nu
 		if {_mode} is "deposit":
 			set {_money} to mj_essentials_money_modify({_player}, "all")
 			if {_money} >= {_value}:
-				mj_essentials_money_system({_player}, {_value})
+				mj_essentials_money_system({_player}, {_value}, false, "Deposit guild money")
 				mj_faction_money_edit({_player}, "add", {_value})
 				mj_core_message({_player}, "essentials", "data.bank.prefix", "essentials", "data.bank.deposit", {_view})
 		else:
 			set {_money} to mj_faction_money_modify({_player})
 			if {_money} >= {_value}:
 				mj_faction_money_edit({_player}, "remove", {_value})
-				mj_essentials_money_system({_player}, {_value}, true)
+				mj_essentials_money_system({_player}, {_value}, true, "Withdraw guild money")
 				mj_core_message({_player}, "essentials", "data.bank.prefix", "essentials", "data.bank.withdraw", {_view})
 	else:
 		mj_core_message({_player}, "faction", "data.prefix", "faction", "data.request.rank_member")
@@ -1370,7 +1370,7 @@ function mj_faction_money_edit(player: offlineplayer, type: text="add", value: n
 				set {_lost} to {_result} - {_limit}
 				set {_result} to {_limit}
 				set {_view} to mj_core_format_money(false, {_lost})
-				mj_essentials_money_system({_player}, {_lost}, true)
+				mj_essentials_money_system({_player}, {_lost}, true, "Withdraw guild lost money")
 				wait 1 tick
 				mj_core_message({_player}, "faction", "data.prefix", "essentials", "data.bank.lost", {_view})
 	mj_faction_money_modify({_player}, "modify", {_result})

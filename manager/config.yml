@@ -5,6 +5,8 @@ data:
     auto_whitelist: false
     # Should it update APIxMJ automatically, default : false
     auto_update: false
+    # Should it update data of Manager automatically, default : true
+    data_update: true
     # If the server is under Bungeecord and you have a Lobby/Hub it is advisable to activate it
     bungeecord:
         # Do we have to take into account a bungeecord, default : false

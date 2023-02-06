@@ -821,6 +821,34 @@ data:
                 item: iron chestplate
                 gui_background:
                     item: white stained glass pane
+            bedwars_editor:
+                name: data.addon.gamemodes_minigames_main.bedwars_editor.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: false
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                source: bedwars
+                github_folder: gamemodes/bedwars/main/bedwars_editor
+                folder: gamemodes/bedwars/main/bedwars_editor
+                slot: 12
+                kick: false
+                skript:
+                    '1': apixmj_bedwars_editor
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.bedwars_editor.config
+                    '2': mj.bedwars_editor.data
+                reset:
+                    '1':
+                        file: mj.bedwars_editor.temp
+                        data: data
+                item: iron pickaxe
+                gui_background:
+                    item: light blue stained glass pane
         gamemodes_minigames_games:
             bedwars:
                 name: data.addon.gamemodes_minigames_games.bedwars.name

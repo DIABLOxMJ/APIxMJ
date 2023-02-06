@@ -317,6 +317,26 @@ data:
                     '1': " &6- &7Le système de faction est plus qu'une extension"
                     '2': " &0- &7est un mode de jeu a par en tiers idéal pour"
                     '3': " &0- &7créer un serveur type PVP-Faction."
+        gamemodes_minigames_main:
+            team:
+                name: "&cÉquipe"
+                name_lite: "&cÉquipe"
+                lore:
+                    '1': " &6- &7Un utilitaire pour les modes de jeu,"
+                    '2': " &0- &7nécessitant un système d'équipe."
+            bedwars_editor:
+                name: "&cÉditeur du bedwars"
+                name_lite: "&cÉdi.. bedw.."
+                lore:
+                    '1': " &6- &7Un éditeur consus pour créer des cartes de jeu,"
+                    '2': " &0- &7pour le jeu bedwars."
+        gamemodes_minigames_games:
+            bedwars:
+                name: "&cBedwars"
+                name_lite: "&cBedwars"
+                lore:
+                    '1': " &6- &7Un mode de jeu où le but est simple"
+                    '2': " &0- &7détruire les lits adverses."
         enderium_main:
             core:
                 name: "&5Cœur"

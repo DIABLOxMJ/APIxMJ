@@ -335,22 +335,22 @@ data:
                     '2': " &0- &7est un mode de jeu a par en tiers idéal pour"
                     '3': " &0- &7créer un serveur type PVP-Faction."
         gamemodes_minigames_main:
-            team:
-                name: "&cÉquipe"
-                name_lite: "&cÉquipe"
+            teams:
+                name: "&bÉquipe"
+                name_lite: "&bÉquipe"
                 lore:
                     '1': " &6- &7Un utilitaire pour les modes de jeu,"
                     '2': " &0- &7nécessitant un système d'équipe."
             bedwars_editor:
-                name: "&cÉditeur du bedwars"
-                name_lite: "&cÉdi.. bedw.."
+                name: "&aÉditeur du bedwars"
+                name_lite: "&aÉdi.. bedw.."
                 lore:
                     '1': " &6- &7Un éditeur consus pour créer des cartes de jeu,"
                     '2': " &0- &7pour le jeu bedwars."
         gamemodes_minigames_games:
             bedwars:
-                name: "&cBedwars"
-                name_lite: "&cBedwars"
+                name: "&bBedwars"
+                name_lite: "&bBedwars"
                 lore:
                     '1': " &6- &7Un mode de jeu où le but est simple"
                     '2': " &0- &7détruire les lits adverses."

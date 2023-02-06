@@ -158,6 +158,23 @@ data:
             lore:
                 '1': " &6- &7Du combat, du sang, de la rivalité, du challenge"
                 '2': " &0- &7tout se qu'on aime on appelle-ça du Faction !"
+        gamemodes_minigames:
+            name: "&bMini-jeux"
+            name_lite: "&bMini-jeux"
+            lore:
+                '1': " &6- &7Au coeur des mini-jeux, pour encore"
+                '2': " &0- &7plus de plaisir à jouer."
+        gamemodes_minigames_main:
+            name: "&eUtilitaire"
+            name_lite: "&eUtilitaire"
+            lore:
+                '1': " &6- &7Des modules nécessaires pour faire vivre les"
+                '2': " &0- &7mini-jeux correctement."
+        gamemodes_minigames_games:
+            name: "&dListe de mini-jeux"
+            name_lite: "&dMini-jeux"
+            lore:
+                '1': " &6- &7Le catalogue des mini-jeux disponibles."
         enderium:
             name: "&3Enderium"
             name_lite: "&3Enderium"

@@ -21,7 +21,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.01.21.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.02.12.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -74,7 +74,7 @@ command /apixmj [<text>] [<text>] [<text>]:
 				if arg-3 is "hand":
 					send "[APIxMJ] Item in hand : %player's tool%"
 				if arg-3 is "target":
-					send "[APIxMJ] Target block : %targeted block%"
+					send "[APIxMJ] Target block : %type of targeted block%"
 					send "[APIxMJ] Target block location : %targeted block's location%"
 			else if arg-2 is "checknbt":
 				if arg-3 is "hand":
@@ -355,12 +355,13 @@ on tab complete of "/loglevel":
 			set tab completions for position 2 to {_player::*}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_logger(level: number=0, message: text):
+function mj_core_logger(level: number=0, message: text, silent: boolean=false):
 	set {_prefix} to mj_editfiles_gettext("core", "data.logger.prefix")
 	send "%{_prefix}% &r%{_message}%" to console
 	set {_date} to mj_core_logger_id_generator()
 	set {_log} to uncolored {_message}
-	mj_core_logger_save_data("%{_log}%")
+	if {_silent} is false:
+		mj_core_logger_save_data("%{_log}%")
 	loop all players:
 		if loop-player has permission "*" or "mj.*" or "mj.logger.*" or "mj.logger":
 			set {_check} to mj_editfiles_number("userdata", "data.%loop-player's uuid%.log")
@@ -375,6 +376,7 @@ function mj_core_logger_save_data(info: text):
 		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
 	set {_id} to mj_core_logger_id_generator()
 	write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
+	mj_core_logger(5, "%{_id}% : %{_info}%", true)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_logger_id_generator() :: text:
@@ -1182,8 +1184,7 @@ on damage:
 on place:
 	if player is player:
 		if player's tool isn't item frame or painting:
-			set {_item} to mj_core_stats_convert_location(player, "%event-block%", location of event-block)
-			set {_obj} to mj_core_stats_convert_name({_item})
+			set {_obj} to mj_core_stats_convert_name("%type of event-block%")
 			set {_count} to mj_editfiles_number("stats", "data.%player's uuid%.place.%{_obj}%")
 			add 1 to {_count}
 			mj_editfiles_number("stats", "data.%player's uuid%.place.%{_obj}%", "modify", {_count})
@@ -1192,22 +1193,13 @@ on place:
 on break:
 	if player is player:
 		if event-block is set:
-			set {_item} to mj_core_stats_convert_location(player, "%event-block%", location of event-block)
-			set {_obj} to mj_core_stats_convert_name({_item})
+			set {_obj} to mj_core_stats_convert_name("%type of event-block%")
 			set {_count} to mj_editfiles_number("stats", "data.%player's uuid%.break.%{_obj}%")
 			add 1 to {_count}
 			if "%event-block%" contains "double":
 				add 1 to {_count}
 			mj_editfiles_number("stats", "data.%player's uuid%.break.%{_obj}%", "modify", {_count})
 	stop
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_core_stats_convert_location(player: player, item: text, location: location) :: text:
-	set {_x} to {_location}'s x-coordinate
-	set {_y} to {_location}'s y-coordinate
-	set {_z} to {_location}'s z-coordinate
-	replace all "'" with "" in {_item}
-	replace " at %{_x}%, %{_y}%, %{_z}% in world %{_player}'s world%" with "" in {_item}
-	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_stats_convert_name(item: text) :: text:
 	replace "northward " or "downward " or "westward " or "eastward " or "southward " or "top " or "double " or "hanging " or "unbroken " or "damaged " or "chipped " with "" in {_item}

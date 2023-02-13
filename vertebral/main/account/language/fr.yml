@@ -1,0 +1,10 @@
+data:
+    prefix: "&6[&a&lAccount&6]&r"
+    create: "&7Vous avez créer un nouveau compte utilisateur sous le nom de &a$0"
+    no_access: "&cVous n'avez pas l'accès à ceci…"
+    change_account: "&7Vous avez changer de compte utilisateur de &a$0 &7à &a$1"
+    condition:
+        enable_me: "&7Vous avez autorisé &a$0 &7à créer un nouveau compte utilisateur"
+        enable_it: "&7Vous avez reçu une autorisation à créer un nouveau compte faite &a/account create <nom du compte>"
+        disable_me: "&7Vous avez interdit &a$0 &7de créer un nouveau compte utilisateur"
+        disable_it: "&7Vous n'avez plus l'autorisation de créer un nouveau compte"

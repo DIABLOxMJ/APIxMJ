@@ -1,0 +1,160 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_account():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.account.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.account.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.account.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.account.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.account.help.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
+		send "[APIxMJ] Loading account..." to console
+		mj_files_account()
+		mj_editfiles("manager.data", "data.addon.vertebral_main.account.version", "modify", "2023.02.13.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
+		unload script file "apixmj_account.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_account.sk" to "-apixmj_account.sk"
+	send "[APIxMJ] Unloading account.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_account_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_account_playerdata(player: offlineplayer):
+	set {_check} to yaml value "data.%{_player}'s uuid%.account" from "mj.account.data"
+	if {_check} isn't set:
+		wait 10 seconds
+		set {_data} to yaml value "data.%{_player}'s uuid%" from "mj.userdata"
+		set yaml value "data.%{_player}'s uuid%.account.condition" from "mj.account.data" to false
+		set yaml value "data.%{_player}'s uuid%.account.current" from "mj.account.data" to "default"
+		set yaml value "data.%{_player}'s uuid%.storage.default.name" from "mj.account.data" to "default"
+		set yaml value "data.%{_player}'s uuid%.storage.default.date" from "mj.account.data" to now
+		set yaml value "data.%{_player}'s uuid%.storage.default.userdata" from "mj.account.data" to {_data}
+		set yaml value "data.%{_player}'s uuid%.storage.default.location" from "mj.account.data" to "none"
+		save yaml "mj.account.data"
+		mj_core_inventory_save({_player}, "default")
+		mj_core_location("account.data", "data.%{_player}'s uuid%.storage.default", "modify", {_player})
+		mj_core_logger(1, "%{_player}% account data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Command
+# ---------------------------------------------------------------------------------------------------------------------
+command /account [<text>] [<text>]:
+	aliases: ac, profil, p, compte
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.account.*" or "mj.account":
+			if arg-1 is set:
+				if arg-2 is set:
+					if arg-1 is "create":
+						mj_account_create_data(player, arg-2)
+					else if arg-1 is "condition":
+						if player has permission "*" or "mj.*" or "mj.account.*" or "mj.account.admin":
+							mj_account_change_condition(player, arg-2)
+						else:
+							mj_core_permission(player, "account", "data.prefix", "mj.account.admin")
+					else if arg-1 is "change":
+						mj_account_change_current_userdata(player, arg-2)
+					else:
+						mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+				else:
+					mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+			else:
+				mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+		else:
+			mj_core_permission(player, "account", "data.prefix", "mj.account")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/account" or "/ac" or "/profil" or "/p" or "/compte":
+	if player has permission "*" or "mj.*" or "mj.account.*" or "mj.account":
+		set tab completions for position 1 to "create", "condition" and "change"
+		if tab arg-1 is "create":
+			set tab completions for position 2 to "account_name"
+		if tab arg-1 is "condition":
+			set {_list::*} to mj_core_id_converter("userdata", "data", "pseudo")
+			set tab completions for position 2 to {_list::*}
+		if tab arg-1 is "change":
+			set {_list::*} to mj_core_id_converter("account.data", "data.%player's uuid%.storage")
+			set {_id} to mj_editfiles("account.data", "data.%player's uuid%.account.current")
+			set {_current} to mj_editfiles("account.data", "data.%player's uuid%.storage.%{_id}%.name")
+			remove {_current} from {_list::*}
+			set tab completions for position 2 to {_list::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Command
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_account_create_data(player: player, target: text):
+	set {_check1} to mj_editfiles_boolean("account.data", "data.%{_player}'s uuid%.account.condition")
+	if {_check1} is true:
+		set {_id} to mj_core_id_generator()
+		set {_data} to yaml value "data.%{_player}'s uuid%" from "mj.userdata"
+		set {_name} to mj_core_converter_name({_target})
+		set yaml value "data.%{_player}'s uuid%.storage.%{_id}%.name" from "mj.account.data" to {_name}
+		set yaml value "data.%{_player}'s uuid%.storage.%{_id}%.date" from "mj.account.data" to now
+		set yaml value "data.%{_player}'s uuid%.storage.%{_id}%.userdata" from "mj.account.data" to {_data}
+		save yaml "mj.account.data"
+		mj_core_location("account.data", "data.%{_player}'s uuid%.storage.%{_id}%", "modify", {_player})
+		mj_core_logger(1, "%{_player}% created new account data")
+		mj_core_message({_player}, "account", "data.prefix", "account", "data.create", {_name})
+		set {_check2} to mj_editfiles_boolean("account.config", "data.create.auto_disable")
+		if {_check2} is true:
+			mj_editfiles_boolean("account.data", "data.%{_player}'s uuid%.account.condition", "modify", false)
+	else:
+		mj_core_message({_player}, "account", "data.prefix", "account", "data.no_access")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_account_change_condition(player: player, target: text):
+	set {_target} to "%{_target}%" parsed as offlineplayer
+	set {_check} to mj_editfiles_boolean("account.data", "data.%{_target}'s uuid%.account.condition")
+	if {_check} is true:
+		mj_editfiles_boolean("account.data", "data.%{_target}'s uuid%.account.condition", "modify", false)
+		mj_core_message({_player}, "account", "data.prefix", "account", "data.condition.disable_me", "%{_target}%")
+		mj_core_message({_target}, "account", "data.prefix", "account", "data.condition.disable_it")
+	else:
+		mj_editfiles_boolean("account.data", "data.%{_target}'s uuid%.account.condition", "modify", true)
+		mj_core_message({_player}, "account", "data.prefix", "account", "data.condition.enable_me", "%{_target}%")
+		mj_core_message({_target}, "account", "data.prefix", "account", "data.condition.enable_it")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_account_change_current_userdata(player: player, target: text):
+	set {_id1} to mj_editfiles("account.data", "data.%{_player}'s uuid%.account.current")
+	set {_name1} to mj_editfiles("account.data", "data.%{_player}'s uuid%.storage.%{_id1}%.name")
+	if {_name1} isn't {_target}:
+		set {_data} to yaml value "data.%{_player}'s uuid%" from "mj.userdata"
+		set yaml value "data.%{_player}'s uuid%.storage.%{_id1}%.date" from "mj.account.data" to now
+		set yaml value "data.%{_player}'s uuid%.storage.%{_id1}%.userdata" from "mj.account.data" to {_data}
+		save yaml "mj.account.data"
+		mj_core_inventory_save({_player}, {_id1})
+		mj_core_location("account.data", "data.%{_player}'s uuid%.storage.%{_id1}%", "modify", {_player})
+		mj_core_logger(1, "%{_player}% change current account (%{_id1}% to %{_target}%)")
+		set {_id2} to mj_core_id_checker("account.data", "data.%{_player}'s uuid%.storage", {_target})
+		set {_name2} to mj_editfiles("account.data", "data.%{_player}'s uuid%.storage.%{_id2}%.name")
+		mj_editfiles("account.data", "data.%{_player}'s uuid%.account.current", "modify", {_id2})
+		set {_data} to yaml value "data.%{_player}'s uuid%.storage.%{_id2}%.userdata" from "mj.account.data"
+		set yaml value "data.%{_player}'s uuid%" from "mj.userdata" to {_data}
+		save yaml "mj.userdata"
+		mj_core_inventory_restore({_player}, {_id2})
+		set {_loc} to mj_core_location("account.data", "data.%{_player}'s uuid%.storage.%{_id2}%")
+		teleport {_player} to {_loc}
+		mj_core_message({_player}, "account", "data.prefix", "account", "data.change_account", "%{_name1}%", "%{_name2}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function
+# =====================================================================================================================

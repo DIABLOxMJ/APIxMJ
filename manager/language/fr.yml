@@ -228,6 +228,11 @@ data:
                 lore:
                     '1': " &6- &7Essentielles et un outil de gestion de"
                     '2': " &0- &7serveur complet est parfait pour la modération."
+            account:
+                name: "&bCompte utilisateur"
+                name_lite: "&bCompte"
+                lore:
+                    '1': " &6- &7Un utilitaire pour du multi-compte"
         vertebral_extension:
             auction:
                 name: "&aHôtel des ventes"

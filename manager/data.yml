@@ -101,7 +101,7 @@ data:
                 item: red stained glass pane
         gamemodes_minigames_main:
             name: data.index.gamemodes_minigames_main.name
-            visible: false
+            visible: true
             menu_back: gamemodes_minigames
             menu_next: gamemodes_minigames_main
             slot: 10
@@ -110,7 +110,7 @@ data:
                 item: red stained glass pane
         gamemodes_minigames_games:
             name: data.index.gamemodes_minigames_games.name
-            visible: false
+            visible: true
             menu_back: gamemodes_minigames
             menu_next: gamemodes_minigames_games
             slot: 11
@@ -144,6 +144,15 @@ data:
             item: chest
             gui_background:
                 item: cyan stained glass pane
+        editor:
+            name: data.index.editor.name
+            visible: false
+            menu_back: main
+            menu_next: editor
+            slot: 43
+            item: chest
+            gui_background:
+                item: black stained glass pane
     addon:
         main:
             custom:

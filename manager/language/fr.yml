@@ -192,6 +192,12 @@ data:
             lore:
                 '1': " &6- &7Des Skripts sous-dépendant des principaux"
                 '2': " &0- &7remplis de fonctionnalités très attirants !"
+        editor:
+            name: "&aÉditeur"
+            name_lite: "&aÉditeur"
+            lore:
+                '1': " &6- &7Des Skripts spécialement conçus pour"
+                '2': " &0- &7Développé et édité des paramètres particulier !"
     addon:
         main:
             custom:
@@ -346,12 +352,6 @@ data:
                 lore:
                     '1': " &6- &7Un utilitaire pour les modes de jeu,"
                     '2': " &0- &7nécessitant un système d'équipe."
-            bedwars_editor:
-                name: "&aÉditeur du bedwars"
-                name_lite: "&aÉdi.. bedw.."
-                lore:
-                    '1': " &6- &7Un éditeur consus pour créer des cartes de jeu,"
-                    '2': " &0- &7pour le jeu bedwars."
         gamemodes_minigames_games:
             bedwars:
                 name: "&bBedwars"
@@ -386,3 +386,10 @@ data:
                 name_lite: "&aLobby"
                 lore:
                     '1': " &6- &7Un gestionnaire pour les lobbys de serveur."
+        editor:
+            bedwars_editor:
+                name: "&aÉditeur du Bedwars"
+                name_lite: "&aBedwars Edit.."
+                lore:
+                    '1': " &6- &7Un éditeur consus pour créer des cartes de jeu,"
+                    '2': " &0- &7pour le jeu bedwars."

@@ -7,6 +7,8 @@ data:
     auto_update: false
     # Should it update data of Manager automatically, default : true
     data_update: true
+    # In the event of a major error, you must put a "/" if the server is local, otherwise do not touch, default : \
+    slash_option: \
     # If the server is under Bungeecord and you have a Lobby/Hub it is advisable to activate it
     bungeecord:
         # Do we have to take into account a bungeecord, default : false

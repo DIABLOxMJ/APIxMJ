@@ -19,7 +19,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.02.06.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.03.02.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -762,9 +762,10 @@ function mj_manager_lobby_return():
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_skript_list() :: objects:
-	loop files in dir "plugins/Skript/scripts":
+	set {_slash} to mj_editfiles("manager.config", "data.slash_option")
+	loop files in dir "plugins%{_slash}%Skript%{_slash}%scripts":
 		set {_value} to loop-value-1
-		set {_list1::*} to {_value} split at "/"
+		set {_list1::*} to {_value} split at "%{_slash}%"
 		loop {_list1::*}:
 			if loop-value-2 contains ".sk":
 				add loop-value-2 to {_list2::*}

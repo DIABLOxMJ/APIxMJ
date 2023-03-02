@@ -836,7 +836,7 @@ data:
                 name: data.addon.gamemodes_minigames_games.bedwars.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: false
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -966,7 +966,7 @@ data:
                 name: data.addon.enderium_extension.lobby.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: false
+                visible: true
                 depends:
                     '1': main.manager
                     '2': enderium_main.core
@@ -993,7 +993,7 @@ data:
                 name: data.addon.editor.bedwars_editor.name
                 version: 0000.00.00.0000
                 installed: false
-                visible: false
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core

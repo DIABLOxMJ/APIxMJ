@@ -391,5 +391,5 @@ data:
                 name: "&aÉditeur du Bedwars"
                 name_lite: "&aBedwars Edit.."
                 lore:
-                    '1': " &6- &7Un éditeur consus pour créer des cartes de jeu,"
-                    '2': " &0- &7pour le jeu bedwars."
+                    '1': " &6- &7Un éditeur conçu pour créer des cartes de jeu,"
+                    '2': " &0- &7pour le bedwars."

@@ -21,7 +21,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.02.12.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.03.02.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -136,7 +136,7 @@ command /apixmj [<text>] [<text>] [<text>]:
 on tab complete of "/mj" or "/apixmj":
 	set tab completions for position 1 to "reload" and "debug"
 	set {_player::*} to mj_core_id_converter("userdata", "data", "pseudo")
-	set {_list1::*} to mj_core_skript_list()
+	set {_list1::*} to mj_manager_skript_list()
 	if tab arg-1 is "reload":
 		set tab completions for position 2 to {_list1::*} and "files"
 	if tab arg-1 is "debug":
@@ -1281,16 +1281,6 @@ function mj_core_id_converter(source: text, find: text="data", head: text="name"
 		if {_head} is loop-value:
 			set {_name} to mj_editfiles({_source}, "%{_find}%.%loop-value%")
 		add {_name} to {_list2::*}
-	return {_list2::*}
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_core_skript_list() :: objects:
-	loop files in dir "plugins/Skript/scripts":
-		set {_value} to loop-value-1
-		set {_list1::*} to {_value} split at "/"
-		loop {_list1::*}:
-			if loop-value-2 contains ".sk":
-				add loop-value-2 to {_list2::*}
-	replace all ".sk" with "" in {_list2::*}
 	return {_list2::*}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_reset_database():

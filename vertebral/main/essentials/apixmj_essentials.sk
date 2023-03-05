@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2023.01.27.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2023.05.03.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -34,32 +34,37 @@ on join:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_playerdata(player: offlineplayer):
-	set {_check} to yaml value "data.%{_player}'s uuid%.essentials" from "mj.userdata"
-	if {_check} isn't set:
+	set {_check1} to yaml value "data.%{_player}'s uuid%.source.essentials" from "mj.userdata"
+	if {_check1} isn't set:
 		wait 1 second
-		set yaml value "data.%{_player}'s uuid%.essentials.afk" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.essentials.quiet" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.essentials.mute" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.essentials.freeze" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.essentials.spy" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.essentials.vanish" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.essentials.godmode" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.essentials.ban" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.essentials.tempban" from "mj.userdata" to ""
-		set yaml value "data.%{_player}'s uuid%.essentials.tempmute" from "mj.userdata" to ""
-		set yaml value "data.%{_player}'s uuid%.essentials.reason" from "mj.userdata" to ""
-		set yaml value "data.%{_player}'s uuid%.essentials.back" from "mj.userdata" to ""
-		set {_value} to mj_editfiles_number("essentials.config", "data.money.starting")
-		set yaml value "data.%{_player}'s uuid%.essentials.money.value" from "mj.userdata" to {_value}
-		set yaml value "data.%{_player}'s uuid%.essentials.money.upgrade" from "mj.userdata" to 0
-		set yaml value "data.%{_player}'s uuid%.essentials.money.bypass" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.essentials.bank.value" from "mj.userdata" to 0
-		set yaml value "data.%{_player}'s uuid%.essentials.bank.upgrade" from "mj.userdata" to 0
-		set yaml value "data.%{_player}'s uuid%.essentials.bank.bypass" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.essentials.mail" from "mj.userdata" to ""
-		set yaml value "data.%{_player}'s uuid%.essentials.warn" from "mj.userdata" to ""
-		set yaml value "data.%{_player}'s uuid%.essentials.home" from "mj.userdata" to ""
+		set yaml value "data.%{_player}'s uuid%.source.essentials.money" from "mj.userdata" to 0
+		set yaml value "data.%{_player}'s uuid%.source.essentials.ban" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.source.essentials.tempban" from "mj.userdata" to "none"
+		set yaml value "data.%{_player}'s uuid%.source.essentials.reason" from "mj.userdata" to "none"
+		set yaml value "data.%{_player}'s uuid%.source.essentials.mail" from "mj.userdata" to "none"
+		set yaml value "data.%{_player}'s uuid%.source.essentials.warn" from "mj.userdata" to "none"
+		set yaml value "data.%{_player}'s uuid%.source.essentials.home" from "mj.userdata" to "none"
 		save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% essentials data file was generated..")
+	set {_check2} to yaml value "data.source.essentials" from "mj.userdata.%{_player}'s uuid%"
+	if {_check2} isn't set:
+		set {_value} to mj_editfiles_number("essentials.config", "data.money.starting")
+		set yaml value "data.source.essentials.afk" from "mj.userdata.%{_player}'s uuid%" to false
+		set yaml value "data.source.essentials.quiet" from "mj.userdata.%{_player}'s uuid%" to false
+		set yaml value "data.source.essentials.mute" from "mj.userdata.%{_player}'s uuid%" to false
+		set yaml value "data.source.essentials.tempmute" from "mj.userdata.%{_player}'s uuid%" to "none"
+		set yaml value "data.source.essentials.freeze" from "mj.userdata.%{_player}'s uuid%" to false
+		set yaml value "data.source.essentials.spy" from "mj.userdata.%{_player}'s uuid%" to false
+		set yaml value "data.source.essentials.vanish" from "mj.userdata.%{_player}'s uuid%" to false
+		set yaml value "data.source.essentials.godmode" from "mj.userdata.%{_player}'s uuid%" to false
+		set yaml value "data.source.essentials.back" from "mj.userdata.%{_player}'s uuid%" to "none"
+		set yaml value "data.source.essentials.money.value" from "mj.userdata.%{_player}'s uuid%" to {_value}
+		set yaml value "data.source.essentials.money.upgrade" from "mj.userdata.%{_player}'s uuid%" to 0
+		set yaml value "data.source.essentials.money.bypass" from "mj.userdata.%{_player}'s uuid%" to false
+		set yaml value "data.source.essentials.bank.value" from "mj.userdata.%{_player}'s uuid%" to 0
+		set yaml value "data.source.essentials.bank.upgrade" from "mj.userdata.%{_player}'s uuid%" to 0
+		set yaml value "data.source.essentials.bank.bypass" from "mj.userdata.%{_player}'s uuid%" to false
+		save yaml "mj.userdata.%{_player}'s uuid%"
 		mj_core_logger(1, "%{_player}% essentials data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -97,11 +102,11 @@ on chat:
 	if {_check1} is true:
 		set {_check2} to mj_editfiles("config", "data.chat_priority")
 		if {_check2} is "essentials":
-			set {_check3} to mj_editfiles_boolean("userdata", "data.%player's uuid%.mute")
+			set {_check3} to mj_editfiles_boolean("userdata", "data.%player's uuid%.temp.mute")
 			if {_check3} isn't true:
-				set {_check4} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.mute")
+				set {_check4} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.mute")
 				if {_check4} isn't true:
-					mj_editfiles_boolean("userdata", "data.%player's uuid%.mute", "modify", true)
+					mj_editfiles_boolean("userdata", "data.%player's uuid%.temp.mute", "modify", true)
 					set {_send} to mj_editfiles("essentials.config", "data.format.chat")
 					set {_rank} to mj_ranker(player)
 					set {_message} to mj_essentials_notification(message)
@@ -114,9 +119,9 @@ on chat:
 function mj_essentials_notification(message: text) :: text:
 	loop all players:
 		if {_message} contains "%loop-player%":
-			set {_check1} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
+			set {_check1} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.vanish")
 			if {_check1} is false:
-				set {_check2} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.quiet")
+				set {_check2} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.quiet")
 				if {_check2} is false:
 					play sound "entity.player.levelup" with volume 1 at loop-player #volume 1 and pitch 0 at loop-player
 					replace all "%loop-player%" with "&b%loop-player%&r" in {_message}
@@ -303,7 +308,7 @@ on join:
 function mj_essentials_message_check(player: player, target: player, message: text) :: text:
 	if {_player} has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.message.*" or "mj.essentials.message":
 		if {_target} is set:
-			set {_check} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.vanish")
+			set {_check} to mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.vanish")
 			if {_check} is false:
 				if {_message} is set:
 					mj_essentials_message({_player}, {_target}, {_message})
@@ -325,7 +330,7 @@ function mj_essentials_message(player: player, target: player, message: text) ::
 	send formatted "%{_send}%" to {_target}
 	set {_send} to mj_essentials_message_conversion({_player}, {_target}, {_message}, "spy")
 	loop all players:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.spy")
+		set {_check} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.spy")
 		if {_check} is true:
 			send "%{_send}%" to loop-player
 	mj_editfiles("temp", "data.%{_target}'s uuid%.essentials.message.reply", "modify", "%{_player}%")
@@ -509,10 +514,25 @@ command /balance:
 			mj_core_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
-every 30 minute:
+on quit:
+	set {_value1} to mj_editfiles_number("userdata.%player's uuid%", "data.source.essentials.money.value")
+	set {_value2} to mj_editfiles_number("userdata.%player's uuid%", "data.source.essentials.bank.value")
+	set {_result} to {_value1} + {_value2}
+	mj_editfiles_number("userdata", "data.%player's uuid%.source.essentials.money", "modify", {_result})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 10 minutes:
+	loop all players:
+		set {_value1} to mj_editfiles_number("userdata.%loop-player's uuid%", "data.source.essentials.money.value")
+		set {_value2} to mj_editfiles_number("userdata.%loop-player's uuid%", "data.source.essentials.bank.value")
+		set {_result} to {_value1} + {_value2}
+		mj_editfiles_number("userdata", "data.%loop-player's uuid%.source.essentials.money", "modify", {_result})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 30 minutes:
 	set {_check} to mj_editfiles_boolean("essentials.config", "data.money.economic_ranking_updater")
 	if {_check} is true:
-		mj_core_sorter_board("essentials_balancetop", "userdata", "data", "essentials.money.value", "essentials.bank.value", 9)
+		mj_core_sorter_board("essentials_balancetop", "userdata", "data", "source.essentials.money", "none", 9)
 		mj_core_logger(1, "Economic Ranking Update..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -606,7 +626,7 @@ function mj_essentials_money(player: offlineplayer, extract: boolean=false, cont
 	set {_result} to mj_core_format_money(false, {_value})
 	set {_check1} to mj_editfiles_boolean("essentials.config", "data.money.limit")
 	if {_check1} is true:
-		set {_check2} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.money.bypass")
+		set {_check2} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.money.bypass")
 		if {_check2} is false:
 			set {_limit} to mj_essentials_money_limit({_player}, "money")
 			set {_result} to mj_core_format_money(true, {_value}, {_limit})
@@ -618,14 +638,14 @@ function mj_essentials_money(player: offlineplayer, extract: boolean=false, cont
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_money_modify(player: offlineplayer, mode: text="extract", value: number=0, context: text="none") :: number:
 	if {_mode} is "extract":
-		set {_result} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value")
+		set {_result} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.source.essentials.money.value")
 	else if {_mode} is "all":
-		set {_value1} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value")
-		set {_value2} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value")
+		set {_value1} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.source.essentials.money.value")
+		set {_value2} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.source.essentials.bank.value")
 		set {_result} to {_value1} + {_value2}
 	else:
-		set {_old} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value")
-		mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.money.value", "modify", {_value})
+		set {_old} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.source.essentials.money.value")
+		mj_editfiles_number("userdata.%{_player}'s uuid%", "data.source.essentials.money.value", "modify", {_value})
 		#mj_essentials_money_logger("%{_player}% money changed : %{_old}% to %{_value}%", {_context})
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
@@ -641,7 +661,7 @@ function mj_essentials_money_edit(player: offlineplayer, type: text="add", value
 	mj_essentials_money_logger("%{_player}% modified money : %{_money}% (%{_type}%=%{_value}%) = %{_result}%", {_context})
 	set {_check1} to mj_editfiles_boolean("essentials.config", "data.money.limit")
 	if {_check1} is true:
-		set {_check2} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.money.bypass")
+		set {_check2} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.money.bypass")
 		if {_check2} is false:
 			set {_limit} to mj_essentials_money_limit({_player}, "money")
 			if {_result} >= {_limit} + 1:
@@ -660,14 +680,14 @@ function mj_essentials_money_edit(player: offlineplayer, type: text="add", value
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_money_limit(player: offlineplayer, type: text) :: number:
-	set {_value} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.%{_type}%.upgrade")
+	set {_value} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.source.essentials.%{_type}%.upgrade")
 	set {_result} to mj_editfiles_number("essentials.data", "data.upgrade.%{_type}%.%{_value}%.value")
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_money_system(player: offlineplayer, value: number=0, sell: boolean=false, context: text="none"):
 	if {_sell} is true: # add system (sell)
 		set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_add", {_player})
-		set {_cache} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.money")
+		set {_cache} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.money")
 		add {_cache} to {_value}
 		set {_view} to mj_core_format_money(false, {_value})
 		mj_essentials_money_edit({_player}, "add", {_value}, {_context})
@@ -695,14 +715,14 @@ function mj_essentials_money_system(player: offlineplayer, value: number=0, sell
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_money_upgrade(player: offlineplayer, type: text):
-	set {_value} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.%{_type}%.upgrade")
+	set {_value} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.source.essentials.%{_type}%.upgrade")
 	add 1 to {_value}
 	set {_price} to mj_editfiles_number("essentials.data", "data.upgrade.%{_type}%.%{_value}%.price")
 	if {_price} is set:
 		set {_money} to mj_essentials_money_modify({_player}, "all")
 		if {_money} >= {_price}:
 			mj_essentials_money_system({_player}, {_price})
-			mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.%{_type}%.upgrade", "modify", {_value})
+			mj_editfiles_number("userdata.%{_player}'s uuid%", "data.source.essentials.%{_type}%.upgrade", "modify", {_value})
 			mj_core_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.money.upgrade")
 		else:
 			set {_result} to {_price} - {_money}
@@ -733,7 +753,7 @@ function mj_essentials_bank(player: offlineplayer, extract: boolean=false) :: te
 	set {_result} to mj_core_format_money(false, {_value})
 	set {_check1} to mj_editfiles_boolean("essentials.config", "data.bank.limit")
 	if {_check1} is true:
-		set {_check2} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.bank.bypass")
+		set {_check2} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.bank.bypass")
 		if {_check2} is false:
 			set {_limit} to mj_essentials_money_limit({_player}, "bank")
 			set {_result} to mj_core_format_money(true, {_value}, {_limit})
@@ -744,10 +764,10 @@ function mj_essentials_bank(player: offlineplayer, extract: boolean=false) :: te
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_bank_modify(player: offlineplayer, mode: text="extract", value: number=0, context: text="none") :: number:
 	if {_mode} is "extract":
-		set {_result} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value")
+		set {_result} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.source.essentials.bank.value")
 	else:
-		set {_old} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value")
-		mj_editfiles_number("userdata", "data.%{_player}'s uuid%.essentials.bank.value", "modify", {_value})
+		set {_old} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.source.essentials.bank.value")
+		mj_editfiles_number("userdata.%{_player}'s uuid%", "data.essentials.bank.value", "modify", {_value})
 		mj_essentials_money_logger("%{_player}% money bank changed : %{_old}% to %{_value}%", {_context})
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
@@ -763,7 +783,7 @@ function mj_essentials_bank_edit(player: offlineplayer, type: text="add", value:
 	mj_essentials_money_logger("%{_player}% modified money bank : %{_money}% (%{_type}%=%{_value}%) = %{_result}%", {_context})
 	set {_check1} to mj_editfiles_boolean("essentials.config", "data.bank.limit")
 	if {_check1} is true:
-		set {_check2} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.bank.bypass")
+		set {_check2} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.bank.bypass")
 		if {_check2} is false:
 			set {_limit} to mj_essentials_money_limit({_player}, "bank")
 			if {_result} >= {_limit} + 1:
@@ -895,7 +915,7 @@ function mj_essentials_kits_gift(player: player, id: text):
 function mj_essentials_kits_viewer(player: player, id: text):
 	set {_check} to mj_editfiles("data", "data.storage.%{_id}%.name")
 	if {_check} is set:
-		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.gui_protect", "modify", true)
+		mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.temp.gui_protect", "modify", true)
 		set {_name} to mj_editfiles_gettext("core", {_check}, {_player})
 		set {_item1} to mj_core_item_lore({_player}, paper, 2, "essentials", "data.kits.view_name", {_name})
 		set {_money1} to mj_editfiles_number("data", "data.storage.%{_id}%.money")
@@ -993,7 +1013,7 @@ command /quiet:
 	executable by: player
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.quiet.*" or "mj.essentials.quiet":
-			set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.quiet")
+			set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.quiet")
 			if {_check} is false:
 				mj_essentials_quiet(player, true)
 			else:
@@ -1008,14 +1028,14 @@ on command:
 		if loop-value contains command:
 			set {_arg::*} to arguments split at " "
 			set {_target} to {_arg::1} parsed as offlineplayer
-			set {_check} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.quiet")
+			set {_check} to mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.quiet")
 			if {_check} is true:
 				cancel event
 				mj_core_message(player, "essentials", "data.quiet.prefix", "essentials", "data.quiet.disturb", "%{_target}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_quiet(player: player, mode: boolean=false):
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.quiet", "modify", {_mode})
+	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.quiet", "modify", {_mode})
 	set {_type} to mj_editfiles_gettext("core", "data.type.disable", {_player})
 	if {_mode} is true:
 		set {_type} to mj_editfiles_gettext("core", "data.type.enable", {_player})
@@ -1468,11 +1488,11 @@ on tab complete of "/editsign":
 command /afk:
 	executable by: player
 	trigger:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.afk")
+		set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.afk")
 		if {_check} is true:
 			mj_essentials_afk(player)
 		else:
-			mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.afk", "modify", true)
+			mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.afk", "modify", true)
 			mj_core_message(player, "essentials", "data.afk.prefix", "essentials", "data.afk.enable")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -1480,7 +1500,7 @@ every 1 minute:
 	loop all players:
 		set {_count} to 0
 		set {_count} to mj_editfiles_number("temp", "data.%loop-player's uuid%.afk")
-		set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.afk")
+		set {_check} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.afk")
 		set {_timer} to mj_editfiles_number("essentials.config", "data.afk.limit")
 		set {_limit} to {_timer} + 10
 		if {_count} < {_limit}:
@@ -1488,13 +1508,13 @@ every 1 minute:
 			mj_editfiles_number("temp", "data.%loop-player's uuid%.afk", "modify", {_count})
 		if {_count} >= {_timer}:
 			if {_check} is false:
-				mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.afk", "modify", true)
+				mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.afk", "modify", true)
 				mj_core_message(loop-player, "essentials", "data.afk.prefix", "essentials", "data.afk.enable")
 		if {_count} >= {_limit}:
 			set {_mode} to mj_editfiles_boolean("essentials.config", "data.afk.kick")
 			if {_mode} is true:
 				if loop-player doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.afk.*" or "mj.essentials.afk.bypass":
-					set {_afk} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.afk")
+					set {_afk} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.afk")
 					if {_afk} is true:
 						set {_send} to mj_editfiles_gettext("essentials", "data.afk.kick", loop-player)
 						kick loop-player due to "%{_send}%"
@@ -1541,10 +1561,10 @@ function mj_essentials_afk(player: player):
 	set {_time} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.afk")
 	if {_time} >= 3:
 		mj_editfiles_number("temp", "data.%{_player}'s uuid%.afk", "modify", 0)
-	set {_check} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.afk")
+	set {_check} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.afk")
 	if {_check} is true:
 		wait 2 ticks
-		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.afk", "modify", false)
+		mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.afk", "modify", false)
 		mj_core_message({_player}, "essentials", "data.afk.prefix", "essentials", "data.afk.disable")
 		mj_editfiles_number("temp", "data.%{_player}'s uuid%.afk", "modify", 0)
 	stop
@@ -1571,40 +1591,33 @@ command /godmode [<player>]:
 # ---------------------------------------------------------------------------------------------------------------------
 on damage:
 	if victim is player:
-		set {_name} to mj_timecount_text("godmode_%victim%", "name")
-		if {_name} isn't "none":
-			cancel event
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-on damage:
-	if victim is player:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%victim's uuid%.essentials.godmode")
+		set {_check} to mj_editfiles_boolean("userdata.%victim's uuid%", "data.source.essentials.godmode")
 		if {_check} is true:
 			cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on death:
 	if event-entity is player:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%victim's uuid%.essentials.godmode")
+		set {_check} to mj_editfiles_boolean("userdata.%victim's uuid%", "data.source.essentials.godmode")
 		if {_check} is true:
 			cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on hunger meter change:
 	if event-entity is player:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.godmode")
+		set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.godmode")
 		if {_check} is true:
 			cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_godmode(player: player, target: offlineplayer, mode: boolean=false):
-	set {_check} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.godmode")
+	set {_check} to mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.godmode")
 	if {_check} is true:
-		mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.godmode", "modify", false)
+		mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.godmode", "modify", false)
 		set {_type1} to mj_editfiles_gettext("manager", "data.type.disable", {_player})
 		set {_type2} to mj_editfiles_gettext("manager", "data.type.disable", {_target})
 	else:
-		mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.godmode", "modify", true)
+		mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.godmode", "modify", true)
 		set {_type1} to mj_editfiles_gettext("manager", "data.type.enable", {_player})
 		set {_type2} to mj_editfiles_gettext("manager", "data.type.enable", {_target})
 	if {_mode} is true:
@@ -1674,13 +1687,13 @@ command /spy:
 	executable by: player
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.spy":
-			set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.spy")
+			set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.spy")
 			if {_check} is true:
-				mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.spy", "modify", false)
+				mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.spy", "modify", false)
 				set {_type} to mj_editfiles_gettext("core", "data.type.disable", player)
 				mj_core_logger(1, "%player% to deactivate are spy mode")
 			else:
-				mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.spy", "modify", true)
+				mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.spy", "modify", true)
 				set {_type} to mj_editfiles_gettext("core", "data.type.enable", player)
 				mj_core_logger(1, "%player% to activate are spy mode")
 			mj_core_message(player, "essentials", "data.spy.prefix", "essentials", "data.spy.message", "%{_type}%")
@@ -1711,13 +1724,13 @@ command /vanish [<offlineplayer>]:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
-	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.vanish")
+	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.vanish")
 	if {_check} is true:
 		mj_timecount("mute_%player%", "backward", 0, 0, 5)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
-	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.vanish")
+	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.vanish")
 	if {_check} is true:
 		mj_essentials_vanishactualizer()
 		mj_timecount("connect_%player%", "backward", 0, 0, 5)
@@ -1725,7 +1738,7 @@ on join:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on quit:
-	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.vanish")
+	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.vanish")
 	if {_check} is true:
 		mj_timecount("connect_%player%", "backward", 0, 0, 5)
 		mj_core_logger(1, "%player% at exit on vanish mode")
@@ -1733,7 +1746,7 @@ on quit:
 # ---------------------------------------------------------------------------------------------------------------------
 every 2 minutes:
 	loop all players:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
+		set {_check} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.vanish")
 		if {_check} is true:
 			add loop-player to {_list::*}
 	if {_list::*} is set:
@@ -1741,7 +1754,7 @@ every 2 minutes:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on pick up:
-	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.vanish")
+	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.vanish")
 	if {_check} is true:
 		cancel event
 	stop
@@ -1749,7 +1762,7 @@ on pick up:
 on server list ping:
 	set {_connected} to 0
 	loop all players:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
+		set {_check} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.vanish")
 		if {_check} isn't true:
 			add 1 to {_connected}
 		else:
@@ -1761,29 +1774,29 @@ on server list ping:
 # ---------------------------------------------------------------------------------------------------------------------
 on death:
 	if event-entity is player:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%victim's uuid%.essentials.vanish")
+		set {_check} to mj_editfiles_boolean("userdata.%victim's uuid%", "data.source.essentials.vanish")
 		if {_check} is true:
 			set the death message to ""
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 every 1 second:
 	loop all players:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
+		set {_check} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.vanish")
 		if {_check} is true:
 			set {_send} to mj_editfiles_gettext("essentials", "data.vanish.actionbar", loop-player)
 			mj_core_infobar(loop-player, 1, "%{_send}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_vanish(player: offlineplayer):
-	set {_check} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.vanish")
+	set {_check} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.vanish")
 	if {_check} is true:
-		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.vanish", "modify", false)
+		mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.vanish", "modify", false)
 		set {_type} to mj_editfiles_gettext("manager", "data.type.disable", {_player})
 		if {_player} is online:
 			mj_essentials_join({_player}, "join")
 		mj_core_message({_player}, "essentials", "data.vanish.prefix", "essentials", "data.vanish.unvanished")
 	else:
-		mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.vanish", "modify", true)
+		mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.vanish", "modify", true)
 		set {_type} to mj_editfiles_gettext("manager", "data.type.enable", {_player})
 		if {_player} is online:
 			mj_essentials_join({_player}, "quit")
@@ -1795,7 +1808,7 @@ function mj_essentials_vanishactualizer():
 	loop all players:
 		if loop-player doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.vanish.*" or "mj.essentials.vanish":
 			add loop-player to {_list1::*}
-		set {_check1} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
+		set {_check1} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.vanish")
 		if {_check1} is true:
 			add loop-player to {_list2::*}
 	reveal all players from all players
@@ -1899,16 +1912,16 @@ on tab complete of "/tempban":
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
-	set {_check1} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.ban")
+	set {_check1} to mj_editfiles_boolean("userdata", "data.%player's uuid%.source.essentials.ban")
 	if {_check1} is true:
-		set {_time} to mj_editfiles_date("userdata", "data.%player's uuid%.essentials.tempban")
+		set {_time} to mj_editfiles_date("userdata", "data.%player's uuid%.source.essentials.tempban")
 		if {_time} < now:
-			mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.ban", "modify", false)
-			mj_editfiles("userdata", "data.%player's uuid%.essentials.tempban", "modify", "")
-			mj_editfiles("userdata", "data.%player's uuid%.essentials.reason", "modify", "")
+			mj_editfiles_boolean("userdata", "data.%player's uuid%.source.essentials.ban", "modify", false)
+			mj_editfiles("userdata", "data.%player's uuid%.source.essentials.tempban", "modify", "none")
+			mj_editfiles("userdata", "data.%player's uuid%.source.essentials.reason", "modify", "none")
 			mj_core_logger(1, "%player% logs in and the ban has been purged")
 		else:
-			set {_reason} to mj_editfiles("userdata", "data.%player's uuid%.essentials.reason")
+			set {_reason} to mj_editfiles("userdata", "data.%player's uuid%.source.essentials.reason")
 			mj_timecount("connect_%player%", "backward", 0, 0, 5)
 			set {_check2} to mj_editfiles_boolean("essentials.config", "data.bungeecord.condition")
 			if {_check2} is true:
@@ -1918,12 +1931,12 @@ on join:
 			else:
 				set {_send} to mj_editfiles("essentials.config", "data.format.kick")
 				set {_sep} to mj_editfiles("essentials.config", "data.format.kick_separator")
-				replace "$0" with {_sep} in {_send}
 				set {_msg} to mj_editfiles_gettext("essentials", "data.tempban.kick_message", player)
-				replace "$1" with {_msg} in {_send}
 				set {_bak} to mj_editfiles_gettext("essentials", "data.kick.come_back", player, "%{_time}%")
-				replace "$2" with {_bak} in {_send}
 				set {_rea} to mj_editfiles_gettext("essentials", "data.kick.reason", player, {_reason})
+				replace "$0" with {_sep} in {_send}
+				replace "$1" with {_msg} in {_send}
+				replace "$2" with {_bak} in {_send}
 				replace "$3" with {_rea} in {_send}
 				kick player due to "%{_send}%"
 		stop
@@ -1956,8 +1969,8 @@ command /banlist:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_ban_player(player: player, target: offlineplayer, reason: text="none"):
-	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban", "modify", true)
-	mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.tempban", "modify", "")
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.source.essentials.ban", "modify", true)
+	mj_editfiles("userdata", "data.%{_target}'s uuid%.source.essentials.tempban", "modify", "none")
 	set {_send} to mj_essentials_kick_format({_target}, "%{_player}%", {_reason}, "ban")
 	ban {_target} due to "%{_reason}%"
 	if {_target} is online:
@@ -1972,8 +1985,8 @@ function mj_essentials_ban_console(player: offlineplayer, reason: text="none"):
 	set {_list::*} to mj_editfiles_list("config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.ban", "modify", true)
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.tempban", "modify", "")
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.source.essentials.ban", "modify", true)
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.source.essentials.tempban", "modify", "none")
 	set {_send} to mj_essentials_kick_format({_player}, "Console", {_reason}, "ban")
 	ban {_player} due to "%{_reason}%"
 	if {_player} is online:
@@ -1988,9 +2001,9 @@ function mj_essentials_tempban_player(player: player, target: offlineplayer, rea
 	set {_time} to mj_core_converter_time({_time})
 	set {_date} to now
 	add {_time} to {_date}
-	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban", "modify", true)
-	mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.reason", "modify", {_reason})
-	mj_editfiles_date("userdata", "data.%{_target}'s uuid%.essentials.tempban", "modify", {_date})
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.source.essentials.ban", "modify", true)
+	mj_editfiles("userdata", "data.%{_target}'s uuid%.source.essentials.reason", "modify", {_reason})
+	mj_editfiles_date("userdata", "data.%{_target}'s uuid%.source.essentials.tempban", "modify", {_date})
 	set {_send} to mj_essentials_kick_format({_target}, "%{_player}%", {_reason}, "tempban")
 	unban {_target}
 	if {_target} is online:
@@ -2008,9 +2021,9 @@ function mj_essentials_tempban_console(player: offlineplayer, reason: text="none
 	set {_time} to mj_core_converter_time({_time})
 	set {_date} to now
 	add {_time} to {_date}
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.ban", "modify", true)
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.reason", "modify", {_reason})
-	mj_editfiles_date("userdata", "data.%{_player}'s uuid%.essentials.tempban", "modify", {_date})
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.source.essentials.ban", "modify", true)
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.source.essentials.reason", "modify", {_reason})
+	mj_editfiles_date("userdata", "data.%{_player}'s uuid%.source.essentials.tempban", "modify", {_date})
 	set {_send} to mj_essentials_kick_format({_player}, "Console", {_reason}, "tempban")
 	unban {_player}
 	if {_player} is online:
@@ -2022,16 +2035,16 @@ function mj_essentials_tempban_console(player: offlineplayer, reason: text="none
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_unban_player(player: player, target: offlineplayer):
-	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban", "modify", false)
-	mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.tempban", "modify", "")
+	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.source.essentials.ban", "modify", false)
+	mj_editfiles("userdata", "data.%{_target}'s uuid%.source.essentials.tempban", "modify", "none")
 	unban {_target}
 	mj_core_message({_player}, "essentials", "data.ban.prefix", "essentials", "data.ban.unbanned", "%{_target}%")
 	mj_core_logger(1, "%{_player}% has unbanned %{_target}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_unban_console(player: offlineplayer):
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.ban", "modify", false)
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.tempban", "modify", "")
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.source.essentials.ban", "modify", false)
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.source.essentials.tempban", "modify", "none")
 	unban {_player}
 	mj_core_logger(1, "Console has unbanned %{_target}%")
 	stop
@@ -2040,11 +2053,11 @@ function mj_essentials_banlist_player(player: player):
 	set {_list1::*} to mj_manager_nodes("userdata")
 	loop {_list1::*}:
 		set {_target} to loop-value parsed as offlineplayer
-		set {_ban} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban")
+		set {_ban} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.source.essentials.ban")
 		if {_ban} is true:
-			set {_check} to ""
-			set {_check} to yaml value "data.%{_target}'s uuid%.essentials.tempban" from "mj.userdata"
-			if {_check} is "":
+			set {_check} to "none"
+			set {_check} to yaml value "data.%{_target}'s uuid%.source.essentials.tempban" from "mj.userdata"
+			if {_check} is "none":
 				add {_target} to {_list2::*}
 			else:
 				add {_target} to {_list3::*}
@@ -2059,11 +2072,11 @@ function mj_essentials_banlist_console():
 	set {_list1::*} to mj_manager_nodes("userdata")
 	loop {_list1::*}:
 		set {_target} to loop-value parsed as offlineplayer
-		set {_ban} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.ban")
+		set {_ban} to mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.source.essentials.ban")
 		if {_ban} is true:
-			set {_check} to ""
-			set {_check} to yaml value "data.%{_target}'s uuid%.essentials.tempban" from "mj.userdata"
-			if {_check} is "":
+			set {_check} to "none"
+			set {_check} to yaml value "data.%{_target}'s uuid%.source.essentials.tempban" from "mj.userdata"
+			if {_check} is "none":
 				add {_target} to {_list2::*}
 			else:
 				add {_target} to {_list3::*}
@@ -2132,13 +2145,13 @@ command /unmute [<offlineplayer>]:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
-	set {_check1} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.mute")
+	set {_check1} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.mute")
 	if {_check1} is true:
-		set {_check2} to mj_editfiles_date("userdata", "data.%player's uuid%.essentials.tempmute")
+		set {_check2} to mj_editfiles_date("userdata.%player's uuid%", "data.source.essentials.tempmute")
 		if {_check2} is set:
 			if {_check2} < now:
-				mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.mute", "modify", false)
-				mj_editfiles("userdata", "data.%player's uuid%.essentials.tempmute", "modify", "")
+				mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.mute", "modify", false)
+				mj_editfiles("userdata.%player's uuid%", "data.source.essentials.tempmute", "modify", "none")
 				mj_core_message(player, "essentials", "data.tempmute.prefix", "essentials", "data.mute.unmuted")
 			else:
 				cancel event
@@ -2151,15 +2164,15 @@ on chat:
 # ---------------------------------------------------------------------------------------------------------------------
 on command:
 	if command is "me":
-		set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.mute")
+		set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.mute")
 		if {_check} is true:
 			cancel event
 			mj_core_message(player, "essentials", "data.mute.prefix", "essentials", "data.mute.prevent")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_mute_player(player: player, target: offlineplayer, reason: text="none"):
-	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", true)
-	mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.tempban", "modify", "")
+	mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.mute", "modify", true)
+	mj_editfiles("userdata", "data.%{_target}'s uuid%.source.essentials.tempban", "modify", "none")
 	mj_core_message({_player}, "essentials", "data.mute.prefix", "essentials", "data.mute.message", "%{_target}%", "%{_reason}%")
 	mj_core_message({_target}, "essentials", "data.mute.prefix", "essentials", "data.mute.muted", "%{_player}%")
 	#mj_essentials_warn({_target}, "%{_player}%", {_reason})
@@ -2170,8 +2183,8 @@ function mj_essentials_mute_console(player: offlineplayer, reason: text):
 	set {_list::*} to mj_editfiles_list("config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", true)
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.tempban", "modify", "")
+	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.mute", "modify", true)
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.source.essentials.tempban", "modify", "none")
 	mj_core_message({_player}, "essentials", "data.mute.prefix", "essentials", "data.mute.muted", "Console")
 	#mj_essentials_warn({_player}, "Console", {_reason})
 	mj_core_logger(1, "Console at muted %{_player}% for %{_reason}%")
@@ -2181,8 +2194,8 @@ function mj_essentials_tempmute_player(player: player, target: offlineplayer, re
 	set {_time} to mj_core_converter_time({_time})
 	set {_date} to now
 	add {_time} to {_date}
-	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", true)
-	mj_editfiles_date("userdata", "data.%{_target}'s uuid%.essentials.tempmute", "modify", {_date})
+	mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.mute", "modify", true)
+	mj_editfiles_date("userdata.%{_target}'s uuid%", "data.source.essentials.tempmute", "modify", {_date})
 	mj_core_message({_player}, "essentials", "data.tempmute.prefix", "essentials", "data.tempmute.message", "%{_target}%", "%{_reason}%")
 	mj_core_message({_target}, "essentials", "data.tempmute.prefix", "essentials", "data.tempmute.muted", "%{_player}%")
 	#mj_essentials_warn({_target}, "%{_player}%", {_reason})
@@ -2196,24 +2209,24 @@ function mj_essentials_tempmute_console(player: offlineplayer, reason: text="non
 	set {_time} to mj_core_converter_time({_time})
 	set {_date} to now
 	add {_time} to {_date}
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", true)
-	mj_editfiles_date("userdata", "data.%{_player}'s uuid%.essentials.tempmute", "modify", {_date})
+	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.mute", "modify", true)
+	mj_editfiles_date("userdata.%{_player}'s uuid%", "data.source.essentials.tempmute", "modify", {_date})
 	mj_core_message({_player}, "essentials", "data.tempmute.prefix", "essentials", "data.tempmute.muted", "Console")
 	#mj_essentials_warn({_player}, "Console", {_reason})
 	mj_core_logger(1, "Console at temporarily muted %{_player}% for %{_reason}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_unmute_player(player: player, target: offlineplayer):
-	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", false)
-	mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.tempmute", "modify", "")
+	mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.mute", "modify", false)
+	mj_editfiles("userdata.%{_target}'s uuid%", "data.source.essentials.tempmute", "modify", "none")
 	mj_core_message({_player}, "essentials", "data.mute.prefix", "essentials", "data.mute.unmute", "%{_target}%")
 	mj_core_message({_target}, "essentials", "data.mute.prefix", "essentials", "data.mute.unmuted")
 	mj_core_logger(1, "%{_player}% is unmuted %{_target}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_unmute_console(player: offlineplayer):
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", false)
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.tempmute", "modify", "")
+	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.mute", "modify", false)
+	mj_editfiles("userdata.%{_player}'s uuid%", "data.source.essentials.tempmute", "modify", "none")
 	mj_core_message({_player}, "essentials", "data.mute.prefix", "essentials", "data.mute.unmuted")
 	mj_core_logger(1, "Console is unmuted %{_player}%")
 	stop
@@ -2312,9 +2325,9 @@ command /warns [<offlineplayer>]:
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warn.*" or "mj.essentials.warn":
 			if arg-1 is set:
-				set {_count} to mj_manager_nodes_count("userdata", "data.%arg-1's uuid%.essentials.warn")
+				set {_count} to mj_manager_nodes_count("userdata", "data.%arg-1's uuid%.source.essentials.warn")
 				mj_core_message(player, "essentials", "data.warn.prefix", "essentials", "data.warn.read", "%arg-1%", "%{_count}%")
-				mj_core_data_read(player, "userdata", "data.%arg-1's uuid%.essentials.warn")
+				mj_core_data_read(player, "userdata", "data.%arg-1's uuid%.source.essentials.warn")
 			else:
 				mj_core_message(player, "essentials", "data.warn.prefix", "core", "data.argument.player")
 		else:
@@ -2324,7 +2337,7 @@ command /warns [<offlineplayer>]:
 function mj_essentials_warn(player: offlineplayer, responsible: text, reason: text="none", format_reason: text="none"):
 	if {_reason} is "none":
 		set {_reason} to mj_editfiles_gettext("essentials", "data.no_reason")
-	mj_core_data_memory("userdata", "data.%{_player}'s uuid%.essentials.warn", {_format_reason})
+	mj_core_data_memory("userdata", "data.%{_player}'s uuid%.source.essentials.warn", {_format_reason})
 	mj_core_message({_player}, "essentials", "data.warn.prefix", "essentials", "data.warn.alert", {_responsible}, {_reason})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2364,40 +2377,40 @@ command /unfreeze [<offlineplayer>]:
 # ---------------------------------------------------------------------------------------------------------------------
 on any move:
 	if event-entity is player:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.freeze")
+		set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.freeze")
 		if {_check} is true:
 			cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on command:
-	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.freeze")
+	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.freeze")
 	if {_check} is true:
 		if command isn't "message" or "msg" or "m" or "tell" or "reply" or "r":
 			cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on click:
-	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.freeze")
+	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.freeze")
 	if {_check} is true:
 		cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on damage:
 	if victim is player:
-		set {_check} to mj_editfiles_boolean("userdata", "data.%victim's uuid%.essentials.freeze")
+		set {_check} to mj_editfiles_boolean("userdata.%victim's uuid%", "data.source.essentials.freeze")
 		if {_check} is true:
 			cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on drop:
-	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.freeze")
+	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.freeze")
 	if {_check} is true:
 		cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_freeze_player(player: player, target: offlineplayer, reason: text="none"):
-	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.freeze", "modify", true)
-	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", true)
+	mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.freeze", "modify", true)
+	mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.mute", "modify", true)
 	mj_core_message({_player}, "essentials", "data.freeze.prefix", "essentials", "data.freeze.message_me", "%{_target}%")
 	if {_target} is online:
 		mj_core_message({_target}, "essentials", "data.freeze.prefix", "essentials", "data.freeze.message_it_player", "%{_player}%")
@@ -2409,8 +2422,8 @@ function mj_essentials_freeze_console(player: offlineplayer, reason: text="none"
 	set {_list::*} to mj_editfiles_list("config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.freeze", "modify", true)
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", true)
+	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.freeze", "modify", true)
+	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.mute", "modify", true)
 	if {_player} is online:
 		mj_core_message({_player}, "essentials", "data.freeze.prefix", "essentials", "data.freeze.message_it_console")
 		set {_send} to mj_editfiles_gettext("essentials", "data.freeze.alert")
@@ -2421,8 +2434,8 @@ function mj_essentials_freeze_console(player: offlineplayer, reason: text="none"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_unfreeze_player(player: player, target: offlineplayer):
-	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.freeze", "modify", false)
-	mj_editfiles_boolean("userdata", "data.%{_target}'s uuid%.essentials.mute", "modify", false)
+	mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.freeze", "modify", false)
+	mj_editfiles_boolean("userdata.%{_target}'s uuid%", "data.source.essentials.mute", "modify", false)
 	mj_core_message({_player}, "essentials", "data.freeze.prefix", "essentials", "data.unfreeze.message_me", "%{_target}%")
 	if {_target} is online:
 		mj_core_message({_target}, "essentials", "data.freeze.prefix", "essentials", "data.unfreeze.message_it", "%{_player}%")
@@ -2433,8 +2446,8 @@ function mj_essentials_unfreeze_console(player: offlineplayer):
 	set {_list::*} to mj_editfiles_list("config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.freeze", "modify", false)
-	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.essentials.mute", "modify", false)
+	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.freeze", "modify", false)
+	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.mute", "modify", false)
 	if {_player} is online:
 		mj_core_message({_player}, "essentials", "data.freeze.prefix", "essentials", "data.unfreeze.message_it", "Console")
 	mj_core_logger(1, "Console at unfreeze %{_player}%")
@@ -2714,7 +2727,7 @@ command /back:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.back.*" or "mj.essentials.back":
 			set {_name} to mj_timecount_text("back_%{_player}%", "name")
 			if {_name} is "none":
-				set {_tp} to mj_core_location("userdata", "data.%player's uuid%.essentials.back")
+				set {_tp} to mj_core_location("userdata.%player's uuid%", "data.source.essentials.back")
 				mj_essentials_teleport(player, "back", {_tp})
 			else:
 				set {_time} to mj_timecount_viewer("back_%{_player}%")
@@ -2730,7 +2743,7 @@ on death:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_back(player: player):
-	mj_core_location("userdata", "data.%{_player}'s uuid%.essentials.back", "modify", {_player})
+	mj_core_location("userdata.%{_player}'s uuid%", "data.source.essentials.back", "modify", {_player})
 	mj_core_logger(5, "%{_player}% defined his return : %{_player}'s location%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2751,7 +2764,7 @@ command /home [<text>]:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/home" or "/sethome" or "/delhome":
-	set {_list1::*} to mj_core_id_converter("userdata", "data.%player's uuid%.essentials.home")
+	set {_list1::*} to mj_core_id_converter("userdata", "data.%player's uuid%.source.essentials.home")
 	if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home.other":
 		set {_list2::*} to mj_manager_nodes("userdata")
 		loop {_list2::*}:
@@ -2807,9 +2820,9 @@ function mj_essentials_home_tp(player: player, name: text):
 			set {_arg::*} to {_name} split at ":"
 			set {_target} to {_arg::1} parsed as offlineplayer
 			if {_arg::2} isn't empty:
-				set {_id} to mj_core_id_checker("userdata", "data.%{_target}'s uuid%.essentials.home", {_arg::2})
+				set {_id} to mj_core_id_checker("userdata", "data.%{_target}'s uuid%.source.essentials.home", {_arg::2})
 				if {_id} is set:
-					set {_tp} to mj_core_location("userdata", "data.%{_target}'s uuid%.essentials.home.%{_id}%")
+					set {_tp} to mj_core_location("userdata", "data.%{_target}'s uuid%.source.essentials.home.%{_id}%")
 					mj_essentials_teleport({_player}, "home", {_tp}, {_arg::2}, "%{_target}%", true)
 				else:
 					mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.no_find")
@@ -2818,9 +2831,9 @@ function mj_essentials_home_tp(player: player, name: text):
 		else:
 			mj_core_permission({_player}, "essentials", "data.home.prefix", "mj.essentials.home.other")
 	else:
-		set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.essentials.home", {_name})
+		set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.source.essentials.home", {_name})
 		if {_id} is set:
-			set {_tp} to mj_core_location("userdata", "data.%{_player}'s uuid%.essentials.home.%{_id}%")
+			set {_tp} to mj_core_location("userdata", "data.%{_player}'s uuid%.source.essentials.home.%{_id}%")
 			mj_essentials_teleport({_player}, "home", {_tp}, {_name})
 		else:
 			mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.no_find")
@@ -2832,16 +2845,16 @@ function mj_essentials_home_define(player: player, name: text):
 	set {_limit} to mj_editfiles_number("essentials.config", "data.home_limit.%{_rank}%")
 	if {_limit} is 0:
 		set {_limit} to 1
-	set {_count} to mj_manager_nodes_count("userdata", "data.%{_player}'s uuid%.essentials.home")
-	set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.essentials.home", {_name})
+	set {_count} to mj_manager_nodes_count("userdata", "data.%{_player}'s uuid%.source.essentials.home")
+	set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.source.essentials.home", {_name})
 	if {_id} is "none":
 		if {_count} >= {_limit}:
 			mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.limit")
 			stop
 		else:
 			set {_id} to mj_core_id_generator()
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.home.%{_id}%.name", "modify", {_name})
-	mj_core_location("userdata", "data.%{_player}'s uuid%.essentials.home.%{_id}%", "modify", {_player})
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.source.essentials.home.%{_id}%.name", "modify", {_name})
+	mj_core_location("userdata", "data.%{_player}'s uuid%.source.essentials.home.%{_id}%", "modify", {_player})
 	mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.define", {_name})
 	mj_core_logger(3, "%{_player}% has created the home : %{_name}% (%{_id}%) in %{_player}'s location%")
 	stop
@@ -2852,10 +2865,10 @@ function mj_essentials_home_delete(player: player, name: text):
 			set {_arg::*} to {_name} split at ":"
 			set {_target} to {_arg::1} parsed as offlineplayer
 			if {_arg::2} isn't empty:
-				set {_id} to mj_core_id_checker("userdata", "data.%{_target}'s uuid%.essentials.home", {_arg::2})
+				set {_id} to mj_core_id_checker("userdata", "data.%{_target}'s uuid%.source.essentials.home", {_arg::2})
 				if {_id} is set:
 					mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.delete_other", {_arg::2}, "%{_target}%")
-					mj_editfiles("userdata", "data.%{_target}'s uuid%.essentials.home.%{_id}%", "delete")
+					mj_editfiles("userdata", "data.%{_target}'s uuid%.source.essentials.home.%{_id}%", "delete")
 					mj_core_logger(3, "%{_player}% has deleted the home : %{_arg::2}% (%{_id}%) of %{_target}%")
 				else:
 					mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.no_find")
@@ -2864,9 +2877,9 @@ function mj_essentials_home_delete(player: player, name: text):
 		else:
 			mj_core_permission({_player}, "essentials", "data.home.prefix", "mj.essentials.home.other")
 	else:
-		set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.essentials.home", {_name})
+		set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.source.essentials.home", {_name})
 		if {_id} is set:
-			mj_editfiles("userdata", "data.%{_player}'s uuid%.essentials.home.%{_id}%", "delete")
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.source.essentials.home.%{_id}%", "delete")
 			mj_core_message({_player}, "essentials", "data.home.prefix", "essentials", "data.home.delete", {_name})
 			mj_core_logger(3, "%{_player}% has deleted the home : %{_name}% (%{_id}%)")
 		else:
@@ -2875,9 +2888,9 @@ function mj_essentials_home_delete(player: player, name: text):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_home_list(player: player, mode: boolean=false, other: boolean=false, target: offlineplayer="none") :: objects:
 	if {_other} is true:
-		set {_list::*} to mj_core_id_converter("userdata", "data.%{_target}'s uuid%.essentials.home")
+		set {_list::*} to mj_core_id_converter("userdata", "data.%{_target}'s uuid%.source.essentials.home")
 	else:
-		set {_list::*} to mj_core_id_converter("userdata", "data.%{_player}'s uuid%.essentials.home")
+		set {_list::*} to mj_core_id_converter("userdata", "data.%{_player}'s uuid%.source.essentials.home")
 	if {_mode} isn't true:
 		if {_list::*} doesn't contain "none":
 			if {_other} is true:

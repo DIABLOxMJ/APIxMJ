@@ -12,7 +12,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading ranker..." to console
 		mj_files_ranker()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.ranker.version", "modify", "2022.10.18.0003")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.ranker.version", "modify", "2023.05.02.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_ranker.sk"
@@ -21,6 +21,26 @@ on load:
 on skript stop:
 	rename file "plugins/Skript/scripts/apixmj_ranker.sk" to "-apixmj_ranker.sk"
 	send "[APIxMJ] Unloading ranker.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_ranker_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_ranker_playerdata(player: offlineplayer):
+	set {_check1} to yaml value "data.%{_player}'s uuid%.source.ranker" from "mj.userdata"
+	if {_check1} isn't set:
+		wait 1 second
+		set yaml value "data.%{_player}'s uuid%.source.ranker" from "mj.userdata" to "none"
+		save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% ranker data file was generated..")
+	set {_check2} to yaml value "data.source.ranker" from "mj.userdata.%{_player}'s uuid%"
+	if {_check2} isn't set:
+		wait 1 second
+		set yaml value "data.source.ranker" from "mj.userdata.%{_player}'s uuid%" to "none"
+		save yaml "mj.userdata.%{_player}'s uuid%"
+		mj_core_logger(1, "%{_player}% ranker data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Files

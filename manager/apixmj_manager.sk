@@ -19,7 +19,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.03.02.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.03.05.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():

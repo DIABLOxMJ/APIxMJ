@@ -39,6 +39,12 @@ data:
         error: "&cVeuillez spécifier quelque chose pour le signalement.."
         empty: "&cIl y a aucun signalement dans la liste.."
         read: "&7Liste de signalement\n&7Nombre de signalement &6: &a$0"
+    nick:
+        prefix: "&6[&b&lNick&6]&r"
+        viewer: "&7Votre nom de joueur à était remplacer par &a$0"
+        change: "&7Vous avez désormais le surnom &a$0"
+        reveal: "&7Le joueur &a$0 &7utilise le surnom &a$1"
+        reset: "&7Vous avez enlever le surnom de &a$0"
     storage:
         name: "&7Stockage de &a$0"
         create: "&7Vous avez créé un nouveau stockage &a$0"

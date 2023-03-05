@@ -159,7 +159,7 @@ data:
         info:
             '1': "&6- &a/op <player>"
             '2': "&0- &a/deop <player>"
-            '3': "&0- &7Pareil qu'en vanilla de base, mais limité à la console."
+            '3': "&0- &7Pareil qu'en vanilla de base, mais limité à une personne spécifique."
     userdata:
         name: "&aDonnée de joueur"
         type: function
@@ -218,6 +218,27 @@ data:
             '4': "&0- &7de faire comprendre en une fois ce que vous dites !"
             '5': "&6- &a/reports"
             '6': "&0- &7Voir la liste de signalement et de supprimer."
+    nick:
+        name: "&aSystème de surnom"
+        type: command
+        description:
+            '1': "&0- &aDevenir anonyme avec un surnom"
+            '2': "&0- &adevient possible avec cette commande."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.nick.*"
+        - "mj.nick"
+        info:
+            '1': "&6- &a/nick <text>"
+            '2': "&0- &7Cette commande permet de remplacer sont"
+            '3': "&0- &7pseudo par un surnom choisi."
+            '4': "&6- &a/nick reset [pseudo]"
+            '5': "&0- &7Il permet de supprimer et restaurer le"
+            '6': "&0- &7pseudo par défaut du joueur."
+            '7': "&6- &a/nick reveal"
+            '8': "&0- &7Il permet de connaître tous les joueurs"
+            '9': "&0- &7qui utilise un surnom."
     storage1:
         name: "&aSystème de stockage"
         type: command

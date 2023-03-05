@@ -229,20 +229,12 @@ data:
                     '1': mj.config
                     '2': mj.data
                     '3': mj.temp
-                    '4': mj.stats
-                    '5': mj.inventory
-                    '6': mj.userdata
+                    '4': mj.userdata
                 reset:
                     '1':
                         file: mj.temp
                         data: data
                     '2':
-                        file: mj.stats
-                        data: data
-                    '3':
-                        file: mj.inventory
-                        data: data
-                    '4':
                         file: mj.userdata
                         data: data
                 item: command block

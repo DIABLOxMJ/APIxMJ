@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2023.05.03.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2023.03.06.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -36,7 +36,7 @@ on join:
 function mj_essentials_playerdata(player: offlineplayer):
 	set {_check1} to yaml value "data.%{_player}'s uuid%.source.essentials" from "mj.userdata"
 	if {_check1} isn't set:
-		wait 1 second
+		wait 2 seconds
 		set yaml value "data.%{_player}'s uuid%.source.essentials.money" from "mj.userdata" to 0
 		set yaml value "data.%{_player}'s uuid%.source.essentials.ban" from "mj.userdata" to false
 		set yaml value "data.%{_player}'s uuid%.source.essentials.tempban" from "mj.userdata" to "none"
@@ -48,6 +48,7 @@ function mj_essentials_playerdata(player: offlineplayer):
 		mj_core_logger(1, "%{_player}% essentials data file was generated..")
 	set {_check2} to yaml value "data.source.essentials" from "mj.userdata.%{_player}'s uuid%"
 	if {_check2} isn't set:
+		wait 2 seconds
 		set {_value} to mj_editfiles_number("essentials.config", "data.money.starting")
 		set yaml value "data.source.essentials.afk" from "mj.userdata.%{_player}'s uuid%" to false
 		set yaml value "data.source.essentials.quiet" from "mj.userdata.%{_player}'s uuid%" to false
@@ -686,12 +687,17 @@ function mj_essentials_money_limit(player: offlineplayer, type: text) :: number:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_money_system(player: offlineplayer, value: number=0, sell: boolean=false, context: text="none"):
 	if {_sell} is true: # add system (sell)
-		set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_add", {_player})
-		set {_cache} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.money")
-		add {_cache} to {_value}
-		set {_view} to mj_core_format_money(false, {_value})
-		mj_essentials_money_edit({_player}, "add", {_value}, {_context})
-		mj_essentials_money_logger("%{_player}% add money : %{_value}%", {_context})
+		if {_player} is online:
+			set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_add", {_player})
+			set {_cache} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.money")
+			add {_cache} to {_value}
+			set {_view} to mj_core_format_money(false, {_value})
+			mj_essentials_money_edit({_player}, "add", {_value}, {_context})
+			mj_essentials_money_logger("%{_player}% add money : %{_value}%", {_context})
+		else:
+			set {_cache} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.money")
+			add {_value} to {_cache}
+			mj_editfiles_number("temp", "data.%{_player}'s uuid%.money", "modify", {_cache})
 	else: # remove system (buy)
 		set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_remove", {_player})
 		set {_value1} to "-%{_value}%" parsed as number

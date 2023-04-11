@@ -1,0 +1,4 @@
+data:
+    # A list of presets to load into memory, default : b16
+    preset:
+    - b16

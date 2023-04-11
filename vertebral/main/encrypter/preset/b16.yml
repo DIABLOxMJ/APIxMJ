@@ -1,0 +1,310 @@
+data:
+    name: "b16"
+    size: 2
+    format:
+        space:
+            normal: " "
+            formule: "00"
+        number_0:
+            normal: "0"
+            formule: "01"
+        number_1:
+            normal: "1"
+            formule: "02"
+        number_2:
+            normal: "2"
+            formule: "03"
+        number_3:
+            normal: "3"
+            formule: "04"
+        number_4:
+            normal: "4"
+            formule: "05"
+        number_5:
+            normal: "5"
+            formule: "06"
+        number_6:
+            normal: "6"
+            formule: "07"
+        number_7:
+            normal: "7"
+            formule: "08"
+        number_8:
+            normal: "8"
+            formule: "09"
+        number_9:
+            normal: "9"
+            formule: "0A"
+        letter_a_01:
+            normal: "a"
+            formule: "0B"
+        letter_a_02:
+            normal: "A"
+            formule: "0C"
+        letter_a_03:
+            normal: "à"
+            formule: "0D"
+        letter_a_04:
+            normal: "À"
+            formule: "0A"
+        letter_a_05:
+            normal: "â"
+            formule: "0B"
+        letter_a_06:
+            normal: "Â"
+            formule: "0C"
+        letter_a_07:
+            normal: "â"
+            formule: "0D"
+        letter_a_08:
+            normal: "Â"
+            formule: "0E"
+        letter_b_01:
+            normal: "b"
+            formule: "0F"
+        letter_b_02:
+            normal: "B"
+            formule: "10"
+        letter_c_01:
+            normal: "c"
+            formule: "11"
+        letter_c_02:
+            normal: "C"
+            formule: "12"
+        letter_c_03:
+            normal: "ç"
+            formule: "13"
+        letter_c_04:
+            normal: "Ç"
+            formule: "14"
+        letter_d_01:
+            normal: "d"
+            formule: "15"
+        letter_d_02:
+            normal: "D"
+            formule: "16"
+        letter_e_01:
+            normal: "e"
+            formule: "17"
+        letter_e_02:
+            normal: "E"
+            formule: "18"
+        letter_e_03:
+            normal: "é"
+            formule: "19"
+        letter_e_04:
+            normal: "É"
+            formule: "1A"
+        letter_e_05:
+            normal: "è"
+            formule: "1B"
+        letter_e_06:
+            normal: "È"
+            formule: "1C"
+        letter_e_07:
+            normal: "ê"
+            formule: "1D"
+        letter_e_08:
+            normal: "Ê"
+            formule: "1E"
+        letter_e_09:
+            normal: "ë"
+            formule: "1F"
+        letter_e_10:
+            normal: "Ë"
+            formule: "20"
+        letter_f_01:
+            normal: "f"
+            formule: "21"
+        letter_f_02:
+            normal: "F"
+            formule: "22"
+        letter_g_01:
+            normal: "g"
+            formule: "23"
+        letter_g_02:
+            normal: "G"
+            formule: "24"
+        letter_h_01:
+            normal: "h"
+            formule: "25"
+        letter_h_02:
+            normal: "H"
+            formule: "26"
+        letter_i_01:
+            normal: "i"
+            formule: "27"
+        letter_i_02:
+            normal: "I"
+            formule: "28"
+        letter_j_01:
+            normal: "j"
+            formule: "29"
+        letter_j_02:
+            normal: "J"
+            formule: "2A"
+        letter_k_01:
+            normal: "k"
+            formule: "2B"
+        letter_k_02:
+            normal: "K"
+            formule: "2C"
+        letter_l_01:
+            normal: "l"
+            formule: "2D"
+        letter_l_02:
+            normal: "L"
+            formule: "2E"
+        letter_m_01:
+            normal: "m"
+            formule: "2F"
+        letter_m_02:
+            normal: "M"
+            formule: "30"
+        letter_n_01:
+            normal: "n"
+            formule: "31"
+        letter_n_02:
+            normal: "N"
+            formule: "32"
+        letter_o_01:
+            normal: "o"
+            formule: "33"
+        letter_o_02:
+            normal: "O"
+            formule: "34"
+        letter_p_01:
+            normal: "p"
+            formule: "35"
+        letter_p_02:
+            normal: "P"
+            formule: "36"
+        letter_q_01:
+            normal: "q"
+            formule: "37"
+        letter_q_02:
+            normal: "Q"
+            formule: "38"
+        letter_r_01:
+            normal: "r"
+            formule: "39"
+        letter_r_02:
+            normal: "R"
+            formule: "3A"
+        letter_s_01:
+            normal: "s"
+            formule: "3B"
+        letter_s_02:
+            normal: "S"
+            formule: "3C"
+        letter_t_01:
+            normal: "t"
+            formule: "3D"
+        letter_t_02:
+            normal: "T"
+            formule: "3E"
+        letter_u_01:
+            normal: "u"
+            formule: "3F"
+        letter_u_02:
+            normal: "U"
+            formule: "40"
+        letter_u_03:
+            normal: "ù"
+            formule: "41"
+        letter_v_01:
+            normal: "v"
+            formule: "42"
+        letter_v_02:
+            normal: "V"
+            formule: "43"
+        letter_w_01:
+            normal: "w"
+            formule: "44"
+        letter_w_02:
+            normal: "W"
+            formule: "45"
+        letter_x_01:
+            normal: "x"
+            formule: "46"
+        letter_x_02:
+            normal: "X"
+            formule: "47"
+        letter_y_01:
+            normal: "y"
+            formule: "48"
+        letter_y_02:
+            normal: "Y"
+            formule: "49"
+        letter_z_01:
+            normal: "z"
+            formule: "4A"
+        letter_z_02:
+            normal: "Z"
+            formule: "4B"
+        stop:
+            normal: "."
+            formule: "70"
+        comma:
+            normal: ","
+            formule: "71"
+        colon:
+            normal: ":"
+            formule: "72"
+        semicolon:
+            normal: ";"
+            formule: "73"
+        apostrophe:
+            normal: "'"
+            formule: "74"
+        slash:
+            normal: "/"
+            formule: "75"
+        backslash:
+            normal: "\\"
+            formule: "76"
+        hyphen_minus:
+            normal: "-"
+            formule: "77"
+        underline:
+            normal: "_"
+            formule: "78"
+        question:
+            normal: "?"
+            formule: "79"
+        exclamation:
+            normal: "!"
+            formule: "7A"
+        at_sign:
+            normal: "@"
+            formule: "7B"
+        sharp:
+            normal: "#"
+            formule: "7C"
+        percent:
+            normal: "%%"
+            formule: "7D"
+        ampersand:
+            normal: "&"
+            formule: "7E"
+        asterix:
+            normal: "*"
+            formule: "7F"
+        left_parenthesis:
+            normal: "("
+            formule: "80"
+        right_parenthesis:
+            normal: ")"
+            formule: "81"
+        less_than:
+            normal: "<"
+            formule: "82"
+        greater_than:
+            normal: ">"
+            formule: "83"
+        plus:
+            normal: "+"
+            formule: "84"
+        equal:
+            normal: "="
+            formule: "85"

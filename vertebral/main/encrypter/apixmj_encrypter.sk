@@ -1,0 +1,126 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_encrypter():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.encrypter.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.encrypter.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.encrypter.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.encrypter.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.encrypter.help.%loop-value%"
+	wait 1 second
+	set {_list1::*} to mj_editfiles_list("encrypter.config", "data.preset")
+	if {_list1::*} is set:
+		loop {_list1::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/preset/%loop-value%.yml" as "mj.encrypter.preset.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk":
+		send "[APIxMJ] Loading encrypter..." to console
+		mj_files_encrypter()
+		mj_editfiles("manager.data", "data.addon.vertebral_main.encrypter.version", "modify", "2023.04.11.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
+		unload script file "apixmj_encrypter.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_encrypter.sk" to "-apixmj_encrypter.sk"
+	send "[APIxMJ] Unloading encrypter.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Command
+# ---------------------------------------------------------------------------------------------------------------------
+command /encrypter [<text>] [<text>]:
+	aliases: encrypt, crypt
+	executable by: player
+	trigger:
+		if player is op:
+			if arg-1 is set:
+				if arg-2 is set:
+					set {_value} to mj_encrypter_conversion(arg-1, arg-2)
+					send formatted "[APIxMJ] Result conversion : <sgt:%{_value}%>%{_value}%"
+				else:
+					mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+			else:
+				mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+		else:
+			mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/encrypter" or "/encrypt" or "/crypt":
+	if player is op:
+		set {_list1::*} to mj_editfiles_list("encrypter.config", "data.preset")
+		set tab completions for position 1 to {_list1::*}
+		if tab arg-1 is set:
+			set tab completions for position 2 to "your text"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /decrypter [<text>] [<text>]:
+	aliases: decrypt
+	executable by: player
+	trigger:
+		if player is op:
+			if arg-1 is set:
+				if arg-2 is set:
+					set {_value} to mj_encrypter_translate(arg-1, arg-2)
+					send formatted "[APIxMJ] Result conversion : <sgt:%{_value}%>%{_value}%"
+				else:
+					mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+			else:
+				mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+		else:
+			mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/decrypter" or "/decrypt":
+	if player is op:
+		set {_list1::*} to mj_editfiles_list("encrypter.config", "data.preset")
+		set tab completions for position 1 to {_list1::*}
+		if tab arg-1 is set:
+			set tab completions for position 2 to "your code"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Command
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_encrypter_conversion(type: text, value: text) :: text:
+	set {_list1::*} to mj_editfiles_list("encrypter.config", "data.preset")
+	if {_list1::*} contains {_type}:
+		set {_result} to ""
+		set {_list2::*} to {_value} split at ""
+		set {_list3::*} to mj_manager_nodes("encrypter.preset.%{_type}%", "data.format")
+		loop {_list2::*}:
+			loop {_list3::*}:
+				set {_normal} to mj_editfiles("encrypter.preset.%{_type}%", "data.format.%loop-value-2%.normal")
+				set {_formule} to mj_editfiles("encrypter.preset.%{_type}%", "data.format.%loop-value-2%.formule")
+				if "%loop-value-1%" is "%{_normal}%":
+					set {_result} to "%{_result}%%{_formule}%"
+					exit loop
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_encrypter_translate(type: text, value: text) :: text:
+	set {_list1::*} to mj_editfiles_list("encrypter.config", "data.preset")
+	if {_list1::*} contains {_type}:
+		set {_result} to ""
+		set {_size} to mj_editfiles_number("encrypter.preset.%{_type}%", "data.size")
+		set {_list2::*} to {_value} split by {_size} characters
+		set {_list3::*} to mj_manager_nodes("encrypter.preset.%{_type}%", "data.format")
+		loop {_list2::*}:
+			loop {_list3::*}:
+				set {_normal} to mj_editfiles("encrypter.preset.%{_type}%", "data.format.%loop-value-2%.normal")
+				set {_formule} to mj_editfiles("encrypter.preset.%{_type}%", "data.format.%loop-value-2%.formule")
+				if "%loop-value-1%" is "%{_formule}%":
+					set {_result} to "%{_result}%%{_normal}%"
+					exit loop
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function
+# =====================================================================================================================

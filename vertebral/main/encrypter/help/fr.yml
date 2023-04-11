@@ -1,0 +1,10 @@
+data:
+    encrypter:
+        name: "&aCryptage"
+        type: command
+        description:
+            '1': "&0- &aDéveloppement en cours…"
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7Information indisponible…"

@@ -5,3 +5,4 @@ data:
     deposit_blacklist: "&cVous ne pouvez pas déposer cette item dans le conteneur.."
     deposit_failed: "&cVotre item en main ne correspond pas à celui du conteneur.."
     deposit_empty: "&cVous n'avez rien dans les mains.."
+    withdraw_full: "&cTu ne peux plus rien récupérer, car ton inventaire et plein.."

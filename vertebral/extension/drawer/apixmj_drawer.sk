@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading drawer..." to console
 		mj_files_drawer()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.drawer.version", "modify", "2023.04.11.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.drawer.version", "modify", "2023.04.11.0002")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_drawer.sk"
@@ -37,7 +37,6 @@ on sign change:
 	if {_list::*} contains line 1:
 		set {_name} to mj_editfiles("drawer.config", "data.sign.name")
 		set line 1 to {_name}
-		set line 2 to ""
 		set line 3 to "0"
 		mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.create_success")
 	stop
@@ -90,9 +89,12 @@ on leftclick:
 							set {_count} to 64
 						else:
 							set {_count} to {_value2} - 1
-					remove {_count} from {_value2}
-					set line 3 to "%{_value2}%"
-					give {_count} of {_value1} to player
+					if player's inventory has space for {_count} of {_value1}:
+						remove {_count} from {_value2}
+						set line 3 to "%{_value2}%"
+						give {_count} of {_value1} to player
+					else:
+						mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.withdraw_full")
 		else:
 			mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.empty")
 	stop

@@ -403,7 +403,7 @@ data:
                     '1':
                         file: none
                         data: data
-                item: shield
+                item: gold clock
                 gui_background:
                     item: red stained glass pane
             drawer:
@@ -430,7 +430,7 @@ data:
                     '1':
                         file: mj.drawer.data
                         data: data
-                item: shield
+                item: oak wood floor sign
                 gui_background:
                     item: blue stained glass pane
             duel:

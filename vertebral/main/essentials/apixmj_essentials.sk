@@ -1533,7 +1533,7 @@ on chat:
 on quit:
 	if event-entity is player:
 		mj_editfiles_number("temp", "data.%player's uuid%.afk", "modify", 0)
-		mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.afk", "modify", false)
+		mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.afk", "modify", false)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on leftclick:

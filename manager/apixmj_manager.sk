@@ -689,7 +689,7 @@ function mj_manager_item_convert(source: text, find: text, nbt: boolean=false) :
 	set {_item} to yaml value "%{_find}%" from "mj.%{_source}%"
 	if {_item} isn't a item:
 		set {_item} to {_item} parsed as item
-	if {_nbt} is true:
+	if {_nbt} is false:
 		set {_item} to {_item} with no nbt
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------

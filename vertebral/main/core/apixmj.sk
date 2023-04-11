@@ -548,6 +548,7 @@ function mj_core_playerdata(player: offlineplayer):
 		set yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata" to "%{_player}%"
 		set yaml value "data.%{_player}'s uuid%.last_pseudo" from "mj.userdata" to "none"
 		set yaml value "data.%{_player}'s uuid%.ip" from "mj.userdata" to "0.0.0.0"
+		set yaml value "data.%{_player}'s uuid%.log" from "mj.userdata" to 0
 		set yaml value "data.%{_player}'s uuid%.connect.first" from "mj.userdata" to now
 		set yaml value "data.%{_player}'s uuid%.connect.last" from "mj.userdata" to now
 		set yaml value "data.%{_player}'s uuid%.playtime" from "mj.userdata" to "none"
@@ -558,7 +559,6 @@ function mj_core_playerdata(player: offlineplayer):
 	if {_check2} isn't set:
 		set yaml value "data.pseudo" from "mj.userdata.%{_player}'s uuid%" to "%{_player}%"
 		set yaml value "data.language" from "mj.userdata.%{_player}'s uuid%" to "fr"
-		set yaml value "data.log" from "mj.userdata.%{_player}'s uuid%" to 0
 		set yaml value "data.temp.mute" from "mj.userdata.%{_player}'s uuid%" to false
 		set yaml value "data.temp.gui" from "mj.userdata.%{_player}'s uuid%" to "none"
 		set yaml value "data.temp.gui_protect" from "mj.userdata.%{_player}'s uuid%" to false

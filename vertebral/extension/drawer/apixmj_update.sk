@@ -1,0 +1,34 @@
+# =====================================================================================================================
+# APIxMJ - Installer
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	send "[APIxMJ] Installing update..." to console
+	send "[APIxMJ] Setup..." to console
+	set {_type} to "drawer"
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.%{_type}%.folder")
+	mj_install_config({_folder}, {_type})
+	send "[APIxMJ] Finish..." to console
+	delete file "plugins/Skript/scripts/apixmj_update.sk"
+	unload script file "apixmj_update.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Installer
+# =====================================================================================================================
+# APIxMJ - Config
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_install_config(folder: text, type: text):
+	set {_source} to "mj.%{_type}%.config"
+	set {_01} to yaml value "data.sign.name" from "%{_source}%"
+	set {_02::*} to yaml list "data.sign.create" from "%{_source}%"
+	set {_03::*} to yaml list "data.sign.blacklist" from "%{_source}%"
+	wait 5 ticks
+	mj_manager_file_reset({_folder}, "config")
+	wait 5 ticks
+	set yaml value "data.sign.name" from "%{_source}%" to {_01}
+	set yaml list "data.sign.create" from "%{_source}%" to {_02::*}
+	set yaml list "data.sign.blacklist" from "%{_source}%" to {_03::*}
+	save yaml "%{_source}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Config
+# =====================================================================================================================

@@ -1,0 +1,90 @@
+data:
+    sign:
+        # The drawer panel identification text, default : "&6[&aDrawer&6]"
+        name: "&6[&aDrawer&6]"
+        # Types of keywords to create a panel, default : drawer and draw
+        create:
+        - drawer
+        - draw
+        # A list of prohibited items in the drawer panel, default : enchanted book…
+        blacklist:
+        - enchanted book
+        - bow
+        - crossbow
+        - trident
+        - shield
+        - shears
+        - fishing rod
+        - turtle helmet
+        - mob spawner
+        - normal shulker box
+        - white shulker box
+        - orange shulker box
+        - magenta shulker box
+        - light blue shulker box
+        - yellow shulker box
+        - lime shulker box
+        - pink shulker box
+        - dark gray shulker box
+        - light gray shulker box
+        - cyan shulker box
+        - purple shulker box
+        - blue shulker box
+        - brown shulker box
+        - dark green shulker box
+        - red shulker box
+        - black shulker box
+        - wooden pickaxe
+        - wooden shovel
+        - wooden sword
+        - wooden axe
+        - wooden hoe
+        - wooden helmet
+        - wooden chestplate
+        - wooden leggings
+        - wooden boots
+        - stone pickaxe
+        - stone shovel
+        - stone sword
+        - stone axe
+        - stone hoe
+        - stone helmet
+        - stone chestplate
+        - stone leggings
+        - stone boots
+        - iron pickaxe
+        - iron shovel
+        - iron sword
+        - iron axe
+        - iron hoe
+        - iron helmet
+        - iron chestplate
+        - iron leggings
+        - iron boots
+        - diamond pickaxe
+        - diamond shovel
+        - diamond sword
+        - diamond axe
+        - diamond hoe
+        - diamond helmet
+        - diamond chestplate
+        - diamond leggings
+        - diamond boots
+        - gold pickaxe
+        - gold shovel
+        - gold sword
+        - gold axe
+        - gold hoe
+        - gold helmet
+        - gold chestplate
+        - gold leggings
+        - gold boots
+        - netherite pickaxe
+        - netherite shovel
+        - netherite sword
+        - netherite axe
+        - netherite hoe
+        - netherite helmet
+        - netherite chestplate
+        - netherite leggings
+        - netherite boots

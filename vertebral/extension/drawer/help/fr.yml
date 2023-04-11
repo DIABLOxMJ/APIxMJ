@@ -1,0 +1,16 @@
+data:
+    sign:
+        name: "&aPanneau de stockage"
+        type: function
+        description:
+            '1': "&0- &aCréer un panneau de stockage et mettre"
+            '2': "&0- &aun item sans limite de quantité."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7Utiliser le mot &adrawer &7où &adraw"
+            '2': "&0- &7dans la première ligne à la création du panneau"
+            '3': "&0- &7pour générer un panneau de conteneur."
+            '4': "&0"
+            '5': "&6- &7Après suffit de clique droit pour déposer,"
+            '6': "&0- &7et de clique gauche pour récupérer."

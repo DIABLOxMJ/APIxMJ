@@ -1,0 +1,110 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_drawer():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.drawer.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.drawer.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.drawer.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.drawer.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.drawer.help.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+		send "[APIxMJ] Loading drawer..." to console
+		mj_files_drawer()
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.drawer.version", "modify", "2023.04.11.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		unload script file "apixmj_drawer.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_drawer.sk" to "-apixmj_drawer.sk"
+	send "[APIxMJ] Unloading drawer.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Drawer Sign
+# --------------------------------------------------------------------------------------------------------------------
+on sign change:
+	set {_list::*} to mj_editfiles_list("drawer.config", "data.sign.create")
+	if {_list::*} contains line 1:
+		set {_name} to mj_editfiles("drawer.config", "data.sign.name")
+		set line 1 to {_name}
+		set line 2 to ""
+		set line 3 to "0"
+		mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.create_success")
+	stop
+# --------------------------------------------------------------------------------------------------------------------
+on rightclick:
+	if event-block is sign:
+		set {_name} to mj_editfiles("drawer.config", "data.sign.name")
+		if line 1 is {_name}:
+			if line 2 is empty:
+				set {_list::*} to mj_editfiles_list("drawer.config", "data.sign.blacklist")
+				if {_list::*} doesn't contain "%type of player's tool%":
+					set line 2 to "%type of player's tool%"
+					set line 3 to "1"
+					remove 1 of player's tool from player's tool
+				else:
+					mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.deposit_blacklist")
+			else:
+				set {_value1} to line 2
+				if "%type of player's tool%" isn't "air":
+					if "%type of player's tool%" is {_value1}:
+						set {_value2} to line 3 parsed as number
+						set {_count} to item amount of player's tool
+						if player isn't sneaking:
+							set {_count} to 1
+						add {_count} to {_value2}
+						set line 3 to "%{_value2}%"
+						remove {_count} of player's tool from player's tool
+					else:
+						mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.deposit_failed")
+				else:
+					mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.deposit_empty")
+	stop
+# --------------------------------------------------------------------------------------------------------------------
+on leftclick:
+	if event-block is sign:
+		set {_name} to mj_editfiles("drawer.config", "data.sign.name")
+		if line 3 isn't "0":
+			if line 1 is {_name}:
+				if line 3 is "1":
+					set {_value} to line 2 parsed as item
+					give 1 of {_value} to player
+					set line 2 to ""
+					set line 3 to "0"
+				else:
+					set {_value1} to line 2 parsed as item
+					set {_value2} to line 3 parsed as number
+					set {_count} to 1
+					if player is sneaking:
+						if {_value2} >= 64:
+							set {_count} to 64
+						else:
+							set {_count} to {_value2} - 1
+					remove {_count} from {_value2}
+					set line 3 to "%{_value2}%"
+					give {_count} of {_value1} to player
+		else:
+			mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.empty")
+	stop
+# --------------------------------------------------------------------------------------------------------------------
+on break:
+	if event-block is sign:
+		set {_name} to mj_editfiles("drawer.config", "data.sign.name")
+		if line 1 is {_name}:
+			set {_value1} to line 2 parsed as item
+			set {_value2} to line 3 parsed as number
+			drop {_value2} of {_value1} at event-block's location
+	stop
+# --------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Drawer Sign
+# =====================================================================================================================

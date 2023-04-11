@@ -241,6 +241,12 @@ data:
                 name_lite: "&aCalendrier"
                 lore:
                     '1': " &6- &7Tu as était sage pour avoir ton cadeau du jour ?"
+            drawer:
+                name: "&aConteneur"
+                name_lite: "&aConteneur"
+                lore:
+                    '1': " &6- &7Un moyen de stockage révolutionnaire et sans limites ?"
+                    '2': " &0- &7Utiliser désormais le Super Conteneur 3000 !"
             duel:
                 name: "&aDuel"
                 name_lite: "&aDuel"

@@ -197,12 +197,12 @@ data:
             '3': "&0- &7par défaut le joueur à une sauvegarde a sa mort &6(&adeath&6)"
             '4': "&0- &7aussi à la déconnexion &6(&alast&6)&7, et toute les 5 minutes"
             '5': "&0- &7automatiquement &6(&abackup&6)&7, la commande permet d'en"
-            '6': "&0- &7faire autant qu'on le souhaite"
-            '7': "&0- &7avec le nom qu'on désire mettre."
+            '6': "&0- &7faire autant qu'on le souhaite avec le nom qu'on désire"
+            '7': "&0- &7mettre."
             '8': "&6- &a/inventory restore <player> <inventory name>"
             '9': "&0- &7Cette commande permet de rendre l'inventaire ainsi que"
-            '10': "&0- &7l'expérience et le coffre du néant"
-            '11': "&0- &7sauvegarder précédemment."
+            '10': "&0- &7l'expérience et le coffre du néant sauvegarder"
+            '11': "&0- &7précédemment."
     report:
         name: "&aSystème de rapport"
         type: command

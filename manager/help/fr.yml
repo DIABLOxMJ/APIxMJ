@@ -14,16 +14,6 @@ data:
             '4': "&0"
             '5': "&6- &a/help <name>"
             '6': "&0- &7Cela permet une recherche plus précise."
-    rule:
-        name: "&aRèglement"
-        type: command
-        description:
-            '1': "&0- &aIl est important de connaître le règlement du serveur."
-        permission:
-        - "none"
-        info:
-            '1': "&6- &aCheat"
-            '2': "&0- &7C'EST LE MAL INCARNÉE !"
     manager:
         name: "&aGestionnaire d'APIxMJ"
         type: command

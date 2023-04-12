@@ -19,7 +19,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.03.05.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.04.12.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -1014,21 +1014,34 @@ function mj_manager_help_menu_viewer(player: player, source: text, id: text, man
 function mj_manager_help_menu_viewer_button(player: player, source: text, id: text):
 	set {_slot} to 10
 	set {_lang} to mj_editfiles("manager.config", "data.language.use")
-	set {_list::*} to mj_manager_nodes("%{_id}%.help.%{_lang}%")
-	loop {_list::*}:
-		set {_value} to loop-value
+	set {_list1::*} to mj_manager_nodes("%{_id}%.help.%{_lang}%")
+	loop {_list1::*}:
+		set {_value} to loop-value-1
 		set {_type} to mj_editfiles("%{_id}%.help.%{_lang}%", "data.%{_value}%.type")
 		set {_name} to mj_editfiles("%{_id}%.help.%{_lang}%", "data.%{_value}%.name")
-		set {_find_name} to mj_editfiles("manager.data", "data.button.help.%{_type}%.name")
-		set {_title} to mj_editfiles_gettext("manager", {_find_name}, {_player}, {_name})
-		set {_item} to mj_manager_item_convert("manager.data", "data.button.help.%{_type}%.item")
-		set {_item} to mj_manager_help_menu_viewer_button_lore({_player}, {_item}, {_id}, {_value}, "description")
-		set {_item} to mj_manager_help_menu_viewer_button_lore({_player}, {_item}, {_id}, {_value}, "info")
-		make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
-			stop
-		add 1 to {_slot}
-		if {_slot} is 17 or 26 or 35:
-			add 2 to {_slot}
+		set {_valid} to false
+		set {_list2::*} to mj_editfiles_list("%{_id}%.help.%{_lang}%", "data.%{_value}%.permission")
+		loop {_list2::*}:
+			set {_perm} to loop-value-2
+			if {_player} has permission {_perm}:
+				set {_valid} to true
+				broadcast "yes = %{_perm}%"
+				exit loop
+		if {_list2::*} contains "none":
+			set {_valid} to true
+			broadcast "yes = none"
+		broadcast "valid / %{_value}% = %{_valid}%"
+		if {_valid} is true:
+			set {_find_name} to mj_editfiles("manager.data", "data.button.help.%{_type}%.name")
+			set {_title} to mj_editfiles_gettext("manager", {_find_name}, {_player}, {_name})
+			set {_item} to mj_manager_item_convert("manager.data", "data.button.help.%{_type}%.item")
+			set {_item} to mj_manager_help_menu_viewer_button_lore({_player}, {_item}, {_id}, {_value}, "description")
+			set {_item} to mj_manager_help_menu_viewer_button_lore({_player}, {_item}, {_id}, {_value}, "info")
+			make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
+				stop
+			add 1 to {_slot}
+			if {_slot} is 17 or 26 or 35:
+				add 2 to {_slot}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_viewer_button_lore(player: player, item: item, id: text, value: text, type: text) :: item:

@@ -1,4 +1,20 @@
 data:
+    manager:
+        name: "&aGestionnaire d'APIxMJ"
+        type: command
+        description:
+            '1': "&0- &aUn gestionnaire très puissant capable de contrôler tout"
+            '2': "&0- &al'environnement APIxMJ, et donc d'installer des scripts"
+            '3': "&0- &amettre à jour, configurer etc…"
+        permission:
+        - "*"
+        info:
+            '1': "&6- &a/manager"
+            '2': "&0- &7Ouvre un menu interactif pour utiliser le gestionnaire."
+            '3': "&0"
+            '4': "&6- &a/manager reload"
+            '5': "&0- &7Il permet de recharger le code du gestionnaire,"
+            '6': "&0- &7afin de rafraîchir les données stockées."
     help:
         name: "&aAide"
         type: command
@@ -14,22 +30,3 @@ data:
             '4': "&0"
             '5': "&6- &a/help <name>"
             '6': "&0- &7Cela permet une recherche plus précise."
-    manager:
-        name: "&aGestionnaire d'APIxMJ"
-        type: command
-        description:
-            '1': "&0- &aUn gestionnaire très puissant capable de contrôler tout"
-            '2': "&0- &al'environnement APIxMJ, et donc d'installer des scripts"
-            '3': "&0- &amettre à jour, configurer etc…"
-        permission:
-        - "*"
-        - "mj.*"
-        - "mj.manager.*"
-        - "mj.manager"
-        info:
-            '1': "&6- &a/manager"
-            '2': "&0- &7Ouvre un menu interactif pour utiliser le gestionnaire."
-            '3': "&0"
-            '4': "&6- &a/manager reload"
-            '5': "&0- &7Il permet de recharger le code du gestionnaire,"
-            '6': "&0- &7afin de rafraîchir les données stockées."

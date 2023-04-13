@@ -19,7 +19,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.04.12.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.04.13.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -151,7 +151,14 @@ command /manager [<text>]:
 				if arg-1 is "reload":
 					player command "/sk reload apixmj_manager"
 				else if arg-1 is "data_update":
-					mj_manager_update_data()
+					set {_check} to mj_editfiles_boolean("manager.config", "data.data_update")
+					if {_check} is false:
+						mj_editfiles_boolean("manager.config", "data.data_update", "modify", true)
+						mj_manager_update_data()
+						wait 1 second
+						mj_editfiles_boolean("manager.config", "data.data_update", "modify", false)
+					else:
+						mj_manager_update_data()
 					mj_manager_message(player, "manager", "data.prefix", "manager", "data.data_update")
 				else if arg-1 is "data_reset":
 					mj_manager_reset_data()
@@ -680,16 +687,10 @@ function mj_manager_nodes_count(source: text, find: text="data") :: number:
 	return {_count}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_item_convert(source: text, find: text, nbt: boolean=false) :: item:
-	#set {_item} to yaml value "%{_find}%" from "mj.%{_source}%"
-	#if {_item} isn't a item:
-	#	if {_nbt} is true:
-	#		set {_item} to {_item} parsed as item with no nbt
-	#	else:
-	#		set {_item} to {_item} parsed as item
 	set {_item} to yaml value "%{_find}%" from "mj.%{_source}%"
 	if {_item} isn't a item:
 		set {_item} to {_item} parsed as item
-	if {_nbt} is false:
+	if {_nbt} is true:
 		set {_item} to {_item} with no nbt
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------

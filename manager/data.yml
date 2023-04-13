@@ -117,33 +117,6 @@ data:
             item: chest
             gui_background:
                 item: red stained glass pane
-        enderium:
-            name: data.index.enderium.name
-            visible: false
-            menu_back: main
-            menu_next: enderium
-            slot: 15
-            item: chest
-            gui_background:
-                item: cyan stained glass pane
-        enderium_main:
-            name: data.index.enderium_main.name
-            visible: true
-            menu_back: enderium
-            menu_next: enderium_main
-            slot: 10
-            item: chest
-            gui_background:
-                item: cyan stained glass pane
-        enderium_extension:
-            name: data.index.enderium_extension.name
-            visible: false
-            menu_back: enderium_main
-            menu_next: enderium_extension
-            slot: 11
-            item: chest
-            gui_background:
-                item: cyan stained glass pane
         editor:
             name: data.index.editor.name
             visible: false

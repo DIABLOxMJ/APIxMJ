@@ -449,7 +449,9 @@ function mj_manager_menu_control_installer_skript(player: player, source: text, 
 	set {_list::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.skript")
 	loop {_list::*}:
 		set {_skript} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.skript.%loop-value%")
-		delete file "plugins/Skript/scripts/%{_skript}%.sk"
+		set {_list::*} to mj_manager_skript_list()
+		if {_list::*} contains {_skript}:
+			delete file "plugins/Skript/scripts/%{_skript}%.sk"
 		download file from "%{_link}%/%{_github}%/%{_skript}%.sk" to file "plugins/Skript/scripts/%{_skript}%.sk"
 	if {_option} is "install":	
 		mj_manager_menu_control_installer_file({_player}, {_source}, {_id})

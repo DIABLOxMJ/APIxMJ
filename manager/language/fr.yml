@@ -257,7 +257,8 @@ data:
                 name: "&aBanque d'expérience"
                 name_lite: "&aBanque d'expérience"
                 lore:
-                    '1': " &6- &7Un système de stockage est de gestion de point d'expérience."
+                    '1': " &6- &7Un système de stockage est de"
+                    '1': " &0- &7gestion de point d'expérience."
             lobby:
                 name: "&aLobby"
                 name_lite: "&aLobby"

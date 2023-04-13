@@ -1026,12 +1026,9 @@ function mj_manager_help_menu_viewer_button(player: player, source: text, id: te
 			set {_perm} to loop-value-2
 			if {_player} has permission {_perm}:
 				set {_valid} to true
-				broadcast "yes = %{_perm}%"
 				exit loop
 		if {_list2::*} contains "none":
 			set {_valid} to true
-			broadcast "yes = none"
-		broadcast "valid / %{_value}% = %{_valid}%"
 		if {_valid} is true:
 			set {_find_name} to mj_editfiles("manager.data", "data.button.help.%{_type}%.name")
 			set {_title} to mj_editfiles_gettext("manager", {_find_name}, {_player}, {_name})

@@ -7,6 +7,8 @@ on load:
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
 	create script "plugins/APIxMJ/manager/help/log.txt"
 	delete file "plugins/APIxMJ/manager/help/log.txt"
+	create script "plugins/APIxMJ/manager/help_custom/log.txt"
+	delete file "plugins/APIxMJ/manager/help_custom/log.txt"
 	create script "plugins/APIxMJ/manager/language/log.txt"
 	delete file "plugins/APIxMJ/manager/language/log.txt"
 	wait 1 tick

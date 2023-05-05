@@ -22,7 +22,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading encrypter..." to console
 		mj_files_encrypter()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.encrypter.version", "modify", "2023.04.11.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.encrypter.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj_encrypter.sk"
@@ -47,11 +47,11 @@ command /encrypter [<text>] [<text>]:
 					set {_value} to mj_encrypter_conversion(arg-1, arg-2)
 					send formatted "[APIxMJ] Result conversion : <sgt:%{_value}%>%{_value}%"
 				else:
-					mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 			else:
-				mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		else:
-			mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+			mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/encrypter" or "/encrypt" or "/crypt":
@@ -72,11 +72,11 @@ command /decrypter [<text>] [<text>]:
 					set {_value} to mj_encrypter_translate(arg-1, arg-2)
 					send formatted "[APIxMJ] Result conversion : <sgt:%{_value}%>%{_value}%"
 				else:
-					mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 			else:
-				mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		else:
-			mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+			mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/decrypter" or "/decrypt":

@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2023.04.11.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
@@ -84,7 +84,7 @@ command /essentials [<text>] [<text>]:
 				else:
 					reload script "apixmj_essentials"
 		else:
-			mj_core_permission(player, "essentials", "data.prefix", "mj.essentials.admin")
+			mj_manager_permission(player, "essentials", "data.prefix", "mj.essentials.admin")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/essentials":
@@ -178,7 +178,7 @@ command /maintenance:
 			else:
 				mj_essentials_maintenance(player, false)
 		else:
-			mj_core_permission(player, "essentials", "data.maintenance.prefix", "mj.essentials.maintenance")
+			mj_manager_permission(player, "essentials", "data.maintenance.prefix", "mj.essentials.maintenance")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
@@ -222,7 +222,7 @@ command /broadcast [<text>]:
 				else:
 					mj_manager_message(player, "essentials", "data.broadcast.prefix", "essentials", "data.broadcast.error")
 			else:
-				mj_core_permission(player, "essentials", "data.broadcast.prefix", "mj.essentials.broadcast")
+				mj_manager_permission(player, "essentials", "data.broadcast.prefix", "mj.essentials.broadcast")
 		if sender is console:
 			set {_send} to colored arg-1
 			loop all players:
@@ -297,7 +297,7 @@ command /reply [<text>]:
 			else:
 				mj_manager_message(player, "essentials", "data.message.prefix", "essentials", "data.message.empty")
 		else:
-			mj_core_permission(player, "essentials", "data.message.prefix", "mj.essentials.message")
+			mj_manager_permission(player, "essentials", "data.message.prefix", "mj.essentials.message")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
@@ -316,11 +316,11 @@ function mj_essentials_message_check(player: player, target: player, message: te
 				else:
 					mj_manager_message({_player}, "essentials", "data.message.prefix", "essentials", "data.message.empty")
 			else:
-				mj_manager_message({_player}, "essentials", "data.message.prefix", "core", "data.argument.player")
+				mj_manager_message({_player}, "essentials", "data.message.prefix", "manager", "data.argument.player")
 		else:
-			mj_manager_message({_player}, "essentials", "data.message.prefix", "core", "data.argument.player")
+			mj_manager_message({_player}, "essentials", "data.message.prefix", "manager", "data.argument.player")
 	else:
-		mj_core_permission({_player}, "essentials", "data.message.prefix", "mj.essentials.message")
+		mj_manager_permission({_player}, "essentials", "data.message.prefix", "mj.essentials.message")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_message(player: player, target: player, message: text) :: text:
@@ -372,19 +372,19 @@ command /gamemode [<text>] [<player>]:
 				else if arg-1 is "3" or "spectator" or "sp":
 					set {_type} to "spectator"
 				else:
-					mj_manager_message(player, "essentials", "data.gamemode.prefix", "core", "data.argument.number")
+					mj_manager_message(player, "essentials", "data.gamemode.prefix", "manager", "data.argument.number")
 					stop
 				if arg-2 is set:
 					if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.gamemode.*" or "mj.essentials.gamemode.other":
 						mj_essentials_gamemode(player, arg-2, {_type}, true)
 					else:
-						mj_core_permission(player, "essentials", "data.gamemode.prefix", "mj.essentials.gamemode.other")
+						mj_manager_permission(player, "essentials", "data.gamemode.prefix", "mj.essentials.gamemode.other")
 				else:
 					mj_essentials_gamemode(player, player, {_type})
 			else:
-				mj_manager_message(player, "essentials", "data.gamemode.prefix", "core", "data.argument.number")
+				mj_manager_message(player, "essentials", "data.gamemode.prefix", "manager", "data.argument.number")
 		else:
-			mj_core_permission(player, "essentials", "data.gamemode.prefix", "mj.essentials.gamemode")
+			mj_manager_permission(player, "essentials", "data.gamemode.prefix", "mj.essentials.gamemode")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/gamemode" or "/gm":
@@ -419,7 +419,7 @@ command /staffchat [<text>]:
 			else:
 				mj_manager_message(player, "essentials", "data.staffchat.prefix", "essentials", "data.staffchat.error")
 		else:
-			mj_core_permission(player, "essentials", "data.staffchat.prefix", "mj.essentials.staffchat")
+			mj_manager_permission(player, "essentials", "data.staffchat.prefix", "mj.essentials.staffchat")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
@@ -458,17 +458,17 @@ command /money [<text>] [<offlineplayer>] [<number>]:
 								set {_money} to mj_core_format_money(false, arg-3)
 								mj_manager_message(player, "essentials", "data.money.prefix", "essentials", "data.money.%arg-1%", {_money}, "%arg-2%")
 							else:
-								mj_manager_message(player, "essentials", "data.money.prefix", "core", "data.argument.number")
+								mj_manager_message(player, "essentials", "data.money.prefix", "manager", "data.argument.number")
 						else:
-							mj_manager_message(player, "essentials", "data.money.prefix", "core", "data.argument.player")
+							mj_manager_message(player, "essentials", "data.money.prefix", "manager", "data.argument.player")
 					else:
-						mj_core_permission(player, "essentials", "data.money.prefix", "mj.essentials.money.modify")
+						mj_manager_permission(player, "essentials", "data.money.prefix", "mj.essentials.money.modify")
 				else if arg-1 is "upgrade":
 					mj_essentials_money_upgrade(player, "money")
 				else:
 					mj_essentials_money(player)
 			else:
-				mj_core_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
+				mj_manager_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
 		if sender is console:
 			mj_essentials_money_edit(arg-2, arg-1, arg-3, "edit /money")
 		stop
@@ -498,11 +498,11 @@ command /pay [<player>] [<number>]:
 					else:
 						mj_manager_message(player, "essentials", "data.money.prefix", "essentials", "data.money.low_value")
 				else:
-					mj_manager_message(player, "essentials", "data.money.prefix", "core", "data.argument.number")
+					mj_manager_message(player, "essentials", "data.money.prefix", "manager", "data.argument.number")
 			else:
-				mj_manager_message(player, "essentials", "data.money.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "essentials", "data.money.prefix", "manager", "data.argument.player")
 		else:
-			mj_core_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
+			mj_manager_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /balance:
@@ -512,7 +512,7 @@ command /balance:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.money.*" or "mj.essentials.money":
 			mj_essentials_money_balance(player)
 		else:
-			mj_core_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
+			mj_manager_permission(player, "essentials", "data.money.prefix", "mj.essentials.money")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on quit:
@@ -552,11 +552,11 @@ command /bank [<text>] [<offlineplayer>] [<number>]:
 									set {_money} to mj_core_format_money(false, arg-3)
 									mj_manager_message(player, "essentials", "data.bank.prefix", "essentials", "data.money.%arg-1%", {_money}, "%arg-2%")
 								else:
-									mj_manager_message(player, "essentials", "data.bank.prefix", "core", "data.argument.number")
+									mj_manager_message(player, "essentials", "data.bank.prefix", "manager", "data.argument.number")
 							else:
-								mj_manager_message(player, "essentials", "data.bank.prefix", "core", "data.argument.player")
+								mj_manager_message(player, "essentials", "data.bank.prefix", "manager", "data.argument.player")
 						else:
-							mj_core_permission(player, "essentials", "data.bank.prefix", "mj.essentials.bank.modify")
+							mj_manager_permission(player, "essentials", "data.bank.prefix", "mj.essentials.bank.modify")
 					else if arg-1 is "deposit" or "withdraw":
 						set {_list::*} to regex replace all "[^0-9-.]" with "" in "%arg-2%"
 						set {_value} to "%{_list::*}%" parsed as number
@@ -580,7 +580,7 @@ command /bank [<text>] [<offlineplayer>] [<number>]:
 				else:
 					mj_manager_message(player, "essentials", "data.bank.prefix", "essentials", "data.bank.condition")
 			else:
-				mj_core_permission(player, "essentials", "data.bank.prefix", "mj.essentials.bank")
+				mj_manager_permission(player, "essentials", "data.bank.prefix", "mj.essentials.bank")
 		if sender is console:
 			mj_essentials_bank_edit(arg-2, arg-1, arg-3, "edit /bank")
 		stop
@@ -835,7 +835,7 @@ command /kit [<text>] [<text>]:
 					else:
 						mj_essentials_kits_gift(player, arg-2)
 				else:
-					mj_core_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits.admin")
+					mj_manager_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits.admin")
 			else:
 				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kits.*" or "mj.essentials.kits":
 					set {_list::*} to mj_manager_nodes("data", "data.storage")
@@ -844,9 +844,9 @@ command /kit [<text>] [<text>]:
 					else:
 						mj_manager_message(player, "essentials", "data.kits.prefix", "essentials", "data.kits.no_kits")
 				else:
-					mj_core_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits")
+					mj_manager_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits")
 		else:
-			mj_manager_message(player, "essentials", "data.kits.prefix", "core", "data.argument.name")
+			mj_manager_message(player, "essentials", "data.kits.prefix", "manager", "data.argument.name")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/kit":
@@ -870,7 +870,7 @@ command /kits [<text>]:
 				if {_list::*} doesn't contain "none":
 					mj_manager_message(player, "essentials", "data.kits.prefix", "essentials", "data.kits.list", "%{_list::*}%")
 		else:
-			mj_core_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits")
+			mj_manager_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/kits":
@@ -960,7 +960,7 @@ command /ping [<player>]:
 				set {_ping} to mj_essentials_ping(player)
 				mj_manager_message(player, "essentials", "data.ping.prefix", "essentials", "data.ping.me", "%{_ping}%")
 		else:
-			mj_core_permission(player, "essentials", "data.ping.prefix", "mj.essentials.ping")
+			mj_manager_permission(player, "essentials", "data.ping.prefix", "mj.essentials.ping")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /tps:
@@ -971,7 +971,7 @@ command /tps:
 				set {_tps} to mj_essentials_tps()
 				mj_manager_message(player, "essentials", "data.ping.prefix", "essentials", "data.ping.tps", "%{_tps}%")
 			else:
-				mj_core_permission(player, "essentials", "data.ping.prefix", "mj.essentials.tps")
+				mj_manager_permission(player, "essentials", "data.ping.prefix", "mj.essentials.tps")
 		if sender is console:
 			set {_prefix} to mj_editfiles_gettext("essentials", "data.ping.prefix")
 			set {_tps} to mj_essentials_tps()
@@ -1008,7 +1008,7 @@ command /workbench:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.workbench.*" or "mj.essentials.workbench":
 			open workbench view to player
 		else:
-			mj_core_permission(player, "essentials", "data.prefix", "mj.essentials.workbench")
+			mj_manager_permission(player, "essentials", "data.prefix", "mj.essentials.workbench")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Workbench
@@ -1025,7 +1025,7 @@ command /quiet:
 			else:
 				mj_essentials_quiet(player, false)
 		else:
-			mj_core_permission(player, "essentials", "data.prefix", "mj.essentials.quiet")
+			mj_manager_permission(player, "essentials", "data.prefix", "mj.essentials.quiet")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on command:
@@ -1060,11 +1060,11 @@ command /heal [<player>]:
 				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.heal.*" or "mj.essentials.heal.other":
 					mj_essentials_recovery(player, arg-1, "heal")
 				else:
-					mj_core_permission(player, "essentials", "data.heal.prefix", "mj.essentials.heal.other")
+					mj_manager_permission(player, "essentials", "data.heal.prefix", "mj.essentials.heal.other")
 			else:
 				mj_essentials_recovery(player, player, "heal")
 		else:
-			mj_core_permission(player, "essentials", "data.heal.prefix", "mj.essentials.heal")
+			mj_manager_permission(player, "essentials", "data.heal.prefix", "mj.essentials.heal")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /feed [<player>]:
@@ -1075,11 +1075,11 @@ command /feed [<player>]:
 				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.feed.*" or "mj.essentials.feed.other":
 					mj_essentials_recovery(player, arg-1, "feed")
 				else:
-					mj_core_permission(player, "essentials", "data.feed.prefix", "mj.essentials.feed.other")
+					mj_manager_permission(player, "essentials", "data.feed.prefix", "mj.essentials.feed.other")
 			else:
 				mj_essentials_recovery(player, player, "feed")
 		else:
-			mj_core_permission(player, "essentials", "data.feed.prefix", "mj.essentials.feed")
+			mj_manager_permission(player, "essentials", "data.feed.prefix", "mj.essentials.feed")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_recovery(player: player, target: player, type: text):
@@ -1127,17 +1127,17 @@ command /repair [<text>]:
 					if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.repair.*" or "mj.essentials.repair.all":
 						mj_essentials_repair(player, "all")
 					else:
-						mj_core_permission(player, "essentials", "data.repair.prefix", "mj.essentials.repair.all")
+						mj_manager_permission(player, "essentials", "data.repair.prefix", "mj.essentials.repair.all")
 				else:
 					if player's tool isn't air:
 						mj_essentials_repair(player)
 					else:
-						mj_manager_message(player, "essentials", "data.repair.prefix", "core", "data.argument.hand")
+						mj_manager_message(player, "essentials", "data.repair.prefix", "manager", "data.argument.hand")
 			else:
 				set {_time} to mj_timecount_viewer("repair_%{_player}%")
 				mj_manager_message({_player}, "essentials", "data.repair.prefix", "core", "data.time.wait", {_time})
 		else:
-			mj_core_permission(player, "essentials", "data.repair.prefix", "mj.essentials.repair")
+			mj_manager_permission(player, "essentials", "data.repair.prefix", "mj.essentials.repair")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/repair":
@@ -1210,7 +1210,7 @@ command /fly [<player>]:
 					mj_manager_message(arg-1, "essentials", "data.fly.prefix", "essentials", "data.fly.message_it", "%player%")
 					mj_core_logger(1, "%player% at giving flying mode to %arg-1%")
 				else:
-					mj_core_permission(player, "essentials", "data.fly.prefix", "mj.essentials.fly.other")
+					mj_manager_permission(player, "essentials", "data.fly.prefix", "mj.essentials.fly.other")
 			else:
 				if player's flight mode is false:
 					set player's flight mode to true
@@ -1218,7 +1218,7 @@ command /fly [<player>]:
 					set player's flight mode to false
 				mj_manager_message(player, "essentials", "data.fly.prefix", "essentials", "data.fly.message")
 		else:
-			mj_core_permission(player, "essentials", "data.fly.prefix", "mj.essentials.fly")
+			mj_manager_permission(player, "essentials", "data.fly.prefix", "mj.essentials.fly")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Fly
@@ -1246,7 +1246,7 @@ command /speed [<text>] [<number>]:
 							else:
 								set {_value} to "0.%arg-2%" parsed as number
 						else:
-							mj_manager_message(player, "essentials", "data.speed.prefix", "core", "data.argument.number")
+							mj_manager_message(player, "essentials", "data.speed.prefix", "manager", "data.argument.number")
 						if arg-1 is "walk":
 							set the player's walk speed to {_value}
 							mj_manager_message(player, "essentials", "data.speed.prefix", "essentials", "data.speed.walk", "%arg-2%")
@@ -1254,7 +1254,7 @@ command /speed [<text>] [<number>]:
 							set the player's fly speed to {_value}
 							mj_manager_message(player, "essentials", "data.speed.prefix", "essentials", "data.speed.fly", "%arg-2%")
 					else:
-						mj_manager_message(player, "essentials", "data.speed.prefix", "core", "data.argument.number")
+						mj_manager_message(player, "essentials", "data.speed.prefix", "manager", "data.argument.number")
 				else:
 					mj_manager_message(player, "essentials", "data.speed.prefix", "essentials", "data.speed.error")
 			else:
@@ -1262,7 +1262,7 @@ command /speed [<text>] [<number>]:
 				set the player's fly speed to 0.1
 				mj_manager_message(player, "essentials", "data.speed.prefix", "essentials", "data.speed.off")
 		else:
-			mj_core_permission(player, "essentials", "data.speed.prefix", "mj.essentials.speed")
+			mj_manager_permission(player, "essentials", "data.speed.prefix", "mj.essentials.speed")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/speed":
@@ -1301,7 +1301,7 @@ command /clearlag [<text>]:
 					mj_essentials_clearlag()
 					mj_core_logger(1, "Clearlag executed by %player%")
 			else:
-				mj_core_permission(player, "essentials", "data.clearlag.prefix", "mj.essentials.clearlag")
+				mj_manager_permission(player, "essentials", "data.clearlag.prefix", "mj.essentials.clearlag")
 		if sender is console:
 			mj_essentials_clearlag_prevent()
 			mj_core_logger(1, "Clearlag executed by console")
@@ -1377,7 +1377,7 @@ command /suicide:
 			mj_manager_message(player, "essentials", "data.prefix", "essentials", "data.suicide")
 			kill the player
 		else:
-			mj_core_permission(player, "essentials", "data.prefix", "mj.essentials.suicide")
+			mj_manager_permission(player, "essentials", "data.prefix", "mj.essentials.suicide")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on death:
@@ -1405,7 +1405,7 @@ command /disposal:
 			set {_send} to mj_editfiles_gettext("essentials", "data.disposal", player)
 			open virtual chest inventory with size 3 named "%{_send}%" to player
 		else:
-			mj_core_permission(player, "essentials", "data.prefix", "mj.essentials.disposal")
+			mj_manager_permission(player, "essentials", "data.prefix", "mj.essentials.disposal")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Disposal
@@ -1435,7 +1435,7 @@ command /time [<text>]:
 			else:
 				mj_manager_message(player, "essentials", "data.time.prefix", "essentials", "data.time.error")
 		else:
-			mj_core_permission(player, "essentials", "data.time.prefix", "mj.essentials.time")
+			mj_manager_permission(player, "essentials", "data.time.prefix", "mj.essentials.time")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/time":
@@ -1455,9 +1455,9 @@ command /skull [<offlineplayer>]:
 				give skull of arg-1 to player
 				mj_manager_message(player, "essentials", "data.skull.prefix", "essentials", "data.skull.message", "%arg-1%")
 			else:
-				mj_manager_message(player, "essentials", "data.skull.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "essentials", "data.skull.prefix", "manager", "data.argument.player")
 		else:
-			mj_core_permission(player, "essentials", "data.skull.prefix", "mj.essentials.skull")
+			mj_manager_permission(player, "essentials", "data.skull.prefix", "mj.essentials.skull")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Skull
@@ -1474,13 +1474,14 @@ command /editsign [<number>] [<text>]:
 						set line arg-1 of targeted block to colored arg-2
 						mj_manager_message(player, "essentials", "data.editsign.prefix", "essentials", "data.editsign.message", "%arg-1%", arg-2)
 					else:
-						mj_manager_message(player, "essentials", "data.editsign.prefix", "core", "data.argument.name")
+						mj_manager_message(player, "essentials", "data.editsign.prefix", "manager", "data.argument.name")
 				else:
-					mj_manager_message(player, "essentials", "data.editsign.prefix", "core", "data.argument.number")
+					mj_manager_message(player, "essentials", "data.editsign.prefix", "manager", "data.argument.number")
+					#open sign gui of target block to player
 			else:
 				mj_manager_message(player, "essentials", "data.editsign.prefix", "essentials", "data.editsign.no_target")
 		else:
-			mj_core_permission(player, "essentials", "data.editsign.prefix", "mj.essentials.editsign")
+			mj_manager_permission(player, "essentials", "data.editsign.prefix", "mj.essentials.editsign")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/editsign":
@@ -1588,11 +1589,11 @@ command /godmode [<player>]:
 				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.godmode.*" or "mj.essentials.godmode.other":
 					mj_essentials_godmode(player, arg-1, true)
 				else:
-					mj_core_permission(player, "essentials", "data.godmode.prefix", "mj.essentials.godmode.other")
+					mj_manager_permission(player, "essentials", "data.godmode.prefix", "mj.essentials.godmode.other")
 			else:
 				mj_essentials_godmode(player, player)
 		else:
-			mj_core_permission(player, "essentials", "data.godmode.prefix", "mj.essentials.godmode")
+			mj_manager_permission(player, "essentials", "data.godmode.prefix", "mj.essentials.godmode")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on damage:
@@ -1659,9 +1660,9 @@ command /invsee [<offlineplayer>]:
 				else:
 					open arg-1's inventory to player
 			else:
-				mj_manager_message(player, "essentials", "data.invsee.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "essentials", "data.invsee.prefix", "manager", "data.argument.player")
 		else:
-			mj_core_permission(player, "essentials", "data.invsee.prefix", "mj.essentials.invsee")
+			mj_manager_permission(player, "essentials", "data.invsee.prefix", "mj.essentials.invsee")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /enderchest [<offlineplayer>]:
@@ -1678,11 +1679,11 @@ command /enderchest [<offlineplayer>]:
 					else:
 						open arg-1's enderchest to player
 				else:
-					mj_core_permission(player, "essentials", "data.enderchest.prefix", "mj.essentials.enderchest.other")
+					mj_manager_permission(player, "essentials", "data.enderchest.prefix", "mj.essentials.enderchest.other")
 			else:
 				open player's enderchest to player
 		else:
-			mj_core_permission(player, "essentials", "data.enderchest.prefix", "mj.essentials.enderchest")
+			mj_manager_permission(player, "essentials", "data.enderchest.prefix", "mj.essentials.enderchest")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Invsee & Enderchest
@@ -1704,7 +1705,7 @@ command /spy:
 				mj_core_logger(1, "%player% to activate are spy mode")
 			mj_manager_message(player, "essentials", "data.spy.prefix", "essentials", "data.spy.message", "%{_type}%")
 		else:
-			mj_core_permission(player, "essentials", "data.spy.prefix", "mj.essentials.spy")
+			mj_manager_permission(player, "essentials", "data.spy.prefix", "mj.essentials.spy")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Spy
@@ -1720,11 +1721,11 @@ command /vanish [<offlineplayer>]:
 					if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.vanish.*" or "mj.essentials.vanish.other":
 						mj_essentials_vanish(arg-1)
 					else:
-						mj_core_permission(player, "essentials", "data.vanish.prefix", "mj.essentials.vanish.other")
+						mj_manager_permission(player, "essentials", "data.vanish.prefix", "mj.essentials.vanish.other")
 				else:
 					mj_essentials_vanish(player)
 			else:
-				mj_core_permission(player, "essentials", "data.vanish.prefix", "mj.essentials.vanish")
+				mj_manager_permission(player, "essentials", "data.vanish.prefix", "mj.essentials.vanish")
 		if sender is console:
 			mj_essentials_vanish(arg-1)
 		stop
@@ -1891,9 +1892,9 @@ command /ban [<offlineplayer>] [<text="none">]:
 				if arg-1 is set:
 					mj_essentials_moderation_check_player(player, arg-1, "ban", arg-2)
 				else:
-					mj_manager_message(player, "essentials", "data.ban.prefix", "core", "data.argument.player")
+					mj_manager_message(player, "essentials", "data.ban.prefix", "manager", "data.argument.player")
 			else:
-				mj_core_permission(player, "essentials", "data.ban.prefix", "mj.essentials.ban")
+				mj_manager_permission(player, "essentials", "data.ban.prefix", "mj.essentials.ban")
 		if sender is console:
 			mj_essentials_moderation_check_console(arg-1, "ban", arg-2)
 		stop
@@ -1906,9 +1907,9 @@ command /tempban [<offlineplayer>] [<text="30d">] [<text="none">]:
 				if arg-1 is set:
 					mj_essentials_moderation_check_player(player, arg-1, "tempban", arg-3, arg-2)
 				else:
-					mj_manager_message(player, "essentials", "data.ban.prefix", "core", "data.argument.player")
+					mj_manager_message(player, "essentials", "data.ban.prefix", "manager", "data.argument.player")
 			else:
-				mj_core_permission(player, "essentials", "data.ban.prefix", "mj.essentials.tempban")
+				mj_manager_permission(player, "essentials", "data.ban.prefix", "mj.essentials.tempban")
 		if sender is console:
 			mj_essentials_moderation_check_console(arg-1, "tempban", arg-3, arg-2)
 		stop
@@ -1955,9 +1956,9 @@ command /unban [<offlineplayer>]:
 				if arg-1 is set:
 					mj_essentials_unban_player(player, arg-1)
 				else:
-					mj_manager_message(player, "essentials", "data.ban.prefix", "core", "data.argument.player")
+					mj_manager_message(player, "essentials", "data.ban.prefix", "manager", "data.argument.player")
 			else:
-				mj_core_permission(player, "essentials", "data.ban.prefix", "mj.essentials.unban")
+				mj_manager_permission(player, "essentials", "data.ban.prefix", "mj.essentials.unban")
 		if sender is console:
 			mj_essentials_unban_console(arg-1)
 		stop
@@ -1969,7 +1970,7 @@ command /banlist:
 			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.ban.*" or "mj.essentials.banlist":
 				mj_essentials_banlist_player(player)
 			else:
-				mj_core_permission(player, "essentials", "data.ban.prefix", "mj.essentials.banlist")
+				mj_manager_permission(player, "essentials", "data.ban.prefix", "mj.essentials.banlist")
 		if sender is console:
 			mj_essentials_banlist_console()
 		stop
@@ -2109,9 +2110,9 @@ command /mute [<player>] [<text="none">]:
 				if arg-1 is set:
 					mj_essentials_moderation_check_player(player, arg-1, "mute", arg-2)
 				else:
-					mj_manager_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+					mj_manager_message(player, "essentials", "data.mute.prefix", "manager", "data.argument.player")
 			else:
-				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.mute")
+				mj_manager_permission(player, "essentials", "data.mute.prefix", "mj.essentials.mute")
 		if sender is console:
 			mj_essentials_moderation_check_console(arg-1, "mute", arg-2)
 		stop
@@ -2124,9 +2125,9 @@ command /tempmute [<player>] [<text="30d">] [<text="none">]:
 				if arg-1 is set:
 					mj_essentials_moderation_check_player(player, arg-1, "tempmute", arg-3, arg-2)
 				else:
-					mj_manager_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+					mj_manager_message(player, "essentials", "data.mute.prefix", "manager", "data.argument.player")
 			else:
-				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.tempmute")
+				mj_manager_permission(player, "essentials", "data.mute.prefix", "mj.essentials.tempmute")
 		if sender is console:
 			mj_essentials_moderation_check_console(arg-1, "tempmute", arg-3, arg-2)
 		stop
@@ -2143,9 +2144,9 @@ command /unmute [<offlineplayer>]:
 				if arg-1 is set:
 					mj_essentials_unmute_player(player, arg-1)
 				else:
-					mj_manager_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+					mj_manager_message(player, "essentials", "data.mute.prefix", "manager", "data.argument.player")
 			else:
-				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.unmute")
+				mj_manager_permission(player, "essentials", "data.mute.prefix", "mj.essentials.unmute")
 		if sender is console:
 			mj_essentials_unmute_console(arg-1)
 		stop
@@ -2249,9 +2250,9 @@ command /kick [<player>] [<text="none">]:
 				if arg-1 is set:
 					mj_essentials_moderation_check_player(player, arg-1, "kick", arg-2)
 				else:
-					mj_manager_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+					mj_manager_message(player, "essentials", "data.mute.prefix", "manager", "data.argument.player")
 			else:
-				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.kick")
+				mj_manager_permission(player, "essentials", "data.mute.prefix", "mj.essentials.kick")
 		if sender is console:
 			mj_essentials_moderation_check_console(arg-1, "kick", arg-2)
 		stop
@@ -2303,7 +2304,7 @@ command /clearchat:
 			loop all players:
 				mj_manager_message(loop-player, "essentials", "data.clearchat.prefix", "essentials", "data.clearchat.message", "%player%")
 		else:
-			mj_core_permission(player, "essentials", "data.clearchat.prefix", "mj.essentials.clearchat")
+			mj_manager_permission(player, "essentials", "data.clearchat.prefix", "mj.essentials.clearchat")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - ClearChat
@@ -2321,9 +2322,9 @@ command /warn [<offlineplayer>] [<text="none">]:
 				else:
 					mj_manager_message(player, "essentials", "data.warn.prefix", "essentials", "data.warn.reasonindefined")
 			else:
-				mj_manager_message(player, "essentials", "data.warn.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "essentials", "data.warn.prefix", "manager", "data.argument.player")
 		else:
-			mj_core_permission(player, "essentials", "data.warn.prefix", "mj.essentials.warn")
+			mj_manager_permission(player, "essentials", "data.warn.prefix", "mj.essentials.warn")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /warns [<offlineplayer>]:
@@ -2335,15 +2336,15 @@ command /warns [<offlineplayer>]:
 				mj_manager_message(player, "essentials", "data.warn.prefix", "essentials", "data.warn.read", "%arg-1%", "%{_count}%")
 				mj_core_data_read(player, "userdata", "data.%arg-1's uuid%.source.essentials.warn")
 			else:
-				mj_manager_message(player, "essentials", "data.warn.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "essentials", "data.warn.prefix", "manager", "data.argument.player")
 		else:
-			mj_core_permission(player, "essentials", "data.warn.prefix", "mj.essentials.warn")
+			mj_manager_permission(player, "essentials", "data.warn.prefix", "mj.essentials.warn")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_warn(player: offlineplayer, responsible: text, reason: text="none", format_reason: text="none"):
 	if {_reason} is "none":
 		set {_reason} to mj_editfiles_gettext("essentials", "data.no_reason")
-	mj_core_data_memory("userdata", "data.%{_player}'s uuid%.source.essentials.warn", {_format_reason})
+	mj_core_data_memory("userdata", "data.%{_player}'s uuid%.source.essentials.warn", {_reason})
 	mj_manager_message({_player}, "essentials", "data.warn.prefix", "essentials", "data.warn.alert", {_responsible}, {_reason})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2359,9 +2360,9 @@ command /freeze [<player>] [<text="none">]:
 				if arg-1 is set:
 					mj_essentials_moderation_check_player(player, arg-1, "freeze", arg-2)
 				else:
-					mj_manager_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+					mj_manager_message(player, "essentials", "data.mute.prefix", "manager", "data.argument.player")
 			else:
-				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.freeze")
+				mj_manager_permission(player, "essentials", "data.mute.prefix", "mj.essentials.freeze")
 		if sender is console:
 			mj_essentials_moderation_check_console(arg-1, "freeze", arg-2)
 		stop
@@ -2374,9 +2375,9 @@ command /unfreeze [<offlineplayer>]:
 				if arg-1 is set:
 					mj_essentials_unfreeze_player(player, arg-1)
 				else:
-					mj_manager_message(player, "essentials", "data.mute.prefix", "core", "data.argument.player")
+					mj_manager_message(player, "essentials", "data.mute.prefix", "manager", "data.argument.player")
 			else:
-				mj_core_permission(player, "essentials", "data.mute.prefix", "mj.essentials.freeze")
+				mj_manager_permission(player, "essentials", "data.mute.prefix", "mj.essentials.freeze")
 		if sender is console:
 			mj_essentials_unfreeze_console(arg-1)
 		stop
@@ -2470,7 +2471,7 @@ command /spawn:
 			set {_tp} to mj_core_location("essentials.config", "data.spawn")
 			mj_essentials_teleport(player, "spawn", {_tp})
 		else:
-			mj_core_permission(player, "essentials", "data.spawn.prefix", "mj.essentials.spawn")
+			mj_manager_permission(player, "essentials", "data.spawn.prefix", "mj.essentials.spawn")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /setspawn:
@@ -2480,7 +2481,7 @@ command /setspawn:
 			mj_core_location("essentials.config", "data.spawn", "modify", player)
 			mj_manager_message(player, "essentials", "data.spawn.prefix", "essentials", "data.spawn.create")
 		else:
-			mj_core_permission(player, "essentials", "data.spawn.prefix", "mj.essentials.setspawn")
+			mj_manager_permission(player, "essentials", "data.spawn.prefix", "mj.essentials.setspawn")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Spawn
@@ -2500,7 +2501,7 @@ command /lobby:
 				set {_tp} to mj_core_location("essentials.config", "data.lobby")
 				mj_essentials_teleport(player, "lobby", {_tp})
 		else:
-			mj_core_permission(player, "essentials", "data.lobby.prefix", "mj.essentials.lobby")
+			mj_manager_permission(player, "essentials", "data.lobby.prefix", "mj.essentials.lobby")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /setlobby:
@@ -2511,7 +2512,7 @@ command /setlobby:
 			mj_core_location("essentials.config", "data.lobby", "modify", player)
 			mj_manager_message(player, "essentials", "data.lobby.prefix", "essentials", "data.lobby.create")
 		else:
-			mj_core_permission(player, "essentials", "data.lobby.prefix", "mj.essentials.lobby")
+			mj_manager_permission(player, "essentials", "data.lobby.prefix", "mj.essentials.lobby")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Lobby
@@ -2530,9 +2531,9 @@ command /t [<player>]:
 					mj_manager_message(arg-1, "essentials", "data.teleport.prefix", "essentials", "data.teleport.me_to_it", "%player%")
 				teleport player at arg-1
 			else:
-				mj_manager_message(player, "essentials", "data.teleport.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "essentials", "data.teleport.prefix", "manager", "data.argument.player")
 		else:
-			mj_core_permission(player, "essentials", "data.teleport.prefix", "mj.essentials.tp")
+			mj_manager_permission(player, "essentials", "data.teleport.prefix", "mj.essentials.tp")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /s [<player>]:
@@ -2545,9 +2546,9 @@ command /s [<player>]:
 				mj_manager_message(arg-1, "essentials", "data.teleport.prefix", "essentials", "data.teleport.it_to_it", "%player%")
 				teleport arg-1 at player
 			else:
-				mj_manager_message(player, "essentials", "data.teleport.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "essentials", "data.teleport.prefix", "manager", "data.argument.player")
 		else:
-			mj_core_permission(player, "essentials", "data.teleport.prefix", "mj.essentials.tp")
+			mj_manager_permission(player, "essentials", "data.teleport.prefix", "mj.essentials.tp")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /rtp:
@@ -2566,7 +2567,7 @@ command /rtp:
 			else:
 				mj_essentials_teleport_random(player)
 		else:
-			mj_core_permission(player, "essentials", "data.teleport.prefix", "mj.essentials.rtp")
+			mj_manager_permission(player, "essentials", "data.teleport.prefix", "mj.essentials.rtp")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_teleport_random(player: player):
@@ -2629,9 +2630,9 @@ command /tpa [<player>]:
 			if arg-1 is set:
 				mj_essentials_tpa_request(player, arg-1)
 			else:
-				mj_manager_message(player, "essentials", "data.tpa.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "essentials", "data.tpa.prefix", "manager", "data.argument.player")
 		else:
-			mj_core_permission(player, "essentials", "data.tpa.prefix", "mj.essentials.tpa")
+			mj_manager_permission(player, "essentials", "data.tpa.prefix", "mj.essentials.tpa")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /tpahere [<player>]:
@@ -2641,9 +2642,9 @@ command /tpahere [<player>]:
 			if arg-1 is set:
 				mj_essentials_tpa_request(player, arg-1, true)
 			else:
-				mj_manager_message(player, "essentials", "data.tpa.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "essentials", "data.tpa.prefix", "manager", "data.argument.player")
 		else:
-			mj_core_permission(player, "essentials", "data.tpa.prefix", "mj.essentials.tpahere")
+			mj_manager_permission(player, "essentials", "data.tpa.prefix", "mj.essentials.tpahere")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /tpyes:
@@ -2739,7 +2740,7 @@ command /back:
 				set {_time} to mj_timecount_viewer("back_%{_player}%")
 				mj_manager_message({_player}, "essentials", "data.back.prefix", "core", "data.time.wait", {_time})
 		else:
-			mj_core_permission(player, "essentials", "data.back.prefix", "mj.essentials.back")
+			mj_manager_permission(player, "essentials", "data.back.prefix", "mj.essentials.back")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on death:
@@ -2764,9 +2765,9 @@ command /home [<text>]:
 			if arg-1 is set:
 				mj_essentials_home_tp(player, arg-1)
 			else:
-				mj_manager_message(player, "essentials", "data.home.prefix", "core", "data.argument.name")
+				mj_manager_message(player, "essentials", "data.home.prefix", "manager", "data.argument.name")
 		else:
-			mj_core_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
+			mj_manager_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/home" or "/sethome" or "/delhome":
@@ -2794,9 +2795,9 @@ command /sethome [<text>]:
 			if arg-1 is set:
 				mj_essentials_home_define(player, arg-1)
 			else:
-				mj_manager_message(player, "essentials", "data.home.prefix", "core", "data.argument.name")
+				mj_manager_message(player, "essentials", "data.home.prefix", "manager", "data.argument.name")
 		else:
-			mj_core_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
+			mj_manager_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /delhome [<text>]:
@@ -2808,7 +2809,7 @@ command /delhome [<text>]:
 			else:
 				mj_manager_message(player, "essentials", "data.home.prefix", "essentials", "data.home.nohome")
 		else:
-			mj_core_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
+			mj_manager_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /homes:
@@ -2817,7 +2818,7 @@ command /homes:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.home.*" or "mj.essentials.home":
 			mj_essentials_home_list(player)
 		else:
-			mj_core_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
+			mj_manager_permission(player, "essentials", "data.home.prefix", "mj.essentials.home")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_home_tp(player: player, name: text):
@@ -2835,7 +2836,7 @@ function mj_essentials_home_tp(player: player, name: text):
 			else:
 				mj_essentials_home_list({_player}, true, true, {_target})
 		else:
-			mj_core_permission({_player}, "essentials", "data.home.prefix", "mj.essentials.home.other")
+			mj_manager_permission({_player}, "essentials", "data.home.prefix", "mj.essentials.home.other")
 	else:
 		set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.source.essentials.home", {_name})
 		if {_id} is set:
@@ -2881,7 +2882,7 @@ function mj_essentials_home_delete(player: player, name: text):
 			else:
 				mj_essentials_home_list({_player}, true, true, {_target})
 		else:
-			mj_core_permission({_player}, "essentials", "data.home.prefix", "mj.essentials.home.other")
+			mj_manager_permission({_player}, "essentials", "data.home.prefix", "mj.essentials.home.other")
 	else:
 		set {_id} to mj_core_id_checker("userdata", "data.%{_player}'s uuid%.source.essentials.home", {_name})
 		if {_id} is set:
@@ -2921,7 +2922,7 @@ command /warp [<text>]:
 			else:
 				mj_manager_message(player, "essentials", "data.warp.prefix", "essentials", "data.warp.delerror")
 		else:
-			mj_core_permission(player, "essentials", "data.warp.prefix", "mj.essentials.warp")
+			mj_manager_permission(player, "essentials", "data.warp.prefix", "mj.essentials.warp")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/warp" or "/setwarp" or "/delwarp":
@@ -2936,9 +2937,9 @@ command /setwarp [<text>]:
 			if arg-1 is set:
 				mj_essentials_warp_define(player, arg-1)
 			else:
-				mj_manager_message(player, "essentials", "data.warp.prefix", "core", "data.argument.name")
+				mj_manager_message(player, "essentials", "data.warp.prefix", "manager", "data.argument.name")
 		else:
-			mj_core_permission(player, "essentials", "data.warp.prefix", "mj.essentials.setwarp")
+			mj_manager_permission(player, "essentials", "data.warp.prefix", "mj.essentials.setwarp")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /delwarp [<text>]:
@@ -2948,9 +2949,9 @@ command /delwarp [<text>]:
 			if arg-1 is set:
 				mj_essentials_warp_delete(player, arg-1)
 			else:
-				mj_manager_message(player, "essentials", "data.warp.prefix", "core", "data.argument.name")
+				mj_manager_message(player, "essentials", "data.warp.prefix", "manager", "data.argument.name")
 		else:
-			mj_core_permission(player, "essentials", "data.warp.prefix", "mj.essentials.setwarp")
+			mj_manager_permission(player, "essentials", "data.warp.prefix", "mj.essentials.setwarp")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /warps:
@@ -2959,7 +2960,7 @@ command /warps:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warp.*" or "mj.essentials.warp":
 			mj_essentials_warp_list(player, false)
 		else:
-			mj_core_permission(player, "essentials", "data.warp.prefix", "mj.essentials.warp")
+			mj_manager_permission(player, "essentials", "data.warp.prefix", "mj.essentials.warp")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_warp_tp(player: player, name: text):
@@ -2971,7 +2972,7 @@ function mj_essentials_warp_tp(player: player, name: text):
 			if {_player} has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warp.*" or "mj.essentials.warp.%{_name}%":
 				mj_essentials_teleport({_player}, "warp", {_tp}, {_name})
 			else:
-				mj_core_permission({_player}, "essentials", "data.warp.prefix", "mj.essentials.warp.%{_name}%")
+				mj_manager_permission({_player}, "essentials", "data.warp.prefix", "mj.essentials.warp.%{_name}%")
 		else:
 			mj_essentials_teleport({_player}, "warp", {_tp}, {_name})
 	else:

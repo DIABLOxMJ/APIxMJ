@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading shop..." to console
 		mj_files_shop()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.shop.version", "modify", "2022.12.06.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.shop.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_shop.sk"
@@ -43,44 +43,44 @@ command /shop [<text>] [<text>] [<text>]:
 							if arg-3 is set:
 								mj_shop_data(player, arg-2, arg-3, player's tool)
 							else:
-								mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
+								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
 						else:
-							mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
+							mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
 					else if arg-1 is "slot":
 						if arg-2 is set:
 							if arg-3 is set:
 								mj_shop_data_slot(player, arg-2, arg-3)
 							else:
-								mj_core_message(player, "shop", "data.prefix", "core", "data.argument.number")
+								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.number")
 						else:
-							mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
+							mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
 					else if arg-1 is "edit_money_buy":
 						if arg-2 is set:
 							if arg-3 is set:
 								mj_shop_data_money(player, arg-2, arg-3, "buy")
 							else:
-								mj_core_message(player, "shop", "data.prefix", "core", "data.argument.number")
+								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.number")
 						else:
-							mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
+							mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
 					else if arg-1 is "edit_money_sell":
 						if arg-2 is set:
 							if arg-3 is set:
 								mj_shop_data_money(player, arg-2, arg-3, "sell")
 							else:
-								mj_core_message(player, "shop", "data.prefix", "core", "data.argument.number")
+								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.number")
 						else:
-							mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
+							mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
 					else if arg-1 is "reload":
 						mj_files_shop()
 						send "[APIxMJ] Data reloaded"
 					else:
-						mj_core_message(player, "shop", "data.prefix", "core", "data.argument.name")
+						mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
 				else:
-					mj_core_permission(player, "shop", "data.prefix", "mj.shop.admin")
+					mj_manager_permission(player, "shop", "data.prefix", "mj.shop.admin")
 			else:
 				mj_shop_menu(player)
 		else:
-			mj_core_permission(player, "shop", "data.prefix", "mj.shop")
+			mj_manager_permission(player, "shop", "data.prefix", "mj.shop")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/shop":
@@ -367,7 +367,7 @@ command /sell [<text>]:
 			else:
 				mj_shop_sell(player)
 		else:
-			mj_core_permission(player, "shop", "data.prefix", "mj.shop.sell")
+			mj_manager_permission(player, "shop", "data.prefix", "mj.shop.sell")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/sell":
@@ -401,10 +401,10 @@ function mj_shop_sell(player: player):
 					mj_essentials_money_system({_player}, {_price}, true, "selled out shop x%{_multiply}% of %{_item}%")
 					set {_name} to mj_editfiles_gettext("shop", "data.product.%loop-value%.name", {_player})
 					set {_view} to mj_core_format_money(false, {_price})
-					mj_core_message({_player}, "shop", "data.prefix", "shop", "data.sell.success", {_name}, "%{_view}%")
+					mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.sell.success", {_name}, "%{_view}%")
 					exit loop
 			else:
-				mj_core_message({_player}, "shop", "data.prefix", "shop", "data.failed.no_selling")
+				mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.failed.no_selling")
 				exit loop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -432,10 +432,10 @@ function mj_shop_sell_all(player: player, block: object="none"):
 					mj_essentials_money_system({_player}, {_price}, true, "selled out shop x%{_multiply}% of %{_item}%")
 					set {_name} to mj_editfiles_gettext("shop", "data.product.%loop-value%.name", {_player})
 					set {_view} to mj_core_format_money(false, {_price})
-					mj_core_message({_player}, "shop", "data.prefix", "shop", "data.sell.success", {_name}, "%{_view}%")
+					mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.sell.success", {_name}, "%{_view}%")
 					set {_nosell} to false
 	if {_nosell} is true:
-		mj_core_message({_player}, "shop", "data.prefix", "shop", "data.failed.no_selling")
+		mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.failed.no_selling")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Sell

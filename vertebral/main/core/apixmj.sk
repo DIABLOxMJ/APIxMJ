@@ -21,7 +21,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.04.12.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -204,7 +204,7 @@ command /dataeditor [<text>] [<text>] [<text>] [<text>]:
 					set name of player's tool to "%{_name}%"
 					send "[APIxMJ] Name set to item in hand : %{_name}%"
 				else:
-					mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 			else if arg-1 is "item_lore":
 				if arg-2 is set:
 					set {_slot} to arg-2 parsed as number
@@ -216,9 +216,9 @@ command /dataeditor [<text>] [<text>] [<text>] [<text>]:
 						set line {_slot} of lore of player's tool to {_name}
 						send "[APIxMJ] In slot %{_slot}% the lore is set to item in hand : %{_name}%"
 					else:
-						mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+						mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 				else:
-					mj_manager_message(player, "core", "data.prefix", "core", "data.argument.number")
+					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.number")
 			else if arg-1 is "item_enchant":
 				if arg-2 is set:
 					if arg-3 is set:
@@ -228,17 +228,17 @@ command /dataeditor [<text>] [<text>] [<text>] [<text>]:
 							set {_enchant} to "%arg-2% %arg-3%" parsed as enchantment type
 						enchant player's tool with {_enchant}
 					else:
-						mj_manager_message(player, "core", "data.prefix", "core", "data.argument.number")
+						mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.number")
 				else:
-					mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 			else if arg-1 is "editgui":
 				mj_editor_storage_edit(player)
 			else if arg-1 is "gui":
 				mj_editor_storage_open(player)
 			else:
-				mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		else:
-			mj_core_permission(player, "core", "data.prefix", "operator")
+			mj_manager_permission(player, "core", "data.prefix", "operator")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/dataeditor" or "/dae":
@@ -312,7 +312,7 @@ command /console [<text>]:
 		if player has permission "*" or "mj.*" or "mj.console.*" or "mj.console":
 			console command arg-1
 		else:
-			mj_core_permission(player, "core", "data.prefix", "mj.console")
+			mj_manager_permission(player, "core", "data.prefix", "mj.console")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Console
@@ -342,9 +342,9 @@ command /loglevel [<number=0>] [<offlineplayer>]:
 					mj_editfiles_number("userdata", "data.%player's uuid%.log", "modify", arg-1)
 					mj_manager_message(player, "core", "data.prefix", "core", "data.logger.enable", "%arg-1%")
 			else:
-				mj_manager_message(player, "core", "data.prefix", "core", "data.argument.number")
+				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.number")
 		else:
-			mj_core_permission(player, "core", "data.prefix", "mj.logger")
+			mj_manager_permission(player, "core", "data.prefix", "mj.logger")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/loglevel":
@@ -476,7 +476,7 @@ command /op [<offlineplayer>]:
 				send "%arg-1% is now an operator"
 				mj_core_logger(1, "%arg-1% is now an operator by %player%")
 			else:
-				mj_manager_message(player, "core", "data.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.player")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /deop [<offlineplayer>]:
@@ -492,7 +492,7 @@ command /deop [<offlineplayer>]:
 				send "%arg-1% is no longer an operator"
 				mj_core_logger(1, "%arg-1% is no longer an operator by %player%")
 			else:
-				mj_manager_message(player, "core", "data.prefix", "core", "data.argument.player")
+				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.player")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Operator
@@ -586,13 +586,13 @@ command /inventory [<text>] [<player>] [<text>]:
 						else:
 							mj_core_inventory_restore(arg-2, arg-3)
 					else:
-						mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+						mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 				else:
-					mj_manager_message(player, "core", "data.prefix", "core", "data.argument.player")
+					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.player")
 			else:
 				mj_manager_message(player, "core", "data.prefix", "core", "data.inventory.help")
 		else:
-			mj_core_permission(player, "core", "data.prefix", "mj.inventory")
+			mj_manager_permission(player, "core", "data.prefix", "mj.inventory")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/inventory":
@@ -623,7 +623,7 @@ every 5 minutes:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_inventory_save(player: player, type: text):
-	mj_editfiles("inventory", "data.%{_player}'s uuid%.%{_type}%", "delete")
+	mj_editfiles("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%", "delete")
 	set {_slot} to 0
 	loop 36 times:
 		set {_inv::%{_slot}%} to slot {_slot} of {_player}'s inventory
@@ -821,7 +821,7 @@ command /playtime [<number=1>]:
 					add 1 to {_count}
 			mj_manager_message(player, "core", "data.prefix", "core", "data.playtime.total", "%{_count}%", "%{_total}%")
 		else:
-			mj_core_permission(player, "core", "data.prefix", "mj.playtime")
+			mj_manager_permission(player, "core", "data.prefix", "mj.playtime")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - PlayTime
@@ -848,7 +848,7 @@ command /reports:
 			else:
 				mj_manager_message(player, "manager", "data.report.prefix", "manager", "data.report.empty")
 		else:
-			mj_core_permission(player, "manager", "data.report.prefix", "mj.manager.report.admin")
+			mj_manager_permission(player, "manager", "data.report.prefix", "mj.manager.report.admin")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
@@ -880,14 +880,14 @@ command /nick [<text>] [<text>]:
 					if player has permission "*" or "mj.*" or "mj.nick.*" or "mj.nick.admin":
 						mj_core_nick_reveal(player)
 					else:
-						mj_core_permission(player, "core", "data.prefix", "mj.nick.admin")
+						mj_manager_permission(player, "core", "data.prefix", "mj.nick.admin")
 				else if arg-1 is "reset":
 					if arg-2 is set:
 						if player has permission "*" or "mj.*" or "mj.nick.*" or "mj.nick.admin":
 							mj_core_nick_change(arg-2 parsed as player, "%arg-2%")
 							mj_manager_message(player, "core", "data.nick.prefix", "core", "data.nick.reset", arg-2)
 						else:
-							mj_core_permission(player, "core", "data.prefix", "mj.nick.admin")
+							mj_manager_permission(player, "core", "data.prefix", "mj.nick.admin")
 					else:
 						mj_core_nick_change(player, "%player%")
 				else:
@@ -898,7 +898,7 @@ command /nick [<text>] [<text>]:
 			else:
 				mj_core_nick_change(player, "%player%")
 		else:
-			mj_core_permission(player, "core", "data.prefix", "mj.nick")
+			mj_manager_permission(player, "core", "data.prefix", "mj.nick")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/nick":
@@ -953,7 +953,7 @@ function mj_core_nick_reveal(player: player):
 	#		else:
 	#			reset player's displayed skin
 	#	else:
-	#		mj_core_permission(player, "core", "data.prefix", "mj.skin")
+	#		mj_manager_permission(player, "core", "data.prefix", "mj.skin")
 	#	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Skin
@@ -972,7 +972,7 @@ command /storage [<text>] [<text>] [<text>] [<text>]:
 							mj_core_storage_data_generator({_name})
 							mj_manager_message(player, "core", "data.prefix", "core", "data.storage.create", {_name})
 						else:
-							mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+							mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 					else if arg-1 is "set":
 						if arg-3 is set:
 							if arg-3 is "price" or "quantity" or "limit" or "timer_second" or "timer_minute" or "timer_hour" or "money":
@@ -993,14 +993,14 @@ command /storage [<text>] [<text>] [<text>] [<text>]:
 									mj_editfiles_number("data", "data.storage.%arg-2%.permission", "modify", {_value})
 									mj_manager_message(player, "core", "data.prefix", "core", "data.storage.value", "%arg-3%", "%arg-4%", "%arg-2%")
 								else:
-									mj_manager_message(player, "core", "data.prefix", "core", "data.argument.boolean", "true", "false")
+									mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.boolean", "true", "false")
 							else if arg-3 is "time" or "rank" or "command":
 								mj_editfiles("data", "data.storage.%arg-2%.%arg-3%", "modify", arg-4)
 								mj_manager_message(player, "core", "data.prefix", "core", "data.storage.value", "%arg-3%", "%arg-4%", "%arg-2%")
 							else:
-								mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+								mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 						else:
-							mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+							mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 					else if arg-1 is "edit":
 						mj_core_storage_save(player, "data", "data.storage.%arg-2%")
 					else if arg-1 is "give":
@@ -1023,13 +1023,13 @@ command /storage [<text>] [<text>] [<text>] [<text>]:
 									mj_core_storage_gift("%player%", arg-3)
 									mj_manager_message(player, "core", "data.prefix", "core", "data.storage.give", {_name})
 							else:
-								mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+								mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 						else:
-							mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+							mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 					else:
-						mj_manager_message(player, "core", "data.prefix", "core", "data.argument.name")
+						mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 			else:
-				mj_core_permission(player, "core", "data.prefix", "mj.storage")
+				mj_manager_permission(player, "core", "data.prefix", "mj.storage")
 		if sender is console:
 			mj_core_storage_gift(arg-1, arg-2, true)
 		stop
@@ -1509,21 +1509,6 @@ function mj_core_gui_generator(player: player, size: number=1, locked: boolean=t
 		if {_size} >= 6:
 			make a gui slot 37, 38, 39, 40, 41, 42 and 43 of {_player} with air to run:
 				stop
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_core_permission(player: player, source: text="core", prefix1: text="data.prefix", int0: text="*"):
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
-	set {_prefix} to yaml value "%{_prefix1}%" from "mj.%{_source}%.language.%{_lang}%"
-	set {_send} to yaml value "data.argument.no_permission" from "mj.core.language.%{_lang}%"
-	if {_send} isn't set:
-		set {_send} to "data.argument.no_permission"
-	set {_check} to yaml value "data.show_permission" from "mj.config"
-	if {_check} is true:
-		set {_send} to yaml value "data.argument.show_permission" from "mj.core.language.%{_lang}%"
-		replace "$0" with {_int0} in {_send}
-		if {_send} isn't set:
-			set {_send} to "data.argument.show_permission"
-	send formatted "%{_prefix}% %{_send}%" to {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_request(player: player, source: text, find: text, cmd.accept: text, cmd.refuse: text):

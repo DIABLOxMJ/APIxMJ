@@ -23,8 +23,6 @@ data:
     chat_priority: core
     # Completely disable explosions on the server, default : true
     anti_explode: true
-    # Show required permissions to player when trying to run command or feature, default : true
-    show_permission: true
     # Default menu background color, default : black stained glass pane
     gui_background:
         item: black stained glass pane

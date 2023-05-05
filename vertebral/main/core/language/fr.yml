@@ -7,15 +7,6 @@ data:
         disable: "&aVous avez désactivé l'affichage des logs !"
         other_me: "&7Vous avez changé l'affichage des logs de &a$0 &7en &a$1"
         other_it: "&7Votre niveau d'affichage des logs et désormais à &a$0 &7par &a$1"
-    argument:
-        no_permission: "&cVous n'avez pas l'autorisation pour cette commande.."
-        show_permission: "&cVous n'avez pas l'autorisation &6(&a$0&6) &cpour faire ceci.."
-        player: "&cVeuillez spécifier un joueur."
-        offline_player: "&cVous ne pouvez pas faire ceci, car le joueur est déconnecté.."
-        name: "&cVeuillez indiquer un nom."
-        number: "&cVeuillez indiquer un nombre."
-        boolean: "&cVeuillez indiquer &a$0 &cou &a$1&c."
-        hand: "&cVous devrez avoir un item dans la main pour faire ceci."
     database:
         reset: "&cRéinitialisation complète des données.. Connectez-vous dans quelques secondes.."
     inventory:

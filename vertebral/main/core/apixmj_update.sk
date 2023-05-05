@@ -29,12 +29,11 @@ function mj_install_config(folder: text, type: text):
 	set {_08} to yaml value "data.custom_chat" from "%{_source}%"
 	set {_09} to yaml value "data.chat_priority" from "%{_source}%"
 	set {_10} to yaml value "data.anti_explode" from "%{_source}%"
-	set {_11} to yaml value "data.show_permission" from "%{_source}%"
-	set {_12} to yaml value "data.gui_background.item" from "%{_source}%"
-	set {_13} to yaml value "data.format.chat" from "%{_source}%"
-	set {_14} to yaml value "data.format.money" from "%{_source}%"
-	set {_15::*} to yaml list "data.reset.file" from "%{_source}%"
-	set {_16::*} to yaml list "data.reset.folder" from "%{_source}%"
+	set {_11} to yaml value "data.gui_background.item" from "%{_source}%"
+	set {_12} to yaml value "data.format.chat" from "%{_source}%"
+	set {_13} to yaml value "data.format.money" from "%{_source}%"
+	set {_14::*} to yaml list "data.reset.file" from "%{_source}%"
+	set {_15::*} to yaml list "data.reset.folder" from "%{_source}%"
 	wait 5 ticks
 	mj_manager_file_reset({_folder}, "config")
 	wait 5 ticks
@@ -48,12 +47,11 @@ function mj_install_config(folder: text, type: text):
 	set yaml value "data.custom_chat" from "%{_source}%" to {_08}
 	set yaml value "data.chat_priority" from "%{_source}%" to {_09}
 	set yaml value "data.anti_explode" from "%{_source}%" to {_10}
-	set yaml value "data.show_permission" from "%{_source}%" to {_11}
-	set yaml value "data.gui_background.item" from "%{_source}%" to {_12}
-	set yaml value "data.format.chat" from "%{_source}%" to {_13}
-	set yaml value "data.format.money" from "%{_source}%" to {_14}
-	set yaml list "data.reset.file" from "%{_source}%" to {_15::*}
-	set yaml list "data.reset.folder" from "%{_source}%" to {_16::*}
+	set yaml value "data.gui_background.item" from "%{_source}%" to {_11}
+	set yaml value "data.format.chat" from "%{_source}%" to {_12}
+	set yaml value "data.format.money" from "%{_source}%" to {_13}
+	set yaml list "data.reset.file" from "%{_source}%" to {_14::*}
+	set yaml list "data.reset.folder" from "%{_source}%" to {_15::*}
 	save yaml "%{_source}%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

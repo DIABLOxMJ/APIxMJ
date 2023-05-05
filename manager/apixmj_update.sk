@@ -23,11 +23,12 @@ function mj_install_config(folder: text, type: text):
 	set {_03} to yaml value "data.auto_update" from "%{_source}%"
 	set {_04} to yaml value "data.data_update" from "%{_source}%"
 	set {_05} to yaml value "data.slash_option" from "%{_source}%"
-	set {_06} to yaml value "data.bungeecord.condition" from "%{_source}%"
-	set {_07} to yaml value "data.bungeecord.server" from "%{_source}%"
-	set {_08} to yaml value "data.language.use" from "%{_source}%"
-	set {_09::*} to yaml list "data.language.list" from "%{_source}%"
-	set {_10} to yaml value "data.gui_background.item" from "%{_source}%"
+	set {_06} to yaml value "data.show_permission" from "%{_source}%"
+	set {_07} to yaml value "data.bungeecord.condition" from "%{_source}%"
+	set {_08} to yaml value "data.bungeecord.server" from "%{_source}%"
+	set {_09} to yaml value "data.language.use" from "%{_source}%"
+	set {_10::*} to yaml list "data.language.list" from "%{_source}%"
+	set {_11} to yaml value "data.gui_background.item" from "%{_source}%"
 	wait 5 ticks
 	mj_manager_file_reset({_folder}, "config")
 	wait 5 ticks
@@ -36,11 +37,12 @@ function mj_install_config(folder: text, type: text):
 	set yaml value "data.auto_update" from "%{_source}%" to {_03}
 	set yaml value "data.data_update" from "%{_source}%" to {_04}
 	set yaml value "data.slash_option" from "%{_source}%" to {_05}
-	set yaml value "data.bungeecord.condition" from "%{_source}%" to {_06}
-	set yaml value "data.bungeecord.server" from "%{_source}%" to {_07}
-	set yaml value "data.language.use" from "%{_source}%" to {_08}
-	set yaml list "data.language.list" from "%{_source}%" to {_09::*}
-	set yaml value "data.gui_background.item" from "%{_source}%" to {_10}
+	set yaml value "data.show_permission" from "%{_source}%" to {_06}
+	set yaml value "data.bungeecord.condition" from "%{_source}%" to {_07}
+	set yaml value "data.bungeecord.server" from "%{_source}%" to {_08}
+	set yaml value "data.language.use" from "%{_source}%" to {_09}
+	set yaml list "data.language.list" from "%{_source}%" to {_10::*}
+	set yaml value "data.gui_background.item" from "%{_source}%" to {_11}
 	save yaml "%{_source}%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

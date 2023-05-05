@@ -28,5 +28,20 @@ data:
             '2': "&0- &7Ouvre un menu interactif avec tout le contenu"
             '3': "&0- &7de l'aide par catégorie."
             '4': "&0"
-            '5': "&6- &a/help <name>"
-            '6': "&0- &7Cela permet une recherche plus précise."
+            '5': "&6- &a/help <message>"
+            '6': "&0- &7Il permet de poser une question au membre"
+            '7': "&0- &7de la modération."
+    answer:
+        name: "&aRéponse"
+        type: command
+        description:
+            '1': "&0- &aUne commande pour répondre au question."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.answer.*"
+        - "mj.answer"
+        info:
+            '1': "&6- &a/answer <player> <message>"
+            '2': "&0- &7Il permet de répondre à une question,"
+            '3': "&0- &7poser avec le &a/help&7."

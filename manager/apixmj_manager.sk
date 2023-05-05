@@ -1,5 +1,5 @@
 # =====================================================================================================================
-# APIxMJ - Files ✓ ✗ ← ↑ → ↓ ⚠ ❤
+# APIxMJ - Files ✓ ✗ ← ↖ ↑ ↗ → ↘ ↓ ↙ ➢ ➣ ➤ ⚠ ❤
 # ---------------------------------------------------------------------------------------------------------------------
 # PREMIUM - DIABLOxMJ: fa743dc8-450e-4f1b-a75c-8ae7e52b6f17 - Nyceidu: edcda98f-ed98-41c6-ba2c-77bc313ed248
 # CRACK   - DIABLOxMJ: b00cadd2-6497-3134-93d5-5be9512e9f48 - Nyceidu: 1412f834-ede6-34f1-aeaa-84467fc1f237
@@ -19,7 +19,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.04.13.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.05.05.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -367,12 +367,12 @@ function mj_manager_menu_control_button_status_data(player: player, source: text
 			set {_list1::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.%{_type}%")
 			loop {_list1::*}:
 				set {_data3} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.%{_type}%.%loop-value%")
-				set {_data4} to mj_editfiles_gettext("manager", "data.argument", {_player}, {_data3})
+				set {_data4} to mj_editfiles_gettext("manager", "data.button.argument", {_player}, {_data3})
 				if {_type} is "depends":
 					set {_data31} to mj_editfiles("manager.data", "data.addon.%{_data3}%.name")
 					set {_data32} to mj_editfiles_gettext("manager", {_data31}, {_player})
 					set {_data32} to uncolored {_data32}
-					set {_data4} to mj_editfiles_gettext("manager", "data.argument", {_player}, "&a%{_data32}%")
+					set {_data4} to mj_editfiles_gettext("manager", "data.button.argument", {_player}, "&a%{_data32}%")
 				set line {_count} of lore of {_item} to "%{_data4}%"
 				add 1 to {_count}
 	return {_item}
@@ -757,6 +757,21 @@ function mj_manager_message_simple(player: player, source1: text, send1: text, i
 	send formatted "%{_send}%" to {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_permission(player: player, source: text="manager", prefix1: text="data.prefix", int0: text="*"):
+	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_prefix} to yaml value "%{_prefix1}%" from "mj.%{_source}%.language.%{_lang}%"
+	set {_send} to yaml value "data.argument.no_permission" from "mj.manager.language.%{_lang}%"
+	if {_send} isn't set:
+		set {_send} to "data.argument.no_permission"
+	set {_check} to yaml value "data.show_permission" from "mj.manager.config"
+	if {_check} is true:
+		set {_send} to yaml value "data.argument.show_permission" from "mj.manager.language.%{_lang}%"
+		replace "$0" with {_int0} in {_send}
+		if {_send} isn't set:
+			set {_send} to "data.argument.show_permission"
+	send formatted "%{_prefix}% %{_send}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_lobby_return():
 	set {_check} to mj_editfiles_boolean("manager.config", "data.bungeecord.condition")
 	if {_check} is true:
@@ -875,12 +890,56 @@ command /help [<text>]:
 	executable by: player
 	trigger:
 		if arg-1 is set:
-			mj_manager_help(player, arg-1)
+			mj_manager_message(player, "manager", "data.help.request.prefix", "manager", "data.help.request.successful", arg-1)
+			loop all players:
+				set {_prefix} to mj_editfiles_gettext("manager", "data.help.request.prefix", loop-player)
+				set {_button} to mj_editfiles_gettext("manager", "data.help.request.button", loop-player)
+				set {_sender} to mj_editfiles_gettext("manager", "data.help.request.sender", loop-player, "%player%", arg-1)
+				if loop-player has permission "*" or "mj.*" or "mj.request.*" or "mj.request":
+					send formatted "%{_prefix}% <sgt:/answer %player% >%{_button}%<reset> %{_sender}%" to loop-player
+				else if loop-player is op:
+					send formatted "%{_prefix}% <sgt:/answer %player% >%{_button}%<reset> %{_sender}%" to loop-player
 		else:
 			mj_manager_help_menu_index(player)
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/help" or "/aide":
+	set {_text} to mj_editfiles_gettext("manager", "data.help.request.question", player)
+	set tab completions for position 1 to {_text}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /answer [<text>] [<text>]:
+	aliases: question
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.answer.*" or "mj.answer":
+			if arg-1 is set:
+				set {_player} to arg-1 parsed as offlineplayer
+				if {_player} is online:
+					if arg-2 is set:
+						mj_manager_message(player, "manager", "data.help.request.prefix", "manager", "data.help.request.send", "%{_player}%", arg-2)
+						mj_manager_message({_player}, "manager", "data.help.request.prefix", "manager", "data.help.request.received", "%player%", arg-2)
+						loop all players:
+							if loop-player isn't player:
+								if loop-player has permission "*" or "mj.*" or "mj.request.*" or "mj.request":
+									mj_manager_message(loop-player, "manager", "data.help.request.prefix", "manager", "data.help.request.viewer", "%player%", "%{_player}%", arg-2)
+								else if loop-player is op:
+									mj_manager_message(loop-player, "manager", "data.help.request.prefix", "manager", "data.help.request.viewer", "%player%", "%{_player}%", arg-2)
+					else:			
+						mj_manager_message(player, "manager", "data.help.request.prefix", "manager", "data.argument.text")
+			else:
+				mj_manager_message(player, "manager", "data.help.request.prefix", "manager", "data.argument.player")
+		else:
+			mj_manager_permission(player, "manager", "data.help.request.prefix", "mj.answer")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/answer" or "/question":
+	set {_text} to mj_editfiles_gettext("manager", "data.help.request.answer", player)
+	set tab completions for position 1 to all players
+	set tab completions for position 2 to {_text}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# stand by
 	#set {_lang} to mj_editfiles("manager.config", "data.language.use")
 	#set {_list1::*} to mj_manager_nodes("manager.data", "data.addon")
 	#loop {_list1::*}:
@@ -897,8 +956,6 @@ on tab complete of "/help" or "/aide":
 	#				if player has permission {_list4::*}:
 	#					add loop-value-3 to {_list5::*}
 	#set tab completions for position 1 to {_list5::*}
-	set tab completions for position 1 to "failed loading…"
-	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help(player: player, id: text):
 	set {_lang} to mj_editfiles("manager.config", "data.language.use")

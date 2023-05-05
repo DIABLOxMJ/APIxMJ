@@ -9,6 +9,8 @@ data:
     data_update: true
     # In the event of a major error, you must put a "/" if the server is local, otherwise do not touch, default : \
     slash_option: \
+    # Show required permissions to player when trying to run command or feature, default : true
+    show_permission: true
     # If the server is under Bungeecord and you have a Lobby/Hub it is advisable to activate it
     bungeecord:
         # Do we have to take into account a bungeecord, default : false

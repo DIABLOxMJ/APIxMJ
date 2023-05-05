@@ -19,7 +19,6 @@ data:
         skript: "&eSkript &6:&r"
         file: "&eFichier &6:&r"
         type: "&eType &6:&r $0"
-    argument: " &6- &a$0"
     none: "&cAucune"
     process:
         updated: "&eMise à jour du Skript &a$0 &eTerminé !"
@@ -29,6 +28,7 @@ data:
     data_update: "&aMise à jour des données terminé !"
     button:
         return: "&eRetour"
+        argument: " &6- &a$0"
         installer:
             name: "&eInstaller"
             request: "&eInstallation nécessite &6: &a$0&r"
@@ -88,6 +88,16 @@ data:
         success: "&aRechargement complet, bon jeu à vous !"
         prevent: "&cRechargement du serveur, veuillez ne pas bouger et attendre dans un endroit sûr !"
         timing: "&cRechargement dans $0 seconde(s)!"
+    argument:
+        no_permission: "&cVous n'avez pas l'autorisation pour cette commande.."
+        show_permission: "&cVous n'avez pas l'autorisation &6(&a$0&6) &cpour faire ceci.."
+        player: "&cVeuillez spécifier un joueur."
+        offline_player: "&cVous ne pouvez pas faire ceci, car le joueur est déconnecté.."
+        name: "&cVeuillez indiquer un nom."
+        text: "&cVeuillez indiquer un texte."
+        number: "&cVeuillez indiquer un nombre."
+        boolean: "&cVeuillez indiquer &a$0 &cou &a$1&c."
+        hand: "&cVous devrez avoir un item dans la main pour faire ceci."
     type:
         installed: "&aInstallé&r"
         uninstalled: "&cDésinstallé&r"
@@ -110,6 +120,16 @@ data:
         rule: "  &eRèglement &6:&r"
         permission: "  &ePermission &6:&r"
         argument: "&cSélectionnez un autre choix car celui-ci n'a pas été trouvé.."
+        request:
+            prefix: "&6[&c&lQuestion&6]&r"
+            button: "&6[&a&lRépondre&6]&r"
+            question: "Votre question ?"
+            answer: "Votre réponse"
+            sender: "&7Une question de &a$0 &6: &r$1"
+            successful: "&7Vous avez envoyé la question suivante &6: &r$0"
+            send: "&7Vous avez répondu à &a$0 &6: &r$1"
+            received: "&7Vous avez reçu une réponse de &a$0 &6: &r$1"
+            viewer: "&a$0 &7à répondu à la question de &a$1 &7avec &6: &r$2"
         menu:
             main: "&eAPIxMJ - Menu Support"
             name: "&cAPIxMJ &6:&r $0"

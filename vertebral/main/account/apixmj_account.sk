@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading account..." to console
 		mj_files_account()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.account.version", "modify", "2023.02.13.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.account.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_account.sk"
@@ -67,17 +67,17 @@ command /account [<text>] [<text>]:
 						if player has permission "*" or "mj.*" or "mj.account.*" or "mj.account.admin":
 							mj_account_change_condition(player, arg-2)
 						else:
-							mj_core_permission(player, "account", "data.prefix", "mj.account.admin")
+							mj_manager_permission(player, "account", "data.prefix", "mj.account.admin")
 					else if arg-1 is "change":
 						mj_account_change_current_userdata(player, arg-2)
 					else:
-						mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+						mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 				else:
-					mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 			else:
-				mj_core_message(player, "core", "data.prefix", "core", "data.argument.name")
+				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		else:
-			mj_core_permission(player, "account", "data.prefix", "mj.account")
+			mj_manager_permission(player, "account", "data.prefix", "mj.account")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/account" or "/ac" or "/profil" or "/p" or "/compte":
@@ -112,12 +112,12 @@ function mj_account_create_data(player: player, target: text):
 		save yaml "mj.account.data"
 		mj_core_location("account.data", "data.%{_player}'s uuid%.storage.%{_id}%", "modify", {_player})
 		mj_core_logger(1, "%{_player}% created new account data")
-		mj_core_message({_player}, "account", "data.prefix", "account", "data.create", {_name})
+		mj_manager_message({_player}, "account", "data.prefix", "account", "data.create", {_name})
 		set {_check2} to mj_editfiles_boolean("account.config", "data.create.auto_disable")
 		if {_check2} is true:
 			mj_editfiles_boolean("account.data", "data.%{_player}'s uuid%.account.condition", "modify", false)
 	else:
-		mj_core_message({_player}, "account", "data.prefix", "account", "data.no_access")
+		mj_manager_message({_player}, "account", "data.prefix", "account", "data.no_access")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_account_change_condition(player: player, target: text):
@@ -125,12 +125,12 @@ function mj_account_change_condition(player: player, target: text):
 	set {_check} to mj_editfiles_boolean("account.data", "data.%{_target}'s uuid%.account.condition")
 	if {_check} is true:
 		mj_editfiles_boolean("account.data", "data.%{_target}'s uuid%.account.condition", "modify", false)
-		mj_core_message({_player}, "account", "data.prefix", "account", "data.condition.disable_me", "%{_target}%")
-		mj_core_message({_target}, "account", "data.prefix", "account", "data.condition.disable_it")
+		mj_manager_message({_player}, "account", "data.prefix", "account", "data.condition.disable_me", "%{_target}%")
+		mj_manager_message({_target}, "account", "data.prefix", "account", "data.condition.disable_it")
 	else:
 		mj_editfiles_boolean("account.data", "data.%{_target}'s uuid%.account.condition", "modify", true)
-		mj_core_message({_player}, "account", "data.prefix", "account", "data.condition.enable_me", "%{_target}%")
-		mj_core_message({_target}, "account", "data.prefix", "account", "data.condition.enable_it")
+		mj_manager_message({_player}, "account", "data.prefix", "account", "data.condition.enable_me", "%{_target}%")
+		mj_manager_message({_target}, "account", "data.prefix", "account", "data.condition.enable_it")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_account_change_current_userdata(player: player, target: text):
@@ -153,7 +153,7 @@ function mj_account_change_current_userdata(player: player, target: text):
 		mj_core_inventory_restore({_player}, {_id2})
 		set {_loc} to mj_core_location("account.data", "data.%{_player}'s uuid%.storage.%{_id2}%")
 		teleport {_player} to {_loc}
-		mj_core_message({_player}, "account", "data.prefix", "account", "data.change_account", "%{_name1}%", "%{_name2}%")
+		mj_manager_message({_player}, "account", "data.prefix", "account", "data.change_account", "%{_name1}%", "%{_name2}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Function

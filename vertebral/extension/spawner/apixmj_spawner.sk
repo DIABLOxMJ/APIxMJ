@@ -19,7 +19,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading spawner..." to console
 		mj_files_spawner()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.spawner.version", "modify", "2022.12.06.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.spawner.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_spawner.sk"
@@ -60,20 +60,20 @@ command /spawner [<text>]:
 					set {_item} to {_item} named {_name}
 					set line 2 of lore of {_item} to "%{_type}%%{_count}%"
 					give {_item} to player
-					mj_core_message(player, "spawner", "data.prefix", "spawner", "data.give_tool", arg-1)
+					mj_manager_message(player, "spawner", "data.prefix", "spawner", "data.give_tool", arg-1)
 				else if {_list::*} contains arg-1:
 					set {_name} to mj_editfiles("spawner.config", "data.format.spawner_name")
 					set {_type} to mj_editfiles("spawner.config", "data.format.spawner_type")
 					set {_item} to mob spawner named {_name}
 					set line 1 of lore of {_item} to "%{_type}%%arg-1%"
 					give {_item} to player
-					mj_core_message(player, "spawner", "data.prefix", "spawner", "data.give", arg-1)
+					mj_manager_message(player, "spawner", "data.prefix", "spawner", "data.give", arg-1)
 				else:
-					mj_core_message(player, "spawner", "data.prefix", "spawner", "data.no_give")
+					mj_manager_message(player, "spawner", "data.prefix", "spawner", "data.no_give")
 			else:
-				mj_core_message(player, "spawner", "data.prefix", "core", "data.argument.name")
+				mj_manager_message(player, "spawner", "data.prefix", "manager", "data.argument.name")
 		else:
-			mj_core_permission(player, "spawner", "data.prefix", "mj.spawner.give")
+			mj_manager_permission(player, "spawner", "data.prefix", "mj.spawner.give")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/spawner":
@@ -104,7 +104,7 @@ on break:
 							drop {_item}
 							exit loop
 		else:
-			mj_core_permission(player, "spawner", "data.prefix", "mj.spawner.give")
+			mj_manager_permission(player, "spawner", "data.prefix", "mj.spawner.give")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on break:
@@ -137,7 +137,7 @@ on break:
 									set line 2 of lore of player's tool to "%{_limit}%%{_count}%"
 								exit loop
 		else:
-			mj_core_permission(player, "spawner", "data.prefix", "mj.spawner.give")
+			mj_manager_permission(player, "spawner", "data.prefix", "mj.spawner.give")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on place of mob spawner:
@@ -165,7 +165,7 @@ on place of mob spawner:
 				if {_count} >= {_check2}:
 					set {_check1} to true
 		if {_check1} is true:
-			mj_core_message(player, "spawner", "data.prefix", "spawner", "data.chunk_limit", "%{_count}%")
+			mj_manager_message(player, "spawner", "data.prefix", "spawner", "data.chunk_limit", "%{_count}%")
 		else:
 			set block at event-location to mob spawner
 			if player's gamemode isn't creative:

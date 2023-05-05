@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading store..." to console
 		mj_files_store()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.store.version", "modify", "2022.10.08.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.store.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk, apixmj_ranker.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_store.sk"
@@ -48,25 +48,25 @@ command /store [<text>] [<text>]:
 		#					if {_list::*} is set:
 		#						loop all players:	
 		#							give {_list::*} to loop-player
-		#							mj_core_message(loop-player, "store", "data.prefix", "core", "data.storage.giveall", {_name})
+		#							mj_manager_message(loop-player, "store", "data.prefix", "core", "data.storage.giveall", {_name})
 		#				else:
 		#					mj_core_storage_gift("%player%", arg-2)
 					else:
 						set {_link} to mj_editfiles("store.config", "data.website_store")
-						mj_core_message(player, "store", "data.prefix", "store", "data.open_store", {_link})
+						mj_manager_message(player, "store", "data.prefix", "store", "data.open_store", {_link})
 						mj_store_menu(player)
 				else:
 					set {_link} to mj_editfiles("store.config", "data.website_store")
-					mj_core_message(player, "store", "data.prefix", "store", "data.open_store", {_link})
+					mj_manager_message(player, "store", "data.prefix", "store", "data.open_store", {_link})
 					mj_store_menu(player)
 			else:
-				mj_core_permission(player, "store", "data.prefix", "mj.store")
+				mj_manager_permission(player, "store", "data.prefix", "mj.store")
 		if sender is console:
 			mj_core_storage_gift(arg-1, arg-2, true)
 			loop all players:
 				set {_find.name} to mj_editfiles("store.data", "data.%arg-2%.name")
 				set {_name} to mj_editfiles_gettext("store", {_find.name}, loop-player)
-				mj_core_message(loop-player, "store", "data.prefix", "store", "data.buy_broadcast", arg-1, {_name})
+				mj_manager_message(loop-player, "store", "data.prefix", "store", "data.buy_broadcast", arg-1, {_name})
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/store" or "/boutique":
@@ -117,17 +117,17 @@ function mj_store_button_product(player: player, id: text):
 			make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
 				mj_core_storage_gift("%{_player}%", {_store})
 				mj_essentials_money_system({_player}, {_price})
-				mj_core_message({_player}, "store", "data.prefix", "store", "data.buy_store", {_name})
+				mj_manager_message({_player}, "store", "data.prefix", "store", "data.buy_store", {_name})
 				stop
 		else:
 			set {_item} to mj_core_item_lore({_player}, {_item3}, 5, "store", "data.no_buy_option")
 			make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
-				mj_core_message({_player}, "store", "data.prefix", "store", "data.no_buy_store")
+				mj_manager_message({_player}, "store", "data.prefix", "store", "data.no_buy_store")
 				stop
 	else:
 		make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
 			set {_link} to mj_editfiles("store.config", "data.website_store")
-			mj_core_message({_player}, "store", "data.prefix", "store", "data.open_store", {_link})
+			mj_manager_message({_player}, "store", "data.prefix", "store", "data.open_store", {_link})
 			stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

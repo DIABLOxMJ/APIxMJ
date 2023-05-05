@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading rankup..." to console
 		mj_files_rankup()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.rankup.version", "modify", "2022.11.17.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.rankup.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk, apixmj_ranker.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_rankup.sk"
@@ -38,7 +38,7 @@ command /rankup:
 		if player has permission "*" or "mj.*" or "mj.rankup.*" or "mj.rankup":
 			mj_rankup_menu_main(player)
 		else:
-			mj_core_permission(player, "rankup", "data.prefix", "mj.rankup")
+			mj_manager_permission(player, "rankup", "data.prefix", "mj.rankup")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Command
@@ -133,7 +133,7 @@ function mj_rankup_menu_confirm_button_buy(player: player, id: text, slot: numbe
 		mj_essentials_money_system({_player}, {_price1})
 		mj_ranker_modify({_player}, {_rank1})
 		loop all players:
-			mj_core_message(loop-player, "rankup", "data.prefix", "rankup", "data.success", "%{_player}%", {_rank2})
+			mj_manager_message(loop-player, "rankup", "data.prefix", "rankup", "data.success", "%{_player}%", {_rank2})
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -144,7 +144,7 @@ function mj_rankup_menu_confirm_button_store(player: player, id: text, slot: num
 	set {_text} to mj_editfiles_gettext("rankup", "data.store")
 	set {_item1} to mj_manager_item_button({_player}, {_item}, "left_click", "rankup", "data.click_open_store")
 	make a gui slot {_slot} of {_player} with {_item1} named {_text} to close:
-		mj_core_message({_player}, "rankup", "data.prefix", "rankup", "data.link_website_store", {_link})
+		mj_manager_message({_player}, "rankup", "data.prefix", "rankup", "data.link_website_store", {_link})
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

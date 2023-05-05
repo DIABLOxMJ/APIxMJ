@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading portal..." to console
 		mj_files_portal()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.portal.version", "modify", "2022.11.06.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.portal.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_portal.sk"
@@ -43,7 +43,7 @@ command /portal [<text>] [<text>]:
 					if arg-2 is set:
 						mj_portal_define_point(player, arg-2, arg-1, targeted block's location)
 					else:
-						mj_core_message(player, "portal", "data.prefix", "core", "data.argument.name")
+						mj_manager_message(player, "portal", "data.prefix", "manager", "data.argument.name")
 				else if arg-1 is "pose":
 					mj_portal_define_pose(player, arg-2)
 				else if arg-1 is "condition":
@@ -51,11 +51,11 @@ command /portal [<text>] [<text>]:
 				else if arg-1 is "permission":
 					mj_portal_permission(player, arg-2)
 				else:
-					mj_core_message(player, "portal", "data.prefix", "core", "data.argument.name")
+					mj_manager_message(player, "portal", "data.prefix", "manager", "data.argument.name")
 			else:
-				mj_core_message(player, "portal", "data.prefix", "core", "data.argument.name")
+				mj_manager_message(player, "portal", "data.prefix", "manager", "data.argument.name")
 		else:
-			mj_core_permission(player, "portal", "data.prefix", "mj.portal")
+			mj_manager_permission(player, "portal", "data.prefix", "mj.portal")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/portal":
@@ -77,19 +77,19 @@ function mj_portal_create(player: player, name: text):
 	mj_editfiles("portal.data", "data.%{_id}%.point1", "modify", "none")
 	mj_editfiles("portal.data", "data.%{_id}%.point2", "modify", "none")
 	mj_editfiles("portal.data", "data.%{_id}%.pose", "modify", "none")
-	mj_core_message({_player}, "portal", "data.prefix", "portal", "data.create", {_name})
+	mj_manager_message({_player}, "portal", "data.prefix", "portal", "data.create", {_name})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_portal_define_point(player: player, name: text, type: text, value: location):
 	set {_id} to mj_core_id_checker("portal.data", "data", {_name})
 	mj_core_location_block("portal.data", "data.%{_id}%.%{_type}%", "modify", {_value})
-	mj_core_message({_player}, "portal", "data.prefix", "portal", "data.point", {_type}, {_name})
+	mj_manager_message({_player}, "portal", "data.prefix", "portal", "data.point", {_type}, {_name})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_portal_define_pose(player: player, name: text):
 	set {_id} to mj_core_id_checker("portal.data", "data", {_name})
 	mj_core_location("portal.data", "data.%{_id}%.pose", "modify", {_player})
-	mj_core_message({_player}, "portal", "data.prefix", "portal", "data.pose", {_name})
+	mj_manager_message({_player}, "portal", "data.prefix", "portal", "data.pose", {_name})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_portal_condition(player: player, name: text):
@@ -100,7 +100,7 @@ function mj_portal_condition(player: player, name: text):
 	if {_check} is true:
 		mj_editfiles_boolean("portal.data", "data.%{_id}%.condition", "modify", false)
 		set {_result} to mj_editfiles_gettext("manager", "data.type.disable", {_player})
-	mj_core_message({_player}, "portal", "data.prefix", "portal", "data.condition", {_name}, {_result})
+	mj_manager_message({_player}, "portal", "data.prefix", "portal", "data.condition", {_name}, {_result})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_portal_permission(player: player, name: text):
@@ -111,7 +111,7 @@ function mj_portal_permission(player: player, name: text):
 	if {_check} is true:
 		mj_editfiles_boolean("portal.data", "data.%{_id}%.permission", "modify", false)
 		set {_result} to mj_editfiles_gettext("manager", "data.type.disable", {_player})
-	mj_core_message({_player}, "portal", "data.prefix", "portal", "data.permission", {_name}, {_result})
+	mj_manager_message({_player}, "portal", "data.prefix", "portal", "data.permission", {_name}, {_result})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 every 1 tick:
@@ -132,7 +132,7 @@ every 1 tick:
 							if {_player} has permission "*" or "mj.*" or "mj.portal.*" or "mj.portal.%{_id}%":
 								teleport {_player} to {_pose}
 							else:
-								mj_core_permission({_player}, "portal", "data.prefix", "mj.portal.%{_id}%")
+								mj_manager_permission({_player}, "portal", "data.prefix", "mj.portal.%{_id}%")
 						else:
 							teleport {_player} to {_pose}
 	stop

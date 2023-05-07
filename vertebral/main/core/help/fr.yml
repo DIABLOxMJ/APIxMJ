@@ -111,6 +111,9 @@ data:
             '12': "&6- &a/dataeditor gui"
             '13': "&0- &7Ouvre ce même menu pour récupérer"
             '14': "&0- &7sans perdre l'item d'origine."
+            '15': "&6- &a/dataeditor sign [<number>] [<text>]"
+            '16': "&0- &7Un éditeur de texte pour modifier"
+            '17': "&0- &7les panneaux ciblés."
     console:
         name: "&aConsole de commande"
         type: command

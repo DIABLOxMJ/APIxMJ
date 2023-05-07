@@ -21,7 +21,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.05.05.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.05.07.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -235,6 +235,19 @@ command /dataeditor [<text>] [<text>] [<text>] [<text>]:
 				mj_editor_storage_edit(player)
 			else if arg-1 is "gui":
 				mj_editor_storage_open(player)
+			else if arg-1 is "sign":
+				if targeted block is a sign:
+					if arg-2 is "1" or "2" or "3" or "4":
+						if arg-3 is set:
+							set {_line} to arg-2 parsed as number
+							set line {_line} of targeted block to colored arg-3
+							send "[APIxMJ] Set line %arg-2% : %arg-3%"
+						else:
+							mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
+					else:
+						open sign gui of target block to player
+				else:
+					send "[APIxMJ] No sign targeted.."
 			else:
 				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		else:
@@ -243,7 +256,7 @@ command /dataeditor [<text>] [<text>] [<text>] [<text>]:
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/dataeditor" or "/dae":
 	if player has permission "*" or "mj.*" or "mj.dataeditor.*" or "mj.dataeditor":
-		set tab completions for position 1 to "text", "number", "boolean", "list", "item", "item_name", "item_lore", "item_enchant", "editgui", "gui" and "delete"
+		set tab completions for position 1 to "text", "number", "boolean", "list", "item", "item_name", "item_lore", "item_enchant", "editgui", "gui", "sign" and "delete"
 		if tab arg-1 is "text" or "number" or "boolean" or "list" or "delete" or "item":
 			set {_list1::*} to the currently loaded yaml files
 			set tab completions for position 2 to {_list1::*}
@@ -275,6 +288,14 @@ on tab complete of "/dataeditor" or "/dae":
 		set tab completions for position 2 to {_list1::*}
 		set tab completions for position 3 to 1, 2, 3, 4, 5 and 255
 		set tab completions for position 4 to 1, 2, 3, 4, 5 and 255
+	if tab arg-1 is "sign":
+		set tab completions for position 2 to 1, 2, 3 and 4
+		set {_line} to tab arg-2 parsed as number
+		set {_sign} to line {_line} of targeted block
+		if {_sign} isn't empty:
+			set tab completions for position 3 to {_sign}
+		else:
+			set tab completions for position 3 to "your text"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editor_storage_open(player: player):

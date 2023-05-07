@@ -135,6 +135,12 @@ data:
                 visible: false
                 depends:
                     '1': none
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 source: none
                 github_folder: none
                 folder: none
@@ -159,6 +165,12 @@ data:
                 installed: true
                 visible: true
                 depends:
+                    '1': none
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
                     '1': none
                 source: none
                 github_folder: manager
@@ -189,6 +201,12 @@ data:
                 index: vertebral_main
                 depends:
                     '1': main.manager
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 source: none
                 github_folder: vertebral/main/core
                 folder: main/core
@@ -221,6 +239,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 source: none
                 github_folder: vertebral/main/ranker
                 folder: main/ranker
@@ -250,6 +274,12 @@ data:
                     '1': main.manager
                     '2': vertebral_main.core
                     '3': vertebral_main.ranker
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 source: none
                 github_folder: vertebral/main/essentials
                 folder: main/essentials
@@ -279,6 +309,12 @@ data:
                     '1': main.manager
                     '2': vertebral_main.core
                     '3': vertebral_main.ranker
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 source: none
                 github_folder: vertebral/main/account
                 folder: main/account
@@ -305,6 +341,12 @@ data:
                 visible: true
                 depends:
                     '1': main.manager
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 source: none
                 github_folder: vertebral/main/encrypter
                 folder: main/encrypter
@@ -333,6 +375,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/auction
                 folder: main/extension/auction
                 slot: 13
@@ -359,6 +407,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/calendar
                 folder: main/extension/calendar
                 slot: 10
@@ -387,6 +441,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/drawer
                 folder: main/extension/drawer
                 slot: 11
@@ -414,6 +474,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/duel
                 folder: main/extension/duel
                 slot: 12
@@ -441,7 +507,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
-                    '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': vertebral_main.essentials
                 github_folder: vertebral/extension/expbank
                 folder: main/extension/expbank
                 slot: 13
@@ -468,6 +539,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/lobby
                 folder: main/extension/lobby
                 slot: 15
@@ -494,6 +571,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/lootbox
                 folder: main/extension/lootbox
                 slot: 16
@@ -520,6 +603,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/menu
                 folder: main/extension/menu
                 slot: 19
@@ -546,6 +635,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/multitools
                 folder: main/extension/multitools
                 slot: 20
@@ -572,6 +667,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/portal
                 folder: main/extension/portal
                 slot: 21
@@ -598,6 +699,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/rankup
                 folder: main/extension/rankup
                 slot: 22
@@ -625,6 +732,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/shop
                 folder: main/extension/shop
                 slot: 23
@@ -652,6 +765,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/spawner
                 folder: main/extension/spawner
                 slot: 24
@@ -680,6 +799,12 @@ data:
                     '2': vertebral_main.core
                     '3': vertebral_main.ranker
                     '4': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: vertebral/extension/store
                 folder: main/extension/store
                 slot: 25
@@ -707,6 +832,12 @@ data:
                 visible: true
                 depends:
                     '1': main.manager
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: gamemodes/classic/main/core
                 folder: gamemodes/classic/main/core
                 slot: 10
@@ -747,6 +878,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': gamemodes_classic_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: gamemodes/classic/extension/expbank
                 folder: gamemodes/classic/extension/expbank
                 slot: 10
@@ -773,6 +910,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': gamemodes_classic_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 github_folder: gamemodes/classic/extension/spawner
                 folder: gamemodes/classic/extension/spawner
                 slot: 11
@@ -801,6 +944,12 @@ data:
                     '1': main.manager
                     '2': vertebral_main.core
                     '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 source: none
                 github_folder: gamemodes/faction/main/faction
                 folder: gamemodes/faction/main/
@@ -829,6 +978,12 @@ data:
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 source: none
                 github_folder: gamemodes/minigames/main/teams
                 folder: gamemodes/minigames/main/teams
@@ -859,6 +1014,12 @@ data:
                     '1': main.manager
                     '2': vertebral_main.core
                     '3': gamemodes_minigames_main.teams
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 source: bedwars
                 github_folder: gamemodes/bedwars/games/bedwars
                 folder: gamemodes/bedwars/games/bedwars
@@ -891,6 +1052,12 @@ data:
                     '1': main.manager
                     '2': vertebral_main.core
                     '3': gamemodes_minigames_games.bedwars
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
                 source: bedwars
                 github_folder: editor/bedwars_editor
                 folder: editor/bedwars_editor
@@ -911,3 +1078,38 @@ data:
                 item: red bed
                 gui_background:
                     item: light blue stained glass pane
+            faction_editor:
+                name: data.addon.editor.faction_editor.name
+                version: 0000.00.00.0000
+                installed: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': gamemodes_faction_main.faction
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: faction
+                github_folder: editor/faction_editor
+                folder: editor/faction_editor
+                slot: 13
+                kick: false
+                skript:
+                    '1': apixmj_faction_editor
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.faction_editor.config
+                    '2': mj.faction_editor.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: iron sword
+                gui_background:
+                    item: red stained glass pane

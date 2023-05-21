@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading store..." to console
 		mj_files_store()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.store.version", "modify", "2023.05.05.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.store.version", "modify", "2023.05.21.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk, apixmj_ranker.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_store.sk"
@@ -84,7 +84,7 @@ on tab complete of "/store" or "/boutique":
 function mj_store_menu(player: player):
 	set {_title} to mj_editfiles_gettext("store", "data.title", {_player})
 	set {_line} to mj_editfiles_number("store.config", "data.gui_size")
-	mj_core_gui_generator({_player}, {_line}, true, false, {_title}, "store")
+	mj_core_gui_generator({_player}, {_line}, true, "default", {_title}, "store")
 	set {_list::*} to mj_manager_nodes("store.data")
 	loop {_list::*}:
 		set {_check} to mj_editfiles_boolean("store.data", "data.%loop-value%.visible")

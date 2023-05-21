@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading rankup..." to console
 		mj_files_rankup()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.rankup.version", "modify", "2023.05.05.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.rankup.version", "modify", "2023.05.21.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk, apixmj_ranker.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_rankup.sk"
@@ -48,7 +48,7 @@ command /rankup:
 function mj_rankup_menu_main(player: player):
 	set {_name} to mj_editfiles_gettext("rankup", "data.title", {_player})
 	set {_size} to mj_editfiles_number("rankup.config", "data.gui_size")
-	mj_core_gui_generator({_player}, {_size}, true, false, {_name}, "rankup")
+	mj_core_gui_generator({_player}, {_size}, true, "default", {_name}, "rankup")
 	set {_list::*} to mj_manager_nodes("rankup.data")
 	loop {_list::*}:
 		set {_value} to loop-value

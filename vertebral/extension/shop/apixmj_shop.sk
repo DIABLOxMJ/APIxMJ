@@ -17,7 +17,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading shop..." to console
 		mj_files_shop()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.shop.version", "modify", "2023.05.05.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.shop.version", "modify", "2023.05.21.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_shop.sk"
@@ -156,7 +156,7 @@ function mj_shop_menu(player: player):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_menu_main(player: player):
 	set {_title} to mj_editfiles_gettext("shop", "data.title.category", {_player})
-	mj_core_gui_generator({_player}, 5, true, false, {_title}, "shop")
+	mj_core_gui_generator({_player}, 5, true, "default", {_title}, "shop")
 	set {_list::*} to mj_manager_nodes("shop.data", "data.category")
 	loop {_list::*}:
 		set {_value} to loop-value
@@ -199,7 +199,7 @@ function mj_shop_menu_product(player: player, value: text, page: number=1, retur
 	else:
 		set {_name} to mj_editfiles_gettext("shop", "data.index.category.%{_value}%.name", {_player})
 		set {_title} to mj_editfiles_gettext("shop", "data.title.named", {_player}, {_name})
-	mj_core_gui_generator({_player}, 6, true, false, {_title}, "shop")
+	mj_core_gui_generator({_player}, 6, true, "default", {_title}, "shop")
 	set {_list::*} to mj_manager_nodes("shop.data", "data.product")
 	loop {_list::*}:
 		set {_value2} to loop-value
@@ -266,7 +266,7 @@ function mj_shop_menu_product_button_admin(player: player, value: text, item: it
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_menu_trade(player: player, value: text, page: number=1, return: boolean=true):
 	set {_title} to mj_editfiles_gettext("shop", "data.title.offer")
-	mj_core_gui_generator({_player}, 5, true, false, {_title}, "shop")
+	mj_core_gui_generator({_player}, 5, true, "default", {_title}, "shop")
 	set {_category} to mj_editfiles("shop.data", "data.product.%{_value}%.category")
 	set {_buy_price} to mj_editfiles_number("shop.data", "data.product.%{_value}%.dynamic_value.buy.price")
 	set {_sell_price} to mj_editfiles_number("shop.data", "data.product.%{_value}%.dynamic_value.sell.price")

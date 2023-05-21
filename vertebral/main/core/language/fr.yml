@@ -36,6 +36,7 @@ data:
         change: "&7Vous avez désormais le surnom &a$0"
         reveal: "&7Le joueur &a$0 &7utilise le surnom &a$1"
         reset: "&7Vous avez enlever le surnom de &a$0"
+        not_found: "&cAucun joueur utilise de surnom…"
     storage:
         name: "&7Stockage de &a$0"
         create: "&7Vous avez créé un nouveau stockage &a$0"

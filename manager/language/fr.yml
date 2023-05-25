@@ -56,6 +56,17 @@ data:
                 '1': "&7Cliquer une fois pour savoir s'il y a une"
                 '2': "&7mise à jour disponible et si c'est le cas"
                 '3': "&7pouvez mettre à jour à n'importe quel moment."
+        condition:
+            enable:
+                name: "&aActiver le Skript &r$0"
+                lore:
+                    '1': "&7Si vous souhaitez rendre ce Skript"
+                    '2': "&7de nouveau fonctionnel activer ici."
+            disable:
+                name: "&cDésactiver le Skript &r$0"
+                lore:
+                    '1': "&7Si vous souhaitez rendre ce Skript"
+                    '2': "&7inactif désactiver ici."
         helper:
             name: "&eDocumentation"
             lore:
@@ -81,6 +92,8 @@ data:
         uninstall: "&7Désinstaller le Skript"
         update_check: "&7Rechercher une mise à jour"
         update_now: "&7Installer la mise à jour"
+        condition_enable: "&7Activer le Skript"
+        condition_disable: "&7Désactiver le Skript"
         helper: "&7Ouvrir la documentation"
         gui_panel: "&7Ouvrir le panneau de configuration"
         gui_folder: "&7Ouvrir le répertoire"
@@ -127,6 +140,10 @@ data:
             answer: "Votre réponse"
             sender: "&7Une question de &a$0 &6: &r$1"
             successful: "&7Vous avez envoyé la question suivante &6: &r$0"
+            prevention: 
+                '1': "&c/!\\ Vérifier qu'un membre de la modération soit connecté,"
+                '2': "&c/!\\ Si la modération est là, patienter un moment pour avoir une réponse,"
+                '3': "&c/!\\ Ce n'est pas un canal de discussion, merci de ne pas l'utiliser en tant que tel…"
             send: "&7Vous avez répondu à &a$0 &6: &r$1"
             received: "&7Vous avez reçu une réponse de &a$0 &6: &r$1"
             viewer: "&a$0 &7à répondu à la question de &a$1 &7avec &6: &r$2"
@@ -201,6 +218,12 @@ data:
             lore:
                 '1': " &6- &7Des Skripts spécialement conçus pour"
                 '2': " &0- &7Développé et édité des paramètres particulier !"
+        control_condition:
+            name: "&aContrôleur de Skript"
+            name_lite: "&aContrôleur"
+            lore:
+                '1': " &6- &7Activer où désactiver des Skripts"
+                '2': " &0- &7n'as jamais était si simple !"
     addon:
         main:
             custom:

@@ -9,6 +9,13 @@ data:
         uninstalled:
             name: data.button.uninstalled.name
             slot: 21
+        condition:
+            enable:
+                name: data.button.condition.enable.name
+                slot: 28
+            disable:
+                name: data.button.condition.disable.name
+                slot: 28
         helper:
             name: data.button.helper.name
             slot: 16
@@ -122,8 +129,17 @@ data:
             visible: false
             menu_back: main
             menu_next: editor
-            slot: 43
+            slot: 34
             item: chest
+            gui_background:
+                item: black stained glass pane
+        control_condition:
+            name: data.index.control_condition.name
+            visible: true
+            menu_back: main
+            menu_next: control_condition
+            slot: 43
+            item: tripwire hook
             gui_background:
                 item: black stained glass pane
     addon:
@@ -131,6 +147,7 @@ data:
             custom:
                 name: data.addon.main.custom.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: true
                 visible: false
                 depends:
@@ -162,6 +179,7 @@ data:
             manager:
                 name: data.addon.main.manager.name
                 version: 0000.00.00.0000
+                condition: true
                 installed: true
                 visible: true
                 depends:
@@ -196,6 +214,7 @@ data:
             core:
                 name: data.addon.vertebral_main.core.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 index: vertebral_main
@@ -234,6 +253,7 @@ data:
             ranker:
                 name: data.addon.vertebral_main.ranker.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -268,6 +288,7 @@ data:
             essentials:
                 name: data.addon.vertebral_main.essentials.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -303,6 +324,7 @@ data:
             account:
                 name: data.addon.vertebral_main.account.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -337,6 +359,7 @@ data:
             encrypter:
                 name: data.addon.vertebral_main.encrypter.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -370,6 +393,7 @@ data:
             auction:
                 name: data.addon.vertebral_extension.auction.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: false
                 depends:
@@ -402,6 +426,7 @@ data:
             calendar:
                 name: data.addon.vertebral_extension.calendar.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -436,6 +461,7 @@ data:
             drawer:
                 name: data.addon.vertebral_extension.drawer.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -469,6 +495,7 @@ data:
             duel:
                 name: data.addon.vertebral_extension.duel.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: false
                 depends:
@@ -502,6 +529,7 @@ data:
             expbank:
                 name: data.addon.vertebral_extension.expbank.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -534,6 +562,7 @@ data:
             lobby:
                 name: data.addon.vertebral_extension.lobby.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: false
                 depends:
@@ -566,6 +595,7 @@ data:
             lootbox:
                 name: data.addon.vertebral_extension.lootbox.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: false
                 depends:
@@ -598,6 +628,7 @@ data:
             menu:
                 name: data.addon.vertebral_extension.menu.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: false
                 depends:
@@ -630,6 +661,7 @@ data:
             multitools:
                 name: data.addon.vertebral_extension.multitools.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -662,6 +694,7 @@ data:
             portal:
                 name: data.addon.vertebral_extension.portal.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -694,6 +727,7 @@ data:
             rankup:
                 name: data.addon.vertebral_extension.rankup.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -727,6 +761,7 @@ data:
             shop:
                 name: data.addon.vertebral_extension.shop.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -760,6 +795,7 @@ data:
             spawner:
                 name: data.addon.vertebral_extension.spawner.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -792,6 +828,7 @@ data:
             store:
                 name: data.addon.vertebral_extension.store.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -828,6 +865,7 @@ data:
             core:
                 name: data.addon.gamemodes_classic_main.core.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -873,6 +911,7 @@ data:
             expbank:
                 name: data.addon.gamemodes_classic_extension.expbank.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -905,6 +944,7 @@ data:
             spawner:
                 name: data.addon.gamemodes_classic_extension.spawner.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -938,6 +978,7 @@ data:
             faction:
                 name: data.addon.gamemodes_faction_main.faction.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -973,6 +1014,7 @@ data:
             teams:
                 name: data.addon.gamemodes_minigames_main.teams.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -1008,6 +1050,7 @@ data:
             bedwars:
                 name: data.addon.gamemodes_minigames_games.bedwars.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -1046,6 +1089,7 @@ data:
             bedwars_editor:
                 name: data.addon.editor.bedwars_editor.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:
@@ -1081,6 +1125,7 @@ data:
             faction_editor:
                 name: data.addon.editor.faction_editor.name
                 version: 0000.00.00.0000
+                condition: false
                 installed: false
                 visible: true
                 depends:

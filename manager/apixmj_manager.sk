@@ -19,7 +19,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.05.05.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.05.25.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_loader():
@@ -206,8 +206,8 @@ function mj_manager_menu_request(player: player, source: text, id: text, option:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_request_button_confirm(player: player, source: text, id: text, option: text):
 	set {_lang} to mj_editfiles("manager.config", "data.language.use")
-	set {_find_name} to mj_editfiles("manager.data", "data.button.request.confirm.name")
-	set {_name} to mj_editfiles_gettext("manager", {_find_name})
+	set {_name.find} to mj_editfiles("manager.data", "data.button.request.confirm.name")
+	set {_name} to mj_editfiles_gettext("manager", {_name.find})
 	set {_slot} to mj_editfiles_number("manager.data", "data.button.request.confirm.slot")
 	set {_item} to lime wool
 	set {_item} to mj_manager_item_description({_player}, {_item}, "data.button.request.confirm")
@@ -221,8 +221,8 @@ function mj_manager_menu_request_button_confirm(player: player, source: text, id
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_request_button_cancel(player: player, source: text, id: text, option: text):
 	set {_lang} to mj_editfiles("manager.config", "data.language.use")
-	set {_find_name} to mj_editfiles("manager.data", "data.button.request.cancel.name")
-	set {_name} to mj_editfiles_gettext("manager", {_find_name})
+	set {_name.find} to mj_editfiles("manager.data", "data.button.request.cancel.name")
+	set {_name} to mj_editfiles_gettext("manager", {_name.find})
 	set {_slot} to mj_editfiles_number("manager.data", "data.button.request.cancel.slot")
 	set {_item} to red wool
 	set {_item} to mj_manager_item_description({_player}, {_item}, "data.button.request.cancel")
@@ -243,17 +243,18 @@ function mj_manager_menu(player: player, id: text="main"):
 		mj_manager_menu_index({_player}, {_id})
 		mj_manager_menu_addon({_player}, {_id})
 	else:
-		set {_find_name} to mj_editfiles("manager.data", "data.index.%{_id}%.name")
-		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+		set {_name.find} to mj_editfiles("manager.data", "data.index.%{_id}%.name")
+		set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 		set {_title} to mj_editfiles_gettext("manager", "data.menu.menu", {_player}, {_name})
 		if length of {_name} >= 16:
-			set {_name} to mj_editfiles_gettext("manager", "%{_find_name}%_lite", {_player})
+			set {_name} to mj_editfiles_gettext("manager", "%{_name.find}%_lite", {_player})
 			set {_title} to mj_editfiles_gettext("manager", "data.menu.menu_lite", {_player}, {_name})
 		set {_item} to mj_editfiles("manager.data", "data.index.%{_id}%.gui_background.item")
 		mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
 		mj_manager_menu_index({_player}, {_id})
 		mj_manager_menu_addon({_player}, {_id})
 		set {_return} to mj_editfiles("manager.data", "data.index.%{_id}%.menu_back")
+		mj_manager_menu_control_button_condition_list({_player}, {_id})
 		mj_manager_menu_return({_player}, {_return}, 49)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -276,8 +277,8 @@ function mj_manager_menu_addon(player: player, id: text):
 function mj_manager_menu_index_button_generator(player: player, id: text):
 	set {_visible} to mj_editfiles_boolean("manager.data", "data.index.%{_id}%.visible")
 	if {_visible} is true:
-		set {_find_name} to mj_editfiles("manager.data", "data.index.%{_id}%.name")
-		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+		set {_name.find} to mj_editfiles("manager.data", "data.index.%{_id}%.name")
+		set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 		set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
 		set {_slot} to mj_editfiles_number("manager.data", "data.index.%{_id}%.slot")
 		set {_item} to mj_manager_item_convert("manager.data", "data.index.%{_id}%.item", true)
@@ -293,8 +294,8 @@ function mj_manager_menu_index_button_generator(player: player, id: text):
 function mj_manager_menu_addon_button_generator(player: player, source: text, id: text):
 	set {_visible} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.visible")
 	if {_visible} is true:
-		set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+		set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+		set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 		set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
 		set {_slot} to mj_editfiles_number("manager.data", "data.addon.%{_source}%.%{_id}%.slot")
 		set {_item} to mj_manager_item_convert("manager.data", "data.addon.%{_source}%.%{_id}%.item", true)
@@ -311,12 +312,12 @@ function mj_manager_menu_addon_button_generator(player: player, source: text, id
 # APIxMJ - Gui Control
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control(player: player, source: text, id: text):
-	set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_title} to mj_editfiles_gettext("manager", "data.menu.manager", {_player}, {_name})
 	if length of {_name} >= 16:
-		set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-		set {_name} to mj_editfiles_gettext("manager", "%{_find_name}%_lite", {_player})
+		set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+		set {_name} to mj_editfiles_gettext("manager", "%{_name.find}%_lite", {_player})
 		set {_title} to mj_editfiles_gettext("manager", "data.menu.manager_lite", {_player}, {_name})
 	set {_item} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 5, {_title}, {_item})
@@ -325,6 +326,7 @@ function mj_manager_menu_control(player: player, source: text, id: text):
 	mj_manager_menu_control_button_update({_player}, {_source}, {_id})
 	mj_manager_menu_control_button_help({_player}, {_source}, {_id})
 	if {_id} isn't "manager":
+		mj_manager_menu_control_button_condition({_player}, {_source}, {_id})
 		mj_manager_menu_control_button_uninstalled({_player}, {_source}, {_id})
 	mj_manager_menu_return({_player}, {_source}, 40)
 	stop
@@ -335,8 +337,8 @@ function mj_manager_menu_control(player: player, source: text, id: text):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_status(player: player, source: text, id: text, slot: number):
 	set {_lang} to mj_editfiles("manager.config", "data.language.use")
-	set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_item} to paper
 	set {_count} to 2
 	set {_desc1} to mj_editfiles_gettext("manager", "data.category.info", {_player})
@@ -383,8 +385,8 @@ function mj_manager_menu_control_button_status_data(player: player, source: text
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_installer(player: player, source: text, id: text):
 	set {_lang} to mj_editfiles("manager.config", "data.language.use")
-	set {_find_name} to mj_editfiles("manager.data", "data.button.installer.name")
-	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_name.find} to mj_editfiles("manager.data", "data.button.installer.name")
+	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_slot} to mj_editfiles_number("manager.data", "data.button.installer.slot")
 	set {_installed} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed")
 	set {_item} to minecart
@@ -421,8 +423,8 @@ function mj_manager_menu_control_button_installer(player: player, source: text, 
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_installer(player: player, source: text, id: text, option: text):
-	set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_github} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.github_folder")
 	set {_folder} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.folder")
 	create script "plugins/APIxMJ/%{_folder}%/language/log.txt"
@@ -431,6 +433,7 @@ function mj_manager_menu_control_installer(player: player, source: text, id: tex
 	delete file "plugins/APIxMJ/%{_folder}%/help/log.txt"
 	mj_manager_menu_control_installer_skript({_player}, {_source}, {_id}, {_option})
 	mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed", "modify", true)
+	mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.condition", "modify", true)
 	if {_option} is "install":	
 		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.installed", {_name})
 		set {_kick} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.kick")
@@ -442,8 +445,8 @@ function mj_manager_menu_control_installer(player: player, source: text, id: tex
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_installer_skript(player: player, source: text, id: text, option: text):
-	set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
 	set {_github} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.github_folder")
 	set {_list::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.skript")
@@ -493,11 +496,11 @@ function mj_manager_menu_control_button_update(player: player, source: text, id:
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
 	set {_github} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.github_folder")
 	set {_folder} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.folder")
-	set {_installed} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed")
-	if {_installed} is true:
+	set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed")
+	if {_check} is true:
 		set {_lang} to mj_editfiles("manager.config", "data.language.use")
-		set {_find_name} to mj_editfiles("manager.data", "data.button.update.name")
-		set {_name} to mj_editfiles_gettext("manager", "%{_find_name}%.%{_choice}%", {_player})
+		set {_name.find} to mj_editfiles("manager.data", "data.button.update.name")
+		set {_name} to mj_editfiles_gettext("manager", "%{_name.find}%.%{_choice}%", {_player})
 		set {_slot} to mj_editfiles_number("manager.data", "data.button.update.slot")
 		if {_choice} is 2:
 			set {_item} to minecart with furnace
@@ -595,6 +598,9 @@ function mj_manager_update_data():
 						mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.installed", "modify", {_value3})
 						set {_value4} to mj_editfiles("manager.data_old", "data.addon.%{_value1}%.%{_value2}%.version")
 						mj_editfiles("manager.data", "data.addon.%{_value1}%.%{_value2}%.version", "modify", {_value4})
+					set {_value5} to mj_editfiles_boolean("manager.data_old", "data.addon.%{_value1}%.%{_value2}%.condition")
+					if {_value5} is true:
+						mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.condition", "modify", {_value5})
 		unload yaml "mj.manager.data_old"
 		delete file "plugins/APIxMJ/manager/data_old.yml"
 		send "[APIxMJ] Database for Manager Updated !" to console
@@ -608,10 +614,10 @@ function mj_manager_update_data():
 # APIxMJ - Gui Control (Uninstalled)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_uninstalled(player: player, source: text, id: text):
-	set {_installed} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed")
-	if {_installed} is true:
-		set {_find_name} to mj_editfiles("manager.data", "data.button.uninstalled.name")
-		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed")
+	if {_check} is true:
+		set {_name.find} to mj_editfiles("manager.data", "data.button.uninstalled.name")
+		set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 		set {_slot} to mj_editfiles_number("manager.data", "data.button.uninstalled.slot")
 		set {_item} to minecart with tnt
 		set {_item} to mj_manager_item_description({_player}, {_item}, "data.button.uninstalled")
@@ -622,14 +628,15 @@ function mj_manager_menu_control_button_uninstalled(player: player, source: text
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_uninstalled(player: player, source: text, id: text):
-	set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_list::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.skript")
 	loop {_list::*}:
 		set {_skript} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.skript.%loop-value%")
 		unload script file "%{_skript}%.sk"
 		delete file "plugins/Skript/scripts/-%{_skript}%.sk"
 	mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed", "modify", false)
+	mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.condition", "modify", false)
 	mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.uninstalled", {_name})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -656,13 +663,65 @@ function mj_manager_reset_data():
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Control (Reset)
 # =====================================================================================================================
+# APIxMJ - Gui Control (Condition)
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_control_button_condition_list(player: player, source: text):
+	if {_source} contain "condition":
+		set {_slot} to 0
+		set {_list1::*} to mj_manager_nodes("manager.data", "data.addon")
+		loop {_list1::*}:
+			set {_value1} to loop-value-1
+			if {_value1} doesn't contain "main":
+				set {_list2::*} to mj_manager_nodes("manager.data", "data.addon.%{_value1}%")
+				loop {_list2::*}:
+					set {_value2} to loop-value-2
+					mj_manager_menu_control_button_condition({_player}, {_value1}, {_value2}, {_slot})
+					add 1 to {_slot}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_menu_control_button_condition(player: player, source: text, id: text, slot: number=-1):
+	set {_list::*} to mj_manager_skript_list()
+	set {_skript} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.skript.1")
+	if {_list::*} contains "%{_skript}%.sk" or "-%{_skript}%.sk":
+		if "%{_source}%" doesn't contain "main":
+			set {_lang} to mj_editfiles("manager.config", "data.language.use")
+			set {_name.find1} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+			set {_name1} to mj_editfiles_gettext("manager", {_name.find1}, {_player})
+			set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.condition")
+			if {_check} is true:
+				set {_type} to "disable"
+				set {_item} to red wool block
+			else:
+				set {_type} to "enable"
+				set {_item} to lime wool block
+			set {_name.find2} to mj_editfiles("manager.data", "data.button.condition.%{_type}%.name")
+			set {_name2} to mj_editfiles_gettext("manager", {_name.find2}, {_player}, {_name1})
+			if {_slot} is -1:
+				set {_slot} to mj_editfiles_number("manager.data", "data.button.condition.%{_type}%.slot")
+			set {_item} to mj_manager_item_description({_player}, {_item}, "data.button.condition.%{_type}%")
+			set {_item} to mj_manager_item_button({_player}, {_item}, "left_click", "manager", "data.open.condition_%{_type}%")
+			make a gui slot {_slot} of {_player} with {_item} named {_name2} to run:
+				if {_check} is true:
+					mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.condition", "modify", false)
+					unload script file {_skript}
+				else:
+					mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.condition", "modify", true)
+					enable script file {_skript}
+				set {_type.view} to mj_editfiles_gettext("manager", "data.type.%{_type}%", {_player})
+				mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.condition", {_type.view}, {_name1})
+				mj_manager_menu_control_button_condition({_player}, {_source}, {_id}, {_slot})
+				stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Gui Control (Condition)
+# =====================================================================================================================
 # APIxMJ - Gui Control (Help)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_help(player: player, source: text, id: text):
-	set {_installed} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed")
-	if {_installed} is true:
-		set {_find_name} to mj_editfiles("manager.data", "data.button.helper.name")
-		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed")
+	if {_check} is true:
+		set {_name.find} to mj_editfiles("manager.data", "data.button.helper.name")
+		set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 		set {_slot} to mj_editfiles_number("manager.data", "data.button.helper.slot")
 		set {_item} to book
 		set {_item} to mj_manager_item_description({_player}, {_item}, "data.button.helper")
@@ -798,7 +857,7 @@ function mj_manager_skript_start():
 			set {_list2::*} to mj_manager_nodes("manager.data", "data.addon.%{_value1}%")
 			loop {_list2::*}:
 				set {_value2} to loop-value-2
-				set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.installed")
+				set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.condition")
 				if {_check} is true:
 					set {_list3::*} to mj_manager_nodes("manager.data", "data.addon.%{_value1}%.%{_value2}%.skript")
 					loop {_list3::*}:
@@ -899,6 +958,11 @@ command /help [<text>]:
 					send formatted "%{_prefix}% <sgt:/answer %player% >%{_button}%<reset> %{_sender}%" to loop-player
 				else if loop-player is op:
 					send formatted "%{_prefix}% <sgt:/answer %player% >%{_button}%<reset> %{_sender}%" to loop-player
+			wait 1 second
+			set {_lang} to mj_editfiles("manager.config", "data.language.use")
+			set {_list::*} to mj_manager_nodes("manager.language.%{_lang}%", "data.help.request.prevention")
+			loop {_list::*}:
+				mj_manager_message(player, "manager", "data.help.request.prefix", "manager", "data.help.request.prevention.%loop-value%")
 		else:
 			mj_manager_help_menu_index(player)
 		stop
@@ -1009,8 +1073,8 @@ function mj_manager_help_menu_index_button(player: player):
 			set {_value2} to loop-value-2
 			set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.installed")
 			if {_check} is true:
-				set {_find_name} to mj_editfiles("manager.data", "data.index.%{_value1}%.name")
-				set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+				set {_name.find} to mj_editfiles("manager.data", "data.index.%{_value1}%.name")
+				set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 				if {_value1} is "main":
 					set {_title} to mj_editfiles_gettext("manager", "data.help.button.manager", {_player})
 				else:
@@ -1030,8 +1094,8 @@ function mj_manager_help_menu_addon(player: player, id: text="main"):
 	if {_id} is "main":
 		set {_title} to mj_editfiles_gettext("manager", "data.help.menu.manager", {_player})
 	else:
-		set {_find_name} to mj_editfiles("manager.data", "data.index.%{_id}%.name")
-		set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+		set {_name.find} to mj_editfiles("manager.data", "data.index.%{_id}%.name")
+		set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 		set {_title} to mj_editfiles_gettext("manager", "data.help.menu.name", {_player}, {_name})
 	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
@@ -1046,8 +1110,8 @@ function mj_manager_help_menu_addon_button(player: player, id: text="main"):
 		set {_value} to loop-value
 		set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_id}%.%{_value}%.installed")
 		if {_check} is true:
-			set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_id}%.%{_value}%.name")
-			set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+			set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_id}%.%{_value}%.name")
+			set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 			set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name})
 			set {_item} to mj_manager_item_convert("manager.data", "data.button.help.addon.item")
 			make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
@@ -1059,11 +1123,11 @@ function mj_manager_help_menu_addon_button(player: player, id: text="main"):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_viewer(player: player, source: text, id: text, manager: boolean=false):
-	set {_find_name} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-	set {_name} to mj_editfiles_gettext("manager", {_find_name}, {_player})
+	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name})
 	if length of {_name} >= 16:
-		set {_name} to mj_editfiles_gettext("manager", "%{_find_name}%_lite", {_player})
+		set {_name} to mj_editfiles_gettext("manager", "%{_name.find}%_lite", {_player})
 		set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name})
 	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
@@ -1089,8 +1153,8 @@ function mj_manager_help_menu_viewer_button(player: player, source: text, id: te
 		if {_list2::*} contains "none":
 			set {_valid} to true
 		if {_valid} is true:
-			set {_find_name} to mj_editfiles("manager.data", "data.button.help.%{_type}%.name")
-			set {_title} to mj_editfiles_gettext("manager", {_find_name}, {_player}, {_name})
+			set {_name.find} to mj_editfiles("manager.data", "data.button.help.%{_type}%.name")
+			set {_title} to mj_editfiles_gettext("manager", {_name.find}, {_player}, {_name})
 			set {_item} to mj_manager_item_convert("manager.data", "data.button.help.%{_type}%.item")
 			set {_item} to mj_manager_help_menu_viewer_button_lore({_player}, {_item}, {_id}, {_value}, "description")
 			set {_item} to mj_manager_help_menu_viewer_button_lore({_player}, {_item}, {_id}, {_value}, "info")

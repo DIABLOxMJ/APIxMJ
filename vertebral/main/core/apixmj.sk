@@ -573,6 +573,7 @@ function mj_core_playerdata(player: offlineplayer):
 		set yaml value "data.%{_player}'s uuid%.connect.first" from "mj.userdata" to now
 		set yaml value "data.%{_player}'s uuid%.connect.last" from "mj.userdata" to now
 		set yaml value "data.%{_player}'s uuid%.playtime" from "mj.userdata" to "none"
+		set yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata" to "default"
 		set yaml value "data.%{_player}'s uuid%.source" from "mj.userdata" to "none"
 		save yaml "mj.userdata"
 		mj_core_logger(1, "%{_player}% core data file was generated..")
@@ -656,6 +657,9 @@ function mj_core_inventory_save(player: player, type: text):
 	mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.leggings", "modify", {_player}'s leggings)
 	mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.boots", "modify", {_player}'s boots)
 	mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.offhand", "modify", {_player}'s offhand)
+	mj_editfiles("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.gamemode", "modify", {_player}'s gamemode)
+	mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.health", "modify", {_player}'s health)
+	mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.hunger", "modify", {_player}'s food)
 	mj_editfiles_list("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.inventory", "modify", {_inv::*})
 	mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.enderchest", "modify", {_player}'s enderchest's serialized contents)
 	mj_core_logger(2, "Saving inventory to %{_player}% in the %{_type}%")
@@ -682,6 +686,12 @@ function mj_core_inventory_restore(player: player, type: text):
 	set {_player}'s boots to {_boots}
 	set {_hand} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.offhand")
 	set {_player}'s offhand to {_hand}
+	set {_gamemode} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.gamemode")
+	set {_player}'s gamemode to {_gamemode}
+	set {_health} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.health")
+	set {_player}'s health to {_health}
+	set {_hunger} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.hunger")
+	set {_player}'s food to {_hunger}
 	set {_ec} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.enderchest")
 	set serialized contents of {_player}'s enderchest to {_ec}
 	mj_core_logger(2, "Restored inventory to %{_player}% from the %{_type}%")

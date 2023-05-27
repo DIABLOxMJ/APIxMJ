@@ -563,9 +563,9 @@ function mj_core_playerdata(player: offlineplayer):
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.core.folder")
 	set {_check1} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	if {_check1} is set:
-		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%\%{_check1}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_check1}%"
+		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%/%{_check1}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_check1}%"
 	else:
-		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%\default.yml" as "mj.userdata.%{_player}'s uuid%.default"
+		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%/default.yml" as "mj.userdata.%{_player}'s uuid%.default"
 	mj_core_logger(1, "%{_player}% loading userdata file..")
 	wait 1 second
 	set {_check2} to yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata"

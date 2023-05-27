@@ -34,11 +34,9 @@ on join:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_playerdata(player: offlineplayer):
-	set {_check1} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	if {_check1} is set:
-		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%\%{_check1}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_check1}%"
-	set {_check2} to yaml value "data.%{_player}'s uuid%.source.essentials" from "mj.userdata"
-	if {_check2} isn't set:
+	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	set {_check1} to yaml value "data.%{_player}'s uuid%.source.essentials" from "mj.userdata"
+	if {_check1} isn't set:
 		wait 2 seconds
 		set yaml value "data.%{_player}'s uuid%.source.essentials.money" from "mj.userdata" to 0
 		set yaml value "data.%{_player}'s uuid%.source.essentials.ban" from "mj.userdata" to false
@@ -49,26 +47,26 @@ function mj_essentials_playerdata(player: offlineplayer):
 		set yaml value "data.%{_player}'s uuid%.source.essentials.home" from "mj.userdata" to "none"
 		save yaml "mj.userdata"
 		mj_core_logger(1, "%{_player}% essentials data file was generated..")
-	set {_check3} to yaml value "data.source.essentials" from "mj.userdata.%{_player}'s uuid%.%{_check1}%"
-	if {_check3} isn't set:
+	set {_check2} to yaml value "data.source.essentials" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check2} isn't set:
 		wait 2 seconds
 		set {_value} to mj_editfiles_number("essentials.config", "data.money.starting")
-		set yaml value "data.source.essentials.afk" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
-		set yaml value "data.source.essentials.quiet" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
-		set yaml value "data.source.essentials.mute" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
-		set yaml value "data.source.essentials.tempmute" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to "none"
-		set yaml value "data.source.essentials.freeze" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
-		set yaml value "data.source.essentials.spy" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
-		set yaml value "data.source.essentials.vanish" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
-		set yaml value "data.source.essentials.godmode" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
-		set yaml value "data.source.essentials.back" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to "none"
-		set yaml value "data.source.essentials.money.value" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to {_value}
-		set yaml value "data.source.essentials.money.upgrade" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to 0
-		set yaml value "data.source.essentials.money.bypass" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
-		set yaml value "data.source.essentials.bank.value" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to 0
-		set yaml value "data.source.essentials.bank.upgrade" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to 0
-		set yaml value "data.source.essentials.bank.bypass" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
-		save yaml "mj.userdata.%{_player}'s uuid%.%{_check1}%"
+		set yaml value "data.source.essentials.afk" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.essentials.quiet" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.essentials.mute" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.essentials.tempmute" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+		set yaml value "data.source.essentials.freeze" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.essentials.spy" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.essentials.vanish" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.essentials.godmode" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.essentials.back" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+		set yaml value "data.source.essentials.money.value" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to {_value}
+		set yaml value "data.source.essentials.money.upgrade" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to 0
+		set yaml value "data.source.essentials.money.bypass" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.essentials.bank.value" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to 0
+		set yaml value "data.source.essentials.bank.upgrade" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to 0
+		set yaml value "data.source.essentials.bank.bypass" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
 		mj_core_logger(1, "%{_player}% essentials data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

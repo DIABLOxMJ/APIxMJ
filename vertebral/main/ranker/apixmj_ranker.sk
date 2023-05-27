@@ -29,20 +29,18 @@ on join:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_ranker_playerdata(player: offlineplayer):
-	set {_check1} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	if {_check1} is set:
-		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%\%{_check1}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_check1}%"
-	set {_check2} to yaml value "data.%{_player}'s uuid%.source.ranker" from "mj.userdata"
-	if {_check2} isn't set:
+	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	set {_check1} to yaml value "data.%{_player}'s uuid%.source.ranker" from "mj.userdata"
+	if {_check1} isn't set:
 		wait 1 second
 		set yaml value "data.%{_player}'s uuid%.source.ranker" from "mj.userdata" to "none"
 		save yaml "mj.userdata"
 		mj_core_logger(1, "%{_player}% ranker data file was generated..")
-	set {_check3} to yaml value "data.source.ranker" from "mj.userdata.%{_player}'s uuid%.%{_check1}%"
-	if {_check3} isn't set:
+	set {_check2} to yaml value "data.source.ranker" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check2} isn't set:
 		wait 1 second
-		set yaml value "data.source.ranker" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to "none"
-		save yaml "mj.userdata.%{_player}'s uuid%.%{_check1}%"
+		set yaml value "data.source.ranker" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
 		mj_core_logger(1, "%{_player}% ranker data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

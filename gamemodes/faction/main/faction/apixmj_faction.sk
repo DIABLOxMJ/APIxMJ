@@ -336,11 +336,9 @@ on load:
 # APIxMJ - Data
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_faction_data_player(player: offlineplayer):
-	set {_check1} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	if {_check1} is set:
-		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%\%{_check1}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_check1}%"
-	set {_check2} to yaml value "data.%{_player}'s uuid%.source.faction" from "mj.userdata"
-	if {_check2} isn't set:
+	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	set {_check1} to yaml value "data.%{_player}'s uuid%.source.faction" from "mj.userdata"
+	if {_check1} isn't set:
 		wait 3 seconds
 		set {_power} to mj_editfiles_number("faction.config", "data.max_power")
 		set yaml value "data.%{_player}'s uuid%.source.faction.guild" from "mj.userdata" to "none"
@@ -348,11 +346,11 @@ function mj_faction_data_player(player: offlineplayer):
 		set yaml value "data.%{_player}'s uuid%.source.faction.power" from "mj.userdata" to {_power}
 		save yaml "mj.userdata"
 		mj_core_logger(1, "%{_player}% faction data file was generated..")
-	set {_check3} to yaml value "data.source.faction" from "mj.userdata.%{_player}'s uuid%.%{_check1}%"
-	if {_check3} isn't set:
+	set {_check2} to yaml value "data.source.faction" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check2} isn't set:
 		wait 3 seconds
-		set yaml value "data.source.faction.chat" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
-		save yaml "mj.userdata.%{_player}'s uuid%.%{_check1}%"
+		set yaml value "data.source.faction.chat" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
 		mj_core_logger(1, "%{_player}% faction data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

@@ -561,11 +561,15 @@ on quit:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_playerdata(player: offlineplayer):
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.core.folder")
-	load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%.yml" as "mj.userdata.%{_player}'s uuid%"
+	set {_check1} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	if {_check1} is set:
+		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%\%{_check1}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_check1}%"
+	else:
+		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%\default.yml" as "mj.userdata.%{_player}'s uuid%.default"
 	mj_core_logger(1, "%{_player}% loading userdata file..")
 	wait 1 second
-	set {_check1} to yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata"
-	if {_check1} isn't set:
+	set {_check2} to yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata"
+	if {_check2} isn't set:
 		set yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata" to "%{_player}%"
 		set yaml value "data.%{_player}'s uuid%.last_pseudo" from "mj.userdata" to "none"
 		set yaml value "data.%{_player}'s uuid%.ip" from "mj.userdata" to "0.0.0.0"
@@ -577,18 +581,18 @@ function mj_core_playerdata(player: offlineplayer):
 		set yaml value "data.%{_player}'s uuid%.source" from "mj.userdata" to "none"
 		save yaml "mj.userdata"
 		mj_core_logger(1, "%{_player}% core data file was generated..")
-	set {_check2} to yaml value "data.pseudo" from "mj.userdata.%{_player}'s uuid%"
-	if {_check2} isn't set:
-		set yaml value "data.pseudo" from "mj.userdata.%{_player}'s uuid%" to "%{_player}%"
-		set yaml value "data.language" from "mj.userdata.%{_player}'s uuid%" to "fr"
-		set yaml value "data.temp.mute" from "mj.userdata.%{_player}'s uuid%" to false
-		set yaml value "data.temp.gui" from "mj.userdata.%{_player}'s uuid%" to "none"
-		set yaml value "data.temp.gui_protect" from "mj.userdata.%{_player}'s uuid%" to false
-		set yaml value "data.location" from "mj.userdata.%{_player}'s uuid%" to "none"
-		set yaml value "data.source" from "mj.userdata.%{_player}'s uuid%" to "none"
-		set yaml value "data.support.stats" from "mj.userdata.%{_player}'s uuid%" to "none"
-		set yaml value "data.support.inventory" from "mj.userdata.%{_player}'s uuid%" to "none"
-		save yaml "mj.userdata.%{_player}'s uuid%"
+	set {_check3} to yaml value "data.pseudo" from "mj.userdata.%{_player}'s uuid%.%{_check1}%"
+	if {_check3} isn't set:
+		set yaml value "data.pseudo" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to "%{_player}%"
+		set yaml value "data.language" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to "fr"
+		set yaml value "data.temp.mute" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
+		set yaml value "data.temp.gui" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to "none"
+		set yaml value "data.temp.gui_protect" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to false
+		set yaml value "data.location" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to "none"
+		set yaml value "data.source" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to "none"
+		set yaml value "data.support.stats" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to "none"
+		set yaml value "data.support.inventory" from "mj.userdata.%{_player}'s uuid%.%{_check1}%" to "none"
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_check1}%"
 		mj_core_logger(1, "%{_player}% core data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -657,7 +661,7 @@ function mj_core_inventory_save(player: player, type: text):
 	mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.leggings", "modify", {_player}'s leggings)
 	mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.boots", "modify", {_player}'s boots)
 	mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.offhand", "modify", {_player}'s offhand)
-	mj_editfiles("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.gamemode", "modify", {_player}'s gamemode)
+	mj_editfiles("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.gamemode", "modify", "%{_player}'s gamemode%")
 	mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.health", "modify", {_player}'s health)
 	mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.hunger", "modify", {_player}'s food)
 	mj_editfiles_list("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.inventory", "modify", {_inv::*})
@@ -687,6 +691,7 @@ function mj_core_inventory_restore(player: player, type: text):
 	set {_hand} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.offhand")
 	set {_player}'s offhand to {_hand}
 	set {_gamemode} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.gamemode")
+	set {_gamemode} to {_gamemode} parsed as gamemode
 	set {_player}'s gamemode to {_gamemode}
 	set {_health} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.health")
 	set {_player}'s health to {_health}

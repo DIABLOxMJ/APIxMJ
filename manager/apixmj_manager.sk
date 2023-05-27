@@ -38,6 +38,8 @@ function mj_manager_loader():
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles(source: text, find: text="data", mode: text="extract", data: text="") :: text:
+	if {_source} contains "userdata.":
+		set {_source} to mj_manager_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
 		if {_result} isn't set:
@@ -54,6 +56,8 @@ function mj_editfiles(source: text, find: text="data", mode: text="extract", dat
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_boolean(source: text, find: text="data", mode: text="extract", data: boolean=false) :: boolean:
+	if {_source} contains "userdata.":
+		set {_source} to mj_manager_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
 		if {_result} isn't set:
@@ -65,6 +69,8 @@ function mj_editfiles_boolean(source: text, find: text="data", mode: text="extra
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_number(source: text, find: text="data", mode: text="extract", data: number=0) :: number:
+	if {_source} contains "userdata.":
+		set {_source} to mj_manager_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
 		if {_result} isn't set:
@@ -76,6 +82,8 @@ function mj_editfiles_number(source: text, find: text="data", mode: text="extrac
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_list(source: text, find: text="data", mode: text="extract", data: objects="") :: objects:
+	if {_source} contains "userdata.":
+		set {_source} to mj_manager_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_list::*} to yaml list "%{_find}%" from "mj.%{_source}%"
 		if {_result} isn't set:
@@ -87,6 +95,8 @@ function mj_editfiles_list(source: text, find: text="data", mode: text="extract"
 	return {_list::*}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_stock(source: text, find: text="data", mode: text="extract", data: object="") :: object:
+	if {_source} contains "userdata.":
+		set {_source} to mj_manager_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
 		if {_result} isn't set:
@@ -98,6 +108,8 @@ function mj_editfiles_stock(source: text, find: text="data", mode: text="extract
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_timespan(source: text, find: text="data", mode: text="extract", data: timespan="") :: timespan:
+	if {_source} contains "userdata.":
+		set {_source} to mj_manager_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
 		if {_result} isn't set:
@@ -109,6 +121,8 @@ function mj_editfiles_timespan(source: text, find: text="data", mode: text="extr
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_date(source: text, find: text="data", mode: text="extract", data: date="") :: date:
+	if {_source} contains "userdata.":
+		set {_source} to mj_manager_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
 		if {_result} isn't set:
@@ -878,6 +892,16 @@ function mj_manager_file_reset(folder: text, file: text, language: boolean=false
 		delete file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
 		download file from "%{_link}%/%{_folder}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
 	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_userdata_profil(data: text="none") :: text:
+	if {_data} contains "userdata.":
+		set {_list::*} to mj_manager_skript_list()
+		if {_list::*} is "apixmj.sk":
+			replace "userdata." with "" in {_data}
+			set {_result} to yaml value "data.%{_data}%.profil" from "mj.userdata"
+		else:
+			set {_result} to "%{_data}%.default"
+	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Function
 # =====================================================================================================================

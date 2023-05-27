@@ -24,6 +24,7 @@ data:
         updated: "&eMise à jour du Skript &a$0 &eTerminé !"
         installed: "&eInstallation du Skript &a$0 &eTerminé !"
         uninstalled: "&eDésinstallation du Skript &a$0 &eTerminé !"
+        condition: "&eVous avez &r$0 &ele Skript &6: &r$1"
     kick_install: "&aInstallation de &r$0&a..\n&aConnectez-vous dans un instant pour générer vos données !"
     data_update: "&aMise à jour des données terminé !"
     button:

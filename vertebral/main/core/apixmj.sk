@@ -551,7 +551,7 @@ on join:
 # ---------------------------------------------------------------------------------------------------------------------
 on quit:
 	if event-entity is player:
-		set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+		set {_profil} to yaml value "data.%player's uuid%.profil" from "mj.userdata"
 		mj_core_location("userdata.%player's uuid%.%{_profil}%", "data", "modify", player)
 		mj_editfiles("userdata", "data.%player's uuid%.playtime", "modify", "%player's time played%")
 		wait 2 seconds

@@ -22,21 +22,6 @@ on load:
 	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.05.25.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_loader():
-	set {_list1::*} to mj_manager_nodes("manager.data", "data.main")
-	loop {_list1::*}:
-		set {_check} to mj_editfiles_boolean("manager.data", "data.main.%loop-value%.installed")
-		if {_check} is true:
-			set {_start} to mj_editfiles_boolean("manager.data", "data.main.%loop-value%.skript.1")
-			enable script file "%{_start}%.sk"
-	set {_list2::*} to mj_manager_nodes("manager.data", "data.extension")
-	loop {_list2::*}:
-		set {_check} to mj_editfiles_boolean("manager.data", "data.extension.%loop-value%.installed")
-		if {_check} is true:
-			set {_start} to mj_editfiles_boolean("manager.data", "data.extension.%loop-value%.skript.1")
-			enable script file "%{_start}%.sk"
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles(source: text, find: text="data", mode: text="extract", data: text="") :: text:
 	if {_source} contains "userdata.":
 		set {_source} to mj_manager_userdata_profil({_source})
@@ -134,15 +119,8 @@ function mj_editfiles_date(source: text, find: text="data", mode: text="extract"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_gettext(source: text, find: text="data", player: player="none", info1: text="none", info2: text="none", info3: text="none") :: text:
-	set {_lang} to yaml value "data.language.use" from "mj.manager.config"
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_result} to yaml value "%{_find}%" from "mj.%{_source}%.language.%{_lang}%"
-	#set {_list1::*} to mj_manager_skript_list()
-	#if {_list1::*} contains "apixmj.sk":
-	#	if {_player} isn't "none":
-	#		set {_list2::*} to the currently loaded yaml files
-	#		if {_list2::*} contains "mj.userdata":
-	#			set {_lang} to yaml value "data.%{_player}'s uuid%.language" from "mj.userdata"
-	#			set {_result} to "%{_find}%" from "mj.%{_source}%.language.%{_lang}%"
 	if {_info1} isn't "none":
 		replace "$0" with {_info1} in {_result}
 	if {_info2} isn't "none":
@@ -219,7 +197,7 @@ function mj_manager_menu_request(player: player, source: text, id: text, option:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_request_button_confirm(player: player, source: text, id: text, option: text):
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_name.find} to mj_editfiles("manager.data", "data.button.request.confirm.name")
 	set {_name} to mj_editfiles_gettext("manager", {_name.find})
 	set {_slot} to mj_editfiles_number("manager.data", "data.button.request.confirm.slot")
@@ -234,7 +212,7 @@ function mj_manager_menu_request_button_confirm(player: player, source: text, id
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_request_button_cancel(player: player, source: text, id: text, option: text):
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_name.find} to mj_editfiles("manager.data", "data.button.request.cancel.name")
 	set {_name} to mj_editfiles_gettext("manager", {_name.find})
 	set {_slot} to mj_editfiles_number("manager.data", "data.button.request.cancel.slot")
@@ -350,7 +328,7 @@ function mj_manager_menu_control(player: player, source: text, id: text):
 # APIxMJ - Gui Control (Status)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_status(player: player, source: text, id: text, slot: number):
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
 	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_item} to paper
@@ -367,7 +345,7 @@ function mj_manager_menu_control_button_status(player: player, source: text, id:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_status_data(player: player, source: text, id: text, item: item, type: text) :: item:
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_count} to mj_manager_item_lore_count({_player}, {_item})
 	if {_type} is "version":
 		set {_data} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.%{_type}%")
@@ -398,7 +376,7 @@ function mj_manager_menu_control_button_status_data(player: player, source: text
 # APIxMJ - Gui Control (Installer)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_installer(player: player, source: text, id: text):
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_name.find} to mj_editfiles("manager.data", "data.button.installer.name")
 	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_slot} to mj_editfiles_number("manager.data", "data.button.installer.slot")
@@ -512,7 +490,7 @@ function mj_manager_menu_control_button_update(player: player, source: text, id:
 	set {_folder} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.folder")
 	set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.installed")
 	if {_check} is true:
-		set {_lang} to mj_editfiles("manager.config", "data.language.use")
+		set {_lang} to mj_manager_userdata_language({_player})
 		set {_name.find} to mj_editfiles("manager.data", "data.button.update.name")
 		set {_name} to mj_editfiles_gettext("manager", "%{_name.find}%.%{_choice}%", {_player})
 		set {_slot} to mj_editfiles_number("manager.data", "data.button.update.slot")
@@ -698,7 +676,7 @@ function mj_manager_menu_control_button_condition(player: player, source: text, 
 	set {_skript} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.skript.1")
 	if {_list::*} contains "%{_skript}%.sk" or "-%{_skript}%.sk":
 		if "%{_source}%" doesn't contain "main":
-			set {_lang} to mj_editfiles("manager.config", "data.language.use")
+			set {_lang} to mj_manager_userdata_language({_player})
 			set {_name.find1} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
 			set {_name1} to mj_editfiles_gettext("manager", {_name.find1}, {_player})
 			set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.condition")
@@ -770,7 +748,7 @@ function mj_manager_item_convert(source: text, find: text, nbt: boolean=false) :
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_item_description(player: player, item: item, source: text) :: item:
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_count} to mj_manager_item_lore_count({_player}, {_item})
 	set {_data1} to mj_editfiles_gettext("manager", "data.category.description")
 	set line {_count} of lore of {_item} to "%{_data1}%"
@@ -802,7 +780,7 @@ function mj_manager_item_button(player: player, item: item, type: text, source: 
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_message(player: player, source1: text, prefix1: text, source2: text, send1: text, int0: text="", int1: text="", int2: text="", int3: text="", int4: text=""):
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_prefix} to yaml value "%{_prefix1}%" from "mj.%{_source1}%.language.%{_lang}%"
 	set {_send} to yaml value "%{_send1}%" from "mj.%{_source2}%.language.%{_lang}%"
 	replace "$0" with {_int0} in {_send}
@@ -818,7 +796,7 @@ function mj_manager_message(player: player, source1: text, prefix1: text, source
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_message_simple(player: player, source1: text, send1: text, int0: text="", int1: text="", int2: text="", int3: text="", int4: text=""):
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_send} to yaml value "%{_send1}%" from "mj.%{_source1}%.language.%{_lang}%"
 	replace "$0" with {_int0} in {_send}
 	replace "$1" with {_int1} in {_send}
@@ -831,7 +809,7 @@ function mj_manager_message_simple(player: player, source1: text, send1: text, i
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_permission(player: player, source: text="manager", prefix1: text="data.prefix", int0: text="*"):
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_prefix} to yaml value "%{_prefix1}%" from "mj.%{_source}%.language.%{_lang}%"
 	set {_send} to yaml value "data.argument.no_permission" from "mj.manager.language.%{_lang}%"
 	if {_send} isn't set:
@@ -896,11 +874,20 @@ function mj_manager_file_reset(folder: text, file: text, language: boolean=false
 function mj_manager_userdata_profil(data: text="none") :: text:
 	if {_data} contains "userdata.":
 		set {_list::*} to mj_manager_skript_list()
-		if {_list::*} is "apixmj.sk":
+		if {_list::*} contains "apixmj.sk":
 			replace "userdata." with "" in {_data}
-			set {_result} to yaml value "data.%{_data}%.profil" from "mj.userdata"
-		else:
-			set {_result} to "%{_data}%.default"
+			set {_profil} to yaml value "data.%{_data}%.profil" from "mj.userdata"
+			set {_result} to "userdata.%{_data}%.%{_profil}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_userdata_language(player: player="none") :: text:
+	if {_player} isn't "none":
+		set {_list::*} to mj_manager_skript_list()
+		if {_list::*} contains "apixmj.sk":
+			set {_profil} to mj_manager_userdata_profil("userdata.%{_player}'s uuid%")
+			set {_result} to yaml value "data.language" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_result} isn't set:
+		set {_result} to mj_editfiles("manager.config", "data.language.use")
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Function
@@ -983,7 +970,7 @@ command /help [<text>]:
 				else if loop-player is op:
 					send formatted "%{_prefix}% <sgt:/answer %player% >%{_button}%<reset> %{_sender}%" to loop-player
 			wait 1 second
-			set {_lang} to mj_editfiles("manager.config", "data.language.use")
+			set {_lang} to mj_manager_userdata_language({_player})
 			set {_list::*} to mj_manager_nodes("manager.language.%{_lang}%", "data.help.request.prevention")
 			loop {_list::*}:
 				mj_manager_message(player, "manager", "data.help.request.prefix", "manager", "data.help.request.prevention.%loop-value%")
@@ -1028,7 +1015,7 @@ on tab complete of "/answer" or "/question":
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # stand by
-	#set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	#set {_lang} to mj_manager_userdata_language({_player})
 	#set {_list1::*} to mj_manager_nodes("manager.data", "data.addon")
 	#loop {_list1::*}:
 	#	set {_value1} to loop-value-1
@@ -1046,7 +1033,7 @@ on tab complete of "/answer" or "/question":
 	#set tab completions for position 1 to {_list5::*}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help(player: player, id: text):
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_name} to mj_editfiles("manager.help.%{_lang}%", "data.%{_id}%.name")
 	if {_name} is set:
 		set {_border} to mj_editfiles_gettext("manager", "data.help.border", {_player}, {_name})
@@ -1161,7 +1148,7 @@ function mj_manager_help_menu_viewer(player: player, source: text, id: text, man
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_viewer_button(player: player, source: text, id: text):
 	set {_slot} to 10
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_list1::*} to mj_manager_nodes("%{_id}%.help.%{_lang}%")
 	loop {_list1::*}:
 		set {_value} to loop-value-1
@@ -1190,7 +1177,7 @@ function mj_manager_help_menu_viewer_button(player: player, source: text, id: te
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_viewer_button_lore(player: player, item: item, id: text, value: text, type: text) :: item:
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
+	set {_lang} to mj_manager_userdata_language({_player})
 	set {_count} to mj_manager_item_lore_count({_player}, {_item})
 	set {_data1} to mj_editfiles_gettext("manager", "data.category.%{_type}%")
 	set line {_count} of lore of {_item} to "%{_data1}%"

@@ -871,21 +871,25 @@ function mj_manager_file_reset(folder: text, file: text, language: boolean=false
 		download file from "%{_link}%/%{_folder}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_userdata_profil(data: text="none") :: text:
+function mj_manager_userdata_profil(data: text="none", name: boolean=false) :: text:
 	if {_data} contains "userdata.":
 		set {_list::*} to mj_manager_skript_list()
 		if {_list::*} contains "apixmj.sk":
 			replace "userdata." with "" in {_data}
 			set {_profil} to yaml value "data.%{_data}%.profil" from "mj.userdata"
-			set {_result} to "userdata.%{_data}%.%{_profil}%"
+			if {_name} is true:
+				set {_result} to {_profil}
+			else:
+				set {_result} to "userdata.%{_data}%.%{_profil}%"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_userdata_language(player: player="none") :: text:
-	if {_player} isn't "none":
-		set {_list::*} to mj_manager_skript_list()
-		if {_list::*} contains "apixmj.sk":
-			set {_profil} to mj_manager_userdata_profil("userdata.%{_player}'s uuid%")
-			set {_result} to yaml value "data.language" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+function mj_manager_userdata_language(player: offlineplayer="none") :: text:
+	if {_player} is set:
+		if {_player} isn't "none":
+			set {_list::*} to mj_manager_skript_list()
+			if {_list::*} contains "apixmj.sk":
+				set {_profil} to mj_manager_userdata_profil("userdata.%{_player}'s uuid%", true)
+				set {_result} to yaml value "data.language" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
 	if {_result} isn't set:
 		set {_result} to mj_editfiles("manager.config", "data.language.use")
 	return {_result}

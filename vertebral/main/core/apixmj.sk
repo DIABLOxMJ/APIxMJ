@@ -13,7 +13,10 @@ function mj_files_core():
 			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.core.language.%loop-value%"
 			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.core.help.%loop-value%"
 	loop all players:
-		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%loop-player's uuid%.yml" as "mj.userdata.%loop-player's uuid%"
+		set {_profil} to yaml value "data.%loop-player's uuid%.profil" from "mj.userdata"
+		if {_profil} isn't set:
+			set {_profil} to "default"
+		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%loop-player's uuid%/%{_profil}%.yml" as "mj.userdata.%loop-player's uuid%.%{_profil}%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
@@ -563,10 +566,9 @@ on quit:
 function mj_core_playerdata(player: offlineplayer):
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.core.folder")
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	if {_profil} is set:
-		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%/%{_profil}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	else:
-		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%/default.yml" as "mj.userdata.%{_player}'s uuid%.default"
+	if {_profil} isn't set:
+		set {_profil} to "default"
+	load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%/%{_profil}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_profil}%"
 	mj_core_logger(1, "%{_player}% loading userdata file..")
 	wait 1 second
 	set {_check1} to yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata"
@@ -950,7 +952,7 @@ on tab complete of "/nick":
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
 	if event-entity is player:
-		wait 1 second
+		wait 5 seconds
 		mj_core_nick(player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

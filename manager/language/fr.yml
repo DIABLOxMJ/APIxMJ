@@ -176,8 +176,8 @@ data:
             name: "&bMode de jeux"
             name_lite: "&bMode de jeux"
             lore:
-                '1': " &6- &7Une version des skripts pour le vanilla"
-                '2': " &0- &7Sans permissions juste vanilla quoi !"
+                '1': " &6- &7Une catégorie qui entrepose plusieurs"
+                '2': " &0- &7mode de jeux pour toujours plus de liberté !"
         gamemodes_classic_main:
             name: "&7Jeu classique"
             name_lite: "&7Jeu classique"

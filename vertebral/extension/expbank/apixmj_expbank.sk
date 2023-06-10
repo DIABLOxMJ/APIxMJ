@@ -4,7 +4,6 @@
 function mj_files_expbank():
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.expbank.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.expbank.config"
-	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.expbank.data"
 	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
 	if {_list::*} is set:
 		loop {_list::*}:

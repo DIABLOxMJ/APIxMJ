@@ -34,10 +34,10 @@ on join:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_playerdata(player: offlineplayer):
+	wait 2 seconds
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.%{_player}'s uuid%.source.essentials" from "mj.userdata"
 	if {_check1} isn't set:
-		wait 2 seconds
 		set yaml value "data.%{_player}'s uuid%.source.essentials.money" from "mj.userdata" to 0
 		set yaml value "data.%{_player}'s uuid%.source.essentials.ban" from "mj.userdata" to false
 		set yaml value "data.%{_player}'s uuid%.source.essentials.tempban" from "mj.userdata" to "none"
@@ -49,7 +49,6 @@ function mj_essentials_playerdata(player: offlineplayer):
 		mj_core_logger(1, "%{_player}% essentials data file was generated..")
 	set {_check2} to yaml value "data.source.essentials" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
 	if {_check2} isn't set:
-		wait 2 seconds
 		set {_value} to mj_editfiles_number("essentials.config", "data.money.starting")
 		set yaml value "data.source.essentials.afk" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
 		set yaml value "data.source.essentials.quiet" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false

@@ -42,6 +42,26 @@ function mj_check_spawner_data():
 		save yaml "mj.spawner.data"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_spawner_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_spawner_playerdata(player: offlineplayer):
+	wait 23 seconds
+	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	set {_check1} to yaml value "data.source.spawner" from "mj.userdata.%{_player}'s uuid%"
+	if {_check1} isn't set:
+		set yaml value "data.%{_player}'s uuid%.source.spawner" from "mj.userdata" to "none"
+		save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% spawner data file was generated..")
+	set {_check2} to yaml value "data.source.spawner" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check2} isn't set:
+		set yaml value "data.source.spawner" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		mj_core_logger(1, "%{_player}% spawner data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Files
 # =====================================================================================================================
 # APIxMJ - Command

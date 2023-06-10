@@ -28,6 +28,26 @@ on skript stop:
 	send "[APIxMJ] Unloading rankup.."
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_rankup_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_rankup_playerdata(player: offlineplayer):
+	wait 21 seconds
+	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	set {_check1} to yaml value "data.source.rankup" from "mj.userdata.%{_player}'s uuid%"
+	if {_check1} isn't set:
+		set yaml value "data.%{_player}'s uuid%.source.rankup" from "mj.userdata" to "none"
+		save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% rankup data file was generated..")
+	set {_check2} to yaml value "data.source.rankup" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check2} isn't set:
+		set yaml value "data.source.rankup" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		mj_core_logger(1, "%{_player}% rankup data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Files
 # =====================================================================================================================
 # APIxMJ - Command

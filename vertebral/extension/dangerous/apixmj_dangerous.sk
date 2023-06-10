@@ -1,0 +1,152 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_dangerous():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.dangerous.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.dangerous.config"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.dangerous.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.dangerous.help.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+		send "[APIxMJ] Loading dangerous..." to console
+		mj_files_dangerous()
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.dangerous.version", "modify", "2023.06.10.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		unload script file "apixmj_dangerous.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_dangerous.sk" to "-apixmj_dangerous.sk"
+	send "[APIxMJ] Unloading dangerous.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_dangerous_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_dangerous_playerdata(player: offlineplayer):
+	wait 12 seconds
+	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	set {_check1} to yaml value "data.%{_player}'s uuid%.source.dangerous" from "mj.userdata"
+	if {_check1} isn't set:
+		set yaml value "data.%{_player}'s uuid%.source.dangerous.ban" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.source.dangerous.tempban" from "mj.userdata" to "none"
+		save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% dangerous data file was generated..")
+	set {_check2} to yaml value "data.source.dangerous" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check2} isn't set:
+		set yaml value "data.source.dangerous.death_count" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to 0
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		mj_core_logger(1, "%{_player}% dangerous data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Heat wave
+# ---------------------------------------------------------------------------------------------------------------------
+every 1 second:
+	set {_check} to mj_editfiles_boolean("dangerous.config", "data.heat_wave.condition")
+	if {_check} is true:
+		loop all players:
+			if time in loop-player's world is between 6:00 and 18:00:
+				set {_var.1} to true
+				set {_var.2} to false
+				set {_x} to loop-player's x-coordinate
+				set {_y} to loop-player's y-coordinate
+				set {_z} to loop-player's z-coordinate
+				set {_loc.1} to location({_x}, {_y}, {_z}, ("%loop-player's world%" parsed as world))
+				set {_loc.2} to location({_x}, 319, {_z}, ("%loop-player's world%" parsed as world))
+				loop all blocks between {_loc.1} and {_loc.2}:
+					if loop-block isn't air:
+						set {_var.1} to false
+						exit loop
+				if loop-player's helmet isn't air:
+					if loop-player's helmet isn't netherite helmet:
+						loop enchantments of loop-player's helmet:
+							if "%loop-value-2%" contains "Fire Protection":
+								set {_var.2} to true
+								set {_var.3} to mj_editfiles_number("dangerous.config", "data.heat_wave.chance_of_damage_helmet")
+								if chance of {_var.3}%:
+									add 1 to damage value of loop-player's helmet
+					else:
+						set {_var.2} to true
+				if {_var.1} is true:
+					if {_var.2} is false:
+						set {_var.4} to mj_editfiles_number("dangerous.config", "data.heat_wave.damage_player")
+						damage loop-player by {_var.4}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Heat wave
+# =====================================================================================================================
+# APIxMJ - Respawn penalty
+# ---------------------------------------------------------------------------------------------------------------------
+on death:
+	set {_check} to mj_editfiles_boolean("dangerous.config", "data.heat_wave.condition")
+	if {_check} is true:
+		if type of event-entity is player:
+			set {_count} to mj_editfiles_number("userdata.%player's uuid%", "data.source.dangerous.death_count")
+			set {_max} to mj_editfiles_number("dangerous.config", "data.respawn_penalty.chance_before_banned")
+			add 1 to {_count}
+			mj_editfiles_number("userdata.%player's uuid%", "data.source.dangerous.death_count", "modify", {_count})
+			set {_last} to {_max} - {_count}
+			mj_manager_message(player, "dangerous", "data.prefix", "dangerous", "data.respawn_penalty.alert", "%{_max}%")
+			if {_count} >= {_max}:
+				mj_dangerous_respawn_penalty_player(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_dangerous_respawn_penalty_player(player: player):
+	set {_time.1} to mj_editfiles_number("dangerous.config", "data.respawn_penalty.time_banned")
+	set {_time.2} to mj_core_converter_time({_time.1})
+	set {_date} to now
+	add {_time.2} to {_date}
+	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.source.dangerous.ban", "modify", true)
+	mj_editfiles_date("userdata", "data.%{_player}'s uuid%.source.dangerous.tempban", "modify", {_date})
+	set {_count} to mj_editfiles_number("dangerous.config", "data.respawn_penalty.chance_before_banned")
+	set {_send} to mj_editfiles_gettext("dangerous", "data.respawn_penalty.kick", {_time.1}, "%{_count}%")
+	if {_player} is online:
+		kick {_player} due to "%{_send}%"
+	mj_core_logger(1, "%{_player}% temporarily banned %{_player}% during %{_time.1}% for dangerous_panalty_death")
+	loop all players:
+		mj_manager_message(loop-player, "dangerous", "data.prefix", "dangerous", "data.respawn_penalty.broadcast", "%{_player}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.source.dangerous.ban")
+	if {_check} is true:
+		set {_time.1} to mj_editfiles_date("userdata", "data.%player's uuid%.source.dangerous.tempban")
+		if {_time.1} < now:
+			mj_editfiles_boolean("userdata", "data.%player's uuid%.source.dangerous.ban", "modify", false)
+			mj_editfiles("userdata", "data.%player's uuid%.source.dangerous.tempban", "modify", "none")
+			mj_core_logger(1, "%player% logs in and the ban has been purged")
+		else:
+			mj_timecount("connect_%player%", "backward", 0, 0, 5)
+			set {_time.2} to mj_editfiles_number("dangerous.config", "data.respawn_penalty.time_banned")
+			set {_count} to mj_editfiles_number("dangerous.config", "data.respawn_penalty.chance_before_banned")
+			set {_send} to mj_editfiles_gettext("dangerous", "data.respawn_penalty.kick", {_time.2}, "%{_count}%")
+			kick player due to "%{_send}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Respawn penalty
+# =====================================================================================================================
+# APIxMJ - Sword of Skeleton
+# ---------------------------------------------------------------------------------------------------------------------
+on spawn:
+	set {_check} to mj_editfiles_boolean("dangerous.config", "data.sword_of_skeleton.condition")
+	if {_check} is true:
+		if "%type of event-entity%" is "skeleton":
+			set {_pourcent} to mj_editfiles_number("dangerous.config", "data.sword_of_skeleton.chance_of_spawn")
+			if chance of {_pourcent}%:
+				set {_item} to mj_manager_item_convert("dangerous.config", "data.sword_of_skeleton.item")
+				set event-entity's tool to {_item}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Sword of Skeleton
+# =====================================================================================================================

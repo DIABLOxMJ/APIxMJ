@@ -1,0 +1,42 @@
+data:
+    heat_wave:
+        name: "&aEffet Canicule"
+        type: function
+        description:
+            '1': "&0- &aLe soleil vous tape sur la tête ?"
+            '2': "&0- &aVivre sous terre semble être la solution."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7Vous ne pouvez plus rester exposé au soleil,"
+            '2': "&0- &7pour éviter de prendre des dégâts, veiller à"
+            '3': "&0- &7garder un bloc au-dessus de la tête pour rester"
+            '4': "&0- &7à l'abri des brûlures."
+            '5': "&0"
+            '6': "&6- &7Un casque fonctionne également pour éviter les"
+            '7': "&0- &7brûlures à condition que l'enchantement"
+            '8': "&0- &aFire Protection &7soit appliqué."
+            '9': "&0"
+            '10': "&6- &aUn casque en Netherite et &aSPECIAL&7."
+    respawn_penalty:
+        name: "&aPénalité mortelle"
+        type: function
+        description:
+            '1': "&0- &aMourir devient un piège mortel"
+            '2': "&0- &apour avoir le droit de jouer."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7Vous avez le droit de mourir qu'un certain"
+            '2': "&0- &7nombre de fois avant de finir banni du"
+            '3': "&0- &7serveur de façon temporaire."
+    sword_of_skeleton:
+        name: "&aSquelette avec épée"
+        type: function
+        description:
+            '1': "&0- &aL'armement des squelettes varies."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7Désormais les squelettes peuvent apparaitres"
+            '2': "&0- &7aléatoirement."

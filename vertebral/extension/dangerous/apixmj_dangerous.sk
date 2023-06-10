@@ -76,6 +76,8 @@ every 1 second:
 								set {_var.3} to mj_editfiles_number("dangerous.config", "data.heat_wave.chance_of_damage_helmet")
 								if chance of {_var.3}%:
 									add 1 to damage value of loop-player's helmet
+									if durability of loop-player's helmet >= max durability of loop-player's helmet:
+										set loop-player's helmet to air
 					else:
 						set {_var.2} to true
 				if {_var.1} is true:

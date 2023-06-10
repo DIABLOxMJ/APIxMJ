@@ -285,6 +285,12 @@ data:
                 name_lite: "&aCalendrier"
                 lore:
                     '1': "&6- &7Tu as était sage pour avoir ton cadeau du jour ?"
+            dangerous:
+                name: "&aRisque supérieur"
+                name_lite: "&aRisque sup…"
+                lore:
+                    '1': "&6- &7Le jeu est trop facile ?"
+                    '2': "&0- &7Augmentons les choses !"
             drawer:
                 name: "&aConteneur"
                 name_lite: "&aConteneur"

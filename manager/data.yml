@@ -489,7 +489,7 @@ data:
                     '1':
                         file: none
                         data: data
-                item: oak wood floor sign
+                item: tnt block
                 gui_background:
                     item: red stained glass pane
             drawer:

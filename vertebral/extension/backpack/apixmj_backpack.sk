@@ -1,0 +1,114 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_backpack():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.backpack.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.backpack.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.backpack.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.backpack.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.backpack.help.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+		send "[APIxMJ] Loading backpack..." to console
+		mj_files_backpack()
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.backpack.version", "modify", "2023.06.13.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		unload script file "apixmj_backpack.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_backpack.sk" to "-apixmj_backpack.sk"
+	send "[APIxMJ] Unloading backpack.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_backpack_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_backpack_playerdata(player: offlineplayer):
+	wait 11 seconds
+	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	set {_check1} to yaml value "data.source.backpack" from "mj.userdata.%{_player}'s uuid%"
+	if {_check1} isn't set:
+		set yaml value "data.%{_player}'s uuid%.source.backpack" from "mj.userdata" to "none"
+		save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% backpack data file was generated..")
+	set {_check2} to yaml value "data.source.backpack" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check2} isn't set:
+		set yaml value "data.source.backpack" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		mj_core_logger(1, "%{_player}% backpack data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Command
+# ---------------------------------------------------------------------------------------------------------------------
+command /backpack [<text>]:
+	aliases: bpack, bp, kpack, kp
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack":
+			set {_name} to mj_editfiles("backpack.config", "data.object.name")
+			set {_lore} to mj_editfiles("backpack.config", "data.object.lore")
+			set {_id} to mj_core_id_generator()
+			set {_item.1} to mj_manager_item_convert("backpack.config", "data.object.item")
+			set {_item.2} to {_item.1} named {_name}
+			set line 1 of lore of {_item.2} to "%{_lore}%%{_id}%"
+			give {_item.2} to player
+			mj_editfiles("backpack.data", "data.%{_id}%.id", "modify", {_id})
+			mj_editfiles("backpack.data", "data.%{_id}%.creator", "modify", "%player's uuid%")
+			mj_editfiles_date("backpack.data", "data.%{_id}%.date", "modify", now)
+			mj_editfiles("backpack.data", "data.%{_id}%.storage", "modify", "none")
+		else:
+			mj_manager_permission(player, "backpack", "data.prefix", "mj.backpack")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Command
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+on rightclick:
+	set {_item} to mj_manager_item_convert("backpack.config", "data.object.item")
+	if type of player's tool is {_item}:
+		set {_name} to mj_editfiles("backpack.config", "data.object.name")
+		if name of player's tool is {_name}:
+			cancel event
+			set {_title} to mj_editfiles_gettext("backpack", "data.title_gui", player)
+			set {_inv} to chest with 6 rows named {_title}
+			set {_lore.1} to line 1 of lore of player's tool
+			set {_lore.2} to mj_editfiles("backpack.config", "data.object.lore")
+			replace {_lore.2} with "" in {_lore.1}
+			set {_storage} to yaml value "data.%{_lore.1}%.storage" from "mj.backpack.data"
+			if {_storage} is set:
+				set {_inv}'s serialized contents to {_storage}
+			open {_inv} to player
+			mj_editfiles("userdata.%player's uuid%", "data.temp.gui", "modify", "backpack")
+			mj_editfiles_boolean("temp", "data.%player's uuid%.backpack.condition", "modify", true)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory close:
+	set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.backpack.condition")
+	if {_check} is true:
+		if "%event-inventory%" is "inventory of <none>":
+			set {_lore.1} to line 1 of lore of player's tool
+			set {_lore.2} to mj_editfiles("backpack.config", "data.object.lore")
+			replace {_lore.2} with "" in {_lore.1}
+			set {_storage} to event-inventory's serialized contents
+			set yaml value "data.%{_lore.1}%.storage" from "mj.backpack.data" to {_storage}
+			save yaml "mj.backpack.data"
+			mj_editfiles_boolean("temp", "data.%player's uuid%.backpack.condition", "modify", false)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function
+# =====================================================================================================================
+
+

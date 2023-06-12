@@ -1,0 +1,15 @@
+data:
+    backpack:
+        name: "&aSac à dos"
+        type: command
+        description:
+            '1': "&0- &aUn inventaire trop petit…"
+            '2': "&0- &aVotre meilleur ami sera là pour vous !"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.backpack.*"
+        - "mj.backpack"
+        info:
+            '1': "&6- &a/backpack"
+            '2': "&0- &7Il ouvre un coffre portable."

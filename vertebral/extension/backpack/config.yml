@@ -1,0 +1,8 @@
+data:
+    object:
+        # The name of the item, default : "&aBackpack"
+        name: "&aBackpack"
+        # The description that will be used to store the id, default : "&7ID &6: &a"
+        lore: "&7ID &6: &a"
+        # The item that will be used, default : brown shulker box
+        item: brown shulker box

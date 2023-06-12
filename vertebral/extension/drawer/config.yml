@@ -88,7 +88,7 @@ data:
         - netherite chestplate
         - netherite leggings
         - netherite boots
-    item:
+    portable:
         # This is the condition to make a Drawer portable, default : true
         condition: true
         # The drawer item identification text, default : "&aPortable Drawer"

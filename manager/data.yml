@@ -424,6 +424,40 @@ data:
                 item: emerald
                 gui_background:
                     item: gray stained glass pane
+            backpack:
+                name: data.addon.vertebral_extension.backpack.name
+                version: 0000.00.00.0000
+                condition: false
+                installed: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/backpack
+                folder: main/extension/backpack
+                slot: 10
+                kick: false
+                open_gui: manager
+                skript:
+                    '1': apixmj_backpack
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.backpack.config
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: gold clock
+                gui_background:
+                    item: red stained glass pane
             calendar:
                 name: data.addon.vertebral_extension.calendar.name
                 version: 0000.00.00.0000

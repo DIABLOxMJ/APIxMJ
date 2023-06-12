@@ -280,6 +280,12 @@ data:
                     '1': "&6- &7Les poches pleines après une expédition ?"
                     '2': "&0- &7Échangez vos ressources contre de l'argent,"
                     '3': "&0- &7peut-être qu'un joueur vous rendra riche !"
+            backpack:
+                name: "&aSac à dos"
+                name_lite: "&aSac à dos"
+                lore:
+                    '1': "&6- &7Quel est ton meilleur ?"
+                    '2': "&6- &7Ton fidèle sac à dos voyons…"
             calendar:
                 name: "&aCalendrier"
                 name_lite: "&aCalendrier"

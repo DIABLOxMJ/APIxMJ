@@ -16,7 +16,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading drawer..." to console
 		mj_files_drawer()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.drawer.version", "modify", "2023.05.21.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.drawer.version", "modify", "2023.06.12.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_drawer.sk"
@@ -61,32 +61,80 @@ on sign change:
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 on rightclick:
-	if event-block is sign:
-		set {_name} to mj_editfiles("drawer.config", "data.sign.name")
-		if line 1 is {_name}:
-			if line 2 is empty:
-				set {_list::*} to mj_editfiles_list("drawer.config", "data.sign.blacklist")
-				if {_list::*} doesn't contain "%type of player's tool%":
-					set line 2 to "%type of player's tool%"
-					set line 3 to "1"
-					remove 1 of player's tool from player's tool
-				else:
-					mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.deposit_blacklist")
-			else:
-				set {_value1} to line 2
-				if "%type of player's tool%" isn't "air":
-					if "%type of player's tool%" is {_value1}:
-						set {_value2} to line 3 parsed as number
-						set {_count} to item amount of player's tool
-						if player isn't sneaking:
-							set {_count} to 1
-						add {_count} to {_value2}
-						set line 3 to "%{_value2}%"
-						remove {_count} of player's tool from player's tool
+	set {_check} to mj_manager_item_convert("drawer.config", "data.portable.item")
+	if type of player's tool is {_check}:
+		set {_name.1} to mj_editfiles("drawer.config", "data.portable.name")
+		if name of player's tool is {_name.1}:
+			cancel event
+			if type of event-block is sign:
+				set {_name.2} to mj_editfiles("drawer.config", "data.sign.name")
+				if line 1 of event-block is {_name.2}:
+					set {_lore.1} to mj_editfiles("drawer.config", "data.portable.lore.1")
+					set {_lore.2} to line 1 of lore of player's tool
+					replace {_lore.1} with "" in {_lore.2}
+					if line 2 of event-block is {_lore.2}:
+						set {_lore.3} to mj_editfiles("drawer.config", "data.portable.lore.2")
+						set {_lore.4} to line 2 of lore of player's tool
+						replace {_lore.3} with "" in {_lore.4}
+						set {_count.1} to {_lore.4} parsed as number
+						set {_count.2} to line 3 of event-block parsed as number
+						add {_count.1} to {_count.2}
+						set line 3 of event-block to "%{_count.2}%"
+						remove 1 of player's tool from player's tool
+					else if line 2 of event-block is empty:
+						set {_lore.3} to mj_editfiles("drawer.config", "data.portable.lore.2")
+						set {_lore.4} to line 2 of lore of player's tool
+						replace {_lore.3} with "" in {_lore.4}
+						set line 2 of event-block to {_lore.2}
+						set line 3 of event-block to {_lore.4}
+						remove 1 of player's tool from player's tool
 					else:
-						mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.deposit_failed")
+						mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_empty")
 				else:
-					mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.deposit_empty")
+					mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_drawer")
+			else:
+				mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_drawer")
+	else:
+		if type of event-block is sign:
+			set {_name} to mj_editfiles("drawer.config", "data.sign.name")
+			if line 1 is {_name}:
+				if line 2 is empty:
+					if "%type of player's tool%" isn't "air":
+						set {_list::*} to mj_editfiles_list("drawer.config", "data.sign.blacklist")
+						if {_list::*} doesn't contain "%type of player's tool%":
+							set line 2 to "%type of player's tool%"
+							set line 3 to "1"
+							remove 1 of player's tool from player's tool
+						else:
+							mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.deposit_blacklist")
+				else:
+					set {_value1} to line 2
+					set {_item} to {_value1} parsed as item
+					if "%type of player's tool%" isn't "air":
+						if type of player's tool is {_item}:
+							set {_value2} to line 3 parsed as number
+							set {_count} to item amount of player's tool
+							if player isn't sneaking:
+								set {_count} to 1
+							add {_count} to {_value2}
+							set line 3 to "%{_value2}%"
+							remove {_count} of {_item} from player's tool
+						else:
+							mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.deposit_failed")
+					else:
+						set {_name} to mj_timecount_text("drawer_%player%", "name")
+						if {_name} isn't "none":
+							set {_count} to amount of {_item} in player's inventory
+							if {_count} >= 1:
+								set {_value2} to line 3 parsed as number
+								add {_count} to {_value2}
+								set line 3 to "%{_value2}%"
+								remove {_count} of {_item} from player's inventory
+							else:
+								mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.deposit_empty")
+						else:
+							mj_timecount("drawer_%player%", "backward", 0, 0, 2, "none", player)
+							mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.click_confirm")
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 on leftclick:
@@ -126,12 +174,65 @@ on leftclick:
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 on break:
-	if event-block is sign:
-		set {_name} to mj_editfiles("drawer.config", "data.sign.name")
+	set {_name} to mj_editfiles("drawer.config", "data.sign.name")
+	if type of event-block is sign:
 		if line 1 is {_name}:
-			set {_value1} to line 2 parsed as item
-			set {_value2} to line 3 parsed as number
-			drop {_value2} of {_value1} at event-block's location
+			if line 3 isn't "0":
+				mj_drawer_drop_sign(event-block's location)
+	else:
+		set {_x.1} to event-block's x-coordinate
+		set {_y.1} to event-block's y-coordinate
+		set {_z.1} to event-block's z-coordinate
+		set {_loc.1} to location({_x.1}, {_y.1}, {_z.1}, ("%event-block's world%" parsed as world))
+		set {_loc.2} to location({_x.1} + 1, {_y.1}, {_z.1}, ("%event-block's world%" parsed as world))
+		set {_loc.3} to location({_x.1}, {_y.1}, {_z.1} + 1, ("%event-block's world%" parsed as world))
+		set {_loc.4} to location({_x.1} - 1, {_y.1}, {_z.1}, ("%event-block's world%" parsed as world))
+		set {_loc.5} to location({_x.1}, {_y.1}, {_z.1} - 1, ("%event-block's world%" parsed as world))
+		set {_loc.6} to location({_x.1}, {_y.1} + 1, {_z.1}, ("%event-block's world%" parsed as world))
+		if "%type of block at {_loc.2}%" contains "eastward":
+			if "%type of block at {_loc.2}%" contains "wall sign":
+				if line 1 of block at {_loc.2} is {_name}:
+					if line 3 of block at {_loc.2} isn't "0":
+						mj_drawer_drop_sign({_loc.2})
+		if "%type of block at {_loc.3}%" contains "southward":
+			if "%type of block at {_loc.3}%" contains "wall sign":
+				if line 1 of block at {_loc.3} is {_name}:
+					if line 3 of block at {_loc.3} isn't "0":
+						mj_drawer_drop_sign({_loc.3})
+		if "%type of block at {_loc.4}%" contains "westward":
+			if "%type of block at {_loc.4}%" contains "wall sign":
+				if line 1 of block at {_loc.4} is {_name}:
+					if line 3 of block at {_loc.4} isn't "0":
+						mj_drawer_drop_sign({_loc.4})
+		if "%type of block at {_loc.5}%" contains "wall sign":
+			if "%type of block at {_loc.5}%" contains "eastward" or "southward" or "westward":
+				stop
+			else:
+				if line 1 of block at {_loc.5} is {_name}:
+					if line 3 of block at {_loc.5} isn't "0":
+						mj_drawer_drop_sign({_loc.5})
+		if "%type of block at {_loc.6}%" contains "sign":
+			if line 1 of block at {_loc.6} is {_name}:
+				if line 3 of block at {_loc.6} isn't "0":
+					mj_drawer_drop_sign({_loc.6})
+	stop
+# --------------------------------------------------------------------------------------------------------------------
+function mj_drawer_drop_sign(location: location):
+	set {_block.1} to block at {_location}
+	set {_value.1} to line 2 of {_block.1} parsed as item
+	set {_value.2} to line 3 of {_block.1} parsed as number
+	set {_check} to mj_editfiles_boolean("drawer.config", "data.portable.condition")
+	if {_check} is true:
+		set {_item.1} to mj_manager_item_convert("drawer.config", "data.portable.item")
+		set {_name} to mj_editfiles("drawer.config", "data.portable.name")
+		set {_lore.1} to mj_editfiles("drawer.config", "data.portable.lore.1")
+		set {_lore.2} to mj_editfiles("drawer.config", "data.portable.lore.2")
+		set {_item.2} to {_item.1} named {_name}
+		set line 1 of lore of {_item.2} to "%{_lore.1}%%{_value.1}%"
+		set line 2 of lore of {_item.2} to "%{_lore.2}%%{_value.2}%"
+		drop 1 of {_item.2} at {_location}
+	else:
+		drop {_value.2} of {_value.1} at {_location}
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Drawer Sign

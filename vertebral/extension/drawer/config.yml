@@ -93,7 +93,10 @@ data:
         condition: true
         # The drawer item identification text, default : "&aPortable Drawer"
         name: "&aPortable Drawer"
-        # The drawer item quantity text, default : "&7Quantity &6: &a"
-        lore: "&7Quantity &6: &a"
+        lore:
+            # The drawer item type text, default : "&7Type &6: &a"
+            '1': "&7Type &6: &a"
+            # The drawer item quantity text, default : "&7Quantity &6: &a"
+            '2': "&7Quantity &6: &a"
         # Use item type, default : chest
         item: chest

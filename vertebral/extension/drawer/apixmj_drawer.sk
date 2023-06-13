@@ -33,7 +33,7 @@ on join:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_drawer_playerdata(player: offlineplayer):
-	wait 13 seconds
+	wait 14 seconds
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.source.drawer" from "mj.userdata.%{_player}'s uuid%"
 	if {_check1} isn't set:

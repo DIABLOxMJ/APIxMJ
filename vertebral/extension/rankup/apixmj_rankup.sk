@@ -34,7 +34,7 @@ on join:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_rankup_playerdata(player: offlineplayer):
-	wait 21 seconds
+	wait 22 seconds
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.source.rankup" from "mj.userdata.%{_player}'s uuid%"
 	if {_check1} isn't set:

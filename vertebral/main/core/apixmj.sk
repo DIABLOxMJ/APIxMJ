@@ -17,6 +17,7 @@ function mj_files_core():
 		if {_profil} isn't set:
 			set {_profil} to "default"
 		load yaml "plugins/APIxMJ/%{_folder}%/userdata/%loop-player's uuid%/%{_profil}%.yml" as "mj.userdata.%loop-player's uuid%.%{_profil}%"
+		mj_core_playerdata(loop-player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

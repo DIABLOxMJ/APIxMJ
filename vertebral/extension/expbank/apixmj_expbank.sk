@@ -9,6 +9,8 @@ function mj_files_expbank():
 		loop {_list::*}:
 			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.expbank.language.%loop-value%"
 			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.expbank.help.%loop-value%"
+	loop all players:
+		mj_expbank_playerdata(loop-player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

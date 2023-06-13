@@ -436,10 +436,10 @@ function mj_manager_menu_control_installer(player: player, source: text, id: tex
 	mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.condition", "modify", true)
 	if {_option} is "install":	
 		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.installed", {_name})
-		set {_kick} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.kick")
-		if {_kick} is true:
-			set {_send} to mj_editfiles_gettext("manager", "data.kick_install", {_player}, {_name})
-			kick all players due to "%{_send}%"
+		#set {_kick} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.kick")
+		#if {_kick} is true:
+		#	set {_send} to mj_editfiles_gettext("manager", "data.kick_install", {_player}, {_name})
+		#	kick all players due to "%{_send}%"
 	else if {_option} is "update":
 		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.updated", {_name})
 	stop

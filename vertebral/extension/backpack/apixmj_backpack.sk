@@ -10,6 +10,8 @@ function mj_files_backpack():
 		loop {_list::*}:
 			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.backpack.language.%loop-value%"
 			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.backpack.help.%loop-value%"
+	loop all players:
+		mj_backpack_playerdata(loop-player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

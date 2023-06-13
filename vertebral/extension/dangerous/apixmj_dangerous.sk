@@ -9,6 +9,8 @@ function mj_files_dangerous():
 		loop {_list::*}:
 			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.dangerous.language.%loop-value%"
 			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.dangerous.help.%loop-value%"
+	loop all players:
+		mj_dangerous_playerdata(loop-player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

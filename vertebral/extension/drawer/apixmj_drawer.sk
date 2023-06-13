@@ -9,6 +9,8 @@ function mj_files_drawer():
 		loop {_list::*}:
 			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.drawer.language.%loop-value%"
 			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.drawer.help.%loop-value%"
+	loop all players:
+		mj_drawer_playerdata(loop-player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

@@ -5,6 +5,8 @@ function mj_files_ranker():
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.ranker.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.ranker.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.ranker.data"
+	loop all players:
+		mj_ranker_playerdata(loop-player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

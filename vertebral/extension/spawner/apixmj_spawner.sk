@@ -10,6 +10,8 @@ function mj_files_spawner():
 		loop {_list::*}:
 			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.spawner.language.%loop-value%"
 			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.spawner.help.%loop-value%"
+	loop all players:
+		mj_spawner_playerdata(loop-player)
 	wait 5 ticks
 	mj_check_spawner_data()
 	stop

@@ -163,7 +163,6 @@ data:
                 github_folder: none
                 folder: none
                 slot: 0
-                kick: false
                 skript:
                     '1': none
                 yml:
@@ -196,7 +195,6 @@ data:
                 github_folder: manager
                 folder: manager
                 slot: 10
-                kick: false
                 skript:
                     '1': apixmj_manager
                 yml:
@@ -232,7 +230,6 @@ data:
                 github_folder: vertebral/main/core
                 folder: main/core
                 slot: 10
-                kick: true
                 skript:
                     '1': apixmj
                 yml:
@@ -272,7 +269,6 @@ data:
                 github_folder: vertebral/main/ranker
                 folder: main/ranker
                 slot: 11
-                kick: false
                 skript:
                     '1': apixmj_ranker
                 yml:
@@ -309,7 +305,6 @@ data:
                 github_folder: vertebral/main/essentials
                 folder: main/essentials
                 slot: 12
-                kick: true
                 skript:
                     '1': apixmj_essentials
                 yml:
@@ -346,7 +341,6 @@ data:
                 github_folder: vertebral/main/account
                 folder: main/account
                 slot: 14
-                kick: false
                 skript:
                     '1': apixmj_account
                 yml:
@@ -380,7 +374,6 @@ data:
                 github_folder: vertebral/main/encrypter
                 folder: main/encrypter
                 slot: 28
-                kick: false
                 skript:
                     '1': apixmj_encrypter
                 yml:
@@ -416,7 +409,6 @@ data:
                 github_folder: vertebral/extension/auction
                 folder: main/extension/auction
                 slot: 10
-                kick: false
                 skript:
                     '1': apixmj_auction
                 yml:
@@ -450,7 +442,6 @@ data:
                 github_folder: vertebral/extension/backpack
                 folder: main/extension/backpack
                 slot: 11
-                kick: false
                 open_gui: manager
                 skript:
                     '1': apixmj_backpack
@@ -486,7 +477,6 @@ data:
                 github_folder: vertebral/extension/calendar
                 folder: main/extension/calendar
                 slot: 12
-                kick: false
                 open_gui: manager
                 skript:
                     '1': apixmj_calendar
@@ -522,7 +512,6 @@ data:
                 github_folder: vertebral/extension/dangerous
                 folder: main/extension/dangerous
                 slot: 13
-                kick: false
                 open_gui: manager
                 skript:
                     '1': apixmj_dangerous
@@ -556,7 +545,6 @@ data:
                 github_folder: vertebral/extension/drawer
                 folder: main/extension/drawer
                 slot: 14
-                kick: false
                 open_gui: manager
                 skript:
                     '1': apixmj_drawer
@@ -590,7 +578,6 @@ data:
                 github_folder: vertebral/extension/duel
                 folder: main/extension/duel
                 slot: 15
-                kick: false
                 open_gui: manager
                 skript:
                     '1': apixmj_duel
@@ -625,7 +612,6 @@ data:
                 github_folder: vertebral/extension/expbank
                 folder: main/extension/expbank
                 slot: 16
-                kick: false
                 skript:
                     '1': apixmj_expbank
                 yml:
@@ -658,7 +644,6 @@ data:
                 github_folder: vertebral/extension/lobby
                 folder: main/extension/lobby
                 slot: 19
-                kick: false
                 skript:
                     '1': apixmj_lobby
                 yml:
@@ -692,7 +677,6 @@ data:
                 github_folder: vertebral/extension/lootbox
                 folder: main/extension/lootbox
                 slot: 20
-                kick: false
                 skript:
                     '1': apixmj_lootbox
                 yml:
@@ -726,7 +710,6 @@ data:
                 github_folder: vertebral/extension/menu
                 folder: main/extension/menu
                 slot: 21
-                kick: false
                 skript:
                     '1': apixmj_menu
                 yml:
@@ -760,7 +743,6 @@ data:
                 github_folder: vertebral/extension/multitools
                 folder: main/extension/multitools
                 slot: 22
-                kick: false
                 skript:
                     '1': apixmj_multitools
                 yml:
@@ -794,7 +776,6 @@ data:
                 github_folder: vertebral/extension/portal
                 folder: main/extension/portal
                 slot: 23
-                kick: false
                 skript:
                     '1': apixmj_portal
                 yml:
@@ -828,7 +809,6 @@ data:
                 github_folder: vertebral/extension/rankup
                 folder: main/extension/rankup
                 slot: 24
-                kick: false
                 skript:
                     '1': apixmj_rankup
                 yml:
@@ -863,7 +843,6 @@ data:
                 github_folder: vertebral/extension/shop
                 folder: main/extension/shop
                 slot: 25
-                kick: false
                 skript:
                     '1': apixmj_shop
                 yml:
@@ -898,7 +877,6 @@ data:
                 github_folder: vertebral/extension/spawner
                 folder: main/extension/spawner
                 slot: 28
-                kick: false
                 skript:
                     '1': apixmj_spawner
                 yml:
@@ -934,7 +912,6 @@ data:
                 github_folder: vertebral/extension/store
                 folder: main/extension/store
                 slot: 29
-                kick: false
                 skript:
                     '1': apixmj_store
                 yml:
@@ -969,7 +946,6 @@ data:
                 github_folder: gamemodes/classic/main/core
                 folder: gamemodes/classic/main/core
                 slot: 10
-                kick: true
                 skript:
                     '1': apixmj
                 yml:
@@ -1017,7 +993,6 @@ data:
                 github_folder: gamemodes/classic/extension/expbank
                 folder: gamemodes/classic/extension/expbank
                 slot: 10
-                kick: false
                 skript:
                     '1': apixmj_expbank
                 yml:
@@ -1051,7 +1026,6 @@ data:
                 github_folder: gamemodes/classic/extension/spawner
                 folder: gamemodes/classic/extension/spawner
                 slot: 11
-                kick: false
                 skript:
                     '1': apixmj_spawner
                 yml:
@@ -1088,7 +1062,6 @@ data:
                 github_folder: gamemodes/faction/main/faction
                 folder: gamemodes/faction/main/
                 slot: 10
-                kick: true
                 skript:
                     '1': apixmj_faction
                 yml:
@@ -1124,7 +1097,6 @@ data:
                 github_folder: gamemodes/minigames/main/teams
                 folder: gamemodes/minigames/main/teams
                 slot: 10
-                kick: false
                 skript:
                     '1': apixmj_teams
                 yml:
@@ -1162,7 +1134,6 @@ data:
                 github_folder: gamemodes/bedwars/games/bedwars
                 folder: gamemodes/bedwars/games/bedwars
                 slot: 10
-                kick: false
                 skript:
                     '1': apixmj_bedwars
                 yml:
@@ -1202,7 +1173,6 @@ data:
                 github_folder: editor/bedwars_editor
                 folder: editor/bedwars_editor
                 slot: 12
-                kick: false
                 skript:
                     '1': apixmj_bedwars_editor
                 yml:
@@ -1239,7 +1209,6 @@ data:
                 github_folder: editor/faction_editor
                 folder: editor/faction_editor
                 slot: 13
-                kick: false
                 skript:
                     '1': apixmj_faction_editor
                 yml:

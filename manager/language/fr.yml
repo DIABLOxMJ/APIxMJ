@@ -27,6 +27,9 @@ data:
         condition: "&eVous avez &r$0 &ele Skript &6: &r$1"
     kick_install: "&aInstallation de &r$0&a..\n&aConnectez-vous dans un instant pour générer vos données !"
     data_update: "&aMise à jour des données terminé !"
+    experimental: 
+        stable: "&a&l✓"
+        instable: "&e&l[Expérimentale]"
     button:
         return: "&eRetour"
         argument: " &6- &a$0"

@@ -150,6 +150,7 @@ data:
                 condition: false
                 installed: true
                 visible: false
+                experimental: false
                 depends:
                     '1': none
                 variants:
@@ -182,6 +183,7 @@ data:
                 condition: true
                 installed: true
                 visible: true
+                experimental: false
                 depends:
                     '1': none
                 variants:
@@ -217,7 +219,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
-                index: vertebral_main
+                experimental: false
                 depends:
                     '1': main.manager
                 variants:
@@ -256,6 +258,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -291,6 +294,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -327,6 +331,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -362,6 +367,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                 variants:
@@ -396,6 +402,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -430,6 +437,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -465,6 +473,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -500,6 +509,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -533,6 +543,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -566,6 +577,7 @@ data:
                 condition: false
                 installed: false
                 visible: false
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -600,6 +612,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -632,6 +645,7 @@ data:
                 condition: false
                 installed: false
                 visible: false
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -665,6 +679,7 @@ data:
                 condition: false
                 installed: false
                 visible: false
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -698,6 +713,7 @@ data:
                 condition: false
                 installed: false
                 visible: false
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -731,6 +747,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -764,6 +781,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -797,6 +815,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -831,6 +850,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -865,6 +885,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -898,6 +919,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -935,6 +957,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                 variants:
@@ -981,6 +1004,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': gamemodes_classic_main.core
@@ -1014,6 +1038,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': gamemodes_classic_main.core
@@ -1048,6 +1073,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1084,6 +1110,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1120,6 +1147,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1159,6 +1187,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1195,6 +1224,7 @@ data:
                 condition: false
                 installed: false
                 visible: true
+                experimental: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core

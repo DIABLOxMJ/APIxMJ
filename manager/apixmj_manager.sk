@@ -19,7 +19,7 @@ function mj_files_manager():
 on load:
 	send "[APIxMJ] Loading manager..." to console
 	mj_files_manager()
-	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.05.25.0001")
+	mj_editfiles("manager.data", "data.addon.main.manager.version", "modify", "2023.06.13.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles(source: text, find: text="data", mode: text="extract", data: text="") :: text:
@@ -272,11 +272,15 @@ function mj_manager_menu_index_button_generator(player: player, id: text):
 		set {_name.find} to mj_editfiles("manager.data", "data.index.%{_id}%.name")
 		set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 		set {_title} to mj_editfiles_gettext("manager", "data.menu.name", {_player}, {_name})
+		set {_exp} to mj_editfiles_gettext("manager", "data.experimental.stable", {_player})
+		set {_check} to mj_editfiles_boolean("manager.data", "data.index.%{_id}%.experimental")
+		if {_check} is true:
+			set {_exp} to mj_editfiles_gettext("manager", "data.experimental.insstable", {_player})
 		set {_slot} to mj_editfiles_number("manager.data", "data.index.%{_id}%.slot")
-		set {_item} to mj_manager_item_convert("manager.data", "data.index.%{_id}%.item", true)
-		set {_item} to mj_manager_item_description({_player}, {_item}, "data.index.%{_id}%")
-		set {_item} to mj_manager_item_button({_player}, {_item}, "left_click", "manager", "data.open.gui_folder")
-		make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
+		set {_item.1} to mj_manager_item_convert("manager.data", "data.index.%{_id}%.item", true)
+		set {_item.2} to mj_manager_item_description({_player}, {_item.1}, "data.index.%{_id}%")
+		set {_item.3} to mj_manager_item_button({_player}, {_item.2}, "left_click", "manager", "data.open.gui_folder")
+		make a gui slot {_slot} of {_player} with {_item.3} named "%{_title}% %{_exp}%" to run:
 			set {_next} to mj_editfiles("manager.data", "data.index.%{_id}%.menu_next")
 			if {_next} isn't "none":
 				mj_manager_menu({_player}, {_next})
@@ -331,6 +335,10 @@ function mj_manager_menu_control_button_status(player: player, source: text, id:
 	set {_lang} to mj_manager_userdata_language({_player})
 	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
 	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
+	set {_exp} to mj_editfiles_gettext("manager", "data.experimental.stable", {_player})
+	set {_check} to mj_editfiles_boolean("manager.data", "data.index.%{_id}%.experimental")
+	if {_check} is true:
+		set {_exp} to mj_editfiles_gettext("manager", "data.experimental.insstable", {_player})
 	set {_item} to paper
 	set {_count} to 2
 	set {_desc1} to mj_editfiles_gettext("manager", "data.category.info", {_player})
@@ -340,7 +348,7 @@ function mj_manager_menu_control_button_status(player: player, source: text, id:
 	set {_item} to mj_manager_menu_control_button_status_data({_player}, {_source}, {_id}, {_item}, "skript")
 	set {_item} to mj_manager_menu_control_button_status_data({_player}, {_source}, {_id}, {_item}, "file")
 	set {_item} to mj_manager_item_description({_player}, {_item}, "data.addon.%{_source}%.%{_id}%")	
-	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+	make a gui slot {_slot} of {_player} with {_item} named "%{_name}% %{_exp}%" to run:
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

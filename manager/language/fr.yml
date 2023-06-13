@@ -288,7 +288,7 @@ data:
                 name_lite: "&aSac à dos"
                 lore:
                     '1': "&6- &7Quel est ton meilleur ami ?"
-                    '2': "&6- &7Ton fidèle sac à dos voyons…"
+                    '2': "&0- &7Ton fidèle sac à dos voyons…"
             calendar:
                 name: "&aCalendrier"
                 name_lite: "&aCalendrier"

@@ -336,7 +336,7 @@ function mj_manager_menu_control_button_status(player: player, source: text, id:
 	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
 	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_exp} to mj_editfiles_gettext("manager", "data.experimental.stable", {_player})
-	set {_check} to mj_editfiles_boolean("manager.data", "data.index.%{_id}%.experimental")
+	set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_source}%.%{_id}%.experimental")
 	if {_check} is true:
 		set {_exp} to mj_editfiles_gettext("manager", "data.experimental.insstable", {_player})
 	set {_item} to paper

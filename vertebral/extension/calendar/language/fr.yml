@@ -1,6 +1,8 @@
 data:
     prefix: "&6[&c&lCalendrier&6]&r"
-    title: "&eCalendrier Journalier"
+    title:
+        current: "&eCalendrier Journalier"
+        preview: "&eProchain Calendrier"
     reset: "&aRénitialisation des données terminées &6(&a+mise à jour&6)"
     button:
         previous_day: "&cJour raté"

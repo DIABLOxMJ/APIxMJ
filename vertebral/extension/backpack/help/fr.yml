@@ -1,7 +1,71 @@
 data:
-    backpack:
-        name: "&aSac à dos"
+    create:
+        name: "&aCréer un sac à dos"
         type: command
+        description:
+            '1': "&0- &aUn inventaire trop petit…"
+            '2': "&0- &aVotre meilleur ami sera là pour vous !"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.backpack.*"
+        - "mj.backpack.admin"
+        info:
+            '1': "&6- &a/backpack size <1-6>"
+            '2': "&0- &7Génère un sac à dos d'une"
+            '3': "&0- &7certaine taille."
+    listed:
+        name: "&aListe de sac à dos"
+        type: command
+        description:
+            '1': "&0- &aAvoir la liste de sac à dos"
+            '2': "&0- &ad'un joueur sera possible."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.backpack.*"
+        - "mj.backpack.admin"
+        info:
+            '1': "&6- &a/backpack gui [<player>]"
+            '2': "&0- &7Il ouvre un menu avoir soit"
+            '3': "&0- &7tous les sacs à dos où celui"
+            '4': "&0- &7d'un joueur spécifique."
+    rename:
+        name: "&aRenommer un sac à dos"
+        type: command
+        description:
+            '1': "&0- &aDonner un petit nom sympa à"
+            '2': "&0- &avotre sac à dos."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.backpack.*"
+        - "mj.backpack"
+        info:
+            '1': "&6- &a/backpack rename <text>"
+            '2': "&0- &7Avoir le sac à dos dans la main"
+            '3': "&0- &7et avec cette commande, vous"
+            '4': "&0- &7pouvez lui donner un petit nom."
+    upgrade:
+        name: "&aAméliorer un sac à dos"
+        type: command
+        description:
+            '1': "&0- &aIl est trop petit le sac à dos"
+            '2': "&0- &aune améliorer sera accorder."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.backpack.*"
+        - "mj.backpack"
+        info:
+            '1': "&6- &a/backpack upgrade"
+            '2': "&0- &7Avoir le sac à dos dans la main"
+            '3': "&0- &7et avec cette commande, vous"
+            '4': "&0- &7pouvez améliorer sa taille."
+            '5': "&6- &7Taille maximum &6: &a6"
+    open_backpack:
+        name: "&aOuvrir un sac à dos"
+        type: action
         description:
             '1': "&0- &aUn inventaire trop petit…"
             '2': "&0- &aVotre meilleur ami sera là pour vous !"
@@ -11,5 +75,30 @@ data:
         - "mj.backpack.*"
         - "mj.backpack"
         info:
-            '1': "&6- &a/backpack"
-            '2': "&0- &7Il ouvre un coffre portable."
+            '1': "&6- &7Clic droit avec un sac à dos,"
+            '2': "&0- &7ouvrira son inventaire."
+            '3': "&0"
+            '4': "&0- &7Le tiers indiqué permet de savoir"
+            '5': "&0- &7la taille de l'inventaire du sac."
+    losted:
+        name: "&aSac à dos perdu"
+        type: function
+        description:
+            '1': "&0- &aVous avez accidentellement perdu votre"
+            '2': "&0- &asac à dos ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.backpack.*"
+        - "mj.backpack"
+        info:
+            '1': "&6- &7Grâce à un modérateur, vous avez la"
+            '2': "&0- &7possibilité de demander de récupérer"
+            '3': "&0- &7votre sac à dos."
+            '4': "&0"
+            '5': "&6- &7À condition que vous ayez accidentellement"
+            '6': "&0- &7jeté votre sac à dos dans son inventaire."
+            '7': "&0- &bLe paradoxe du sac qui se mange lui-même."
+            '8': "&0"
+            '9': "&6- &7Si un joueur, vous a pris le sac, il est"
+            '10': "&0- &7de votre responsabilité."

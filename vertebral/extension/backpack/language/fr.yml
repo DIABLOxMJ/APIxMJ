@@ -1,3 +1,12 @@
 data:
     prefix: "&6[&c&lBackpack&6]&r"
-    title_gui: "&6Sac à dos"
+    default_name: "&6Sac à dos"
+    new_item: "&aVous avez créer un nouveau sac à dos !"
+    no_item: "&cL'item dans votre main ne correspond pas à un sac à dos…"
+    object:
+        tiers: "&7Taille &6: &a$0"
+        uuid: "&7UUID &6: &a$0"
+        owner: "&7Propriétaire &6: &a$0"
+    menu:
+        title_listed: "&eListe de BP de &6: &a$0"
+        title_listed_all: "&eListe de tous les BP"

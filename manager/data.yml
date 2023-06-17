@@ -724,6 +724,39 @@ data:
                 item: paper
                 gui_background:
                     item: black stained glass pane
+            moderator:
+                name: data.addon.vertebral_extension.moderator.name
+                version: 0000.00.00.0000
+                condition: false
+                installed: false
+                visible: true
+                experimental: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/moderator
+                folder: main/extension/moderator
+                slot: 22
+                skript:
+                    '1': apixmj_moderator
+                yml:
+                    '1': config
+                file:
+                    '1': mj.moderator.config
+                    '2': mj.moderator.data
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: barrier block
+                gui_background:
+                    item: red stained glass pane
             multitools:
                 name: data.addon.vertebral_extension.multitools.name
                 version: 0000.00.00.0000
@@ -742,7 +775,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/multitools
                 folder: main/extension/multitools
-                slot: 22
+                slot: 23
                 skript:
                     '1': apixmj_multitools
                 yml:
@@ -775,7 +808,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/portal
                 folder: main/extension/portal
-                slot: 23
+                slot: 24
                 skript:
                     '1': apixmj_portal
                 yml:
@@ -808,7 +841,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/rankup
                 folder: main/extension/rankup
-                slot: 24
+                slot: 25
                 skript:
                     '1': apixmj_rankup
                 yml:
@@ -842,7 +875,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/shop
                 folder: main/extension/shop
-                slot: 25
+                slot: 28
                 skript:
                     '1': apixmj_shop
                 yml:
@@ -876,7 +909,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/spawner
                 folder: main/extension/spawner
-                slot: 28
+                slot: 29
                 skript:
                     '1': apixmj_spawner
                 yml:
@@ -911,7 +944,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/store
                 folder: main/extension/store
-                slot: 29
+                slot: 30
                 skript:
                     '1': apixmj_store
                 yml:

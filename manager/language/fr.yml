@@ -335,6 +335,12 @@ data:
                 lore:
                     '1': "&6- &7Un menu permettent de tout réunir dans un seul"
                     '2': "&0- &7et même endroit idéal pour s'y retrouver en jeu."
+            moderator:
+                name: "&aModération"
+                name_lite: "&aModération"
+                lore:
+                    '1': "&6- &7Difficile de modérer les joueurs ?"
+                    '2': "&0- &7Ceci sera la solution à tous vos problèmes."
             multitools:
                 name: "&aBoite à outils"
                 name_lite: "&aBoite à outils"

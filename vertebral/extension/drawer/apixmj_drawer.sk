@@ -214,9 +214,10 @@ on break:
 					if line 3 of block at {_loc.5} isn't "0":
 						mj_drawer_drop_sign({_loc.5})
 		if "%type of block at {_loc.6}%" contains "sign":
-			if line 1 of block at {_loc.6} is {_name}:
-				if line 3 of block at {_loc.6} isn't "0":
-					mj_drawer_drop_sign({_loc.6})
+			if "%type of block at {_loc.6}%" doesn't contain "wall":
+				if line 1 of block at {_loc.6} is {_name}:
+					if line 3 of block at {_loc.6} isn't "0":
+						mj_drawer_drop_sign({_loc.6})
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 function mj_drawer_drop_sign(location: location):

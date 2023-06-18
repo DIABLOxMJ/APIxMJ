@@ -16,12 +16,12 @@ function mj_files_backpack():
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading backpack..." to console
 		mj_files_backpack()
 		mj_editfiles("manager.data", "data.addon.vertebral_extension.backpack.version", "modify", "2023.06.18.0001")
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_backpack.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ command /backpack [<text>] [<text>]:
 					else:
 						mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 				else if arg-1 is "upgrade":
-					send "&cnot found"
+					mj_backpack_upgrade(player)
 				else:
 					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 			else:
@@ -95,6 +95,9 @@ command /backpack [<text>] [<text>]:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/backpack" or "/bpack" or "/bp" or "kpack" or "kp":
+	set tab completions for position 1 to "rename" and "upgrade"
+	if tab arg-1 is "rename":
+		set tab completions for position 2 to "&&amy bag"
 	if player has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack.admin":
 		set tab completions for position 1 to "gui" or "size" or "rename" and "upgrade"
 		if tab arg-1 is "gui":
@@ -105,8 +108,6 @@ on tab complete of "/backpack" or "/bpack" or "/bp" or "kpack" or "kp":
 			set tab completions for position 2 to {_list2::*} and "all"
 		if tab arg-1 is "size":
 			set tab completions for position 2 to "1" or "2" or "3" or "4" or "5" and "6"
-		if tab arg-1 is "rename":
-			set tab completions for position 2 to "&amy bag"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Command
@@ -203,6 +204,59 @@ function mj_backpack_get_id(player: player) :: text:
 	set {_lore} to mj_editfiles("backpack.config", "data.object.lore.2")
 	replace {_lore} with "" in {_value}
 	return {_value}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_backpack_upgrade(player: player):
+	set {_item} to mj_manager_item_convert("backpack.config", "data.object.item")
+	if type of {_player}'s tool is {_item}:
+		set {_lore.1} to line 3 of lore of {_player}'s tool
+		set {_lore.2} to mj_editfiles("backpack.config", "data.object.lore.2")
+		if "%{_lore.1}%" contains "%{_lore.2}%":
+			set {_id} to mj_backpack_get_id({_player})
+			set {_size} to mj_editfiles_number("backpack.data", "data.%{_id}%.size")
+			if {_size} is 1 or 2 or 3 or 4 or 5:
+				set {_confirm} to false
+				add 1 to {_size}
+				set {_check.1} to mj_editfiles_boolean("backpack.config", "data.upgrade.vanilla.condition")
+				set {_check.2} to mj_editfiles_boolean("backpack.config", "data.upgrade.essentials.condition")
+				if {_check.1} is true:
+					set {_confirm} to true
+					set {_item} to mj_manager_item_convert("backpack.config", "data.upgrade.vanilla.price.size_%{_size}%.item")
+					set {_count.1} to mj_editfiles_number("backpack.config", "data.upgrade.vanilla.price.size_%{_size}%.count")
+					set {_count.2} to amount of {_item} in {_player}'s inventory
+					if {_count.2} >= {_count.1}:
+						remove {_count.1} of {_item} from {_player}
+					else:
+						set {_confirm} to false
+						mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade.vanilla", "%{_count.1}% %{_item}%")
+				else if {_check.2} is true:
+					set {_list::*} to mj_manager_skript_list()
+					if {_list::*} contains "apixmj_essentials.sk":				
+						set {_confirm} to true
+						set {_price} to mj_editfiles_number("backpack.config", "data.upgrade.essentials.price.size_%{_size}%")
+						set {_money} to mj_essentials_money({_player})
+						if {_money} >= {_price}:
+							mj_essentials_money_system({_player}, {_price}, false, "upgrade backpack")
+						else:
+							set {_confirm} to false
+							set {_view} to mj_core_format_money({_price})
+							mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade.essentials", "%{_view}%")
+					else:
+						mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_essentials")
+				else:
+					set {_confirm} to false
+				if {_confirm} is true:
+					set {_lore.3} to mj_editfiles("backpack.config", "data.object.lore.1")
+					set line 2 of lore of {_player}'s tool to "%{_lore.3}%%{_size}%"
+					mj_editfiles_number("backpack.data", "data.%{_id}%.size", "modify", {_size})
+					mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.upgrade.default")
+					mj_core_logger(2, "%{_player}% upgrade backpack for uuid (%{_id}%)")
+			else:
+				mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade")
+		else:
+			mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_item")
+	else:
+		mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_item")
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_backpack_action_open(player: player, id: text):
 	close {_player}'s Inventory

@@ -11,3 +11,44 @@ data:
             '3': "&7Owner &6: &a"
         # The item that will be used, default : brown shulker box
         item: brown shulker box
+    upgrade:
+        # If the enhancement system requires a vanilla method
+        vanilla:
+            # If yes or no, we activate this method, default : true
+            condition: true
+            price: 
+                # Set prices for each upgrade, default : 2 leather
+                size_2:
+                    item: leather
+                    count: 2
+                # Set prices for each upgrade, default : 4 leather
+                size_3:
+                    item: leather
+                    count: 4
+                # Set prices for each upgrade, default : 6 leather
+                size_4:
+                    item: leather
+                    count: 6
+                # Set prices for each upgrade, default : 8 leather
+                size_5:
+                    item: leather
+                    count: 8
+                # Set prices for each upgrade, default : 10 leather
+                size_6:
+                    item: leather
+                    count: 10
+        # If the enhancement system requires a essentials method
+        essentials:
+            # If yes or no, we activate this method, default : false
+            condition: false
+            price:
+                # Set prices for each upgrade, default : 1500
+                size_2: 1500
+                # Set prices for each upgrade, default : 3000
+                size_3: 3000
+                # Set prices for each upgrade, default : 4500
+                size_4: 4500
+                # Set prices for each upgrade, default : 6000
+                size_5: 6000
+                # Set prices for each upgrade, default : 7500
+                size_6: 7500

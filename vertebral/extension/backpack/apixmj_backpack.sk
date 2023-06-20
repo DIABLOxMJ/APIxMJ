@@ -238,7 +238,7 @@ function mj_backpack_upgrade(player: player):
 							mj_essentials_money_system({_player}, {_price}, false, "upgrade backpack")
 						else:
 							set {_confirm} to false
-							set {_view} to mj_core_format_money({_price})
+							set {_view} to mj_core_format_money(false, {_price})
 							mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade.essentials", "%{_view}%")
 					else:
 						mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_essentials")

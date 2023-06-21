@@ -248,7 +248,7 @@ function mj_backpack_upgrade(player: player):
 					set {_lore.3} to mj_editfiles("backpack.config", "data.object.lore.1")
 					set line 2 of lore of {_player}'s tool to "%{_lore.3}%%{_size}%"
 					mj_editfiles_number("backpack.data", "data.%{_id}%.size", "modify", {_size})
-					mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.upgrade.default")
+					mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.upgrade")
 					mj_core_logger(2, "%{_player}% upgrade backpack for uuid (%{_id}%)")
 			else:
 				mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade")

@@ -17,7 +17,7 @@ data:
             '7': "&0- &7brûlures à condition que l'enchantement"
             '8': "&0- &aFire Protection &7soit appliqué."
             '9': "&0"
-            '10': "&6- &aUn casque en Netherite et &aSPECIAL&7."
+            '10': "&6- &7Un casque en Netherite et &aSPECIAL&7."
     respawn_penalty:
         name: "&aPénalité mortelle"
         type: function

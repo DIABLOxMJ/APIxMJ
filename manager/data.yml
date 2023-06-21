@@ -9,6 +9,9 @@ data:
         uninstalled:
             name: data.button.uninstalled.name
             slot: 21
+        reinstalled:
+            name: data.button.reinstalled.name
+            slot: 23
         condition:
             enable:
                 name: data.button.condition.enable.name
@@ -169,6 +172,10 @@ data:
                     '1': none
                 file:
                     '1': none
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -203,6 +210,10 @@ data:
                 file:
                     '1': mj.manager.config
                     '2': mj.manager.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -239,6 +250,10 @@ data:
                     '2': mj.data
                     '3': mj.temp
                     '4': mj.userdata
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: mj.temp
@@ -277,6 +292,10 @@ data:
                 file:
                     '1': mj.config
                     '2': mj.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -313,6 +332,10 @@ data:
                 file:
                     '1': mj.essentials.config
                     '2': mj.essentials.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -348,6 +371,10 @@ data:
                 file:
                     '1': mj.account.config
                     '2': mj.account.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -381,6 +408,10 @@ data:
                 file:
                     '1': mj.encrypter.config
                     '2': mj.encrypter.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -416,6 +447,10 @@ data:
                 file:
                     '1': mj.auction.config
                     '2': mj.auction.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: mj.auction.data
@@ -451,6 +486,10 @@ data:
                 file:
                     '1': mj.backpack.config
                     '2': mj.backpack.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -486,6 +525,10 @@ data:
                 file:
                     '1': mj.calendar.config
                     '2': mj.calendar.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -519,6 +562,10 @@ data:
                     '1': config
                 file:
                     '1': mj.dangerous.config
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -552,6 +599,10 @@ data:
                     '1': config
                 file:
                     '1': mj.drawer.config
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -586,6 +637,10 @@ data:
                 file:
                     '1': mj.duel.config
                     '2': mj.duel.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -618,6 +673,10 @@ data:
                     '1': config
                 file:
                     '1': mj.expbank.config
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -651,6 +710,10 @@ data:
                 file:
                     '1': mj.lobby.config
                     '2': mj.lobby.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -684,6 +747,10 @@ data:
                 file:
                     '1': mj.lootbox.config
                     '2': mj.lootbox.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -717,6 +784,10 @@ data:
                 file:
                     '1': mj.menu.config
                     '2': mj.menu.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -750,6 +821,10 @@ data:
                 file:
                     '1': mj.moderator.config
                     '2': mj.moderator.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -783,6 +858,10 @@ data:
                 file:
                     '1': mj.multitools.config
                     '2': mj.multitools.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -816,6 +895,10 @@ data:
                 file:
                     '1': mj.portal.config
                     '2': mj.portal.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -850,6 +933,10 @@ data:
                 file:
                     '1': mj.rankup.config
                     '2': mj.rankup.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -884,6 +971,10 @@ data:
                 file:
                     '1': mj.shop.config
                     '2': mj.shop.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -917,6 +1008,10 @@ data:
                 file:
                     '1': mj.spawner.config
                     '2': mj.spawner.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -953,6 +1048,10 @@ data:
                 file:
                     '1': mj.store.config
                     '2': mj.store.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -990,6 +1089,10 @@ data:
                     '4': mj.stats
                     '5': mj.inventory
                     '6': mj.userdata
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: mj.temp
@@ -1033,6 +1136,10 @@ data:
                 file:
                     '1': mj.expbank.config
                     '2': mj.expbank.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -1066,6 +1173,10 @@ data:
                 file:
                     '1': mj.spawner.config
                     '2': mj.spawner.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -1102,6 +1213,10 @@ data:
                 file:
                     '1': mj.faction.config
                     '2': mj.faction.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: mj.faction.data
@@ -1138,6 +1253,10 @@ data:
                 file:
                     '1': mj.teams.config
                     '2': mj.teams.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none
@@ -1177,6 +1296,10 @@ data:
                     '2': mj.bedwars.data
                     '3': mj.bedwars.player
                     '4': mj.bedwars.temp
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: mj.bedwars.temp
@@ -1214,6 +1337,10 @@ data:
                 file:
                     '1': mj.bedwars_editor.config
                     '2': mj.bedwars_editor.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: mj.bedwars_editor.temp
@@ -1250,6 +1377,10 @@ data:
                 file:
                     '1': mj.faction_editor.config
                     '2': mj.faction_editor.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
                 reset:
                     '1':
                         file: none

@@ -24,6 +24,7 @@ data:
         updated: "&eMise à jour du Skript &a$0 &eTerminé !"
         installed: "&eInstallation du Skript &a$0 &eTerminé !"
         uninstalled: "&eDésinstallation du Skript &a$0 &eTerminé !"
+        reinstalled: "&eRéinstallation du Skript &a$0 &eTerminé !"
         condition: "&eVous avez &r$0 &ele Skript &6: &r$1"
     kick_install: "&aInstallation de &r$0&a..\n&aConnectez-vous dans un instant pour générer vos données !"
     data_update: "&aMise à jour des données terminé !"
@@ -50,6 +51,11 @@ data:
                 '5': "&7cette désinstallation supprimera que le Skript,"
                 '6': "&7il préserve les données de votre serveur dans"
                 '7': "&7le cas où vous voudriez réinstaller plus tard."
+        reinstalled:
+            name: "&eRéinstaller"
+            lore:
+                '1': "&7Cette option va réinitialiser le Skript"
+                '2': "&7à l'état par défaut."
         update:
             name:
                 '1': "&eMise à jour"
@@ -94,6 +100,7 @@ data:
     open:
         install: "&7Installer le Skript"
         uninstall: "&7Désinstaller le Skript"
+        reinstall: "&7Réinstaller le Skript"
         update_check: "&7Rechercher une mise à jour"
         update_now: "&7Installer la mise à jour"
         condition_enable: "&7Activer le Skript"

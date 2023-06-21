@@ -65,8 +65,8 @@ command /store [<text>] [<text>]:
 						send "ok"
 		#			if arg-1 is set:
 		#				if arg-1 is "giveall":
-		#					set {_name} to mj_editfiles("data", "data.storage.%arg-2%.name")
-		#					set {_list::*} to mj_editfiles_list("data", "data.storage.%arg-2%.storage")
+		#					set {_name} to mj_editfiles("core.data", "data.storage.%arg-2%.name")
+		#					set {_list::*} to mj_editfiles_list("core.data", "data.storage.%arg-2%.storage")
 		#					if {_list::*} is set:
 		#						loop all players:	
 		#							give {_list::*} to loop-player
@@ -94,7 +94,7 @@ command /store [<text>] [<text>]:
 on tab complete of "/store" or "/boutique":
 	if player has permission "*" or "mj.*" or "mj.store.*" or "mj.store.admin":
 		set tab completions for position 1 to "give" and "giveall"
-		set {_list::*} to mj_manager_nodes("data", "data.storage")
+		set {_list::*} to mj_manager_nodes("core.data", "data.storage")
 		if tab arg-1 is "give" or "giveall":
 			set tab completions for position 2 to {_list::*}
 	stop

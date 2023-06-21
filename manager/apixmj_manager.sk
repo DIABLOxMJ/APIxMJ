@@ -7,6 +7,7 @@
 function mj_files_manager():
 	load yaml "plugins/APIxMJ/manager/config.yml" as "mj.manager.config"
 	load yaml "plugins/APIxMJ/manager/data.yml" as "mj.manager.data"
+	load yaml "plugins/APIxMJ/manager/temp.yml" as "mj.temp"
 	wait 1 second
 	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
 	if {_list::*} is set:

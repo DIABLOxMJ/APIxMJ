@@ -101,9 +101,9 @@ on tab complete of "/essentials":
 # APIxMJ - Chat
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
-	set {_check1} to mj_editfiles_boolean("config", "data.custom_chat")
+	set {_check1} to mj_editfiles_boolean("core.config", "data.custom_chat")
 	if {_check1} is true:
-		set {_check2} to mj_editfiles("config", "data.chat_priority")
+		set {_check2} to mj_editfiles("core.config", "data.chat_priority")
 		if {_check2} is "essentials":
 			set {_check3} to mj_editfiles_boolean("userdata", "data.%player's uuid%.temp.mute")
 			if {_check3} isn't true:
@@ -828,8 +828,8 @@ command /kit [<text>] [<text>]:
 			if arg-1 is "give" or "giveall":
 				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kits.*" or "mj.essentials.kits.admin":
 					if arg-1 is "giveall":
-						set {_name} to mj_editfiles("data", "data.storage.%arg-2%.name")
-						set {_list::*} to mj_editfiles_list("data", "data.storage.%arg-2%.storage")
+						set {_name} to mj_editfiles("core.data", "data.storage.%arg-2%.name")
+						set {_list::*} to mj_editfiles_list("core.data", "data.storage.%arg-2%.storage")
 						if {_list::*} doesn't contain "none":
 							loop all players:	
 								give {_list::*} to loop-player
@@ -840,7 +840,7 @@ command /kit [<text>] [<text>]:
 					mj_manager_permission(player, "essentials", "data.kits.prefix", "mj.essentials.kits.admin")
 			else:
 				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kits.*" or "mj.essentials.kits":
-					set {_list::*} to mj_manager_nodes("data", "data.storage")
+					set {_list::*} to mj_manager_nodes("core.data", "data.storage")
 					if {_list::*} contain arg-1:
 						mj_essentials_kits_gift(player, arg-1)
 					else:
@@ -881,20 +881,20 @@ on tab complete of "/kits":
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_kits_gift(player: player, id: text):
-	set {_name} to mj_editfiles("data", "data.storage.%{_id}%.name")
+	set {_name} to mj_editfiles("core.data", "data.storage.%{_id}%.name")
 	if {_name} is set:
 		set {_name} to mj_editfiles_gettext("core", "data.storage.catalog.%{_id}%", {_player})
-		set {_access} to mj_editfiles_boolean("data", "data.storage.%{_id}%.permission")
+		set {_access} to mj_editfiles_boolean("core.data", "data.storage.%{_id}%.permission")
 		if {_access} is true:
 			if {_player} doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.kits.*" or "mj.essentials.kits.%{_id}%":
 				mj_manager_message({_player}, "essentials", "data.kits.prefix", "essentials", "data.kits.no_permission")
 				stop
 		set {_check} to mj_timecount_text("kits%{_id}%_%{_player}%", "name")
 		if {_check} is "none":
-			set {_money} to mj_editfiles_number("data", "data.storage.%{_id}%.money")
+			set {_money} to mj_editfiles_number("core.data", "data.storage.%{_id}%.money")
 			if {_money} isn't set:
 				mj_essentials_money_system({_player}, {_money}, true)
-			set {_list::*} to mj_editfiles_list("data", "data.storage.%{_id}%.storage")
+			set {_list::*} to mj_editfiles_list("core.data", "data.storage.%{_id}%.storage")
 			if {_list::*} doesn't contain "none":
 				set {_count1} to 0
 				loop {_list::*}:
@@ -910,7 +910,7 @@ function mj_essentials_kits_gift(player: player, id: text):
 				stop
 			else:
 				give {_list::*} to {_player}
-				set {_time} to mj_editfiles_number("data", "data.storage.%{_id}%.time")
+				set {_time} to mj_editfiles_number("core.data", "data.storage.%{_id}%.time")
 				mj_timecount("kits%{_id}%_%{_player}%", "backward", {_time}, 0, 0)
 				mj_manager_message({_player}, "essentials", "data.kits.prefix", "essentials", "data.kits.reward", {_name})
 		else:
@@ -921,17 +921,17 @@ function mj_essentials_kits_gift(player: player, id: text):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_kits_viewer(player: player, id: text):
-	set {_check} to mj_editfiles("data", "data.storage.%{_id}%.name")
+	set {_check} to mj_editfiles("core.data", "data.storage.%{_id}%.name")
 	if {_check} is set:
 		mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.temp.gui_protect", "modify", true)
 		set {_name} to mj_editfiles_gettext("core", {_check}, {_player})
 		set {_item1} to mj_core_item_lore({_player}, paper, 2, "essentials", "data.kits.view_name", {_name})
-		set {_money1} to mj_editfiles_number("data", "data.storage.%{_id}%.money")
+		set {_money1} to mj_editfiles_number("core.data", "data.storage.%{_id}%.money")
 		set {_money2} to mj_core_format_money(false, {_money1})
 		set {_item2} to mj_core_item_lore({_player}, {_item1}, 3, "essentials", "data.kits.view_money", {_money2})
-		set {_time} to mj_editfiles_number("data", "data.storage.%{_id}%.time")
+		set {_time} to mj_editfiles_number("core.data", "data.storage.%{_id}%.time")
 		set {_item3} to mj_core_item_lore({_player}, {_item2}, 4, "essentials", "data.kits.view_time", "%{_time}%h")
-		set {_perm} to mj_editfiles_boolean("data", "data.storage.%{_id}%.permission")
+		set {_perm} to mj_editfiles_boolean("core.data", "data.storage.%{_id}%.permission")
 		set {_item4} to mj_core_item_lore({_player}, {_item3}, 5, "essentials", "data.kits.view_permission", "%{_perm}%")
 		set {_title} to mj_editfiles_gettext("essentials", "data.kits.view_title", {_player}, {_name})
 		set {_info} to mj_editfiles_gettext("essentials", "data.kits.information", {_player})
@@ -940,7 +940,7 @@ function mj_essentials_kits_viewer(player: player, id: text):
 			stop
 		make a gui slot 0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16 and 17 of {_player} with black stained glass pane named " " to run:
 			stop
-		set {_storage::*} to mj_editfiles_list("data", "data.storage.%{_id}%.storage")
+		set {_storage::*} to mj_editfiles_list("core.data", "data.storage.%{_id}%.storage")
 		set {_slot} to 18
 		loop {_storage::*}:
 			make a gui slot {_slot} of {_player} with loop-value to run:
@@ -1837,7 +1837,7 @@ function mj_essentials_moderation_check_player(player: player, target: offlinepl
 		set {_reason} to mj_editfiles_gettext("essentials", "data.no_reason")
 	set {_format_reason} to "&a%{_player}% &6(&a%{_type}%&6) &6: &a%{_reason}%"
 	mj_essentials_warn({_target}, "%{_player}%", {_reason}, {_format_reason})
-	set {_list::*} to mj_editfiles_list("config", "data.access")
+	set {_list::*} to mj_editfiles_list("core.config", "data.access")
 	if {_list::*} contains "%{_target}%":
 		set {_send} to mj_editfiles_gettext("essentials", "data.kick.protect", {_player})
 		kick {_player} due to "%{_send}%"
@@ -1991,7 +1991,7 @@ function mj_essentials_ban_player(player: player, target: offlineplayer, reason:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_ban_console(player: offlineplayer, reason: text="none"):
-	set {_list::*} to mj_editfiles_list("config", "data.access")
+	set {_list::*} to mj_editfiles_list("core.config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
 	mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.source.essentials.ban", "modify", true)
@@ -2024,7 +2024,7 @@ function mj_essentials_tempban_player(player: player, target: offlineplayer, rea
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_tempban_console(player: offlineplayer, reason: text="none", time: text):
-	set {_list::*} to mj_editfiles_list("config", "data.access")
+	set {_list::*} to mj_editfiles_list("core.config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
 	set {_time} to mj_core_converter_time({_time})
@@ -2189,7 +2189,7 @@ function mj_essentials_mute_player(player: player, target: offlineplayer, reason
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_mute_console(player: offlineplayer, reason: text):
-	set {_list::*} to mj_editfiles_list("config", "data.access")
+	set {_list::*} to mj_editfiles_list("core.config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
 	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.mute", "modify", true)
@@ -2212,7 +2212,7 @@ function mj_essentials_tempmute_player(player: player, target: offlineplayer, re
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_tempmute_console(player: offlineplayer, reason: text="none", time: text):
-	set {_list::*} to mj_editfiles_list("config", "data.access")
+	set {_list::*} to mj_editfiles_list("core.config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
 	set {_time} to mj_core_converter_time({_time})
@@ -2269,7 +2269,7 @@ function mj_essentials_kick_player(player: player, target: offlineplayer, reason
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_kick_console(player: offlineplayer, reason: text="none"):
-	set {_list::*} to mj_editfiles_list("config", "data.access")
+	set {_list::*} to mj_editfiles_list("core.config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
 	set {_send} to mj_essentials_kick_format({_player}, "Console", {_reason}, "kick")
@@ -2428,7 +2428,7 @@ function mj_essentials_freeze_player(player: player, target: offlineplayer, reas
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_freeze_console(player: offlineplayer, reason: text="none"):
-	set {_list::*} to mj_editfiles_list("config", "data.access")
+	set {_list::*} to mj_editfiles_list("core.config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
 	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.freeze", "modify", true)
@@ -2452,7 +2452,7 @@ function mj_essentials_unfreeze_player(player: player, target: offlineplayer):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_unfreeze_console(player: offlineplayer):
-	set {_list::*} to mj_editfiles_list("config", "data.access")
+	set {_list::*} to mj_editfiles_list("core.config", "data.access")
 	if {_list::*} contains "%{_player}%":
 		stop
 	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.freeze", "modify", false)

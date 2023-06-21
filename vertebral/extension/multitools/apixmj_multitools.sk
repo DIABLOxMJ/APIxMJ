@@ -175,7 +175,7 @@ on damage:
 	#set {_website} to mj_editfiles_gettext("server", "data.tablist.website", {_player}, "%{_website.link}%")
 	#set {_ntitle} to 1
 	#set {_nrod} to 1
-	#set {_lang} to mj_editfiles("config", "data.serverlanguage")
+	#set {_lang} to mj_editfiles("core.config", "data.serverlanguage")
 	#set {_ctitle} to mj_manager_nodes_count("server.language.%{_lang}%", "data.tablist.animation.title")
 	#set {_crod} to mj_manager_nodes_count("server.language.%{_lang}%", "data.tablist.animation.rod")
 	#loop {_crod} times:

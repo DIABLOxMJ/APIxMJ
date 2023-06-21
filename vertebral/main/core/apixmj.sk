@@ -3,9 +3,8 @@
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_files_core():
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.core.folder")
-	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.config"
-	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.data"
-	load yaml "plugins/APIxMJ/%{_folder}%/temp.yml" as "mj.temp"
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.core.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.core.data"
 	load yaml "plugins/APIxMJ/%{_folder}%/userdata.yml" as "mj.userdata"
 	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
 	if {_list::*} is set:
@@ -45,7 +44,7 @@ command /apixmj [<text>] [<text>] [<text>]:
 	executable by: player and console
 	trigger:
 		if player is set:
-			set {_list::*} to mj_editfiles_list("config", "data.access")
+			set {_list::*} to mj_editfiles_list("core.config", "data.access")
 			if {_list::*} doesn't contain "%player%":
 				stop
 		if arg-1 is "reload":
@@ -114,7 +113,7 @@ command /apixmj [<text>] [<text>] [<text>]:
 				set {_list::*} to the currently loaded yaml files
 				send "%{_list::*}%"
 		else:
-			set {_list::*} to mj_editfiles_list("config", "data.access")
+			set {_list::*} to mj_editfiles_list("core.config", "data.access")
 			if {_list::*} contains "%player%":
 				open virtual chest inventory with size 1 named "&8&k:&r &6APIxMJ &8&k:&r" to player
 				make a gui slot 0 of player with emerald block named "&7Become a &aAdmin" to close:
@@ -304,7 +303,7 @@ on tab complete of "/dataeditor" or "/dae":
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editor_storage_open(player: player):
 	set {_inv} to chest with 6 rows named "&cAdmin Storage"
-	set {_storage} to mj_editfiles("data", "data.admin_storage")
+	set {_storage} to mj_editfiles("core.data", "data.admin_storage")
 	set {_inv}'s serialized contents to {_storage}
 	open {_inv} to {_player}
 	stop
@@ -312,7 +311,7 @@ function mj_editor_storage_open(player: player):
 function mj_editor_storage_edit(player: player):
 	mj_editfiles_boolean("temp", "data.%{_player}'s uuid%.dataeditor.editgui", "modify", true)
 	set {_inv} to chest with 6 rows named "&cAdmin Storage Editor"
-	set {_storage} to mj_editfiles("data", "data.admin_storage")
+	set {_storage} to mj_editfiles("core.data", "data.admin_storage")
 	set {_inv}'s serialized contents to {_storage}
 	open {_inv} to {_player}
 	stop
@@ -323,7 +322,7 @@ on inventory close:
 		mj_editfiles("temp", "data.%player's uuid%.dataeditor.editgui", "delete")
 		if "%event-inventory%" is "inventory of <none>":
 			set {_storage} to event-inventory's serialized contents
-			mj_editfiles("data", "data.admin_storage", "modify", {_storage})
+			mj_editfiles("core.data", "data.admin_storage", "modify", {_storage})
 			send "&aAdmin Storage Updated"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -492,7 +491,7 @@ command /op [<offlineplayer>]:
 	executable by: player
 	trigger:
 		if player is set:
-			set {_list::*} to mj_editfiles_list("config", "data.access")
+			set {_list::*} to mj_editfiles_list("core.config", "data.access")
 			if {_list::*} doesn't contain "%player%":
 				stop
 		if player is op:
@@ -508,7 +507,7 @@ command /deop [<offlineplayer>]:
 	executable by: player
 	trigger:
 		if player is set:
-			set {_list::*} to mj_editfiles_list("config", "data.access")
+			set {_list::*} to mj_editfiles_list("core.config", "data.access")
 			if {_list::*} doesn't contain "%player%":
 				stop
 		if player is op:
@@ -647,7 +646,7 @@ on quit:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 every 5 minutes:
-	set {_check} to mj_editfiles_boolean("config", "data.inventory.backup")
+	set {_check} to mj_editfiles_boolean("core.config", "data.inventory.backup")
 	if {_check} is true:
 		loop all players:
 			mj_core_inventory_save(loop-player, "backup")
@@ -1024,23 +1023,23 @@ command /storage [<text>] [<text>] [<text>] [<text>]:
 								set {_value} to arg-4 parsed as number
 								if arg-3 contains "timer":
 									if arg-3 is "timer_hour":
-										mj_editfiles_number("data", "data.storage.%arg-2%.timer.hour", "modify", {_value})
+										mj_editfiles_number("core.data", "data.storage.%arg-2%.timer.hour", "modify", {_value})
 									else if arg-3 is "timer_minute":
-										mj_editfiles_number("data", "data.storage.%arg-2%.timer.minute", "modify", {_value})
+										mj_editfiles_number("core.data", "data.storage.%arg-2%.timer.minute", "modify", {_value})
 									else:
-										mj_editfiles_number("data", "data.storage.%arg-2%.timer.second", "modify", {_value})
+										mj_editfiles_number("core.data", "data.storage.%arg-2%.timer.second", "modify", {_value})
 								else:
-									mj_editfiles_number("data", "data.storage.%arg-2%.%arg-3%", "modify", {_value})
+									mj_editfiles_number("core.data", "data.storage.%arg-2%.%arg-3%", "modify", {_value})
 								mj_manager_message(player, "core", "data.prefix", "core", "data.storage.value", "%arg-3%", "%arg-4%", "%arg-2%")
 							else if arg-3 is "permission":
 								if arg-4 is "true" or "false":
 									set {_value} to arg-4 parsed as boolean
-									mj_editfiles_number("data", "data.storage.%arg-2%.permission", "modify", {_value})
+									mj_editfiles_number("core.data", "data.storage.%arg-2%.permission", "modify", {_value})
 									mj_manager_message(player, "core", "data.prefix", "core", "data.storage.value", "%arg-3%", "%arg-4%", "%arg-2%")
 								else:
 									mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.boolean", "true", "false")
 							else if arg-3 is "time" or "rank" or "command":
-								mj_editfiles("data", "data.storage.%arg-2%.%arg-3%", "modify", arg-4)
+								mj_editfiles("core.data", "data.storage.%arg-2%.%arg-3%", "modify", arg-4)
 								mj_manager_message(player, "core", "data.prefix", "core", "data.storage.value", "%arg-3%", "%arg-4%", "%arg-2%")
 							else:
 								mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
@@ -1051,10 +1050,10 @@ command /storage [<text>] [<text>] [<text>] [<text>]:
 					else if arg-1 is "give":
 						if arg-2 is set:
 							if arg-3 is set:
-								set {_id} to mj_editfiles("data", "data.storage.%arg-3%.name")
+								set {_id} to mj_editfiles("core.data", "data.storage.%arg-3%.name")
 								set {_name} to mj_editfiles_gettext("core", {_id})
 								if arg-2 is "all":
-									set {_list::*} to mj_editfiles_list("data", "data.storage.%arg-3%.storage")
+									set {_list::*} to mj_editfiles_list("core.data", "data.storage.%arg-3%.storage")
 									if {_list::*} is set:
 										loop all players:
 											give {_list::*} to loop-player
@@ -1081,7 +1080,7 @@ command /storage [<text>] [<text>] [<text>] [<text>]:
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/storage":
 	if player has permission "*" or "mj.*" or "mj.storage":
-		set {_list::*} to mj_manager_nodes("data", "data.storage")
+		set {_list::*} to mj_manager_nodes("core.data", "data.storage")
 		set {_players::*} to all players
 		set tab completions for position 1 to "create", "set", "edit" and "give"
 		if tab arg-1 is set:
@@ -1092,15 +1091,15 @@ on tab complete of "/storage":
 				if tab arg-2 is set:
 					set tab completions for position 3 to "price", "permission", "quantity", "limit", "command", "time", "timer_second", "timer_minute", "timer_hour", "money" and "rank"
 					if tab arg-3 is "permission":
-						set {_value} to mj_editfiles_boolean("data", "data.storage.%tab arg-2%.%tab arg-3%")
+						set {_value} to mj_editfiles_boolean("core.data", "data.storage.%tab arg-2%.%tab arg-3%")
 						set tab completions for position 4 to "%{_value}%"
 					if tab arg-3 is "time" or "rank":
-						set {_value} to mj_editfiles("data", "data.storage.%tab arg-2%.%tab arg-3%")
+						set {_value} to mj_editfiles("core.data", "data.storage.%tab arg-2%.%tab arg-3%")
 						set tab completions for position 4 to "%{_value}%"
 						#if tab arg-3 is "time":
 						#	set tab completions for position 4 to "10s", "10m", "10h", "1d", "1j", "1w", "1mo", "1y" and "1a"
 					if tab arg-3 is "price" or "quantity" or "limit" or "timer_second" or "timer_minute" or "timer_hour" or "money":
-						set {_value} to mj_editfiles_number("data", "data.storage.%tab arg-2%.%tab arg-3%")
+						set {_value} to mj_editfiles_number("core.data", "data.storage.%tab arg-2%.%tab arg-3%")
 						set tab completions for position 4 to "%{_value}%"
 			if tab arg-1 is "give":
 				set tab completions for position 2 to {_players::*} and "all"
@@ -1141,7 +1140,7 @@ on inventory close:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_storage_data_generator(name: text):
-	set {_check} to mj_editfiles_stock("data", "data.storage.%{_name}%")
+	set {_check} to mj_editfiles_stock("core.data", "data.storage.%{_name}%")
 	if {_check} isn't set:
 		set yaml value "data.storage.%{_name}%.name" from "mj.data" to "data.storage.catalog.%{_name}%"
 		set yaml value "data.storage.%{_name}%.price" from "mj.data" to 0
@@ -1164,25 +1163,25 @@ function mj_core_storage_data_generator(name: text):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_storage_gift(player: text, id: text, broadcast: boolean=false):
 	set {_player} to {_player} parsed as offlineplayer
-	set {_find} to mj_editfiles("data", "data.storage.%{_id}%.name")
+	set {_find} to mj_editfiles("core.data", "data.storage.%{_id}%.name")
 	set {_name} to mj_editfiles_gettext("core", "%{_find}%", {_player})
 	if {_name} is set:
-		set {_cmd1} to mj_editfiles("data", "data.storage.%{_id}%.command.1")
+		set {_cmd1} to mj_editfiles("core.data", "data.storage.%{_id}%.command.1")
 		if {_cmd1} isn't "/none":
-			set {_count} to mj_manager_nodes_count("data", "data.storage.%{_id}%.command")
+			set {_count} to mj_manager_nodes_count("core.data", "data.storage.%{_id}%.command")
 			loop {_count} times:
-				set {_cmd2} to mj_editfiles("data", "data.storage.%{_id}%.command.%loop-value%")
+				set {_cmd2} to mj_editfiles("core.data", "data.storage.%{_id}%.command.%loop-value%")
 				replace "$0" with "%{_player}%" in {_cmd}
 				console command "%{_cmd2}%"
-		set {_money1} to mj_editfiles_number("data", "data.storage.%{_id}%.money")
+		set {_money1} to mj_editfiles_number("core.data", "data.storage.%{_id}%.money")
 		if {_money1} isn't 0:
 			set {_money2} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.storage.money")
 			add {_money1} to {_money2}
 			mj_editfiles_number("temp", "data.%{_player}'s uuid%.storage.money", "modify", {_money2})
-		set {_rank} to mj_editfiles("data", "data.storage.%{_id}%.rank")
+		set {_rank} to mj_editfiles("core.data", "data.storage.%{_id}%.rank")
 		if {_rank} isn't "none":
 			mj_editfiles("temp", "data.%{_player}'s uuid%.storage.rank", "modify", {_rank})
-		set {_list1::*} to mj_editfiles_list("data", "data.storage.%{_id}%.storage")
+		set {_list1::*} to mj_editfiles_list("core.data", "data.storage.%{_id}%.storage")
 		if {_list1::*} doesn't contain "none":
 			set {_list2::*} to mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage")
 			add {_list1::*} to {_list2::*}
@@ -1260,19 +1259,19 @@ function mj_core_storage_save(player: player, source: text, find: text, silent: 
 # APIxMJ - MobGriefing
 # ---------------------------------------------------------------------------------------------------------------------
 on spawn of bat:
-	set {_check} to mj_editfiles_boolean("config", "data.no_spawn_bat")
+	set {_check} to mj_editfiles_boolean("core.config", "data.no_spawn_bat")
 	if {_check} is true:
 		cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on enderman pickup:
-	set {_check} to mj_editfiles_boolean("config", "data.no_enderman_griefing")
+	set {_check} to mj_editfiles_boolean("core.config", "data.no_enderman_griefing")
 	if {_check} is true:
 		cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on explode:
-	set {_check} to mj_editfiles_boolean("config", "data.anti_explode")
+	set {_check} to mj_editfiles_boolean("core.config", "data.anti_explode")
 	if {_check} is true:
 		cancel event
 		create a safe explosion of force 1
@@ -1290,7 +1289,7 @@ on explode:
 # ---------------------------------------------------------------------------------------------------------------------
 on death of player:
 	if victim has permission "*" or "mj.*" or "mj.keepinv" or "mj.keepinventory":
-		set {_check} to mj_editfiles_boolean("config", "data.inventory.keep")
+		set {_check} to mj_editfiles_boolean("core.config", "data.inventory.keep")
 		if {_check} is true:
 			keep inventory
 			clear drops
@@ -1298,7 +1297,7 @@ on death of player:
 # ---------------------------------------------------------------------------------------------------------------------
 on death of player:
 	if victim has permission "*" or "mj.*" or "mj.keepexp" or "mj.keepexperience":
-		set {_check} to mj_editfiles_boolean("config", "data.inventory.keep")
+		set {_check} to mj_editfiles_boolean("core.config", "data.inventory.keep")
 		if {_check} is true:
 			keep experience
 	stop
@@ -1422,14 +1421,14 @@ on dispense:
 # APIxMJ - Function
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
-	set {_check1} to mj_editfiles_boolean("config", "data.custom_chat")
+	set {_check1} to mj_editfiles_boolean("core.config", "data.custom_chat")
 	if {_check1} is true:
 		cancel event
-		set {_check2} to mj_editfiles("config", "data.chat_priority")
+		set {_check2} to mj_editfiles("core.config", "data.chat_priority")
 		if {_check2} is "core":
 			set {_check3} to mj_editfiles_boolean("userdata.%player's uuid%", "data.temp.mute")
 			if {_check3} is false:
-				set {_send} to mj_editfiles("config", "data.format.chat")
+				set {_send} to mj_editfiles("core.config", "data.format.chat")
 				replace "$0" with "%player%" in {_send}
 				replace "$1" with message in {_send}
 				mj_core_chat(player, {_send})
@@ -1488,10 +1487,10 @@ function mj_core_reset_database():
 				if {_file} is "mj.userdata":
 					mj_core_playerdata("DIABLOxMJ" parsed as offlineplayer)
 					mj_core_playerdata("Nyceidu" parsed as offlineplayer)
-	set {_file::*} to mj_editfiles_list("config", "data.reset.file")
+	set {_file::*} to mj_editfiles_list("core.config", "data.reset.file")
 	loop {_file::*}:
 		delete file "%loop-value%"
-	set {_folder::*} to mj_editfiles_list("config", "data.reset.folder")
+	set {_folder::*} to mj_editfiles_list("core.config", "data.reset.folder")
 	loop {_folder::*}:
 		delete directory "%loop-value%"
 		create script "%loop-value%/log.txt"
@@ -1533,7 +1532,7 @@ function mj_core_gui_generator(player: player, size: number=1, locked: boolean=t
 	mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui", "modify", {_gui})
 	if {_locked} is true:
 		mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.temp.gui_protect", "modify", true)
-	set {_item} to mj_manager_item_convert("config", "data.gui_background.item")
+	set {_item} to mj_manager_item_convert("core.config", "data.gui_background.item")
 	open virtual chest inventory with size {_size} named {_title} to {_player}
 	if {_type} is "default" or "border":
 		set {_time} to 9*{_size}
@@ -1682,7 +1681,7 @@ function mj_core_number_convert(value: number) :: text:
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_format_money(type: boolean=false, value: number, limit: number=0) :: text:
-	set {_icon} to mj_editfiles("config", "data.format.money")
+	set {_icon} to mj_editfiles("core.config", "data.format.money")
 	set {_view1} to mj_core_number_convert({_value})
 	if {_type} is true:
 		set {_pourcent} to 100*{_value}/{_limit}

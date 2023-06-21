@@ -73,7 +73,7 @@ on load:
 function mj_ranker_config():
 	set {_source} to mj_editfiles("ranker.config", "data.system.use")
 	if {_source} is "groupmanager":
-		set {_world} to mj_editfiles("config", "data.world.name")
+		set {_world} to mj_editfiles("core.config", "data.world.name")
 		load yaml "plugins/GroupManager/worlds/%{_world}%/users.yml" as "mj.ranker.users"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ on command:
 	if command is "manuadd":
 		wait 2 ticks
 		console command "/manload"
-		set {_world} to mj_editfiles("config", "data.world.name")
+		set {_world} to mj_editfiles("core.config", "data.world.name")
 		load yaml "plugins/GroupManager/worlds/%{_world}%/users.yml" as "mj.ranker.users"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

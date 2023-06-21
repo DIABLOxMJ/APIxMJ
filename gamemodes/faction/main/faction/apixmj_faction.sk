@@ -192,9 +192,9 @@ on death:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
-	set {_check1} to mj_editfiles_boolean("config", "data.custom_chat")
+	set {_check1} to mj_editfiles_boolean("core.config", "data.custom_chat")
 	if {_check1} is true:
-		set {_check2} to mj_editfiles("config", "data.chat_priority")
+		set {_check2} to mj_editfiles("core.config", "data.chat_priority")
 		if {_check2} is "faction":
 			set {_check3} to mj_editfiles_boolean("userdata.%player's uuid%", "data.temp.mute")
 			if {_check3} is false:

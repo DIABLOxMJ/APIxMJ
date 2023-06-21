@@ -38,7 +38,7 @@ on join:
 function mj_shop_playerdata(player: offlineplayer):
 	wait 23 seconds
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	set {_check1} to yaml value "data.source.shop" from "mj.userdata.%{_player}'s uuid%"
+	set {_check1} to yaml value "data.%{_player}'s uuid%.source.shop" from "mj.userdata"
 	if {_check1} isn't set:
 		set yaml value "data.%{_player}'s uuid%.source.shop" from "mj.userdata" to "none"
 		save yaml "mj.userdata"

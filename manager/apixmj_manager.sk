@@ -448,6 +448,7 @@ function mj_manager_menu_control_installer(player: player, source: text, id: tex
 		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.reinstalled", {_name})
 	else if {_option} is "update":
 		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.updated", {_name})
+	mj_manager_menu_control({_player}, {_source}, {_id})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_installer_skript(player: player, source: text, id: text, option: text):

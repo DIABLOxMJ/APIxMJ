@@ -210,6 +210,7 @@ data:
                 file:
                     '1': mj.manager.config
                     '2': mj.manager.data
+                    '3': mj.temp
                 preset:
                     '1': none
                 datapack:
@@ -246,9 +247,8 @@ data:
                 yml:
                     '1': config
                 file:
-                    '1': mj.config
-                    '2': mj.data
-                    '3': mj.temp
+                    '1': mj.core.config
+                    '2': mj.core.data
                     '4': mj.userdata
                 preset:
                     '1': none

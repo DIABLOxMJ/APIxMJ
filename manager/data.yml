@@ -464,10 +464,11 @@ data:
                 condition: false
                 installed: false
                 visible: true
-                experimental: true
+                experimental: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
+                    '3': vertebral_main.essentials
                 variants:
                     '1': none
                 conflicts:

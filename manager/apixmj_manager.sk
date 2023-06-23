@@ -464,7 +464,6 @@ function mj_manager_menu_control_installer_skript(player: player, source: text, 
 		download file from "%{_link}%/%{_github}%/%{_skript}%.sk" to file "plugins/Skript/scripts/%{_skript}%.sk"
 	if {_option} is "install" or "reinstall":	
 		mj_manager_menu_control_installer_file({_player}, {_source}, {_id})
-		mj_manager_menu_control_installer_language({_player}, {_source}, {_id})
 	else if {_option} is "update":
 		download file from "%{_link}%/%{_github}%/apixmj_update.sk" to file "plugins/Skript/scripts/apixmj_update.sk"
 		wait 2 seconds
@@ -478,20 +477,22 @@ function mj_manager_menu_control_installer_file(player: player, source: text, id
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
 	set {_github} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.github_folder")
 	set {_folder} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.folder")
-	set {_list::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.yml")
-	loop {_list::*}:
+	set {_list1::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.yml")
+	loop {_list1::*}:
 		set {_file} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.yml.%loop-value%")
-		download file from "%{_link}%/%{_github}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_menu_control_installer_language(player: player, source: text, id: text):
-	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main"
-	set {_github} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.github_folder")
-	set {_folder} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.folder")
-	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
-	loop {_list::*}:
+		if {_file} isn't "none":
+			download file from "%{_link}%/%{_github}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
+	set {_list2::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.preset")
+	loop {_list2::*}:
+		set {_file} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.preset.%loop-value%")
+		if {_file} isn't "none":
+			create script "plugins/APIxMJ/%{_folder}%/preset/log.txt"
+			delete file "plugins/APIxMJ/%{_folder}%/preset/log.txt"
+			download file from "%{_link}%/%{_github}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/preset/%{_file}%.yml"
+	set {_list3::*} to mj_editfiles_list("manager.config", "data.language.list")
+	loop {_list3::*}:
 		download file from "%{_link}%/%{_github}%/language/%loop-value%.yml" to file "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml"
-		download file from "%{_link}%/%{_github}%/help/%loop-value%.yml" to file "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" # effect compact
+		download file from "%{_link}%/%{_github}%/help/%loop-value%.yml" to file "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Control (Installer)

@@ -409,7 +409,7 @@ data:
                     '1': mj.encrypter.config
                     '2': mj.encrypter.data
                 preset:
-                    '1': none
+                    '1': b16
                 datapack:
                     '1': none
                 reset:
@@ -1298,7 +1298,7 @@ data:
                     '3': mj.bedwars.player
                     '4': mj.bedwars.temp
                 preset:
-                    '1': none
+                    '1': default
                 datapack:
                     '1': none
                 reset:

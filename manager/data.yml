@@ -1231,9 +1231,9 @@ data:
                     '1':
                         file: mj.sb_core.data
                         data: data
-                item: iron sword
+                item: command block
                 gui_background:
-                    item: command block
+                    item: red stained glass pane
         gamemodes_faction_main:
             faction:
                 name: data.addon.gamemodes_faction_main.faction.name

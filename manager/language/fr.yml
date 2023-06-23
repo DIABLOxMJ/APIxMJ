@@ -413,7 +413,7 @@ data:
                     '3': "&0- &7comment les récupérer en bref tout est gérable."
         gamemodes_skyblock_main:
             sb_core:
-                name: "&cSkyblock &6: &5Cœur"
+                name: "&5Cœur"
                 name_lite: "&5Cœur"
                 lore:
                     '1': "&6- &7Le centre de contrôle qui fournira les"

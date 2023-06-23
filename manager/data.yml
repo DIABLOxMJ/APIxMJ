@@ -1233,7 +1233,7 @@ data:
                         data: data
                 item: iron sword
                 gui_background:
-                    item: red stained glass pane
+                    item: command block
         gamemodes_faction_main:
             faction:
                 name: data.addon.gamemodes_faction_main.faction.name

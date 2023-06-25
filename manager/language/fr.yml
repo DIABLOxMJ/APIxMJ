@@ -289,6 +289,13 @@ data:
                     '1': "&6- &7Un mini utilitaire pour convertir des données"
                     '2': "&0- &7en donnée cripté."
         vertebral_extension:
+            achievement:
+                name: "&aSystème de progression"
+                name_lite: "&aSys… Progression"
+                lore:
+                    '1': "&6- &7Voici ce que les joueurs en recherche d'objectif"
+                    '2': "&0- &7désirent, Un tableau de mission qui ne demande"
+                    '3': "&0- &7qu'à être remplis !"
             auction:
                 name: "&aHôtel des ventes"
                 name_lite: "&aHôtel des ventes"
@@ -311,8 +318,9 @@ data:
                 name: "&aRisque supérieur"
                 name_lite: "&aRisque sup…"
                 lore:
-                    '1': "&6- &7Le jeu est trop facile ?"
-                    '2': "&0- &7Augmentons les choses !"
+                    '1': "&6- &7Envie de casser les traditions vanilla ?"
+                    '2': "&0- &7Ceci semble être parfait pour varier les petits"
+                    '3': "&0- &7plaisirs !"
             drawer:
                 name: "&aConteneur"
                 name_lite: "&aConteneur"
@@ -329,8 +337,8 @@ data:
                 name: "&aBanque d'expérience"
                 name_lite: "&aBanque d'expérience"
                 lore:
-                    '1': "&6- &7Un système de stockage est de"
-                    '2': "&0- &7gestion de point d'expérience."
+                    '1': "&6- &7Un système de stockage est de gestion de point"
+                    '2': "&0- &7d'expérience."
             lobby:
                 name: "&aLobby"
                 name_lite: "&aLobby"
@@ -391,6 +399,12 @@ data:
                 lore:
                     '1': "&6- &7Un système de magasin virtuel inter-compatible"
                     '2': "&0- &7avec un magasin en ligne."
+            waystone:
+                name: "&aTotem de téléportation"
+                name_lite: "&aTotem de télép…"
+                lore:
+                    '1': "&6- &7Un moyen de téléportation, qui s'intègre mieux"
+                    '2': "&0- &7que des commandes."
         gamemodes_classic_main:
             core:
                 name: "&5Cœur"

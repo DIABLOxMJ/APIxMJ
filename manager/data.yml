@@ -435,7 +435,7 @@ data:
                 version: 0000.00.00.0000
                 condition: false
                 installed: false
-                visible: true
+                visible: false
                 experimental: true
                 depends:
                     '1': main.manager
@@ -473,7 +473,7 @@ data:
                 version: 0000.00.00.0000
                 condition: false
                 installed: false
-                visible: true
+                visible: false
                 experimental: true
                 depends:
                     '1': main.manager
@@ -849,7 +849,7 @@ data:
                 version: 0000.00.00.0000
                 condition: false
                 installed: false
-                visible: true
+                visible: false
                 experimental: true
                 depends:
                     '1': main.manager
@@ -1113,7 +1113,7 @@ data:
                 version: 0000.00.00.0000
                 condition: false
                 installed: false
-                visible: true
+                visible: false
                 experimental: true
                 depends:
                     '1': main.manager

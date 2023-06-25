@@ -430,6 +430,44 @@ data:
                 gui_background:
                     item: magenta stained glass pane
         vertebral_extension:
+            achievement:
+                name: data.addon.vertebral_extension.achievement.name
+                version: 0000.00.00.0000
+                condition: false
+                installed: false
+                visible: true
+                experimental: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/achievement
+                folder: main/extension/achievement
+                slot: 10
+                skript:
+                    '1': apixmj_achievement
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.achievement.config
+                    '2': mj.achievement.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: nether star
+                gui_background:
+                    item: lime stained glass pane
             auction:
                 name: data.addon.vertebral_extension.auction.name
                 version: 0000.00.00.0000
@@ -449,7 +487,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/auction
                 folder: main/extension/auction
-                slot: 10
+                slot: 11
                 skript:
                     '1': apixmj_auction
                 yml:
@@ -487,7 +525,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/backpack
                 folder: main/extension/backpack
-                slot: 11
+                slot: 12
                 open_gui: manager
                 skript:
                     '1': apixmj_backpack
@@ -526,7 +564,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/calendar
                 folder: main/extension/calendar
-                slot: 12
+                slot: 13
                 open_gui: manager
                 skript:
                     '1': apixmj_calendar
@@ -565,7 +603,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/dangerous
                 folder: main/extension/dangerous
-                slot: 13
+                slot: 14
                 open_gui: manager
                 skript:
                     '1': apixmj_dangerous
@@ -602,7 +640,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/drawer
                 folder: main/extension/drawer
-                slot: 14
+                slot: 15
                 open_gui: manager
                 skript:
                     '1': apixmj_drawer
@@ -639,7 +677,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/duel
                 folder: main/extension/duel
-                slot: 15
+                slot: 16
                 open_gui: manager
                 skript:
                     '1': apixmj_duel
@@ -677,7 +715,7 @@ data:
                     '1': vertebral_main.essentials
                 github_folder: vertebral/extension/expbank
                 folder: main/extension/expbank
-                slot: 16
+                slot: 19
                 skript:
                     '1': apixmj_expbank
                 yml:
@@ -713,7 +751,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/lobby
                 folder: main/extension/lobby
-                slot: 19
+                slot: 20
                 skript:
                     '1': apixmj_lobby
                 yml:
@@ -750,7 +788,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/lootbox
                 folder: main/extension/lootbox
-                slot: 20
+                slot: 21
                 skript:
                     '1': apixmj_lootbox
                 yml:
@@ -787,7 +825,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/menu
                 folder: main/extension/menu
-                slot: 21
+                slot: 22
                 skript:
                     '1': apixmj_menu
                 yml:
@@ -824,7 +862,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/moderator
                 folder: main/extension/moderator
-                slot: 22
+                slot: 23
                 skript:
                     '1': apixmj_moderator
                 yml:
@@ -861,7 +899,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/multitools
                 folder: main/extension/multitools
-                slot: 23
+                slot: 24
                 skript:
                     '1': apixmj_multitools
                 yml:
@@ -898,7 +936,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/portal
                 folder: main/extension/portal
-                slot: 24
+                slot: 25
                 skript:
                     '1': apixmj_portal
                 yml:
@@ -935,7 +973,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/rankup
                 folder: main/extension/rankup
-                slot: 25
+                slot: 28
                 skript:
                     '1': apixmj_rankup
                 yml:
@@ -973,7 +1011,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/shop
                 folder: main/extension/shop
-                slot: 28
+                slot: 29
                 skript:
                     '1': apixmj_shop
                 yml:
@@ -1011,7 +1049,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/spawner
                 folder: main/extension/spawner
-                slot: 29
+                slot: 30
                 skript:
                     '1': apixmj_spawner
                 yml:
@@ -1050,7 +1088,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/store
                 folder: main/extension/store
-                slot: 30
+                slot: 31
                 skript:
                     '1': apixmj_store
                 yml:
@@ -1070,6 +1108,46 @@ data:
                 item: gold nugget
                 gui_background:
                     item: green stained glass pane
+            waystone:
+                name: data.addon.vertebral_extension.waystone.name
+                version: 0000.00.00.0000
+                condition: false
+                installed: false
+                visible: true
+                experimental: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.ranker
+                    '4': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/waystone
+                folder: main/extension/waystone
+                slot: 31
+                skript:
+                    '1': apixmj_waystone
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.waystone.config
+                    '2': mj.waystone.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: cobblestone wall
+                gui_background:
+                    item: gray stained glass pane
         gamemodes_classic_main:
             core:
                 name: data.addon.gamemodes_classic_main.core.name

@@ -279,20 +279,14 @@ function mj_backpack_action_open(player: player, id: text):
 	mj_editfiles("temp", "data.%{_player}'s uuid%.backpack.id", "modify", {_id})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-on load:
-	set {_slot} to 1
-	loop 9 times:
-		set {_item.%{_slot}%} to mj_manager_item_convert("backpack.config", "data.crafting.slot_%{_slot}%")
-		add 1 to {_slot}
-	set {_recipe} to knowledge book named "Backpack"
-	register new shaped recipe for {_recipe} using {_item.1}, {_item.2}, {_item.3}, {_item.4}, {_item.5}, {_item.6}, {_item.7}, {_item.8} and {_item.9} with id "apixmj.backpack"
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
 on craft of knowledge book:
-	close player's inventory
-	wait 1 tick
-	remove 1 of knowledge book from player's inventory
-	mj_backpack_create(player, 1)
+	set {_name} to mj_editfiles("core.data", "data.recipe.backpack.name")
+	set {_item} to mj_manager_item_convert("core.data", "data.recipe.backpack.item")
+	if name of event-item is {_name}:
+		wait 1 tick
+		close player's inventory
+		remove 1 of {_item} from player's inventory
+		mj_backpack_create(player, 1)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:

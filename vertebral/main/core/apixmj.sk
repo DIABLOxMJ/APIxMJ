@@ -24,7 +24,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.05.21.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.05.25.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -1341,6 +1341,45 @@ on damage:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - GodMode
+# =====================================================================================================================
+# APIxMJ - Crafting
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_nodes("core.data", "data.recipe")
+	loop {_list::*}:
+		set {_value} to loop-value
+		set {_name} to mj_editfiles("core.data", "data.recipe.%{_value}%.name")
+		set {_type} to mj_editfiles_boolean("core.data", "data.recipe.%{_value}%.shapeless")
+		set {_item} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.item")
+		set {_slot} to 1
+		loop 9 times:
+			set {_item.%{_slot}%} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.method.slot_%{_slot}%")
+			add 1 to {_slot}
+		set {_recipe} to {_item} named "%{_name}%"
+		if {_type} is true:
+			register new shapeless recipe for {_recipe} using {_item.1}, {_item.2}, {_item.3}, {_item.4}, {_item.5}, {_item.6}, {_item.7}, {_item.8} and {_item.9} with id "apixmj.%{_value}%"
+		else:
+			register new shaped recipe for {_recipe} using {_item.1}, {_item.2}, {_item.3}, {_item.4}, {_item.5}, {_item.6}, {_item.7}, {_item.8} and {_item.9} with id "apixmj.%{_value}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on craft:
+	set {_list::*} to mj_manager_nodes("core.data", "data.recipe")
+	loop {_list::*}:
+		set {_value} to loop-value
+		set {_name} to mj_editfiles("core.data", "data.recipe.%{_value}%.name")
+		set {_item} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.item")
+		set {_give} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.give")
+		set {_count} to mj_editfiles_number("core.data", "data.recipe.%{_value}%.count")
+		if name of event-item is {_name}:
+			if type of {_give} isn't air:
+				wait 1 tick
+				close player's inventory
+				wait 1 tick
+				remove 1 of {_give} named {_name} from player's inventory
+				give {_count} of {_give} to player
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Crafting
 # =====================================================================================================================
 # APIxMJ - Stats
 # ---------------------------------------------------------------------------------------------------------------------

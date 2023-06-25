@@ -1400,7 +1400,7 @@ on death:
 # APIxMJ - Disposal
 # ---------------------------------------------------------------------------------------------------------------------
 command /disposal:
-	aliases: poubelle
+	aliases: trash, corbeille, poubelle
 	executable by: player
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.disposal.*" or "mj.essentials.disposal":

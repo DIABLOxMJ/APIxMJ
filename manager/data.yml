@@ -255,6 +255,7 @@ data:
                     '1': apixmj
                 yml:
                     '1': config
+                    '2': data
                 file:
                     '1': mj.core.config
                     '2': mj.core.data

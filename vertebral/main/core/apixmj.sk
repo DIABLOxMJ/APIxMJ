@@ -24,7 +24,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.05.25.0001")
+		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.05.26.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -490,10 +490,9 @@ on death:
 command /op [<offlineplayer>]:
 	executable by: player
 	trigger:
-		if player is set:
-			set {_list::*} to mj_editfiles_list("core.config", "data.access")
-			if {_list::*} doesn't contain "%player%":
-				stop
+		set {_list::*} to mj_editfiles_list("core.config", "data.access")
+		if {_list::*} doesn't contain "%player%":
+			stop
 		if player is op:
 			if arg-1 is set:
 				op arg-1
@@ -506,10 +505,9 @@ command /op [<offlineplayer>]:
 command /deop [<offlineplayer>]:
 	executable by: player
 	trigger:
-		if player is set:
-			set {_list::*} to mj_editfiles_list("core.config", "data.access")
-			if {_list::*} doesn't contain "%player%":
-				stop
+		set {_list::*} to mj_editfiles_list("core.config", "data.access")
+		if {_list::*} doesn't contain "%player%":
+			stop
 		if player is op:
 			if arg-1 is set:
 				deop arg-1
@@ -554,7 +552,7 @@ on join:
 # ---------------------------------------------------------------------------------------------------------------------
 on quit:
 	if event-entity is player:
-		set {_profil} to yaml value "data.%player's uuid%.profil" from "mj.userdata"
+		set {_profil} to mj_editfiles("userdata", "data.%player's uuid%.profil")
 		mj_core_location("userdata.%player's uuid%.%{_profil}%", "data", "modify", player)
 		mj_editfiles("userdata", "data.%player's uuid%.playtime", "modify", "%player's time played%")
 		wait 2 seconds
@@ -601,6 +599,67 @@ function mj_core_playerdata(player: offlineplayer):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Userdata
+# =====================================================================================================================
+# APIxMJ - Profil
+# ---------------------------------------------------------------------------------------------------------------------
+command /profil [<text>] [<text>] [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.profil.*" or "mj.profil":
+			if arg-1 is set:
+				if arg-1 is "create":
+					if player has permission "*" or "mj.*" or "mj.profil.*" or "mj.profil.create":
+						if arg-3 is set:
+							if arg-2 is set:
+								mj_core_profil_create((arg-3 parsed as offlineplayer), arg-2)
+							else:
+								mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
+						else if arg-2 is set:
+							mj_core_profil_create(player, arg-2)
+						else:
+							mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
+					else:
+						mj_manager_permission(player, "core", "data.prefix", "mj.profil.create")
+				else:
+					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
+			else:
+				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
+		else:
+			mj_manager_permission(player, "core", "data.prefix", "mj.profil")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/profil":
+	if player has permission "*" or "mj.*" or "mj.profil.*" or "mj.profil":
+		set {_list1::*} to mj_manager_nodes("userdata")
+		loop {_list1::*}:
+			set {_player} to mj_editfiles("userdata", "data.%loop-value%.pseudo")
+			add {_player} to {_list2::*}
+		if player has permission "*" or "mj.*" or "mj.profil.*" or "mj.profil.create":
+			add "create" to {_list3::*}
+		set tab completions for position 1 to {_list3::*}
+		if tab arg-1 is "create":
+			set tab completions for position 2 to "new_profil_name"
+			if tab arg-2 is set:
+				set tab completions for position 3 to {_list2::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_profil_create(player: offlineplayer, value: text):
+	set {_profil} to mj_editfiles("userdata", "data.%{_player}'s uuid%.profil")
+	mj_core_location("userdata.%{_player}'s uuid%.%{_profil}%", "data", "modify", {_player})
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.playtime", "modify", "%{_player}'s time played%")
+	mj_core_inventory_save({_player}, "last")
+	wait 1 second
+	unload yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	mj_core_logger(2, "%{_player}% unloading userdata file..")
+	wait 1 second
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.profil", "modify", {_value})
+	load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%/%{_profil}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	wait 10 ticks
+	mj_core_playerdata({_player})
+	console command "/profil_update %{_player}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Profil
 # =====================================================================================================================
 # APIxMJ - Inventory
 # ---------------------------------------------------------------------------------------------------------------------

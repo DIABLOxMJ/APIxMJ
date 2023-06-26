@@ -34,8 +34,15 @@ on join:
 		mj_drawer_playerdata(player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
+on command:
+	if complete command contains "profil_update":
+		set {_list::*} to complete command split at " "
+		set {_player} to {_list::2} parsed as offlineplayer
+		mj_drawer_playerdata({_player})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_drawer_playerdata(player: offlineplayer):
-	wait 14 seconds
+	wait 15 seconds
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.%{_player}'s uuid%.source.drawer" from "mj.userdata"
 	if {_check1} isn't set:

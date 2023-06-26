@@ -35,6 +35,13 @@ on join:
 		mj_essentials_playerdata(player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
+on command:
+	if complete command contains "profil_update":
+		set {_list::*} to complete command split at " "
+		set {_player} to {_list::2} parsed as offlineplayer
+		mj_essentials_playerdata({_player})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_playerdata(player: offlineplayer):
 	wait 2 seconds
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"

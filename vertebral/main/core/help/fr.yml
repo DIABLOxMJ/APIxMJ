@@ -343,7 +343,17 @@ data:
         info:
             '1': "&6- &7Pour l'inventaire &6: &amj.keepinv &7où &amj.keepinventory"
             '2': "&6- &7Pour l'expérience &6: &amj.keepexp &7où &amj.keepexperience"
-    godmodecore:
+    crafting:
+        name: "&aRecette personnalisé"
+        type: function
+        description:
+            '1': "&0- &aDésormais possible de rajouter de nouvelle recette en jeu."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7C'est une action réservé au administrateur pour cela,"
+            '2': "&0- &7il faut aller dans le fichier &aData &7du &aCoeur&7."
+    godmode_core:
         name: "&aImmortalité"
         type: function
         description:

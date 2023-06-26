@@ -9,6 +9,10 @@ data:
         other_it: "&7Votre niveau d'affichage des logs et désormais à &a$0 &7par &a$1"
     database:
         reset: "&cRéinitialisation complète des données.. Connectez-vous dans quelques secondes.."
+    profil:
+        create: "&7Vous avez un nouveau profil de jeu sous le nom de &a$0"
+        create_other: "&7Vous avez créer un profil pour le joueur &a$0 &7sous le nom de &a$1"
+        migration: "&7Vous avez migrer du profil &a$0 &7vers &a$1"
     inventory:
         save: "&7Vous avez sauvegardé l'inventaire de &a$0 &7sous le nom &a$1"
         restore: "&7Vous avez restauré l'inventaire de &a$0 &7à partir de &a$1"

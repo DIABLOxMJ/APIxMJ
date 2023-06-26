@@ -182,6 +182,38 @@ data:
             '9': "&0"
             '10': "&6- &7Puis à la déconnexion on mes à jour son temps de jeu et"
             '11': "&0- &7ces coordonnées pour savoir où il se trouve en jeu."
+    profil_create:
+        name: "&aCréation de profil"
+        type: command
+        description:
+            '1': "&0- &aUne méthode pour avoir plusieurs profils de jeux"
+            '2': "&0- &asans pour autant ajouter un autre compte minecraft."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.profil.*"
+        - "mj.profil.create"
+        info:
+            '1': "&6- &a/profil create <name> [<player>]"
+            '2': "&0- &7Cette commande permet de générer un nouveau profil,"
+            '3': "&6- &7Il y a pas de limite de profil."
+            '4': "&0- &c/!\\ Il n'est pas recommander de laisser les joueurs"
+            '5': "&0- &cy avoir accès."
+    profil_migration:
+        name: "&aMigration de profil"
+        type: command
+        description:
+            '1': "&0- &aUne méthode pour avoir plusieurs profils de jeux"
+            '2': "&0- &asans pour autant ajouter un autre compte minecraft."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.profil.*"
+        - "mj.profil"
+        info:
+            '1': "&6- &a/profil change <name>"
+            '2': "&6- &a/profil migration <name>"
+            '3': "&0- &7Cette commande permet de changer de profil."
     inventory:
         name: "&aSystème d'inventaire"
         type: command

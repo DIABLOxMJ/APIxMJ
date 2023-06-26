@@ -579,6 +579,7 @@ function mj_core_playerdata(player: offlineplayer):
 		set yaml value "data.%{_player}'s uuid%.connect.last" from "mj.userdata" to now
 		set yaml value "data.%{_player}'s uuid%.playtime" from "mj.userdata" to "none"
 		set yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata" to "default"
+		set yaml list "data.%{_player}'s uuid%.profil_list" from "mj.userdata" to "default"
 		set yaml value "data.%{_player}'s uuid%.source" from "mj.userdata" to "none"
 		save yaml "mj.userdata"
 		mj_core_logger(1, "%{_player}% core data file was generated..")
@@ -607,11 +608,17 @@ command /profil [<text>] [<text>] [<text>]:
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.profil.*" or "mj.profil":
 			if arg-1 is set:
-				if arg-1 is "create":
+				if arg-1 is "migration" or "change":
+					if arg-2 is set:
+						mj_core_profil_migration(player, arg-2)
+					else:
+						mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
+				else if arg-1 is "create":
 					if player has permission "*" or "mj.*" or "mj.profil.*" or "mj.profil.create":
 						if arg-3 is set:
 							if arg-2 is set:
 								mj_core_profil_create((arg-3 parsed as offlineplayer), arg-2)
+								mj_manager_message(player, "core", "data.prefix", "core", "data.profil.create_other", arg-3, arg-2)
 							else:
 								mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 						else if arg-2 is set:
@@ -636,7 +643,12 @@ on tab complete of "/profil":
 			add {_player} to {_list2::*}
 		if player has permission "*" or "mj.*" or "mj.profil.*" or "mj.profil.create":
 			add "create" to {_list3::*}
-		set tab completions for position 1 to {_list3::*}
+		set tab completions for position 1 to "migration", "change" and {_list3::*}
+		if tab arg-1 is "migration" or "change":
+			set {_profil} to mj_editfiles("userdata", "data.%player's uuid%.profil")
+			set {_list4::*} to mj_editfiles_list("userdata", "data.%player's uuid%.profil_list")
+			remove {_profil} from {_list4::*}
+			set tab completions for position 2 to {_list4::*}
 		if tab arg-1 is "create":
 			set tab completions for position 2 to "new_profil_name"
 			if tab arg-2 is set:
@@ -649,14 +661,44 @@ function mj_core_profil_create(player: offlineplayer, value: text):
 	mj_editfiles("userdata", "data.%{_player}'s uuid%.playtime", "modify", "%{_player}'s time played%")
 	mj_core_inventory_save({_player}, "last")
 	wait 1 second
-	unload yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	mj_core_logger(2, "%{_player}% unloading userdata file..")
-	wait 1 second
 	mj_editfiles("userdata", "data.%{_player}'s uuid%.profil", "modify", {_value})
-	load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%/%{_profil}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	wait 10 ticks
+	set {_list1::*} to mj_editfiles_list("userdata", "data.%{_player}'s uuid%.profil_list")
+	add {_value} to {_list1::*}
+	mj_editfiles_list("userdata", "data.%{_player}'s uuid%.profil_list", "modify", {_list1::*})
 	mj_core_playerdata({_player})
 	console command "/profil_update %{_player}%"
+	wait 1 second
+	unload yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	mj_core_logger(2, "%{_player}% unloading userdata file..")
+	clear {_player}'s inventory
+	clear {_player}'s enderchest
+	set {_player}'s xp to 0
+	set {_player}'s health to 20
+	set {_player}'s food to 10
+	set {_player}'s gamemode to survival
+	set {_list2::*} to mj_manager_skript_list()
+	if {_list2::*} contains "apixmj_essentials.sk":
+		set {_tp} to mj_core_location("essentials.config", "data.spawn")
+		teleport {_player} to {_tp}
+	mj_manager_message({_player}, "core", "data.prefix", "core", "data.profil.create", {_value})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_profil_migration(player: offlineplayer, value: text):
+	set {_profil} to mj_editfiles("userdata", "data.%{_player}'s uuid%.profil")
+	mj_core_location("userdata.%{_player}'s uuid%.%{_profil}%", "data", "modify", {_player})
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.playtime", "modify", "%{_player}'s time played%")
+	mj_core_inventory_save({_player}, "last")
+	wait 1 second
+	mj_editfiles("userdata", "data.%{_player}'s uuid%.profil", "modify", {_value})
+	mj_core_playerdata({_player})
+	console command "/profil_update %{_player}%"
+	wait 1 second
+	unload yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	mj_core_logger(2, "%{_player}% unloading userdata file..")
+	mj_core_inventory_restore({_player}, "last")
+	set {_tp} to mj_core_location("userdata.%{_player}'s uuid%.%{_value}%", "data")
+	teleport {_player} to {_tp}
+	mj_manager_message({_player}, "core", "data.prefix", "core", "data.profil.migration", {_profil}, {_value})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Profil

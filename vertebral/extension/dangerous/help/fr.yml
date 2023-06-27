@@ -2,6 +2,7 @@ data:
     heat_wave:
         name: "&aEffet Canicule"
         type: function
+        page: 1
         description:
             '1': "&0- &aLe soleil vous tape sur la tête ?"
             '2': "&0- &aVivre sous terre semble être la solution."
@@ -21,6 +22,7 @@ data:
     respawn_penalty:
         name: "&aPénalité mortelle"
         type: function
+        page: 1
         description:
             '1': "&0- &aMourir devient un piège mortel"
             '2': "&0- &apour avoir le droit de jouer."
@@ -33,6 +35,7 @@ data:
     sword_of_skeleton:
         name: "&aSquelette avec épée"
         type: function
+        page: 1
         description:
             '1': "&0- &aL'armement des squelettes varies."
         permission:

@@ -126,6 +126,8 @@ data:
         installed: "&aInstallé&r"
         uninstalled: "&cDésinstallé&r"
         not_installed: "&7Pas installé&r"
+        next: "&6Suivant"
+        previous: "&6Précédent"
         enable: "&aActivé&r"
         disable: "&cDésactivé&r"
         accept: "&6[&aAccepter&6]&r"

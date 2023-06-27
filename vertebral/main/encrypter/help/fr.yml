@@ -2,6 +2,7 @@ data:
     encrypter:
         name: "&aCryptage"
         type: command
+        page: 1
         description:
             '1': "&0- &aDéveloppement en cours…"
         permission:

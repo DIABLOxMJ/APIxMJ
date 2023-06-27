@@ -2,6 +2,7 @@ data:
     create:
         name: "&aCréer un sac à dos"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn inventaire trop petit…"
             '2': "&0- &aVotre meilleur ami sera là pour vous !"
@@ -17,6 +18,7 @@ data:
     listed:
         name: "&aListe de sac à dos"
         type: command
+        page: 1
         description:
             '1': "&0- &aAvoir la liste de sac à dos"
             '2': "&0- &ad'un joueur sera possible."
@@ -33,6 +35,7 @@ data:
     rename:
         name: "&aRenommer un sac à dos"
         type: command
+        page: 1
         description:
             '1': "&0- &aDonner un petit nom sympa à"
             '2': "&0- &avotre sac à dos."
@@ -49,6 +52,7 @@ data:
     upgrade:
         name: "&aAméliorer un sac à dos"
         type: command
+        page: 1
         description:
             '1': "&0- &aIl est trop petit le sac à dos"
             '2': "&0- &aune améliorer sera accorder."
@@ -66,6 +70,7 @@ data:
     open_backpack:
         name: "&aOuvrir un sac à dos"
         type: action
+        page: 1
         description:
             '1': "&0- &aUn inventaire trop petit…"
             '2': "&0- &aVotre meilleur ami sera là pour vous !"
@@ -83,6 +88,7 @@ data:
     losted:
         name: "&aSac à dos perdu"
         type: function
+        page: 1
         description:
             '1': "&0- &aVous avez accidentellement perdu votre"
             '2': "&0- &asac à dos ?"

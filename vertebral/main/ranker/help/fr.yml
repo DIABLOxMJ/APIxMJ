@@ -2,6 +2,7 @@ data:
     groupmanager:
         name: "&aGroupManager"
         type: command
+        page: 1
         description:
             '1': "&0- &aPrise en charge du plugins GroupManager."
         permission:

@@ -2,6 +2,7 @@ data:
     sign:
         name: "&aPanneau de stockage"
         type: function
+        page: 1
         description:
             '1': "&0- &aCréer un panneau de stockage et mettre"
             '2': "&0- &aun item sans limite de quantité."

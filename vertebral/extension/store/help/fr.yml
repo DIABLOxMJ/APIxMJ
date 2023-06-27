@@ -2,6 +2,7 @@ data:
     store:
         name: "&aMagasin Virtuel"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn magasin virtuel reproduisant celui d'un site"
             '2': "&0- &aPour proposer du contenu en jeu."

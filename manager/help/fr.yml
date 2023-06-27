@@ -2,6 +2,7 @@ data:
     manager:
         name: "&aGestionnaire d'APIxMJ"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn gestionnaire très puissant capable de contrôler tout"
             '2': "&0- &al'environnement APIxMJ, et donc d'installer des scripts"
@@ -18,6 +19,7 @@ data:
     help:
         name: "&aAide"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn utilitaire permettant au joueur de trouver les informations"
             '2': "&0- &adont il a besoin sur les éléments disponibles sur le serveur ?"
@@ -34,6 +36,7 @@ data:
     answer:
         name: "&aRéponse"
         type: command
+        page: 1
         description:
             '1': "&0- &aUne commande pour répondre au question."
         permission:

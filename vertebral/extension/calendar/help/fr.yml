@@ -2,6 +2,7 @@ data:
     calendar_player:
         name: "&aCalendrier"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn système de récompense journalier"
             '2': "&0- &aavec un beau calendrier !"
@@ -18,6 +19,7 @@ data:
     calendar_admin:
         name: "&aCalendrier Admin"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn système de récompense journalier"
             '2': "&0- &amodifiable."

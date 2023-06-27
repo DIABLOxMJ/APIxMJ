@@ -2,6 +2,7 @@ data:
     sign:
         name: "&aPanneau d'expérience"
         type: function
+        page: 1
         description:
             '1': "&0- &aCréer un panneau de stockage et mettre"
             '2': "&0- &ason expérience à l'abri."
@@ -18,6 +19,7 @@ data:
     bottle:
         name: "&aBouteille d'expérience"
         type: command
+        page: 1
         description:
             '1': "&0- &aCréer une bouteille de stockage et mettre"
             '2': "&0- &ason expérience à l'abri."

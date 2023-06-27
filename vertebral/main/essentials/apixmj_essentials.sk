@@ -40,7 +40,7 @@ on command:
 		set {_list::*} to complete command split at " "
 		set {_player} to {_list::2} parsed as offlineplayer
 		mj_essentials_playerdata({_player})
-		mj_essentials_vanish_actualizer({_player})
+		mj_essentials_vanish_actualizer()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_playerdata(player: offlineplayer):

@@ -2,6 +2,7 @@ data:
     shop:
         name: "&aMagasin"
         type: command
+        page: 1
         description:
             '1': "&0- &aLe meilleur de faire du commerce reste le"
             '2': "&0- &amagasin, grâce à ceci vous pourrais faire"
@@ -17,6 +18,7 @@ data:
     sell:
         name: "&aVendeur"
         type: command
+        page: 1
         description:
             '1': "&0- &aVendre n'as jamais était si simple depuis"
             '2': "&0- &aque cette commande et arrivé."
@@ -35,6 +37,7 @@ data:
     sell_stick:
         name: "&aLe bâton du vendeur"
         type: function
+        page: 1
         description:
             '1': "&0- &aDepuis un simple clic avec un bâton en bois"
             '2': "&0- &avendez le contenu d'un coffre rapidement."

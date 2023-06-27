@@ -2,6 +2,7 @@ data:
     portal:
         name: "&aPortail"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn système de zone de téléportation incroyable"
             '2': "&0- &apratique pour toutes les situations"

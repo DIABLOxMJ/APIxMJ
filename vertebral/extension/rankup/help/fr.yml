@@ -2,6 +2,7 @@ data:
     rankup:
         name: "&aRankUP"
         type: command
+        page: 1
         description:
             '1': "&0- &aUne boutique virtuel pour permettre au joueur"
             '2': "&0- &ade progresser en achetent des rangs en jeu"

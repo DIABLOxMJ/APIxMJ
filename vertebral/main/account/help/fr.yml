@@ -2,6 +2,7 @@ data:
     account:
         name: "&aCompte utilisateur"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn système de multi-compte utilisateur."
         permission:

@@ -2,6 +2,7 @@ data:
     apixmj:
         name: "&aAPIxMJ"
         type: command
+        page: 1
         description:
             '1': "&0- &aUne commande centrale pour gérer l'environnement d'APIxMJ"
             '2': "&0- &aune gestion sans précédent."
@@ -20,6 +21,7 @@ data:
     debug1:
         name: "&aOutils de dépannage"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn moyen de dépanner rapidement lors d'un souci technique."
         permission:
@@ -49,6 +51,7 @@ data:
     debug2:
         name: "&aOutils de dépannage"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn moyen de dépanner rapidement lors d'un souci technique."
         permission:
@@ -68,6 +71,7 @@ data:
     dataeditor1:
         name: "&aÉditeur de donnée"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn éditeur révolutionnaire plus besoin de sortir un"
             '2': "&0- &aprogramme FTP pour modifier quelque valeur."
@@ -91,6 +95,7 @@ data:
     dataeditor2:
         name: "&aÉditeur de donnée"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn éditeur révolutionnaire plus besoin de sortir un"
             '2': "&0- &aprogramme FTP pour modifier quelque valeur."
@@ -114,6 +119,7 @@ data:
     console:
         name: "&aConsole de commande"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn émulateur de commande, pour exécuté une commande"
             '2': "&0- &aréservé à la console en tant que joueur."
@@ -125,6 +131,7 @@ data:
     log:
         name: "&aHistorique"
         type: command
+        page: 1
         description:
             '1': "&0- &aAvoir les logs directement en jeu et récupérer aussi,"
             '2': "&0- &adans le dossier logs d'APIxMJ."
@@ -140,6 +147,7 @@ data:
     log_action:
         name: "&aIntéraction avec l'historique"
         type: action
+        page: 1
         description:
             '1': "&0- &aLes interactions possibles."
         permission:
@@ -152,6 +160,7 @@ data:
     operator:
         name: "&aMode Super-Admin"
         type: command
+        page: 1
         description:
             '1': "&0- &aAvoir le rôle le plus important pour un gérant."
         permission:
@@ -163,6 +172,7 @@ data:
     userdata:
         name: "&aDonnée de joueur"
         type: function
+        page: 1
         description:
             '1': "&0- &aUn gestionnaire de fichier de donnée sur les joueurs."
         permission:
@@ -182,6 +192,7 @@ data:
     inventory:
         name: "&aSystème d'inventaire"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn gestionnaire d'inventaire révolutionnaire capable"
             '2': "&0- &ade faire une copie complète de l'inventaire du joueur,"
@@ -206,6 +217,7 @@ data:
     report:
         name: "&aSystème de rapport"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn signalement de joueur, de problème technique ?"
             '2': "&0- &aJ'ai la solution !"
@@ -221,6 +233,7 @@ data:
     storage1:
         name: "&aSystème de stockage"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn gestionnaire sans précédent, ultra moderne et universel."
         permission:
@@ -248,6 +261,7 @@ data:
     storage2:
         name: "&aSystème de stockage"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn gestionnaire sans précédent, ultra moderne et universel."
         permission:
@@ -272,6 +286,7 @@ data:
     bat:
         name: "&aChauve-souris"
         type: function
+        page: 1
         description:
             '1': "&0- &aOn dit stop au entité inutile du jeu comme"
             '2': "&0- &ales chauve-souris, ADIEU !"
@@ -283,6 +298,7 @@ data:
     enderman:
         name: "&aEnderman"
         type: function
+        page: 1
         description:
             '1': "&0- &aOn dit stop à la destruction massive"
             '2': "&0- &adu monde par les Endermans !"
@@ -294,6 +310,7 @@ data:
     explode:
         name: "&aAnti-Explosion"
         type: function
+        page: 1
         description:
             '1': "&0- &aOn dit stop au explosion !"
         permission:
@@ -305,6 +322,7 @@ data:
     keep:
         name: "&aPréserver"
         type: function
+        page: 1
         description:
             '1': "&0- &aUne obligation pour l'équipe de modération, il permet"
             '2': "&0- &ade conserver l'inventaire et la barre d'expérience"
@@ -322,6 +340,7 @@ data:
     godmodecore:
         name: "&aImmortalité"
         type: function
+        page: 1
         description:
             '1': "&0- &aUn temps d'immortalité pour protéger le joueur dans des"
             '2': "&0- &asituations, comme sortir du spawn pendant 5 secondes."

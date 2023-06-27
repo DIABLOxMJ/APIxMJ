@@ -2,6 +2,7 @@ data:
     spawner:
         name: "&aGénérateur à monstres"
         type: command
+        page: 1
         description:
             '1': "&0- &aUn système traditionnaire, ajoutant son"
             '2': "&0- &alot d'originalité."
@@ -18,6 +19,7 @@ data:
     take:
         name: "&aRécupérer un générateur"
         type: function
+        page: 1
         description:
             '1': "&0- &aUn système traditionnaire, ajoutant son"
             '2': "&0- &alot d'originalité."
@@ -35,6 +37,7 @@ data:
     chunk:
         name: "&aLimiteur par Chunk"
         type: function
+        page: 1
         description:
             '1': "&0- &aCette option permet d'imposer une limite"
             '2': "&0- &ade spawner par chunk."

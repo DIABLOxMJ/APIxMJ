@@ -766,7 +766,7 @@ function mj_manager_menu_control_button_help(player: player, source: text, id: t
 		set {_item} to mj_manager_item_description({_player}, {_item}, "data.button.helper")
 		set {_item} to mj_manager_item_button({_player}, {_item}, "left_click", "manager", "data.open.helper")
 		make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
-			mj_manager_help_menu_viewer({_player}, {_source}, {_id}, true)
+			mj_manager_help_menu_viewer({_player}, {_source}, {_id}, 1, true)
 			stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -1184,7 +1184,7 @@ function mj_manager_help_menu_addon_button(player: player, id: text="main"):
 				add 2 to {_slot}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_help_menu_viewer(player: player, source: text, id: text, manager: boolean=false):
+function mj_manager_help_menu_viewer(player: player, source: text, id: text, page: number=1, manager: boolean=false):
 	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
 	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
 	set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name})
@@ -1193,19 +1193,19 @@ function mj_manager_help_menu_viewer(player: player, source: text, id: text, man
 		set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name})
 	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
-	mj_manager_help_menu_viewer_button({_player}, {_source}, {_id})
+	mj_manager_help_menu_viewer_button({_player}, {_source}, {_id}, {_page}, {_manager})
 	mj_manager_help_menu_return({_player}, "back", 49, {_source}, {_id}, {_manager})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_help_menu_viewer_button(player: player, source: text, id: text):
-	set {_slot} to 10
+function mj_manager_help_menu_viewer_button(player: player, source: text, id: text, page.1: number=1, manager: boolean=false):
+	set {_slot} to 0
 	set {_lang} to mj_manager_userdata_language({_player})
 	set {_list1::*} to mj_manager_nodes("%{_id}%.help.%{_lang}%")
 	loop {_list1::*}:
+		set {_valid} to false
 		set {_value} to loop-value-1
 		set {_type} to mj_editfiles("%{_id}%.help.%{_lang}%", "data.%{_value}%.type")
 		set {_name} to mj_editfiles("%{_id}%.help.%{_lang}%", "data.%{_value}%.name")
-		set {_valid} to false
 		set {_list2::*} to mj_editfiles_list("%{_id}%.help.%{_lang}%", "data.%{_value}%.permission")
 		loop {_list2::*}:
 			set {_perm} to loop-value-2
@@ -1214,6 +1214,12 @@ function mj_manager_help_menu_viewer_button(player: player, source: text, id: te
 				exit loop
 		if {_list2::*} contains "none":
 			set {_valid} to true
+		set {_page.2} to mj_editfiles_number("%{_id}%.help.%{_lang}%", "data.%{_value}%.page")
+		if {_page.1} isn't 1:
+			if {_page.2} >= {_page.1}:
+				set {_valid} to true
+			else:
+				set {_valid} to false
 		if {_valid} is true:
 			set {_name.find} to mj_editfiles("manager.data", "data.button.help.%{_type}%.name")
 			set {_title} to mj_editfiles_gettext("manager", {_name.find}, {_player}, {_name})
@@ -1223,8 +1229,11 @@ function mj_manager_help_menu_viewer_button(player: player, source: text, id: te
 			make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
 				stop
 			add 1 to {_slot}
-			if {_slot} is 17 or 26 or 35:
-				add 2 to {_slot}
+			if {_slot} is 45:
+				mj_manager_help_menu_viewer_button_page({_player}, {_source}, {_id}, {_page.1}, {_manager})
+				exit loop
+	if {_page.1} isn't 1:
+		mj_manager_help_menu_viewer_button_page({_player}, {_source}, {_id}, {_page.1}, {_manager})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_viewer_button_lore(player: player, item: item, id: text, value: text, type: text) :: item:
@@ -1239,6 +1248,20 @@ function mj_manager_help_menu_viewer_button_lore(player: player, item: item, id:
 		set line {_count} of lore of {_item} to "%{_data2}%"
 		add 1 to {_count}
 	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_help_menu_viewer_button_page(player: player, source: text, id: text, page: number=1, manager: boolean=false):
+	if {_page} isn't 1:
+		set {_name} to mj_editfiles_gettext("manager", "data.type.previous", {_player})
+		make a gui slot 48 of {_player} with paper named {_name} to run:
+			mj_manager_help_menu_viewer({_player}, {_source}, {_id}, 1, {_manager})
+			stop
+	set {_next} to {_page} + 1
+	if {_page} >= 1:
+		set {_name} to mj_editfiles_gettext("manager", "data.type.next", {_player})
+		make a gui slot 50 of {_player} with paper named {_name} to run:
+			mj_manager_help_menu_viewer({_player}, {_source}, {_id}, {_next}, {_manager})
+			stop
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Help
 # =====================================================================================================================

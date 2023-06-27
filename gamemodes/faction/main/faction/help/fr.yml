@@ -2,6 +2,7 @@ data:
     none:
         name: "none"
         type: function
+        page: 1
         description:
             '1': "none"
         permission:

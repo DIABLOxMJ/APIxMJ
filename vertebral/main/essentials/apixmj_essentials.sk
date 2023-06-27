@@ -40,6 +40,7 @@ on command:
 		set {_list::*} to complete command split at " "
 		set {_player} to {_list::2} parsed as offlineplayer
 		mj_essentials_playerdata({_player})
+		mj_essentials_vanish_actualizer({_player})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_playerdata(player: offlineplayer):
@@ -1424,7 +1425,7 @@ command /disposal:
 command /time [<text>]:
 	executable by: player
 	trigger:
-		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.time":
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.time.*" or "mj.essentials.time":
 			if arg-1 is set:
 				if arg-1 is "day" or "night":
 					if arg-1 is "night":
@@ -1590,7 +1591,21 @@ function mj_essentials_afk(player: player):
 # APIxMJ - God Mode
 # ---------------------------------------------------------------------------------------------------------------------
 command /godmode [<player>]:
-	aliases: god
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.godmode.*" or "mj.essentials.godmode":
+			if arg-1 is set:
+				if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.godmode.*" or "mj.essentials.godmode.other":
+					mj_essentials_godmode(player, arg-1, true)
+				else:
+					mj_manager_permission(player, "essentials", "data.godmode.prefix", "mj.essentials.godmode.other")
+			else:
+				mj_essentials_godmode(player, player)
+		else:
+			mj_manager_permission(player, "essentials", "data.godmode.prefix", "mj.essentials.godmode")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /god [<player>]:
 	executable by: player
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.godmode.*" or "mj.essentials.godmode":
@@ -1748,7 +1763,7 @@ on chat:
 on join:
 	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.vanish")
 	if {_check} is true:
-		mj_essentials_vanishactualizer()
+		mj_essentials_vanish_actualizer()
 		mj_timecount("connect_%player%", "backward", 0, 0, 5)
 		mj_core_logger(1, "%player% at joined on vanish mode")
 	stop
@@ -1795,12 +1810,12 @@ on death:
 			set the death message to ""
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-every 1 second:
+every 10 seconds:
 	loop all players:
 		set {_check} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.vanish")
 		if {_check} is true:
 			set {_send} to mj_editfiles_gettext("essentials", "data.vanish.actionbar", loop-player)
-			mj_core_infobar(loop-player, 1, "%{_send}%")
+			mj_core_infobar(loop-player, 10, "%{_send}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_vanish(player: offlineplayer):
@@ -1817,10 +1832,10 @@ function mj_essentials_vanish(player: offlineplayer):
 		if {_player} is online:
 			mj_essentials_join({_player}, "quit")
 		mj_manager_message({_player}, "essentials", "data.vanish.prefix", "essentials", "data.vanish.vanished")
-	mj_essentials_vanishactualizer()
+	mj_essentials_vanish_actualizer()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_vanishactualizer():
+function mj_essentials_vanish_actualizer():
 	loop all players:
 		if loop-player doesn't have permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.vanish.*" or "mj.essentials.vanish":
 			add loop-player to {_list1::*}
@@ -1976,7 +1991,7 @@ command /banlist:
 	executable by: player
 	trigger:
 		if sender is a player:
-			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.ban.*" or "mj.essentials.banlist":
+			if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.ban.*" or "mj.essentials.banlist.*" or "mj.essentials.banlist":
 				mj_essentials_banlist_player(player)
 			else:
 				mj_manager_permission(player, "essentials", "data.ban.prefix", "mj.essentials.banlist")

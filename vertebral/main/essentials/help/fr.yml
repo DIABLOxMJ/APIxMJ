@@ -100,10 +100,10 @@ data:
             '2': "&0- &a/gm <argument> [<player>]"
             '3': "&0"
             '4': "&0- &eArgument &6:&r"
-            '5': "&0- &asurvival&6, &as&6, &a0"
-            '6': "&0- &acreative&6, &ac&6, &a1"
-            '7': "&0- &aadventure&6, &aa&6, &a2"
-            '8': "&0- &aspectator&6, &asp&6, &a3"
+            '5': "&0- &a0&6, &as&6, &asurvival"
+            '6': "&0- &a1&6, &ac&6, &acreative"
+            '7': "&0- &a2&6, &aa&6, &aadventure"
+            '8': "&0- &a3&6, &asp&6, &aspectator"
             '9': "&0"
             '10': "&0- &7Changer le mode de jeu comme la commande"
             '11': "&0- &7de base juste plus évoluer."
@@ -133,7 +133,6 @@ data:
         - "mj.*"
         - "mj.essentials.*"
         - "mj.essentials.money.*"
-        - "mj.essentials.money.modify"
         - "mj.essentials.money"
         info:
             '1': "&6- &a/money"
@@ -141,21 +140,33 @@ data:
             '3': "&6- &a/money upgrade"
             '4': "&0- &7Améliorer le stockage d'argent si"
             '5': "&0- &7l'option et activer.."
-            '6': "&6- &a/money set <player> <number>"
-            '7': "&0- &7Définir un montant au joueur."
-            '9': "&6- &a/money add <player> <number>"
-            '10': "&0- &7Ajouter un montant au joueur."
-            '11': "&6- &a/money remove <player> <number>"
-            '12': "&0- &7Retirer un montant au joueur."
-            '13': "&0"
-            '14': "&6- &a/pay <player> <montant>"
-            '15': "&0- &7Payer un joueur."
-            '16': "&0"
-            '17': "&6- &a/balance"
-            '18': "&0- &a/balancetop"
-            '19': "&0- &a/bal"
-            '20': "&0- &a/baltop"
-            '21': "&0- &7Voir le classement économique."
+            '6': "&0"
+            '7': "&6- &a/pay <player> <montant>"
+            '8': "&0- &7Payer un joueur."
+            '9': "&0"
+            '10': "&6- &a/balance"
+            '11': "&0- &a/balancetop"
+            '12': "&0- &a/bal"
+            '13': "&0- &a/baltop"
+            '14': "&0- &7Voir le classement économique."
+    money_modify:
+        name: "&aSystème d'argent"
+        type: command
+        description:
+            '1': "&0- &aUn système d'économie."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.money.*"
+        - "mj.essentials.money.modify"
+        info:
+            '1': "&6- &a/money set <player> <number>"
+            '2': "&0- &7Définir un montant au joueur."
+            '3': "&6- &a/money add <player> <number>"
+            '4': "&0- &7Ajouter un montant au joueur."
+            '5': "&6- &a/money remove <player> <number>"
+            '6': "&0- &7Retirer un montant au joueur."
     bank:
         name: "&aSystème d'argent bancaire"
         type: command
@@ -166,7 +177,6 @@ data:
         - "mj.*"
         - "mj.essentials.*"
         - "mj.essentials.bank.*"
-        - "mj.essentials.bank.modify"
         - "mj.essentials.bank"
         info:
             '1': "&6- &a/bank"
@@ -174,9 +184,884 @@ data:
             '3': "&6- &a/bank upgrade"
             '4': "&0- &7Améliorer le stockage d'argent si"
             '5': "&0- &7l'option et activer.."
-            '6': "&6- &a/bank set <player> <number>"
-            '7': "&0- &7Définir un montant au joueur."
-            '9': "&6- &a/bank add <player> <number>"
-            '10': "&0- &7Ajouter un montant au joueur."
-            '11': "&6- &a/bank remove <player> <number>"
-            '12': "&0- &7Retirer un montant au joueur."
+            '6': "&6- &a/bank deposit <number>"
+            '7': "&0- &7Déposer une somme d'argent."
+            '9': "&6- &a/bank withdraw <number>"
+            '10': "&0- &7Récupérer une somme d'argent."
+    bank_modify:
+        name: "&aSystème d'argent bancaire"
+        type: command
+        description:
+            '1': "&0- &aUn système d'économie."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.bank.*"
+        - "mj.essentials.bank.modify"
+        info:
+            '1': "&6- &a/bank set <player> <number>"
+            '2': "&0- &7Définir un montant au joueur."
+            '3': "&6- &a/bank add <player> <number>"
+            '4': "&0- &7Ajouter un montant au joueur."
+            '5': "&6- &a/bank remove <player> <number>"
+            '6': "&0- &7Retirer un montant au joueur."
+    kits:
+        name: "&aSystème de kits"
+        type: command
+        description:
+            '1': "&0- &aUn système de kit d'objet récupérable."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.kits.*"
+        - "mj.essentials.kits"
+        info:
+            '1': "&6- &a/kit <name>"
+            '2': "&0- &7Il permet de récupérer un kit"
+            '3': "&0- &7disponible."
+            '4': "&6- &a/kits [<name>]"
+            '5': "&0- &7Il permet de visualiser les kits"
+            '6': "&0- &7disponible."
+            '7': "&0- &7Si on précise aucun kit, il nous"
+            '8': "&0- &7donne la liste disponible."
+    kits_admin:
+        name: "&aSystème de kits"
+        type: command
+        description:
+            '1': "&0- &aUn système de kit d'objet récupérable."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.kits.*"
+        - "mj.essentials.kits.admin"
+        info:
+            '1': "&6- &a/kit give <name>"
+            '2': "&0- &7Il permet de récupérer un kit"
+            '3': "&0- &7sans restriction."
+            '4': "&6- &a/kit giveall <name>"
+            '5': "&0- &7Il permet de donner un kit"
+            '6': "&0- &7à tous les joueurs connectés."
+    ping:
+        name: "&aLatence de connexion"
+        type: command
+        description:
+            '1': "&0- &aProblème de connexion ?"
+            '2': "&0- &aVous pouvez visualiser votre connexion,"
+            '3': "&0- &aoù celui-ci des autres joueurs."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.ping.*"
+        - "mj.essentials.ping"
+        info:
+            '1': "&6- &a/ping [<name>]"
+            '2': "&0- &7Il permet de voir le ping."
+    tps:
+        name: "&aLatense de connexion"
+        type: command
+        description:
+            '1': "&0- &aProblème avec le serveur ?"
+            '2': "&0- &aVous pouvez visualiser la latence,"
+            '3': "&0- &adu serveur. (Inférieur à 15 négatif)"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.tps.*"
+        - "mj.essentials.tps"
+        info:
+            '1': "&6- &a/tps"
+            '2': "&0- &7Il permet de voir le temps de"
+            '3': "&0- &7réaction du serveur."
+    craft:
+        name: "&aLatense de connexion"
+        type: command
+        description:
+            '1': "&0- &aProblème avec le serveur ?"
+            '2': "&0- &aVous pouvez visualiser la latence,"
+            '3': "&0- &adu serveur. (Inférieur à 15 négatif)"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.workbench.*"
+        - "mj.essentials.workbench"
+        info:
+            '1': "&6- &a/workbench"
+            '2': "&0- &a/wb"
+            '3': "&0- &a/craft"
+            '4': "&0- &7Il permet d'ouvrir un établi de"
+            '5': "&0- &7fabrication virtuel."
+    quiet:
+        name: "&aMode Ne Pas Déranger"
+        type: command
+        description:
+            '1': "&0- &aMarre des messages privés, des demandes"
+            '2': "&0- &ade téléportations et des intructions,"
+            '3': "&0- &aconséquent ?"
+            '4': "&0- &aNous avons ajouter un mode Ne Pas Déranger !"
+            '5': "&0- &aImaginer pour les Créateurs de contenu."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.quiet.*"
+        - "mj.essentials.quiet"
+        info:
+            '1': "&6- &a/quiet"
+            '2': "&0- &7Active ou désactive le mode &aNe Pas Déranger&7."
+    heal:
+        name: "&aSoigner"
+        type: command
+        description:
+            '1': "&0- &aUne méthode médicale sans douleur."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.heal.*"
+        - "mj.essentials.heal.other"
+        - "mj.essentials.heal"
+        info:
+            '1': "&6- &a/heal [<player>]"
+            '2': "&0- &7Il permet de soigner soi-même où un autre joueur."
+    feed:
+        name: "&aNourriture+"
+        type: command
+        description:
+            '1': "&0- &aUne méthode pour régler la faim dans le monde."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.feed.*"
+        - "mj.essentials.feed.other"
+        - "mj.essentials.feed"
+        info:
+            '1': "&6- &a/feed [<player>]"
+            '2': "&0- &7Il permet de nourrir soi-même où un autre joueur."
+    repair:
+        name: "&aRéparation"
+        type: command
+        description:
+            '1': "&0- &aUne méthode pour réparer son équipement."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.repair.*"
+        - "mj.essentials.repair.all"
+        - "mj.essentials.repair"
+        info:
+            '1': "&6- &a/repair"
+            '2': "&0- &7Il permet de réparer l'item en main."
+            '3': "&6- &a/repair all"
+            '4': "&0- &7Il permet de réparer tout l'inventaire."
+    fly:
+        name: "&aMode vol"
+        type: command
+        description:
+            '1': "&0- &aUne méthode pour se déplacer sans gravité."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.fly.*"
+        - "mj.essentials.fly.other"
+        - "mj.essentials.fly"
+        info:
+            '1': "&6- &a/fly [<player>]"
+            '2': "&0- &7Active ou désactive le mode vol."
+    speed:
+        name: "&aMode Acélérateur"
+        type: command
+        description:
+            '1': "&0- &aUne méthode pour se déplacer plus vite."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.speed.*"
+        - "mj.essentials.speed"
+        info:
+            '1': "&6- &a/speed [<argument>] [<number>]"
+            '2': "&0"
+            '3': "&0- &eArgument &6:&r"
+            '4': "&0- &a0&6, &a1&6, &a2&6, &a3&6, &a4&6, &a5"
+            '5': "&0- &a6&6, &a7&6, &a8&6, &a9&6, &a10"
+            '6': "&0- &awalk &6et &afly"
+            '7': "&0"
+            '8': "&0- &7Dans &aargument &7accepte cette liste de choix"
+            '9': "&0- &7en mettant chiffre cela s'applique à tout,"
+            '10': "&0- &7pour le mode &awalk &7et &afly&7."
+            '11': "&0"
+            '12': "&0- &7Alors que le contraire si on met juste"
+            '13': "&0- &awalk &7où &afly &7nous devons ajouter un"
+            '14': "&0- &7chiffre derrière et la vitesse sera appliqué"
+            '15': "&0- &7seulement à ce dernier."
+            '16': "&0"
+            '17': "&0- &7Si on précise aucun argument ça remet à la"
+            '18': "&0- &7normal pour l'ensemble des vitesses."
+    clearlag:
+        name: "&aNettoyage d'entités"
+        type: command
+        description:
+            '1': "&0- &aUne méthode d'aider le serveur à"
+            '2': "&0- &aretrouver la fluidité en supprimant"
+            '3': "&0- &ales entités qui surcharge le jeu."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.clearlag.*"
+        - "mj.essentials.clearlag"
+        info:
+            '1': "&6- &a/clearlag [<on/off>]"
+            '2': "&0- &7Sans argument cela a pour effet de déclancher"
+            '3': "&0- &7un nettoyage directe, alors que l'argument"
+            '4': "&0- &7aura pour d'activer où non un nettoyage"
+            '5': "&0- &7automatique avec un délai défini dans la config."
+    cleartime:
+        name: "&aTemps entre chaque nettoyage d'entités"
+        type: command
+        description:
+            '1': "&0- &aDans le cas où le serveur à un nettoyage"
+            '2': "&0- &ad'entités automatique d'enclencher,"
+            '3': "&0- &ail y a un moyen de surveiller le temps."
+        permission:
+        - "none"
+        info:
+            '1': "&6- &a/cleartime"
+            '2': "&0- &7Voir le temps qui reste avant le prochain"
+            '3': "&0- &7nettoyage."
+    suicide:
+        name: "&aSuicide"
+        type: command
+        description:
+            '1': "&0- &cMettre fin à ces jours, ne devrais jamais"
+            '2': "&0- &carriver, même quand ces des paroles en l'air,"
+            '3': "&0- &cNe faite jamais ça, Merci."
+            '4': "&0- &4Sa sera difficile de nettoyer la saleté…"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.suicide.*"
+        - "mj.essentials.suicide"
+        info:
+            '1': "&6- &a/suicide"
+            '2': "&0- &cDéclenche votre mort IN-GAME !"
+    disposal:
+        name: "&adisposal"
+        type: command
+        description:
+            '1': "&0- &aBesoin de supprimer des objets,"
+            '2': "&0- &aceci devrait vous aider."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.disposal.*"
+        - "mj.essentials.disposal"
+        info:
+            '1': "&6- &a/disposal"
+            '2': "&0- &a/trash"
+            '3': "&0- &a/corbeille"
+            '4': "&0- &a/poubelle"
+            '5': "&0- &7Ouvre un menu pour déposer des déchets, une"
+            '6': "&0- &7fois le menu fermer impossible de récupérer."
+    time:
+        name: "&aManipulateur temporel"
+        type: command
+        description:
+            '1': "&0- &aLe jour et là nuit devient un jeu d'enfant."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.time.*"
+        - "mj.essentials.time"
+        info:
+            '1': "&6- &a/time [<argument>]"
+            '2': "&0"
+            '3': "&0- &eArgument &6:&r"
+            '4': "&0- &a00:00&6, &aday&6, &anight"
+            '7': "&0"
+            '8': "&0- &7La valeur &a00:00 &7ce décrit de la même manière"
+            '9': "&0- &7qu'en réalité comme par exemple &a21:30 é7pour"
+            '10': "&0- &a21 heures é7et éz30 minutes &7utile pour être"
+            '11': "&0- &7précis, la valeur &aday &7signifie &a07:00&7,"
+            '12': "&0- &7et &anight &7donne &a21:00&7."
+    skull:
+        name: "&aTête de joueur"
+        type: command
+        description:
+            '1': "&0- &aTu aimerais décorer ta maison avec les têtes ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.skull.*"
+        - "mj.essentials.skull"
+        info:
+            '1': "&6- &a/skull [<player>]"
+            '2': "&0- &a/head [<player>]"
+            '3': "&0- &7Il permet de récupérer la tête d'un joueur."
+    editsign:
+        name: "&aÉditeur de panneau"
+        type: command
+        description:
+            '1': "&0- &aTu souhaite modifier un panneau ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.editsign.*"
+        - "mj.essentials.editsign"
+        info:
+            '1': "&6- &a/editsign <number> <text>"
+            '2': "&0- &7Il faut mettre un chiffre entre &a1 &7et &a4"
+            '3': "&0- &7et écrire un petit texte avec des colorés si"
+            '4': "&0- &7on le désire."
+    afk:
+        name: "&aMode absent"
+        type: command
+        description:
+            '1': "&0- &aBesoin de s'absenter ?"
+        permission:
+        - "none"
+        info:
+            '1': "&6- &a/afk"
+            '2': "&0- &7Il permet de prévenir les autres joueurs,"
+            '3': "&0- &7que vous seriez absent un moment."
+    afk_auto:
+        name: "&aMode absent"
+        type: action
+        description:
+            '1': "&0- &aVous êtes déjà absent ?"
+        permission:
+        - "none"
+        info:
+            '1': "&6- &7Le jeu calculera votre temps d'inactivté"
+            '2': "&0- &7et décidera de vous êtes automatiquement."
+            '3': "&0- &7Hormi de prévenir les autres joueurs"
+            '4': "&0- &7il y a aucun impact en jeu, juste,"
+            '5': "&0- &7vous rester vulnérable au attaque."
+            '6': "&0"
+            '7': "&0- &7Réaliser une action importante, elevera"
+            '8': "&0- &7votre mode absent."
+    godmode:
+        name: "&aImmortalité"
+        type: command
+        description:
+            '1': "&0- &aUne envie de devenir intouchable ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.godmode.*"
+        - "mj.essentials.godmode.other"
+        - "mj.essentials.godmode"
+        info:
+            '1': "&6- &a/godmode [<player>]"
+            '2': "&0- &7Il permet de rendre vous où un autre joueur,"
+            '3': "&0- &7invulnérable à tous les dégâts possible."
+    invsee:
+        name: "&aÉditeur d'inventaire"
+        type: command
+        description:
+            '1': "&0- &aUn voleur ? regardons ces poches !"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.invsee.*"
+        - "mj.essentials.invsee"
+        info:
+            '1': "&6- &a/invsee <player>"
+            '2': "&0- &7Il permet de voir et modifier un inventaire"
+            '3': "&0- &7d'un joueur au choix."
+    enderchest:
+        name: "&aÉditeur de coffre du néant"
+        type: command
+        description:
+            '1': "&0- &aEnvie d'avoir un coffre du néant"
+            '2': "&0- &aaccessible partout ?"
+            '3': "&0- &aQuelqu'un de la-haut à entendu."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.enderchest.*"
+        - "mj.essentials.enderchest.other"
+        - "mj.essentials.enderchest"
+        info:
+            '1': "&6- &a/enderchest [<player>]"
+            '2': "&0- &7Il permet d'ouvrir sont enderchest où"
+            '3': "&0- &7de voir et modifier un inventaire d'un"
+            '4': "&0- &7joueur au choix."
+    spy:
+        name: "&aMode espion"
+        type: command
+        description:
+            '1': "&0- &aBesoin de vérifier les messages privés ?"
+            '2': "&0- &aMieux vaux ne pas abuser, il est important"
+            '3': "&0- &ade préserver la vie privé des joueurs."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.spy.*"
+        - "mj.essentials.spy"
+        info:
+            '1': "&6- &a/spy"
+            '2': "&0- &7Active ou désactive le mode espion."
+    vanish:
+        name: "&aMode invisible"
+        type: command
+        description:
+            '1': "&0- &aBesoin de modérer le serveur, sans divulgé"
+            '2': "&0- &asa présence en jeu ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.vanish.*"
+        - "mj.essentials.vanish.other"
+        - "mj.essentials.vanish"
+        info:
+            '1': "&6- &a/vanish [<player>]"
+            '2': "&0- &7Active ou désactive le mode invisible."
+            '3': "&0"
+            '4': "&0- &7L'avantage de ce mode et qui vous rend"
+            '5': "&0- &7totalement absent, aux yeux des joueurs"
+            '6': "&0- &7êtes déconnecté, inexistant, les messages"
+            '7': "&0- &7public désactivé, ramassé les items"
+            '8': "&0- &7désactivé, déconnexion et reconnexion"
+            '9': "&0- &7silencieux, mourir désactivé."
+    ban:
+        name: "&aBannir"
+        type: command
+        description:
+            '1': "&0- &aLa modération à besoin d'éliminer les"
+            '2': "&0- &anuisible définitivement ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.ban.*"
+        - "mj.essentials.ban"
+        info:
+            '1': "&6- &a/ban <player> <reason>"
+            '2': "&0- &7Il permet de bannir un joueur définitivement."
+    tempban:
+        name: "&aBannir temporairement"
+        type: command
+        description:
+            '1': "&0- &aLa modération à besoin d'éliminer les"
+            '2': "&0- &anuisible temporairement ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.ban.*"
+        - "mj.essentials.tempban.*"
+        - "mj.essentials.tempban"
+        info:
+            '1': "&6- &a/tempban <player> <time> <reason>"
+            '2': "&0- &7Il permet de bannir un joueur temporairement."
+            '3': "&0- &7Le &a<time> &7se défini en &a30d &7pour"
+            '4': "&0- &a30 jours &7par exemple."
+    unban:
+        name: "&aBannir temporairement"
+        type: command
+        description:
+            '1': "&0- &aLe joueur à droit de revenir sur le serveur ?"
+            '2': "&0- &aOù un bannissement par erreur…"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.ban.*"
+        - "mj.essentials.unban.*"
+        - "mj.essentials.unban"
+        info:
+            '1': "&6- &a/unban <player>"
+            '2': "&0- &7Il permet de débannir un joueur."
+    banlist:
+        name: "&aBannir temporairement"
+        type: command
+        description:
+            '1': "&0- &aVoir la liste des joueurs bannis reste un moyen"
+            '2': "&0- &ade trier les joueurs à long terme."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.ban.*"
+        - "mj.essentials.banlist.*"
+        - "mj.essentials.banlist"
+        info:
+            '1': "&6- &a/banlist"
+            '2': "&0- &7Il permet de voir la liste des joueurs bannis."
+    mute:
+        name: "&aRendre muet"
+        type: command
+        description:
+            '1': "&0- &aUn joueur pénible dans les canals texturelles ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.mute.*"
+        - "mj.essentials.mute"
+        info:
+            '1': "&6- &a/mute <player> <reason>"
+            '2': "&0- &7Il permet de rendre un joueur muet."
+    tempmute:
+        name: "&aRendre muet temporairement"
+        type: command
+        description:
+            '1': "&0- &aUn joueur pénible dans les canals texturelles ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.mute.*"
+        - "mj.essentials.tempmute.*"
+        - "mj.essentials.tempmute"
+        info:
+            '1': "&6- &a/tempmute <player> <time> <reason>"
+            '2': "&0- &7Il permet de rendre muet un joueur temporairement."
+            '3': "&0- &7Le &a<time> &7se défini en &a30d &7pour &a30 jours"
+            '4': "&0- &7par exemple."
+    unmute:
+        name: "&aRendre la parole"
+        type: command
+        description:
+            '1': "&0- &aVoir la liste des joueurs bannis reste un moyen"
+            '2': "&0- &ade trier les joueurs à long terme."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.mute.*"
+        - "mj.essentials.unmute.*"
+        - "mj.essentials.unmute"
+        info:
+            '1': "&6- &a/unmute <player>"
+            '2': "&0- &7Il permet de rendre la paroel à un joueur muet."
+    kick:
+        name: "&aExpulser"
+        type: command
+        description:
+            '1': "&0- &aMarre d'avoir un joueur dans les pâtes."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.kick.*"
+        - "mj.essentials.kick"
+        info:
+            '1': "&6- &a/kick <player>"
+            '2': "&0- &7Il permet de forcer un joueur à ce déconnecter."
+    clearchat:
+        name: "&aExpulser"
+        type: command
+        description:
+            '1': "&0- &aUne information à était divulgé et qui faut"
+            '2': "&0- &avite le cacher."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.clearchat.*"
+        - "mj.essentials.clearchat"
+        info:
+            '1': "&6- &a/clearchat <player>"
+            '2': "&0- &7Il permet d'effacer le chat du jeu rapidement."
+    warn:
+        name: "&aAvertissement"
+        type: command
+        description:
+            '1': "&0- &aLe joueur à besoin d'un avertissement dans sont"
+            '2': "&0- &acasier."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.warn.*"
+        - "mj.essentials.warn"
+        info:
+            '1': "&6- &a/warn <player> <reason>"
+            '2': "&0- &7Il permet d'ajouter un avertissement à un joueur."
+            '3': "&6- &a/warns <player>"
+            '4': "&0- &7Il permet de voir les avertissement d'un joueur."
+    freeze:
+        name: "&aGêler"
+        type: command
+        description:
+            '1': "&0- &aLe besoin de modérer un joueur sans qui puisse"
+            '2': "&0- &aagir contre le modérateur."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.freeze.*"
+        - "mj.essentials.freeze"
+        info:
+            '1': "&6- &a/freeze <player> <reason>"
+            '2': "&0- &7Il permet gêler un joueur de tout action."
+            '3': "&6- &a/unfreezes <player>"
+            '4': "&0- &7Il permet de libérer un joueur du gêle."
+    spawn:
+        name: "&aPoint centrale du serveur"
+        type: command
+        description:
+            '1': "&0- &aBesoin de revenir au centre du serveur ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.spawn.*"
+        - "mj.essentials.spawn"
+        info:
+            '1': "&6- &a/spawn"
+            '2': "&0- &7Il permet de vous téléporter au spawn."
+    setspawn:
+        name: "&aDéfinir le centre du serveur"
+        type: command
+        description:
+            '1': "&0- &aUne façon de définir le point de téléportation."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.spawn.*"
+        - "mj.essentials.setspawn"
+        info:
+            '1': "&6- &a/setspawn"
+            '2': "&0- &7Il permet de définir le point de spawn."
+    lobby:
+        name: "&aPoint centrale du serveur"
+        type: command
+        description:
+            '1': "&0- &aBesoin de revenir au centre du serveur ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.lobby.*"
+        - "mj.essentials.lobby"
+        info:
+            '1': "&6- &a/lobby"
+            '2': "&0- &7Il permet de vous téléporter au lobby."
+    setlobby:
+        name: "&aDéfinir le centre du serveur"
+        type: command
+        description:
+            '1': "&0- &aUne façon de définir le point de téléportation."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.lobby.*"
+        - "mj.essentials.setlobby"
+        info:
+            '1': "&6- &a/setlobby"
+            '2': "&0- &7Il permet de définir le point de lobby."
+    teleport_t:
+        name: "&aTéléportation vers un joueur"
+        type: command
+        description:
+            '1': "&0- &aMéthode de téléportation rapide et silencieux."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.tp.*"
+        - "mj.essentials.tp"
+        info:
+            '1': "&6- &a/t <player>"
+            '2': "&0- &7Il permet de se téléporter vers un joueur."
+    teleport_s:
+        name: "&aTéléporter un joueur vers vous"
+        type: command
+        description:
+            '1': "&0- &aMéthode de téléportation rapide."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.tp.*"
+        - "mj.essentials.tp"
+        info:
+            '1': "&6- &a/s <player>"
+            '2': "&0- &7Il permet de téléporter un joueur vers vous."
+    teleport_random:
+        name: "&aTéléportation aléatoire"
+        type: command
+        description:
+            '1': "&0- &aMéthode de téléportation aléatoirement sur"
+            '2': "&0- &asur la map autour du spawn."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.tp.*"
+        - "mj.essentials.tp"
+        info:
+            '1': "&6- &a/rtp"
+            '2': "&0- &7Il permet de vous téléporter aléatoirement"
+            '3': "&0- &7autour du spawn dans un rayon défini dans le config."
+    teleport_request_1:
+        name: "&aDemande de téléportation"
+        type: command
+        description:
+            '1': "&0- &aMéthode de téléportation entre joueurs."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.tpa.*"
+        - "mj.essentials.tpa"
+        info:
+            '1': "&6- &a/tpa <player>"
+            '2': "&0- &7Il permet de demander au joueur"
+            '3': "&0- &7de se téléporter vers eux."
+    teleport_request_2:
+        name: "&aDemande de téléportation"
+        type: command
+        description:
+            '1': "&0- &aMéthode de téléportation entre joueurs."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.tpa.*"
+        - "mj.essentials.tpahere"
+        info:
+            '1': "&6- &a/tpahere <player>"
+            '2': "&0- &7Il permet de demander au joueur"
+            '3': "&0- &7si il souhaite se téléporter vers vous."
+    teleport_request_3:
+        name: "&aDemande de téléportation"
+        type: command
+        description:
+            '1': "&0- &aMéthode de téléportation entre joueurs."
+        permission:
+        - "none"
+        info:
+            '1': "&6- &a/tpyes"
+            '2': "&0- &7Il permet d'accepter une demande de téléportation."
+            '3': "&6- &a/tpno"
+            '4': "&0- &7Il permet de refuser une demande de téléportation."
+    back:
+        name: "&aTéléportation de retour"
+        type: command
+        description:
+            '1': "&0- &aMéthode de téléportation entre joueurs."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.back.*"
+        - "mj.essentials.back"
+        info:
+            '1': "&6- &a/back"
+            '2': "&0- &7Il permet de vous téléporter à votre point de retour"
+            '3': "&0- &7avant la dernière téléportation."
+    back_death:
+        name: "&aTéléportation de secours"
+        type: function
+        description:
+            '1': "&0- &aSi vous lisez ceci, vous êtes donc bénéficaire."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.back.*"
+        - "mj.essentials.back.death"
+        info:
+            '1': "&6- &7Vous avez la chance de sauvegarder votre position"
+            '2': "&0- &7en cas de mort votre &a/back &7vous renvois ici."
+    home:
+        name: "&aSystème de homes"
+        type: command
+        description:
+            '1': "&0- &aAvoir plusieurs point de téléportation personnelles."
+            '2': "&0- &aA savoir qui y a une limite défini dans la config."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.home.*"
+        - "mj.essentials.home"
+        info:
+            '1': "&6- &a/home <name>"
+            '2': "&0- &7Téléportation vers le home choisi sauvegardé."
+            '3': "&6- &a/sethome <name>"
+            '4': "&0- &7Définir où remplacer un nouveau home."
+            '5': "&6- &a/delhome <name>"
+            '6': "&0- &7Supprimer un home sauvegarder."
+            '7': "&6- &a/homes"
+            '8': "&0- &7Voir la liste de homes existants."
+    home_admin:
+        name: "&aSystème de homes"
+        type: command
+        description:
+            '1': "&0- &aAvoir accès au home des autres joueurs."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.home.*"
+        - "mj.essentials.home.other"
+        info:
+            '1': "&6- &a/home <player:name>"
+            '2': "&0- &7Téléportation vers le home choisi sauvegardé"
+            '3': "&0- &7à un autre joueur."
+            '4': "&6- &a/sethome <player:name>"
+            '5': "&0- &7Définir où remplacer un nouveau home."
+            '6': "&6- &a/delhome <player:name>"
+            '7': "&0- &7Supprimer un home sauvegarder."
+            '8': "&6- &a/homes"
+            '9': "&0- &7Voir la liste de homes existants."
+    warp:
+        name: "&aSystème de warps"
+        type: command
+        description:
+            '1': "&0- &aUn moyen de téléportation généraliser pour"
+            '2': "&0- &al'ensemble des joueurs du serveur."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.warp.*"
+        - "mj.essentials.warp"
+        info:
+            '1': "&6- &a/warp <name>"
+            '2': "&0- &7Téléportation vers le warp disponible."
+            '3': "&6- &a/warps"
+            '4': "&0- &7Voir la liste de warps existants."
+    setwarp:
+        name: "&aSystème de warps"
+        type: command
+        description:
+            '1': "&0- &aUn moyen de téléportation généraliser pour"
+            '2': "&0- &al'ensemble des joueurs du serveur."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.essentials.*"
+        - "mj.essentials.warp.*"
+        - "mj.essentials.setwarp"
+        info:
+            '1': "&6- &a/setwarp <name>"
+            '2': "&0- &7Définir où remplacer un nouveau warp."
+            '3': "&6- &a/delwarp <name>"
+            '4': "&0- &7Supprimer un warp sauvegarder."

@@ -206,7 +206,7 @@ data:
         info:
             '1': "&6- &a/profil create <name> [<player>]"
             '2': "&0- &7Cette commande permet de générer un nouveau profil,"
-            '3': "&6- &7Il y a pas de limite de profil."
+            '3': "&0- &7Il y a pas de limite de profil."
             '4': "&0- &c/!\\ Il n'est pas recommander de laisser les joueurs"
             '5': "&0- &cy avoir accès."
     profil_migration:
@@ -223,7 +223,7 @@ data:
         - "mj.profil"
         info:
             '1': "&6- &a/profil change <name>"
-            '2': "&6- &a/profil migration <name>"
+            '2': "&0- &a/profil migration <name>"
             '3': "&0- &7Cette commande permet de changer de profil."
     inventory:
         name: "&aSystème d'inventaire"

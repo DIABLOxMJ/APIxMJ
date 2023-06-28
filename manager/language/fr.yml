@@ -231,6 +231,16 @@ data:
             name_lite: "&dMini-jeux"
             lore:
                 '1': "&6- &7Le catalogue des mini-jeux disponibles."
+        server_dedicated:
+            name: "&dServeur Dédié"
+            name_lite: "&dServ.. Dédié"
+            lore:
+                '1': "&6- &7Un tas de Skript destiné à des serveurs dédiés."
+        server_dedicated_diamond_city:
+            name: "&bDiamond City"
+            name_lite: "&bDiamond City"
+            lore:
+                '1': "&6- &7Le serveur de &eDIABLOxMJ&7."
         editor:
             name: "&aÉditeur"
             name_lite: "&aÉditeur"
@@ -457,6 +467,13 @@ data:
                 lore:
                     '1': "&6- &7Un mode de jeu où le but est simple"
                     '2': "&0- &7détruire les lits adverses."
+        server_dedicated_diamond_city:
+            startup:
+                name: "&bDémarreur"
+                name_lite: "&bDémarreur"
+                lore:
+                    '1': "&6- &7Un système pour introduire les"
+                    '2': "&0- &7nouveaux joueurs confortablement."
         editor:
             bedwars_editor:
                 name: "&aÉditeur du Bedwars"

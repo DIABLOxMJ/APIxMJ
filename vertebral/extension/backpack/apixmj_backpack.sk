@@ -67,7 +67,7 @@ command /backpack [<text>] [<text>]:
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack":
 			if arg-1 is set:
-				if arg-1 is "gui" or "size":
+				if arg-1 is "gui" or "size" or "create":
 					if player has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack.admin":
 						if arg-1 is "gui":
 							if arg-2 is set:
@@ -240,6 +240,7 @@ function mj_backpack_upgrade(player: player):
 						remove {_count.1} of {_item} from {_player}
 					else:
 						set {_confirm} to false
+						broadcast "ICI 1"
 						mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade.vanilla", "%{_count.1}% %{_item}%")
 				else if {_check.2} is true:
 					set {_list::*} to mj_manager_skript_list()
@@ -252,6 +253,7 @@ function mj_backpack_upgrade(player: player):
 						else:
 							set {_confirm} to false
 							set {_view} to mj_core_format_money(false, {_price})
+							broadcast "ICI 2"
 							mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade.essentials", "%{_view}%")
 					else:
 						mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_essentials")
@@ -264,7 +266,7 @@ function mj_backpack_upgrade(player: player):
 					mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.upgrade")
 					mj_core_logger(2, "%{_player}% upgrade backpack for uuid (%{_id}%)")
 			else:
-				mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade")
+				mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade.default")
 		else:
 			mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_item")
 	else:

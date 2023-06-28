@@ -11,25 +11,6 @@ data:
             '3': "&7Owner &6: &a"
         # The item that will be used, default : brown shulker box
         item: brown shulker box
-    crafting:
-        # Slot in recipe backpack, default : string
-        slot_1: string
-        # Slot in recipe backpack, default : leather
-        slot_2: leather
-        # Slot in recipe backpack, default : string
-        slot_3: string
-        # Slot in recipe backpack, default : leather
-        slot_4: leather
-        # Slot in recipe backpack, default : air
-        slot_5: air
-        # Slot in recipe backpack, default : leather
-        slot_6: leather
-        # Slot in recipe backpack, default : leather
-        slot_7: leather
-        # Slot in recipe backpack, default : leather
-        slot_8: leather
-        # Slot in recipe backpack, default : leather
-        slot_9: leather
     upgrade:
         # If the enhancement system requires a vanilla method
         vanilla:

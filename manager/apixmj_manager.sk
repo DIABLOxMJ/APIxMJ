@@ -669,19 +669,17 @@ function mj_manager_menu_control_button_reinstaller(player: player, source: text
 function mj_manager_menu_control_reinstaller(player: player, source: text, id: text):
 	set {_list.1::*} to mj_manager_skript_list()
 	loop {_list.1::*}:
-		if loop-value isn't "apixmj_manager" or "apixmj_reboot":
+		if loop-value isn't "apixmj_manager.sk" or "apixmj_reboot.sk":
 			unload script file loop-value
 	set {_folder} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.folder")
-	set {_list1::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.skript")
-	loop {_list1::*}:
+	set {_list.2::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.skript")
+	loop {_list.2::*}:
 		set {_skript} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.skript.%loop-value%")
 		delete file "plugins/Skript/scripts/-%{_skript}%.sk"
-	wait 2 seconds
 	delete directory "plugins/APIxMJ/%{_folder}%"
-	wait 2 seconds
-	mj_manager_menu_control_installer({_player}, {_source}, {_id}, "reinstall")
-	wait 2 seconds
 	mj_manager_skript_start()
+	wait 30 seconds
+	mj_manager_menu_control_installer({_player}, {_source}, {_id}, "reinstall")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Control (Reinstaller)

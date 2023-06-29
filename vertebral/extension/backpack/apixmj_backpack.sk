@@ -139,7 +139,7 @@ function mj_backpack_create(player: player, size: number=6):
 	set yaml value "data.%{_id}%.id" from "mj.backpack.data" to {_id}
 	set yaml value "data.%{_id}%.size" from "mj.backpack.data" to {_size}
 	set yaml value "data.%{_id}%.page" from "mj.backpack.data" to {_page}
-	set yaml value "data.%{_id}%.owner" from "mj.backpack.data" to "%{_player}'s uuid%"
+	set yaml value "data.%{_id}%.owner" from "mj.backpack.data" to {_player}'s uuid
 	set yaml value "data.%{_id}%.date" from "mj.backpack.data" to now
 	set yaml value "data.%{_id}%.storage" from "mj.backpack.data" to "none"
 	save yaml "mj.backpack.data"
@@ -153,7 +153,7 @@ function mj_backpack_create_page_count(player: player) :: number:
 	set {_list::*} to mj_manager_nodes("backpack.data")
 	loop {_list::*}:
 		set {_check} to mj_editfiles("backpack.data", "data.%loop-value%.owner")
-		if {_check} is player's uuid:
+		if {_check} is {_player}'s uuid:
 			add 1 to {_count}
 	if {_count} >= 45:
 		set {_page} to 2

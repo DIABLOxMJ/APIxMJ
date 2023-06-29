@@ -1026,7 +1026,7 @@ command /help [<text>]:
 			loop {_list::*}:
 				mj_manager_message(player, "manager", "data.help.request.prefix", "manager", "data.help.request.prevention.%loop-value%")
 		else:
-			mj_manager_help_menu_index(player, false)
+			mj_manager_help_menu_index(player)
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/help" or "/aide":
@@ -1112,7 +1112,11 @@ function mj_manager_help_menu_return(player: player, type: text, slot: number=0,
 			mj_manager_menu_control({_player}, {_source}, {_id})
 		else:
 			if {_type} is "back":
-				mj_manager_help_menu_addon({_player}, {_source})
+				set {_type} to mj_editfiles_boolean("manager.config", "data.easy_help_menu")
+				if {_type} is true:
+					mj_manager_help_menu_addon({_player}, {_source})
+				else:
+					mj_manager_help_menu_index({_player})
 			else:
 				mj_manager_help_menu_index({_player})
 		stop
@@ -1122,6 +1126,7 @@ function mj_manager_help_menu_index(player: player):
 	set {_title} to mj_editfiles_gettext("manager", "data.help.menu.main", {_player})
 	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
+	set {_type} to mj_editfiles_boolean("manager.config", "data.easy_help_menu")
 	if {_type} is true:
 		mj_manager_help_menu_index_button({_player})
 	else:
@@ -1162,9 +1167,9 @@ function mj_manager_help_menu_addon(player: player, id: text="main"):
 	if {_id} is "main":
 		set {_title} to mj_editfiles_gettext("manager", "data.help.menu.manager", {_player})
 	else:
-		set {_name.find} to mj_editfiles("manager.data", "data.index.%{_id}%.name")
-		set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
-		set {_title} to mj_editfiles_gettext("manager", "data.help.menu.name", {_player}, {_name})
+		set {_name.1} to mj_editfiles("manager.data", "data.index.%{_id}%.name")
+		set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player})
+		set {_title} to mj_editfiles_gettext("manager", "data.help.menu.name", {_player}, {_name.2})
 	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
 	mj_manager_help_menu_addon_button({_player}, {_id})
@@ -1192,7 +1197,7 @@ function mj_manager_help_menu_addon_button(player: player, id: text="main"):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_viewer(player: player, source: text, id: text, page: number=1, manager: boolean=false):
 	set {_name.1} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-	set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player})
+	set {_name.2} to mj_editfiles_gettext("manager", "%{_name.1}%_lite", {_player})
 	set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name.2})
 	if length of {_name} >= 16:
 		set {_name.2} to mj_editfiles_gettext("manager", "%{_name.0}%_lite", {_player})

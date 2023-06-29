@@ -1026,7 +1026,7 @@ command /help [<text>]:
 			loop {_list::*}:
 				mj_manager_message(player, "manager", "data.help.request.prefix", "manager", "data.help.request.prevention.%loop-value%")
 		else:
-			mj_manager_help_menu_index(player)
+			mj_manager_help_menu_index(player, false)
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/help" or "/aide":
@@ -1122,29 +1122,35 @@ function mj_manager_help_menu_index(player: player):
 	set {_title} to mj_editfiles_gettext("manager", "data.help.menu.main", {_player})
 	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
-	mj_manager_help_menu_index_button({_player})
+	if {_type} is true:
+		mj_manager_help_menu_index_button({_player})
+	else:
+		set {_list::*} to mj_manager_nodes("manager.data", "data.addon")
+		loop {_list::*}:
+			set {_value} to loop-value
+			mj_manager_help_menu_addon_button({_player}, {_value})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_index_button(player: player):
 	set {_slot} to 10
-	set {_list1::*} to mj_manager_nodes("manager.data", "data.addon")
-	loop {_list1::*}:
-		set {_value1} to loop-value-1
-		set {_list2::*} to mj_manager_nodes("manager.data", "data.addon.%{_value1}%")
-		loop {_list2::*}:
-			set {_value2} to loop-value-2
-			set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.installed")
+	set {_list.1::*} to mj_manager_nodes("manager.data", "data.addon")
+	loop {_list.1::*}:
+		set {_value.1} to loop-value-1
+		set {_list.2::*} to mj_manager_nodes("manager.data", "data.addon.%{_value.1}%")
+		loop {_list.2::*}:
+			set {_value.2} to loop-value-2
+			set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_value.1}%.%{_value.2}%.installed")
 			if {_check} is true:
-				set {_name.find} to mj_editfiles("manager.data", "data.index.%{_value1}%.name")
-				set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
-				if {_value1} is "main":
+				set {_name.1} to mj_editfiles("manager.data", "data.index.%{_value.1}%.name")
+				set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player})
+				if {_value.1} is "main":
 					set {_title} to mj_editfiles_gettext("manager", "data.help.button.manager", {_player})
 				else:
 					set {_index} to mj_editfiles("manager.data", "data.button.help.index.name")
-					set {_title} to mj_editfiles_gettext("manager", {_index}, {_player}, {_name})
+					set {_title} to mj_editfiles_gettext("manager", {_index}, {_player}, {_name.2})
 				set {_item} to mj_manager_item_convert("manager.data", "data.button.help.index.item")
 				make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
-					mj_manager_help_menu_addon({_player}, {_value1})
+					mj_manager_help_menu_addon({_player}, {_value.1})
 					stop
 				add 1 to {_slot}
 				if {_slot} is 17 or 26 or 35:
@@ -1172,9 +1178,9 @@ function mj_manager_help_menu_addon_button(player: player, id: text="main"):
 		set {_value} to loop-value
 		set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_id}%.%{_value}%.installed")
 		if {_check} is true:
-			set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_id}%.%{_value}%.name")
-			set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
-			set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name})
+			set {_name.1} to mj_editfiles("manager.data", "data.addon.%{_id}%.%{_value}%.name")
+			set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player})
+			set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name.2})
 			set {_item} to mj_manager_item_convert("manager.data", "data.button.help.addon.item")
 			make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
 				mj_manager_help_menu_viewer({_player}, {_id}, {_value})
@@ -1185,12 +1191,12 @@ function mj_manager_help_menu_addon_button(player: player, id: text="main"):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_viewer(player: player, source: text, id: text, page: number=1, manager: boolean=false):
-	set {_name.find} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-	set {_name} to mj_editfiles_gettext("manager", {_name.find}, {_player})
-	set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name})
+	set {_name.1} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
+	set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player})
+	set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name.2})
 	if length of {_name} >= 16:
-		set {_name} to mj_editfiles_gettext("manager", "%{_name.find}%_lite", {_player})
-		set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name})
+		set {_name.2} to mj_editfiles_gettext("manager", "%{_name.0}%_lite", {_player})
+		set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name.2})
 	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
 	mj_manager_help_menu_viewer_button({_player}, {_source}, {_id}, {_page}, {_manager})
@@ -1200,14 +1206,14 @@ function mj_manager_help_menu_viewer(player: player, source: text, id: text, pag
 function mj_manager_help_menu_viewer_button(player: player, source: text, id: text, page.1: number=1, manager: boolean=false):
 	set {_slot} to 0
 	set {_lang} to mj_manager_userdata_language({_player})
-	set {_list1::*} to mj_manager_nodes("%{_id}%.help.%{_lang}%")
-	loop {_list1::*}:
+	set {_list.1::*} to mj_manager_nodes("%{_id}%.help.%{_lang}%")
+	loop {_list.1::*}:
 		set {_valid} to false
 		set {_value} to loop-value-1
 		set {_type} to mj_editfiles("%{_id}%.help.%{_lang}%", "data.%{_value}%.type")
 		set {_name} to mj_editfiles("%{_id}%.help.%{_lang}%", "data.%{_value}%.name")
-		set {_list2::*} to mj_editfiles_list("%{_id}%.help.%{_lang}%", "data.%{_value}%.permission")
-		loop {_list2::*}:
+		set {_list.2::*} to mj_editfiles_list("%{_id}%.help.%{_lang}%", "data.%{_value}%.permission")
+		loop {_list.2::*}:
 			set {_perm} to loop-value-2
 			if {_player} has permission {_perm}:
 				set {_valid} to true
@@ -1221,12 +1227,12 @@ function mj_manager_help_menu_viewer_button(player: player, source: text, id: te
 			else:
 				set {_valid} to false
 		if {_valid} is true:
-			set {_name.find} to mj_editfiles("manager.data", "data.button.help.%{_type}%.name")
-			set {_title} to mj_editfiles_gettext("manager", {_name.find}, {_player}, {_name})
+			set {_name.1} to mj_editfiles("manager.data", "data.button.help.%{_type}%.name")
+			set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player}, {_name})
 			set {_item} to mj_manager_item_convert("manager.data", "data.button.help.%{_type}%.item")
 			set {_item} to mj_manager_help_menu_viewer_button_lore({_player}, {_item}, {_id}, {_value}, "description")
 			set {_item} to mj_manager_help_menu_viewer_button_lore({_player}, {_item}, {_id}, {_value}, "info")
-			make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
+			make a gui slot {_slot} of {_player} with {_item} named {_name.2} to run:
 				stop
 			add 1 to {_slot}
 			if {_slot} is 45:
@@ -1239,13 +1245,13 @@ function mj_manager_help_menu_viewer_button(player: player, source: text, id: te
 function mj_manager_help_menu_viewer_button_lore(player: player, item: item, id: text, value: text, type: text) :: item:
 	set {_lang} to mj_manager_userdata_language({_player})
 	set {_count} to mj_manager_item_lore_count({_player}, {_item})
-	set {_data1} to mj_editfiles_gettext("manager", "data.category.%{_type}%")
-	set line {_count} of lore of {_item} to "%{_data1}%"
+	set {_data.1} to mj_editfiles_gettext("manager", "data.category.%{_type}%")
+	set line {_count} of lore of {_item} to "%{_data.1}%"
 	add 2 to {_count}
 	set {_list::*} to mj_manager_nodes("%{_id}%.help.%{_lang}%", "data.%{_value}%.%{_type}%")
 	loop {_list::*}:
-		set {_data2} to mj_editfiles("%{_id}%.help.%{_lang}%", "data.%{_value}%.%{_type}%.%loop-value%")
-		set line {_count} of lore of {_item} to "%{_data2}%"
+		set {_data.2} to mj_editfiles("%{_id}%.help.%{_lang}%", "data.%{_value}%.%{_type}%.%loop-value%")
+		set line {_count} of lore of {_item} to "%{_data.2}%"
 		add 1 to {_count}
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------

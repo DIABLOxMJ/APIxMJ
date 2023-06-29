@@ -10,11 +10,15 @@ data:
         - "*"
         - "mj.*"
         - "mj.backpack.*"
-        - "mj.backpack.admin"
+        - "mj.backpack"
         info:
-            '1': "&6- &a/backpack size <1-6>"
-            '2': "&0- &7Génère un sac à dos d'une"
-            '3': "&0- &7certaine taille."
+            '1': "&6- &a/backpack create <player>"
+            '2': "&0- &7Génère un sac à dos pour"
+            '3': "&0- &7un joueur de taille &a1&7."
+            '4': "&0"
+            '5': "&6- &a/backpack size <1-6>"
+            '6': "&0- &7Génère un sac à dos d'une"
+            '7': "&0- &7certaine taille."
     listed:
         name: "&aListe de sac à dos"
         type: command
@@ -26,7 +30,7 @@ data:
         - "*"
         - "mj.*"
         - "mj.backpack.*"
-        - "mj.backpack.admin"
+        - "mj.backpack"
         info:
             '1': "&6- &a/backpack gui [<player>]"
             '2': "&0- &7Il ouvre un menu avoir soit"
@@ -40,10 +44,7 @@ data:
             '1': "&0- &aDonner un petit nom sympa à"
             '2': "&0- &avotre sac à dos."
         permission:
-        - "*"
-        - "mj.*"
-        - "mj.backpack.*"
-        - "mj.backpack"
+        - "none"
         info:
             '1': "&6- &a/backpack rename <text>"
             '2': "&0- &7Avoir le sac à dos dans la main"
@@ -57,10 +58,7 @@ data:
             '1': "&0- &aIl est trop petit le sac à dos"
             '2': "&0- &aune améliorer sera accorder."
         permission:
-        - "*"
-        - "mj.*"
-        - "mj.backpack.*"
-        - "mj.backpack"
+        - "none"
         info:
             '1': "&6- &a/backpack upgrade"
             '2': "&0- &7Avoir le sac à dos dans la main"
@@ -75,10 +73,7 @@ data:
             '1': "&0- &aUn inventaire trop petit…"
             '2': "&0- &aVotre meilleur ami sera là pour vous !"
         permission:
-        - "*"
-        - "mj.*"
-        - "mj.backpack.*"
-        - "mj.backpack"
+        - "none"
         info:
             '1': "&6- &7Clic droit avec un sac à dos,"
             '2': "&0- &7ouvrira son inventaire."
@@ -93,10 +88,7 @@ data:
             '1': "&0- &aVous avez accidentellement perdu votre"
             '2': "&0- &asac à dos ?"
         permission:
-        - "*"
-        - "mj.*"
-        - "mj.backpack.*"
-        - "mj.backpack"
+        - "none"
         info:
             '1': "&6- &7Grâce à un modérateur, vous avez la"
             '2': "&0- &7possibilité de demander de récupérer"

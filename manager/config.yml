@@ -13,6 +13,8 @@ data:
     show_permission: true
     # This is the path to store datapacks, default : world/datapacks
     datapack_folder: world/datapacks
+    # A method of using the help menu, default : false
+    easy_help_menu: false
     # If the server is under Bungeecord and you have a Lobby/Hub it is advisable to activate it
     bungeecord:
         # Do we have to take into account a bungeecord, default : false

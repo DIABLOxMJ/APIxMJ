@@ -1112,7 +1112,7 @@ function mj_manager_help_menu_return(player: player, type: text, slot: number=0,
 			mj_manager_menu_control({_player}, {_source}, {_id})
 		else:
 			if {_type} is "back":
-				set {_type} to mj_editfiles_boolean("manager.config", "data.easy_help_menu")
+				set {_type} to mj_editfiles_boolean("manager.config", "data.normal_help_menu")
 				if {_type} is true:
 					mj_manager_help_menu_addon({_player}, {_source})
 				else:
@@ -1126,7 +1126,7 @@ function mj_manager_help_menu_index(player: player):
 	set {_title} to mj_editfiles_gettext("manager", "data.help.menu.main", {_player})
 	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
-	set {_type} to mj_editfiles_boolean("manager.config", "data.easy_help_menu")
+	set {_type} to mj_editfiles_boolean("manager.config", "data.normal_help_menu")
 	if {_type} is true:
 		mj_manager_help_menu_index_button({_player})
 	else:

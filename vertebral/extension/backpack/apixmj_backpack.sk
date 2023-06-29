@@ -65,45 +65,42 @@ command /backpack [<text>] [<text>]:
 	aliases: bpack, bp, kpack, kp
 	executable by: player
 	trigger:
-		if player has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack":
-			if arg-1 is set:
-				if arg-1 is "gui" or "size" or "create":
-					if player has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack.admin":
-						if arg-1 is "gui":
-							if arg-2 is set:
-								if arg-2 is "all":
-									mj_backpack_listed(player, player, true)
-								else:
-									mj_backpack_listed(player, (arg-2 parsed as offlineplayer))
+		if arg-1 is set:
+			if arg-1 is "gui" or "size" or "create":
+				if player has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack":
+					if arg-1 is "gui":
+						if arg-2 is set:
+							if arg-2 is "all":
+								mj_backpack_listed(player, player, true)
 							else:
-								mj_backpack_listed(player, player)
-						else if arg-1 is "create":
-							if arg-2 is set:
-								mj_backpack_create((arg-2 parsed as player), 1)
-							else:
-								mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
-						else if arg-1 is "size":
-							if arg-2 is "1" or "2" or "3" or "4" or "5" or "6":
-								mj_backpack_create(player, (arg-2 parsed as number))
-							else:
-								mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.number")
+								mj_backpack_listed(player, (arg-2 parsed as offlineplayer))
+						else:
+							mj_backpack_listed(player, player)
+					else if arg-1 is "create":
+						if arg-2 is set:
+							mj_backpack_create((arg-2 parsed as player), 1)
 						else:
 							mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
-					else:
-						mj_manager_permission(player, "backpack", "data.prefix", "mj.backpack.admin")
-				else if arg-1 is "rename":
-					if arg-2 is set:
-						mj_backpack_rename(player, colored arg-2)
+					else if arg-1 is "size":
+						if arg-2 is "1" or "2" or "3" or "4" or "5" or "6":
+							mj_backpack_create(player, (arg-2 parsed as number))
+						else:
+							mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.number")
 					else:
 						mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
-				else if arg-1 is "upgrade":
-					mj_backpack_upgrade(player)
+				else:
+					mj_manager_permission(player, "backpack", "data.prefix", "mj.backpack")
+			else if arg-1 is "rename":
+				if arg-2 is set:
+					mj_backpack_rename(player, colored arg-2)
 				else:
 					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
+			else if arg-1 is "upgrade":
+				mj_backpack_upgrade(player)
 			else:
 				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		else:
-			mj_manager_permission(player, "backpack", "data.prefix", "mj.backpack")
+			mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/backpack" or "/bpack" or "/bp" or "kpack" or "kp":
@@ -137,15 +134,32 @@ function mj_backpack_create(player: player, size: number=6):
 	set line 2 of lore of {_item.2} to "%{_lore.1}%%{_size}%"
 	set line 3 of lore of {_item.2} to "%{_lore.2}%%{_id}%"
 	give {_item.2} to {_player}
-	mj_editfiles("backpack.data", "data.%{_id}%.name", "modify", {_name})
-	mj_editfiles("backpack.data", "data.%{_id}%.id", "modify", {_id})
-	mj_editfiles_number("backpack.data", "data.%{_id}%.size", "modify", {_size})
-	mj_editfiles("backpack.data", "data.%{_id}%.owner", "modify", "%{_player}'s uuid%")
-	mj_editfiles_date("backpack.data", "data.%{_id}%.date", "modify", now)
-	mj_editfiles("backpack.data", "data.%{_id}%.storage", "modify", "none")
+	set {_page} to mj_backpack_create_page_count({_player})	
+	set yaml value "data.%{_id}%.name" from "mj.backpack.data" to {_name}
+	set yaml value "data.%{_id}%.id" from "mj.backpack.data" to {_id}
+	set yaml value "data.%{_id}%.size" from "mj.backpack.data" to {_size}
+	set yaml value "data.%{_id}%.page" from "mj.backpack.data" to {_page}
+	set yaml value "data.%{_id}%.owner" from "mj.backpack.data" to "%{_player}'s uuid%"
+	set yaml value "data.%{_id}%.date" from "mj.backpack.data" to now
+	set yaml value "data.%{_id}%.storage" from "mj.backpack.data" to "none"
+	save yaml "mj.backpack.data"
 	mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.new_item")
 	mj_core_logger(1, "%{_player}% generate a new backpack with id (%{_id}%)")
 	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_backpack_create_page_count(player: player) :: number:
+	set {_page} to 1
+	set {_count} to 0
+	set {_list::*} to mj_manager_nodes("backpack.data")
+	loop {_list::*}:
+		set {_check} to mj_editfiles("backpack.data", "data.%loop-value%.owner")
+		if {_check} is player's uuid:
+			add 1 to {_count}
+	if {_count} >= 45:
+		set {_page} to 2
+	if {_count} >= 90:
+		set {_page} to 3
+	return {_page}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_backpack_rename(player: player, value: text="none"):
 	set {_item} to mj_manager_item_convert("backpack.config", "data.object.item")
@@ -284,6 +298,27 @@ function mj_backpack_action_open(player: player, id: text):
 	mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui", "modify", "backpack")
 	mj_editfiles_boolean("temp", "data.%{_player}'s uuid%.backpack.condition", "modify", true)
 	mj_editfiles("temp", "data.%{_player}'s uuid%.backpack.id", "modify", {_id})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_check} to yaml value "data.recipe.backpack" from "mj.core.data"
+	if {_check} isn't set:
+		set yaml value "data.recipe.backpack.name" from "mj.core.data" to "&aBackpack"
+		set yaml value "data.recipe.backpack.shapeless" from "mj.core.data" to false
+		set yaml value "data.recipe.backpack.item" from "mj.core.data" to "knowledge book"
+		set yaml value "data.recipe.backpack.give" from "mj.core.data" to "air"
+		set yaml value "data.recipe.backpack.count" from "mj.core.data" to 1
+		set yaml value "data.recipe.backpack.method.slot_1" from "mj.core.data" to "string"
+		set yaml value "data.recipe.backpack.method.slot_2" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack.method.slot_3" from "mj.core.data" to "string"
+		set yaml value "data.recipe.backpack.method.slot_4" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack.method.slot_5" from "mj.core.data" to "emerald"
+		set yaml value "data.recipe.backpack.method.slot_6" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack.method.slot_7" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack.method.slot_8" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack.method.slot_9" from "mj.core.data" to "leather"
+		save yaml "mj.core.data"
+		mj_core_logger(1, "%{_player}% recipe backpack added..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on craft of knowledge book:

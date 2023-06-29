@@ -32,19 +32,3 @@ data:
                 slot_7: rabbit hide
                 slot_8: rabbit hide
                 slot_9: rabbit hide
-        backpack:
-            name: "&aBackpack"
-            shapeless: false
-            item: knowledge book
-            give: air
-            count: 1
-            method:
-                slot_1: string
-                slot_2: leather
-                slot_3: string
-                slot_4: leather
-                slot_5: emerald
-                slot_6: leather
-                slot_7: leather
-                slot_8: leather
-                slot_9: leather

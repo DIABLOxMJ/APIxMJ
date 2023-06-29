@@ -468,7 +468,7 @@ data:
                     '1': "&6- &7Un mode de jeu où le but est simple"
                     '2': "&0- &7détruire les lits adverses."
         server_dedicated_diamond_city:
-            startup:
+            dc_startup:
                 name: "&bDémarreur"
                 name_lite: "&bDémarreur"
                 lore:

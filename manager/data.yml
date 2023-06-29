@@ -1455,8 +1455,8 @@ data:
                 gui_background:
                     item: light blue stained glass pane
         server_dedicated_diamond_city:
-            startup:
-                name: data.addon.server_dedicated_diamond_city.startup.name
+            dc_startup:
+                name: data.addon.server_dedicated_diamond_city.dc_startup.name
                 version: 0000.00.00.0000
                 condition: false
                 installed: false
@@ -1472,25 +1472,25 @@ data:
                     '1': none
                 optional:
                     '1': none
-                source: startup
-                github_folder: server_dedicated/diamond_city/startup
-                folder: server_dedicated/diamond_city/startup
+                source: dc_startup
+                github_folder: server_dedicated/diamond_city/dc_startup
+                folder: server_dedicated/diamond_city/dc_startup
                 slot: 10
                 skript:
-                    '1': apixmj_startup
+                    '1': apixmj_dc_startup
                 yml:
                     '1': config
                     '2': data
                 file:
-                    '1': mj.startup.config
-                    '2': mj.startup.data
+                    '1': mj.dc_startup.config
+                    '2': mj.dc_startup.data
                 preset:
                     '1': default
                 datapack:
                     '1': none
                 reset:
                     '1':
-                        file: mj.startup.data
+                        file: mj.dc_startup.data
                         data: data
                 item: command block
                 gui_background:

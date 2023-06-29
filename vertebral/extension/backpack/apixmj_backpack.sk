@@ -240,7 +240,6 @@ function mj_backpack_upgrade(player: player):
 						remove {_count.1} of {_item} from {_player}
 					else:
 						set {_confirm} to false
-						broadcast "ICI 1"
 						mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade.vanilla", "%{_count.1}% %{_item}%")
 				else if {_check.2} is true:
 					set {_list::*} to mj_manager_skript_list()
@@ -253,7 +252,6 @@ function mj_backpack_upgrade(player: player):
 						else:
 							set {_confirm} to false
 							set {_view} to mj_core_format_money(false, {_price})
-							broadcast "ICI 2"
 							mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_upgrade.essentials", "%{_view}%")
 					else:
 						mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_essentials")

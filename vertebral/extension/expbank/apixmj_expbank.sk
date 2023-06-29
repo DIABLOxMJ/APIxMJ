@@ -67,15 +67,15 @@ on sign change:
 				set line 3 to "0"
 				mj_essentials_money_system(player, {_price}, false, "create sign expbank")
 				set {_view} to mj_core_format_money(false, {_price})
-				mj_core_message(player, "expbank", "data.prefix", "expbank", "data.create_success_with_money", {_view})
+				mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.create_success_with_money", {_view})
 			else:
-				mj_core_message(player, "expbank", "data.prefix", "expbank", "data.create_failed")
+				mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.create_failed")
 		else:
 			set {_name} to mj_editfiles("expbank.config", "data.sign.name")
 			set line 1 to {_name}
 			set line 2 to "%player%"
 			set line 3 to "0"
-			mj_core_message(player, "expbank", "data.prefix", "expbank", "data.create_success")
+			mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.create_success")
 		stop
 # --------------------------------------------------------------------------------------------------------------------
 on leftclick:
@@ -98,14 +98,14 @@ on leftclick:
 								set line 3 to "%{_xp}%"
 								mj_essentials_money_system(player, {_price}, false, "deposit sign expbank")
 							else:
-								mj_core_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
+								mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
 						else:
 							remove {_level} from player's level
 							set {_xp} to line 3 parsed as number
 							add {_level} to {_xp}
 							set line 3 to "%{_xp}%"
 					else:
-						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
+						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
 				else:
 					set {_point} to mj_editfiles_number("expbank.config", "data.sign.quantity.point")
 					if player's xp >= {_point}:
@@ -120,18 +120,18 @@ on leftclick:
 								set line 3 to "%{_xp}%"
 								mj_essentials_money_system(player, {_price}, false, "deposit sign expbank")
 							else:
-								mj_core_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
+								mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
 						else:
 							remove {_point} from player's xp
 							set {_xp} to line 3 parsed as number
 							add {_point} to {_xp}
 							set line 3 to "%{_xp}%"
 					else:
-						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
+						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.deposit_failed")
 			else:
 				if player's gamemode isn't creative:
 					cancel event
-					mj_core_message(player, "expbank", "data.prefix", "expbank", "data.no_owner")
+					mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.no_owner")
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 on break:
@@ -168,14 +168,14 @@ on rightclick:
 								set line 3 to "%{_xp}%"
 								mj_essentials_money_system(player, {_price}, false, "withdraw sign expbank")
 							else:
-								mj_core_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
+								mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
 						else:
 							add {_level} to player's level
 							set {_xp} to line 3 parsed as number
 							remove {_level} from {_xp}
 							set line 3 to "%{_xp}%"
 					else:
-						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
+						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
 				else:
 					set {_point} to mj_editfiles_number("expbank.config", "data.sign.quantity.point")
 					if {_xp} >= {_point}:
@@ -190,16 +190,16 @@ on rightclick:
 								set line 3 to "%{_xp}%"
 								mj_essentials_money_system(player, {_price}, false, "withdraw sign expbank")
 							else:
-								mj_core_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
+								mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
 						else:
 							add {_point} to player's xp
 							set {_xp} to line 3 parsed as number
 							remove {_point} from {_xp}
 							set line 3 to "%{_xp}%"
 					else:
-						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
+						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.withdraw_failed")
 			else:
-				mj_core_message(player, "expbank", "data.prefix", "expbank", "data.no_owner")
+				mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.no_owner")
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 # APIxMJ - ExpBank Sign
@@ -220,12 +220,12 @@ command /bottlexp [<number>] [<text="level">]:
 						set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.level")
 						set line 1 of lore of {_item} to "%{_lore}%%arg-1%"
 						give {_item} to player
-						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.convert_level", "%arg-1%")
+						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.convert_level", "%arg-1%")
 						remove arg-1 from player's level
 					else:
-						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
 				else:
-					mj_core_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+					mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
 			else:
 				if player's xp >= 1:
 					set {_xp} to player's xp
@@ -233,14 +233,14 @@ command /bottlexp [<number>] [<text="level">]:
 						set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.point")
 						set line 1 of lore of {_item} to "%{_lore}%%arg-1%"
 						give {_item} to player
-						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.convert_point", "%arg-1%")
+						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.convert_point", "%arg-1%")
 						remove arg-1 from player's xp
 					else:
-						mj_core_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
 				else:
-					mj_core_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+					mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
 		else:
-			mj_core_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+			mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "bottlexp" or "xpb" or "bottle" and "/expbottle":
@@ -262,13 +262,13 @@ on rightclick:
 				set {_xp} to {_lore} parsed as number
 				add {_xp} to player's level
 				remove 1 of player's tool from player's inventory
-				mj_core_message(player, "expbank", "data.prefix", "expbank", "data.take_level", "%{_xp}%")
+				mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.take_level", "%{_xp}%")
 			else if {_lore} contains {_point}:
 				replace all "%{_point}%" with "" in {_lore}
 				set {_xp} to {_lore} parsed as number
 				add {_xp} to player's xp
 				remove 1 of player's tool from player's inventory
-				mj_core_message(player, "expbank", "data.prefix", "expbank", "data.take_point", "%{_xp}%")
+				mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.take_point", "%{_xp}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 #on rightclick with bottle o' enchanting:

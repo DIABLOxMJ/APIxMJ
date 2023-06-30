@@ -98,5 +98,7 @@ data:
             '1': "&7Type &6: &a"
             # The drawer item quantity text, default : "&7Quantity &6: &a"
             '2': "&7Quantity &6: &a"
+            # The drawer item owner text, default : "&7Owner &6: &a"
+            '3': "&7Owner &6: &a"
         # Use item type, default : chest
         item: chest

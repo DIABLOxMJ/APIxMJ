@@ -1,4 +1,22 @@
 data:
+    commands:
+        name: "&aType de commande"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aLe sac à dos présente plusieurs commandes."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.backpack.*"
+        - "mj.backpack"
+        info:
+            '1': "&6- &a/backpack"
+            '2': "&0- &a/bpack"
+            '3': "&0- &a/bp"
+            '4': "&0- &a/kpack"
+            '5': "&0- &a/kp"
+            '6': "&0- &7Type de commande valide."
     create:
         name: "&aCréer un sac à dos"
         type: command

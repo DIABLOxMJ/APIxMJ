@@ -7,15 +7,24 @@ data:
             '1': "&0- &aCréer un panneau de stockage et mettre"
             '2': "&0- &ason expérience à l'abri."
         permission:
-        - "*"
+        - "none"
         info:
             '1': "&6- &7Utiliser le mot &aexpbank &7où &aexp &7où &axp"
             '2': "&0- &7dans la première ligne à la création du panneau"
             '3': "&0- &7pour générer un panneau expbank."
-            '4': "&0"
-            '5': "&6- &7L'option &aquantity.level &7et &aquantity.point"
-            '6': "&0- &7Il permet de choisir la quantité de niveau où"
-            '7': "&0- &7point d'expérience à stocker à la fois."
+    sign_config:
+        name: "&aPanneau d'expérience"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aCréer un panneau de stockage et mettre"
+            '2': "&0- &ason expérience à l'abri."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7L'option &aquantity.level &7et &aquantity.point"
+            '2': "&0- &7Il permet de choisir la quantité de niveau où"
+            '3': "&0- &7point d'expérience à stocker à la fois."
     bottle:
         name: "&aBouteille d'expérience"
         type: command
@@ -24,7 +33,7 @@ data:
             '1': "&0- &aCréer une bouteille de stockage et mettre"
             '2': "&0- &ason expérience à l'abri."
         permission:
-        - "*"
+        - "none"
         info:
             '1': "&6- &a/bottleexp <number> [<level/point>]"
             '2': "&0- &a/bottle <number> [<level/point>]"

@@ -7,11 +7,40 @@ data:
             '1': "&0- &aCréer un panneau de stockage et mettre"
             '2': "&0- &aun item sans limite de quantité."
         permission:
-        - "*"
+        - "none"
         info:
             '1': "&6- &7Utiliser le mot &adrawer &7où &adraw"
             '2': "&0- &7dans la première ligne à la création du panneau"
             '3': "&0- &7pour générer un panneau de conteneur."
             '4': "&0"
-            '5': "&6- &7Après suffit de clique droit pour déposer,"
-            '6': "&0- &7et de clique gauche pour récupérer."
+            '5': "&6- &7Après suffi de clic droit pour déposer"
+            '6': "&6- &7où de s'accroupir, clic droit pour"
+            '7': "&6- &7déposer le stack entier et vous avez aussi"
+            '8': "&6- &7la possibilité avec la main vide de déposer"
+            '9': "&6- &7le type d'objet directement depuis"
+            '10': "&6- &7l'inventaire avec un double clics droits."
+            '11': "&0"
+            '12': "&0- &7Pour finir, vous avez de clic gauche pour"
+            '13': "&0- &7récupérer et s'accroupir, clic gauche"
+            '14': "&0- &7pour récupérer un stack."
+    sign_break:
+        name: "&aPanneau de stockage"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aCréer un panneau de stockage et mettre"
+            '2': "&0- &aun item sans limite de quantité."
+        permission:
+        - "none"
+        info:
+            '1': "&6- &7Si l'option est activée dans la config, vous"
+            '2': "&0- &7pouvez détruire le panneau sans en mettre"
+            '3': "&0- &7partout et récupérer un &aDrawer Portable&7."
+            '4': "&0"
+            '5': "&6- &7Il y a pour but de récupérer un drawer et de"
+            '6': "&6- &7le transporter n'importe où facilement et"
+            '7': "&6- &7de le déposer dans un coffre."
+            '8': "&6- &7Pour le restaurer faite un nouveau panneau"
+            '9': "&6- &7de stockage ou trouvé vous un stockage du"
+            '10': "&6- &7même objet de faite juste un clic droit"
+            '12': "&0- &7sur ce dernier pour le fusionner."

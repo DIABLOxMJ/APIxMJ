@@ -9,3 +9,4 @@ data:
     click_confirm: "&aClic encore une fois pour tout déposer !"
     no_empty: "&cCe conteneur n'est pas vide…"
     no_drawer: "&cCe n'est pas un conteneur…"
+    no_owner: "&cCe n'est pas votre conteneur…"

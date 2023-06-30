@@ -9,6 +9,8 @@ on load:
 	delete file "plugins/APIxMJ/manager/help/log.txt"
 	create script "plugins/APIxMJ/manager/help_custom/log.txt"
 	delete file "plugins/APIxMJ/manager/help_custom/log.txt"
+	create script "plugins/APIxMJ/manager/rules/log.txt"
+	delete file "plugins/APIxMJ/manager/rules/log.txt"
 	create script "plugins/APIxMJ/manager/language/log.txt"
 	delete file "plugins/APIxMJ/manager/language/log.txt"
 	wait 1 tick
@@ -16,6 +18,7 @@ on load:
 	download file from "%{_link}%/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
 	download file from "%{_link}%/manager/help/fr.yml" to file "plugins/APIxMJ/manager/help/fr.yml"
 	download file from "%{_link}%/manager/help_custom/fr.yml" to file "plugins/APIxMJ/manager/help_custom/fr.yml"
+	download file from "%{_link}%/manager/rules/fr.yml" to file "plugins/APIxMJ/manager/rules/fr.yml"
 	download file from "%{_link}%/manager/language/fr.yml" to file "plugins/APIxMJ/manager/language/fr.yml"
 	download file from "%{_link}%/manager/apixmj_manager.sk" to file "plugins/Skript/scripts/apixmj_manager.sk"
 	wait 1 seconds

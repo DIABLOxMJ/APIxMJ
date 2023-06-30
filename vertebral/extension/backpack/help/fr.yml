@@ -96,7 +96,7 @@ data:
             '1': "&6- &7Clic droit avec un sac à dos,"
             '2': "&0- &7ouvrira son inventaire."
             '3': "&0"
-            '4': "&0- &7Le tiers indiqué permet de savoir"
+            '4': "&6- &7Le tiers indiqué permet de savoir"
             '5': "&0- &7la taille de l'inventaire du sac."
     losted:
         name: "&aSac à dos perdu"

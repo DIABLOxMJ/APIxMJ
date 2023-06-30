@@ -17,14 +17,3 @@ data:
             # Information you need to know like how it works or how to use it, default : "&0- &aUne description."
             '1': "&0- &aUne description."
             '2': "&0- &aUne autre ligne de description."
-    rule:
-        name: "&aRèglement"
-        type: action
-        page: 1
-        description:
-            '1': "&0- &aIl est important de connaître le règlement du serveur."
-        permission:
-        - "none"
-        info:
-            '1': "&6- &aLa triche"
-            '2': "&0- &7C'EST LE MAL INCARNÉE !"

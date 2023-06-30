@@ -8,6 +8,7 @@ data:
         manager: "&eGestion &6:&r $0"
         manager_lite: "&eG. &6:&r $0"
         confirm: "&eDemande de confirmation"
+        rules: "&eRèglement"
     category:
         info: "&eInformation &6:&r"
         description: "&eDescription &6:&r"

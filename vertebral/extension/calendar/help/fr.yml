@@ -13,8 +13,8 @@ data:
         - "mj.calendar"
         info:
             '1': "&6- &a/cal"
-            '2': "&6- &a/calendar"
-            '3': "&6- &a/calendrier"
+            '2': "&0- &a/calendar"
+            '3': "&0- &a/calendrier"
             '4': "&0- &7Ouvre un calendrier."
     calendar_admin:
         name: "&aCalendrier Admin"

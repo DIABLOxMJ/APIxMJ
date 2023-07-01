@@ -2,6 +2,7 @@
 # APIxMJ - Files
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_files_core():
+	mj_files_core_manager()
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.core.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.core.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.core.data"
@@ -19,12 +20,19 @@ function mj_files_core():
 		mj_core_playerdata(loop-player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
+function mj_files_core_manager():
+	mj_editfiles("temp", "data.manager.addon.vertebral_main.core.version", "modify", "2023.07.01.0001")
+	#mj_editfiles_boolean("temp", "data.manager.addon.vertebral_main.core.installed", "modify", true)
+	set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.vertebral_main.core.condition")
+	if {_check} isn't set:
+		mj_editfiles_boolean("temp", "data.manager.addon.vertebral_main.core.condition", "modify", true)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("manager.data", "data.addon.vertebral_main.core.version", "modify", "2023.05.26.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"
@@ -1765,6 +1773,8 @@ function mj_core_request(player: player, source: text, find: text, cmd.accept: t
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_location(source: text, find: text, mode: text="extract", player: player="") :: location:
+	if {_source} contains "userdata.":
+		set {_source} to mj_manager_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_x} to yaml value "%{_find}%.location.x" from "mj.%{_source}%"
 		set {_y} to yaml value "%{_find}%.location.y" from "mj.%{_source}%"

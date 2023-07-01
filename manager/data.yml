@@ -1,4 +1,5 @@
 data:
+    version_format: 0000.00.00.0000
     button:
         installer:
             name: data.button.installer.name
@@ -176,11 +177,8 @@ data:
         main:
             custom:
                 name: data.addon.main.custom.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: true
-                visible: false
                 experimental: false
+                visible: false
                 depends:
                     '1': none
                 variants:
@@ -212,11 +210,8 @@ data:
                     item: yellow stained glass pane
             manager:
                 name: data.addon.main.manager.name
-                version: 0000.00.00.0000
-                condition: true
-                installed: true
-                visible: true
                 experimental: false
+                visible: true
                 depends:
                     '1': none
                 variants:
@@ -244,7 +239,7 @@ data:
                     '1': none
                 reset:
                     '1':
-                        file: none
+                        file: mj.temp
                         data: data
                 item: command block
                 gui_background:
@@ -252,11 +247,8 @@ data:
         vertebral_main:
             core:
                 name: data.addon.vertebral_main.core.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: false
+                visible: true
                 depends:
                     '1': main.manager
                 variants:
@@ -294,11 +286,8 @@ data:
                     item: purple stained glass pane
             ranker:
                 name: data.addon.vertebral_main.ranker.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -333,11 +322,8 @@ data:
                     item: blue stained glass pane
             essentials:
                 name: data.addon.vertebral_main.essentials.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: false
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -373,11 +359,8 @@ data:
                     item: light blue stained glass pane
             account:
                 name: data.addon.vertebral_main.account.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -412,11 +395,8 @@ data:
                     item: magenta stained glass pane
             encrypter:
                 name: data.addon.vertebral_main.encrypter.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                 variants:
@@ -450,11 +430,8 @@ data:
         vertebral_extension:
             achievement:
                 name: data.addon.vertebral_extension.achievement.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: false
                 experimental: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -488,11 +465,8 @@ data:
                     item: lime stained glass pane
             auction:
                 name: data.addon.vertebral_extension.auction.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: false
                 experimental: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -526,11 +500,8 @@ data:
                     item: gray stained glass pane
             backpack:
                 name: data.addon.vertebral_extension.backpack.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: false
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -566,11 +537,8 @@ data:
                     item: red stained glass pane
             calendar:
                 name: data.addon.vertebral_extension.calendar.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -605,11 +573,8 @@ data:
                     item: red stained glass pane
             dangerous:
                 name: data.addon.vertebral_extension.dangerous.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -642,11 +607,8 @@ data:
                     item: red stained glass pane
             drawer:
                 name: data.addon.vertebral_extension.drawer.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: false
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -679,11 +641,8 @@ data:
                     item: blue stained glass pane
             duel:
                 name: data.addon.vertebral_extension.duel.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: false
                 experimental: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -717,11 +676,8 @@ data:
                     item: red stained glass pane
             expbank:
                 name: data.addon.vertebral_extension.expbank.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -753,11 +709,8 @@ data:
                     item: lime stained glass pane
             lobby:
                 name: data.addon.vertebral_extension.lobby.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: false
                 experimental: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -790,11 +743,8 @@ data:
                     item: green stained glass pane
             lootbox:
                 name: data.addon.vertebral_extension.lootbox.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: false
                 experimental: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -827,11 +777,8 @@ data:
                     item: light blue stained glass pane
             menu:
                 name: data.addon.vertebral_extension.menu.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: false
                 experimental: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -864,11 +811,8 @@ data:
                     item: black stained glass pane
             moderator:
                 name: data.addon.vertebral_extension.moderator.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: false
                 experimental: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -901,11 +845,8 @@ data:
                     item: red stained glass pane
             multitools:
                 name: data.addon.vertebral_extension.multitools.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -938,11 +879,8 @@ data:
                     item: light gray stained glass pane
             portal:
                 name: data.addon.vertebral_extension.portal.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -975,11 +913,8 @@ data:
                     item: purple stained glass pane
             rankup:
                 name: data.addon.vertebral_extension.rankup.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1013,11 +948,8 @@ data:
                     item: lime stained glass pane
             shop:
                 name: data.addon.vertebral_extension.shop.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1051,11 +983,8 @@ data:
                     item: lime stained glass pane
             spawner:
                 name: data.addon.vertebral_extension.spawner.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1088,11 +1017,8 @@ data:
                     item: black stained glass pane
             store:
                 name: data.addon.vertebral_extension.store.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1128,11 +1054,8 @@ data:
                     item: green stained glass pane
             waystone:
                 name: data.addon.vertebral_extension.waystone.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: false
                 experimental: true
+                visible: false
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1169,11 +1092,8 @@ data:
         gamemodes_classic_main:
             core:
                 name: data.addon.gamemodes_classic_main.core.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                 variants:
@@ -1219,11 +1139,8 @@ data:
         gamemodes_classic_extension:
             expbank:
                 name: data.addon.gamemodes_classic_extension.expbank.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': gamemodes_classic_main.core
@@ -1256,11 +1173,8 @@ data:
                     item: lime stained glass pane
             spawner:
                 name: data.addon.gamemodes_classic_extension.spawner.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': gamemodes_classic_main.core
@@ -1294,11 +1208,8 @@ data:
         gamemodes_skyblock_main:
             sb_core:
                 name: data.addon.gamemodes_skyblock_main.sb_core.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1334,11 +1245,8 @@ data:
         gamemodes_faction_main:
             faction:
                 name: data.addon.gamemodes_faction_main.faction.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1349,7 +1257,7 @@ data:
                     '1': none
                 optional:
                     '1': none
-                source: none
+                source: faction
                 github_folder: gamemodes/faction/main/faction
                 folder: gamemodes/faction/main/
                 slot: 10
@@ -1374,11 +1282,8 @@ data:
         gamemodes_minigames_main:
             teams:
                 name: data.addon.gamemodes_minigames_main.teams.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1414,11 +1319,8 @@ data:
         gamemodes_minigames_games:
             bedwars:
                 name: data.addon.gamemodes_minigames_games.bedwars.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1457,11 +1359,8 @@ data:
         server_dedicated_diamond_city:
             dc_startup:
                 name: data.addon.server_dedicated_diamond_city.dc_startup.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1472,7 +1371,7 @@ data:
                     '1': none
                 optional:
                     '1': none
-                source: dc_startup
+                source: none
                 github_folder: server_dedicated/diamond_city/dc_startup
                 folder: server_dedicated/diamond_city/dc_startup
                 slot: 10
@@ -1498,11 +1397,8 @@ data:
         editor:
             bedwars_editor:
                 name: data.addon.editor.bedwars_editor.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core
@@ -1538,11 +1434,8 @@ data:
                     item: light blue stained glass pane
             faction_editor:
                 name: data.addon.editor.faction_editor.name
-                version: 0000.00.00.0000
-                condition: false
-                installed: false
-                visible: true
                 experimental: true
+                visible: true
                 depends:
                     '1': main.manager
                     '2': vertebral_main.core

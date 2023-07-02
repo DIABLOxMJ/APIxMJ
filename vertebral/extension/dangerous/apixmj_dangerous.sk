@@ -18,7 +18,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading dangerous..." to console
 		mj_files_dangerous()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.dangerous.version", "modify", "2023.06.11.0001")
+		mj_editfiles("temp", "data.manager.addon.vertebral_extension.dangerous.version", "modify", "2023.06.11.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_dangerous.sk"

@@ -19,7 +19,7 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading backpack..." to console
 		mj_files_backpack()
-		mj_editfiles("manager.data", "data.addon.vertebral_extension.backpack.version", "modify", "2023.06.23.0001")
+		mj_editfiles("temp", "data.manager.addon.vertebral_extension.backpack.version", "modify", "2023.06.23.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_backpack.sk"

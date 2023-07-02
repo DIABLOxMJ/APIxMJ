@@ -5,8 +5,6 @@ data:
     auto_whitelist: false
     # Should it update APIxMJ automatically, default : false
     auto_update: false
-    # Should it update data of Manager automatically, default : true
-    data_update: true
     # In the event of a major error, you must put a "/" if the server isn't local, otherwise do not touch, default : \
     slash_option: \
     # Show required permissions to player when trying to run command or feature, default : true

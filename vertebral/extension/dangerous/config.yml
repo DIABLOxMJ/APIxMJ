@@ -6,6 +6,13 @@ data:
         chance_of_damage_helmet: 5
         # The amount of damage to inflict on the player, default : 0.5
         damage_player: 0.5
+    heat_wave_lite:
+        # Whether or not we allow this system to work, default : false
+        condition: false
+        # The percentage chance that the helmet being used will be damaged, default : 5
+        chance_of_damage_helmet: 5
+        # The amount of damage to inflict on the player, default : 0.5
+        damage_player: 0.5
     respawn_penalty:
         # Whether or not we allow this system to work, default : false
         condition: false

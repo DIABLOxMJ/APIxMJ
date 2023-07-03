@@ -150,15 +150,12 @@ command /manager [<text>]:
 				else if arg-1 is "data_update":
 					mj_manager_update_data()
 					mj_manager_message(player, "manager", "data.prefix", "manager", "data.data_update")
-				else if arg-1 is "data_reset":
-					mj_manager_reset_data()
-					mj_manager_message(player, "manager", "data.prefix", "manager", "data.data_reset")
 			else:
 				mj_manager_menu(player)
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/manager":
-	set tab completions for position 1 to "reload", "data_update" and "data_reset"
+	set tab completions for position 1 to "reload" and "data_update"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Command
@@ -624,27 +621,6 @@ function mj_manager_menu_control_reinstaller(player: player, source: text, id: t
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Control (Reinstaller)
-# =====================================================================================================================
-# APIxMJ - Gui Control (Reset)
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_reset_data():
-	set {_link} to mj_editfiles("github")
-	delete file "plugins/APIxMJ/manager/data.yml"
-	delete file "plugins/APIxMJ/manager/language/fr.yml"
-	delete file "plugins/APIxMJ/manager/help/fr.yml"
-	wait 2 ticks
-	download file from "%{_link}%/main/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
-	download file from "%{_link}%/main/manager/language/fr.yml" to file "plugins/APIxMJ/manager/language/fr.yml"
-	download file from "%{_link}%/main/manager/help/fr.yml" to file "plugins/APIxMJ/manager/help/fr.yml"
-	wait 1 second
-	mj_files_manager()
-	send "[APIxMJ] Database for Manager Reset !" to console
-	loop all players:
-		if loop-player is op:
-			send "[APIxMJ] Database for Manager Reset !" to loop-player
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Gui Control (Reset)
 # =====================================================================================================================
 # APIxMJ - Gui Control (Condition)
 # ---------------------------------------------------------------------------------------------------------------------

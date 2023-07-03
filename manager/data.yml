@@ -116,7 +116,7 @@ data:
             visible: true
             menu_back: gamemodes
             menu_next: gamemodes_minigames
-            slot: 12
+            slot: 13
             item: chest
             gui_background:
                 item: red stained glass pane

@@ -14,8 +14,9 @@ data:
         info:
             '1': "&6- &a/essentials reload"
             '2': "&0- &7Recharge tout le Skript."
-            '3': "&6- &a/essentials reload files"
-            '4': "&0- &7Recharge seulement les fichiers."
+            '3': "&0"
+            '4': "&6- &a/essentials reload files"
+            '5': "&0- &7Recharge seulement les fichiers."
     chat:
         name: "&aChat textuelle"
         type: function
@@ -28,7 +29,7 @@ data:
             '1': "&6- &7Activer dans la config du &aCore &7et dans"
             '2': "&0- &7l'option &achat_priority &7en &aessentials&7."
             '3': "&0"
-            '4': "&0- &7A condition que &acustom_chat &7soit activer."
+            '4': "&6- &7A condition que &acustom_chat &7soit activer."
             '5': "&0- &7Les rangs et notification sera ajouter."
     join:
         name: "&aConnexion"
@@ -107,13 +108,13 @@ data:
             '1': "&6- &a/gamemode <argument> [<player>]"
             '2': "&0- &a/gm <argument> [<player>]"
             '3': "&0"
-            '4': "&0- &eArgument &6:&r"
+            '4': "&6- &eArgument &6:&r"
             '5': "&0- &a0&6, &as&6, &asurvival"
             '6': "&0- &a1&6, &ac&6, &acreative"
             '7': "&0- &a2&6, &aa&6, &aadventure"
             '8': "&0- &a3&6, &asp&6, &aspectator"
             '9': "&0"
-            '10': "&0- &7Changer le mode de jeu comme la"
+            '10': "&6- &7Changer le mode de jeu comme la"
             '11': "&0- &7commande de base juste plus évoluer."
     staffchat:
         name: "&aChat de modération"
@@ -147,18 +148,19 @@ data:
         info:
             '1': "&6- &a/money"
             '2': "&0- &7Voir la somme d'argent actuel."
-            '3': "&6- &a/money upgrade"
-            '4': "&0- &7Améliorer le stockage d'argent"
-            '5': "&0- &7si l'option et activer.."
-            '6': "&0"
-            '7': "&6- &a/pay <player> <montant>"
-            '8': "&0- &7Payer un joueur."
-            '9': "&0"
-            '10': "&6- &a/balance"
-            '11': "&0- &a/balancetop"
-            '12': "&0- &a/bal"
-            '13': "&0- &a/baltop"
-            '14': "&0- &7Voir le classement économique."
+            '3': "&0"
+            '4': "&6- &a/money upgrade"
+            '5': "&0- &7Améliorer le stockage d'argent"
+            '6': "&0- &7si l'option et activer.."
+            '7': "&0"
+            '8': "&6- &a/pay <player> <montant>"
+            '9': "&0- &7Payer un joueur."
+            '10': "&0"
+            '11': "&6- &a/balance"
+            '12': "&0- &a/balancetop"
+            '13': "&0- &a/bal"
+            '14': "&0- &a/baltop"
+            '15': "&0- &7Voir le classement économique."
     money_modify:
         name: "&aSystème d'argent"
         type: command
@@ -174,10 +176,12 @@ data:
         info:
             '1': "&6- &a/money set <player> <number>"
             '2': "&0- &7Définir un montant au joueur."
-            '3': "&6- &a/money add <player> <number>"
-            '4': "&0- &7Ajouter un montant au joueur."
-            '5': "&6- &a/money remove <player> <number>"
-            '6': "&0- &7Retirer un montant au joueur."
+            '3': "&0"
+            '4': "&6- &a/money add <player> <number>"
+            '5': "&0- &7Ajouter un montant au joueur."
+            '6': "&0"
+            '7': "&6- &a/money remove <player> <number>"
+            '8': "&0- &7Retirer un montant au joueur."
     bank:
         name: "&aSystème d'argent bancaire"
         type: command
@@ -193,13 +197,16 @@ data:
         info:
             '1': "&6- &a/bank"
             '2': "&0- &7Voir la somme d'argent actuel."
-            '3': "&6- &a/bank upgrade"
-            '4': "&0- &7Améliorer le stockage d'argent"
-            '5': "&0- &7si l'option et activer.."
-            '6': "&6- &a/bank deposit <number>"
-            '7': "&0- &7Déposer une somme d'argent."
-            '9': "&6- &a/bank withdraw <number>"
-            '10': "&0- &7Récupérer une somme d'argent."
+            '3': "&0"
+            '4': "&6- &a/bank upgrade"
+            '5': "&0- &7Améliorer le stockage d'argent"
+            '6': "&0- &7si l'option et activer.."
+            '7': "&0"
+            '8': "&6- &a/bank deposit <number>"
+            '9': "&0- &7Déposer une somme d'argent."
+            '10': "&0"
+            '11': "&6- &a/bank withdraw <number>"
+            '12': "&0- &7Récupérer une somme d'argent."
     bank_modify:
         name: "&aSystème d'argent bancaire"
         type: command
@@ -215,10 +222,12 @@ data:
         info:
             '1': "&6- &a/bank set <player> <number>"
             '2': "&0- &7Définir un montant au joueur."
-            '3': "&6- &a/bank add <player> <number>"
-            '4': "&0- &7Ajouter un montant au joueur."
-            '5': "&6- &a/bank remove <player> <number>"
-            '6': "&0- &7Retirer un montant au joueur."
+            '3': "&0"
+            '4': "&6- &a/bank add <player> <number>"
+            '5': "&0- &7Ajouter un montant au joueur."
+            '6': "&0"
+            '7': "&6- &a/bank remove <player> <number>"
+            '8': "&0- &7Retirer un montant au joueur."
     kits:
         name: "&aSystème de kits"
         type: command
@@ -234,10 +243,11 @@ data:
         info:
             '1': "&6- &a/kit <name>"
             '2': "&0- &7Il permet de récupérer un kit disponible."
-            '3': "&6- &a/kits [<name>]"
-            '4': "&0- &7Il permet de visualiser les kits disponible."
-            '5': "&0- &7Si on précise aucun kit, il nous donne la"
-            '6': "&0- &7liste disponible."
+            '3': "&0"
+            '4': "&6- &a/kits [<name>]"
+            '5': "&0- &7Il permet de visualiser les kits disponible."
+            '6': "&0- &7Si on précise aucun kit, il nous donne la"
+            '7': "&0- &7liste disponible."
     kits_admin:
         name: "&aSystème de kits"
         type: command
@@ -254,9 +264,10 @@ data:
             '1': "&6- &a/kit give <name>"
             '2': "&0- &7Il permet de récupérer un kit sans"
             '3': "&0- &7restriction."
-            '4': "&6- &a/kit giveall <name>"
-            '5': "&0- &7Il permet de donner un kit à tous"
-            '6': "&0- &7les joueurs connectés."
+            '4': "&0"
+            '5': "&6- &a/kit giveall <name>"
+            '6': "&0- &7Il permet de donner un kit à tous"
+            '7': "&0- &7les joueurs connectés."
     ping:
         name: "&aLatence de connexion"
         type: command
@@ -379,8 +390,9 @@ data:
         info:
             '1': "&6- &a/repair"
             '2': "&0- &7Il permet de réparer l'item en main."
-            '3': "&6- &a/repair all"
-            '4': "&0- &7Il permet de réparer tout l'inventaire."
+            '3': "&0"
+            '4': "&6- &a/repair all"
+            '5': "&0- &7Il permet de réparer tout l'inventaire."
     fly:
         name: "&aMode vol"
         type: command
@@ -416,16 +428,16 @@ data:
             '4': "&0- &a0&6, &a1&6, &a2&6, &a3&6, &a4&6, &a5&6, &a6&6, &a7&6, &a8&6, &a9&6, &a10&6,"
             '5': "&0- &awalk &6et &afly"
             '6': "&0"
-            '7': "&0- &7Dans &aargument &7il accepte cette liste de choix"
+            '7': "&6- &7Dans &aargument &7il accepte cette liste de choix"
             '8': "&0- &7en mettant un chiffre cela s'applique à tout,"
             '9': "&0- &7pour le mode &awalk &7et &afly&7."
             '10': "&0"
-            '11': "&0- &7Alors que le contraire si on met juste"
+            '11': "&6- &7Alors que le contraire si on met juste"
             '12': "&0- &awalk &7où &afly &7nous devons ajouter un chiffre"
             '13': "&0- &7derrière et la vitesse sera appliqué"
             '14': "&0- &7seulement à ce dernier."
             '15': "&0"
-            '16': "&0- &7Si on précise aucun argument ça remet à"
+            '16': "&6- &7Si on précise aucun argument ça remet à"
             '17': "&0- &7la normal pour l'ensemble des vitesses."
     clearlag:
         name: "&aNettoyage d'entités"
@@ -514,10 +526,10 @@ data:
         info:
             '1': "&6- &a/time [<argument>]"
             '2': "&0"
-            '3': "&0- &eArgument &6:&r"
+            '3': "&6- &eArgument &6:&r"
             '4': "&0- &a00:00&6, &aday&6, &anight"
             '7': "&0"
-            '8': "&0- &7La valeur &a00:00 &7ce décrit de la même manière"
+            '8': "&6- &7La valeur &a00:00 &7ce décrit de la même manière"
             '9': "&0- &7qu'en réalité comme par exemple &a21:30 &7pour"
             '10': "&0- &a21 heures &7et &a30 minutes &7utile pour être"
             '11': "&0- &7précis, la valeur &aday &7signifie &a07:00&7,"
@@ -582,7 +594,7 @@ data:
             '4': "&0- &7il y a aucun impact en jeu, juste,"
             '5': "&0- &7vous rester vulnérable au attaque."
             '6': "&0"
-            '7': "&0- &7Réaliser une action importante,"
+            '7': "&6- &7Réaliser une action importante,"
             '8': "&0- &7enlevera votre mode absent."
     godmode:
         name: "&aImmortalité"
@@ -672,7 +684,7 @@ data:
             '1': "&6- &a/vanish [<player>]"
             '2': "&0- &7Active ou désactive le mode invisible."
             '3': "&0"
-            '4': "&0- &7L'avantage de ce mode et qui vous rend"
+            '4': "&6- &7L'avantage de ce mode et qui vous rend"
             '5': "&0- &7totalement absent, aux yeux des joueurs"
             '6': "&0- &7vous êtes déconnecté, inexistant, les"
             '7': "&0- &7messages public désactivé, ramassé les"
@@ -843,8 +855,9 @@ data:
         info:
             '1': "&6- &a/warn <player> <reason>"
             '2': "&0- &7Il permet d'ajouter un avertissement à un joueur."
-            '3': "&6- &a/warns <player>"
-            '4': "&0- &7Il permet de voir les avertissement d'un joueur."
+            '3': "&0"
+            '4': "&6- &a/warns <player>"
+            '5': "&0- &7Il permet de voir les avertissement d'un joueur."
     freeze:
         name: "&aGêler"
         type: command
@@ -861,8 +874,9 @@ data:
         info:
             '1': "&6- &a/freeze <player> <reason>"
             '2': "&0- &7Il permet gêler un joueur de tout action."
-            '3': "&6- &a/unfreeze <player>"
-            '4': "&0- &7Il permet de libérer un joueur du gêle."
+            '3': "&0"
+            '4': "&6- &a/unfreeze <player>"
+            '5': "&0- &7Il permet de libérer un joueur du gêle."
     spawn:
         name: "&aPoint centrale du serveur"
         type: command
@@ -1013,8 +1027,9 @@ data:
         info:
             '1': "&6- &a/tpyes"
             '2': "&0- &7Il permet d'accepter une demande de téléportation."
-            '3': "&6- &a/tpno"
-            '4': "&0- &7Il permet de refuser une demande de téléportation."
+            '3': "&0"
+            '4': "&6- &a/tpno"
+            '5': "&0- &7Il permet de refuser une demande de téléportation."
     back:
         name: "&aTéléportation de retour"
         type: command
@@ -1062,12 +1077,15 @@ data:
         info:
             '1': "&6- &a/home <name>"
             '2': "&0- &7Téléportation vers le home choisi sauvegardé."
-            '3': "&6- &a/sethome <name>"
-            '4': "&0- &7Définir où remplacer un nouveau home."
-            '5': "&6- &a/delhome <name>"
-            '6': "&0- &7Supprimer un home sauvegarder."
-            '7': "&6- &a/homes"
-            '8': "&0- &7Voir la liste de homes existants."
+            '3': "&0"
+            '4': "&6- &a/sethome <name>"
+            '5': "&0- &7Définir où remplacer un nouveau home."
+            '6': "&0"
+            '7': "&6- &a/delhome <name>"
+            '8': "&0- &7Supprimer un home sauvegarder."
+            '9': "&0"
+            '10': "&6- &a/homes"
+            '11': "&0- &7Voir la liste de homes existants."
     home_admin:
         name: "&aSystème de homes"
         type: command
@@ -1084,12 +1102,15 @@ data:
             '1': "&6- &a/home <player:name>"
             '2': "&0- &7Téléportation vers le home choisi"
             '3': "&0- &7sauvegardé à un autre joueur."
-            '4': "&6- &a/sethome <player:name>"
-            '5': "&0- &7Définir où remplacer un nouveau home."
-            '6': "&6- &a/delhome <player:name>"
-            '7': "&0- &7Supprimer un home sauvegarder."
-            '8': "&6- &a/homes"
-            '9': "&0- &7Voir la liste de homes existants."
+            '4': "&0"
+            '5': "&6- &a/sethome <player:name>"
+            '6': "&0- &7Définir où remplacer un nouveau home."
+            '7': "&0"
+            '8': "&6- &a/delhome <player:name>"
+            '9': "&0- &7Supprimer un home sauvegarder."
+            '10': "&0"
+            '11': "&6- &a/homes"
+            '12': "&0- &7Voir la liste de homes existants."
     warp:
         name: "&aSystème de warps"
         type: command
@@ -1106,8 +1127,9 @@ data:
         info:
             '1': "&6- &a/warp <name>"
             '2': "&0- &7Téléportation vers le warp disponible."
-            '3': "&6- &a/warps"
-            '4': "&0- &7Voir la liste de warps existants."
+            '3': "&0"
+            '4': "&6- &a/warps"
+            '5': "&0- &7Voir la liste de warps existants."
     setwarp:
         name: "&aSystème de warps"
         type: command
@@ -1124,5 +1146,6 @@ data:
         info:
             '1': "&6- &a/setwarp <name>"
             '2': "&0- &7Définir où remplacer un nouveau warp."
-            '3': "&6- &a/delwarp <name>"
-            '4': "&0- &7Supprimer un warp sauvegarder."
+            '3': "&0"
+            '4': "&6- &a/delwarp <name>"
+            '5': "&0- &7Supprimer un warp sauvegarder."

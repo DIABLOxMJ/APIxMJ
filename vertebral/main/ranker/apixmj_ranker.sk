@@ -14,7 +14,6 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading ranker..." to console
 		mj_files_ranker()
-		mj_editfiles("temp", "data.manager.addon.vertebral_main.ranker.version", "modify", "2023.03.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_ranker.sk"

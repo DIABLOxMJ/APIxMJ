@@ -24,7 +24,6 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk":
 		send "[APIxMJ] Loading core..." to console
 		mj_files_core()
-		mj_editfiles("temp", "data.manager.addon.vertebral_main.core.version", "modify", "2023.07.02.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
 		unload script file "apixmj.sk"

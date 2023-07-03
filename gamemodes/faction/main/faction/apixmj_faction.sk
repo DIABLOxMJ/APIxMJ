@@ -19,7 +19,6 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading faction..." to console
 		mj_files_faction()
-		mj_editfiles("temp", "data.manager.addon.gamemodes_faction_main.faction.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_faction.sk"

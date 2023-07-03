@@ -82,7 +82,8 @@ data:
             '2': "&0- &7Avoir le sac à dos dans la main"
             '3': "&0- &7et avec cette commande, vous"
             '4': "&0- &7pouvez améliorer sa taille."
-            '5': "&6- &7Taille maximum &6: &a6"
+            '5': "&0"
+            '6': "&6- &7Taille maximum &6: &a6"
     open_backpack:
         name: "&aOuvrir un sac à dos"
         type: action

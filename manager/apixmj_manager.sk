@@ -414,10 +414,13 @@ function mj_manager_menu_control_installer(player: player, source: text, id: tex
 	set {_name} to mj_editfiles_gettext("manager", "data.addon.%{_source}%.%{_id}%.name", {_player})
 	set {_github} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.github_folder")
 	set {_folder} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.folder")
+	set {_link} to mj_editfiles("github")
 	create script "plugins/APIxMJ/%{_folder}%/language/log.txt"
 	delete file "plugins/APIxMJ/%{_folder}%/language/log.txt"
 	create script "plugins/APIxMJ/%{_folder}%/help/log.txt"
 	delete file "plugins/APIxMJ/%{_folder}%/help/log.txt"
+	set {_version} to text from "%{_link}%/main/%{_github}%/version.txt"
+	mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.version", "modify", {_version})
 	mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.installed", "modify", true)
 	mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", true)
 	mj_manager_menu_control_installer_skript({_player}, {_source}, {_id}, {_option})
@@ -645,54 +648,52 @@ function mj_manager_reset_data():
 # =====================================================================================================================
 # APIxMJ - Gui Control (Condition)
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_menu_control_button_condition_list(player: player, source: text):
-	#if {_source} contain "condition":
-	#	set {_slot} to 0
-	#	set {_list.1::*} to mj_manager_nodes("temp", "data.manager.addon")
-	#	loop {_list.1::*}:
-	#		set {_value.1} to loop-value-1
-	#		if {_value.1} doesn't contain "main":
-	#			set {_list.2::*} to mj_manager_nodes("temp", "data.manager.addon.%{_value.1}%")
-	#			loop {_list.2::*}:
-	#				set {_value.2} to loop-value-2
-	#				set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.installed")
-	#				if {_check} is true:
-	#					set {_list.3::*} to mj_manager_skript_list()
-	#					set {_skript} to mj_editfiles("manager.data", "data.addon.%{_value.1}%.%{_value.2}%.skript.1")
-	#					if {_list.3::*} contains "%{_skript}%.sk" or "-%{_skript}%.sk":
-	#						mj_manager_menu_control_button_condition({_player}, {_value.1}, {_value.2}, {_slot})
-	#						add 1 to {_slot}
+function mj_manager_menu_control_button_condition(player: player, source: text, id: text, slot: number=-1):
+	if "%{_source}%" doesn't contain "main":
+		set {_check.1} to mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.version")
+		if {_check.1} isn't "0000.00.00.0000":
+			set {_name.1} to mj_editfiles_gettext("manager", "data.addon.%{_source}%.%{_id}%.name", {_player})
+			set {_check.2} to mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition")
+			if {_check.2} is true:
+				set {_type} to "disable"
+				set {_item.1} to red wool block
+			else:
+				set {_type} to "enable"
+				set {_item.1} to lime wool block
+			set {_name.2} to mj_editfiles("manager.data", "data.button.condition.%{_type}%.name")
+			set {_name.3} to mj_editfiles_gettext("manager", {_name.2}, {_player}, {_name.1})
+			if {_slot} is -1:
+				set {_slot} to mj_editfiles_number("manager.data", "data.button.condition.%{_type}%.slot")
+			set {_item.2} to mj_manager_item_description({_player}, {_item.1}, "data.button.condition.%{_type}%")
+			set {_item.3} to mj_manager_item_button({_player}, {_item.2}, "left_click", "manager", "data.open.condition_%{_type}%")
+			make a gui slot {_slot} of {_player} with {_item.3} named {_name.3} to run:
+				if {_check} is true:
+					mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", false)
+					unload script file {_skript}
+				else:
+					mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", true)
+					enable script file {_skript}
+				set {_type.view} to mj_editfiles_gettext("manager", "data.type.%{_type}%", {_player})
+				mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.condition", {_type.view}, {_name.2})
+				mj_manager_menu_control_button_condition({_player}, {_source}, {_id}, {_slot})
+				stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_menu_control_button_condition(player: player, source: text, id: text, slot: number=-1):
-	#if "%{_source}%" doesn't contain "main":
-	#	set {_lang} to mj_manager_userdata_language({_player})
-	#	set {_name.1} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.name")
-	#	set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player})
-	#	set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition")
-	#	if {_check} is true:
-	#		set {_type} to "disable"
-	#		set {_item.1} to red wool block
-	#	else:
-	#		set {_type} to "enable"
-	#		set {_item.1} to lime wool block
-	#	set {_name.3} to mj_editfiles("manager.data", "data.button.condition.%{_type}%.name")
-	#	set {_name.4} to mj_editfiles_gettext("manager", {_name.3}, {_player}, {_name.2})
-	#	if {_slot} is -1:
-	#		set {_slot} to mj_editfiles_number("manager.data", "data.button.condition.%{_type}%.slot")
-	#	set {_item.2} to mj_manager_item_description({_player}, {_item.1}, "data.button.condition.%{_type}%")
-	#	set {_item.3} to mj_manager_item_button({_player}, {_item.2}, "left_click", "manager", "data.open.condition_%{_type}%")
-	#	make a gui slot {_slot} of {_player} with {_item.3} named {_name.4} to run:
-	#		if {_check} is true:
-	#			mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", false)
-	#			unload script file {_skript}
-	#		else:
-	#			mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", true)
-	#			enable script file {_skript}
-	#		set {_type.view} to mj_editfiles_gettext("manager", "data.type.%{_type}%", {_player})
-	#		mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.condition", {_type.view}, {_name.2})
-	#		mj_manager_menu_control_button_condition({_player}, {_source}, {_id}, {_slot})
-	#		stop
+function mj_manager_menu_control_button_condition_list(player: player, source: text):
+	if {_source} contain "condition":
+		set {_slot} to 0
+		set {_list.1::*} to mj_manager_nodes("temp", "data.manager.addon")
+		loop {_list.1::*}:
+			if loop-value-1 doesn't contain "main":
+				set {_list.2::*} to mj_manager_nodes("temp", "data.manager.addon.%loop-value-1%")
+				loop {_list.2::*}:
+					set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%loop-value-1%.%loop-value-2%.installed")
+					if {_check} is true:
+						set {_list.3::*} to mj_manager_skript_list()
+						set {_skript} to mj_editfiles("manager.data", "data.addon.%loop-value-1%.%loop-value-2%.skript.1")
+						if {_list.3::*} contains "%{_skript}%.sk" or "-%{_skript}%.sk":
+							mj_manager_menu_control_button_condition({_player}, loop-value-1, loop-value-2, {_slot})
+							add 1 to {_slot}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Control (Condition)
@@ -1173,8 +1174,9 @@ function mj_manager_help_menu_viewer_button(player: player, source: text, id: te
 			if {_player} has permission {_perm}:
 				set {_valid} to true
 				exit loop
-		if {_list2::*} contains "none":
-			set {_valid} to true
+			else if {_perm} is "none":
+				set {_valid} to true
+				exit loop
 		set {_page.2} to mj_editfiles_number("%{_id}%.help.%{_lang}%", "data.%{_value}%.page")
 		if {_page.1} isn't 1:
 			if {_page.2} >= {_page.1}:

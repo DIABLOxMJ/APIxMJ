@@ -7,7 +7,7 @@ data:
             '1': "&0- &aLe soleil vous tape sur la tête ?"
             '2': "&0- &aVivre sous terre semble être la solution."
         permission:
-        - "*"
+        - "none"
         info:
             '1': "&6- &7Vous ne pouvez plus rester exposé au soleil,"
             '2': "&0- &7pour éviter de prendre des dégâts, veiller à"
@@ -27,7 +27,7 @@ data:
             '1': "&0- &aMourir devient un piège mortel"
             '2': "&0- &apour avoir le droit de jouer."
         permission:
-        - "*"
+        - "none"
         info:
             '1': "&6- &7Vous avez le droit de mourir qu'un certain"
             '2': "&0- &7nombre de fois avant de finir banni du"
@@ -39,7 +39,7 @@ data:
         description:
             '1': "&0- &aL'armement des squelettes varies."
         permission:
-        - "*"
+        - "none"
         info:
             '1': "&6- &7Désormais les squelettes peuvent apparaitres"
             '2': "&0- &7aléatoirement."

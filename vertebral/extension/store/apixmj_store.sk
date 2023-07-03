@@ -19,7 +19,6 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading store..." to console
 		mj_files_store()
-		mj_editfiles("temp", "data.manager.addon.vertebral_extension.store.version", "modify", "2023.05.21.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk, apixmj_ranker.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_store.sk"

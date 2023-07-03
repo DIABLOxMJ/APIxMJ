@@ -19,7 +19,6 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading account..." to console
 		mj_files_account()
-		mj_editfiles("temp", "data.manager.addon.vertebral_main.account.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_account.sk"

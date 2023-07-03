@@ -21,7 +21,6 @@ on load:
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
 		send "[APIxMJ] Loading spawner..." to console
 		mj_files_spawner()
-		mj_editfiles("temp", "data.manager.addon.vertebral_extension.spawner.version", "modify", "2023.05.05.0001")
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
 		unload script file "apixmj_spawner.sk"

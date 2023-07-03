@@ -418,12 +418,14 @@ data:
         type: function
         page: 1
         description:
-            '1': "&0- &aDésormais possible de rajouter de nouvelle recette en jeu."
+            '1': "&0- &aDésormais possible de rajouter de"
+            '2': "&0- &anouvelle recette en jeu."
         permission:
         - "*"
         info:
-            '1': "&6- &7C'est une action réservé au administrateur pour cela,"
-            '2': "&0- &7il faut aller dans le fichier &aData &7du &aCoeur&7."
+            '1': "&6- &7C'est une action réservé au administrateur"
+            '2': "&0- &7pour cela, il faut aller dans"
+            '3': "&0- &7le fichier &aData &7du &aCoeur&7."
     godmode_core:
         name: "&aImmortalité"
         type: function
@@ -447,5 +449,6 @@ data:
         info:
             '1': "&6- &7Faire un clic droit sur un bloc contenant le"
             '2': "&0- &7nom &acommand &7et bloquer pour les joueurs."
-            '3': "&6- &7Faire apparaitre un minecart command block avec"
-            '4': "&0- &7un dispenseur et bloquer pour tout le monde."
+            '3': "&0"
+            '4': "&6- &7Faire apparaitre un minecart command block avec"
+            '5': "&0- &7un dispenseur et bloquer pour tout le monde."

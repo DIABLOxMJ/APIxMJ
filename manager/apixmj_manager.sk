@@ -16,7 +16,7 @@ function mj_files_manager():
 			load yaml "plugins/APIxMJ/manager/help/%loop-value%.yml" as "mj.manager.help.%loop-value%"
 			load yaml "plugins/APIxMJ/manager/help_custom/%loop-value%.yml" as "mj.custom.help.%loop-value%"
 			load yaml "plugins/APIxMJ/manager/rules/%loop-value%.yml" as "mj.custom.rules.%loop-value%"
-	mj_editfiles("temp", "data.manager.addon.main.manager.version", "modify", "2023.07.02.0001")
+	mj_editfiles("temp", "data.manager.addon.main.manager.version", "modify", "2023.07.03.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

@@ -394,7 +394,8 @@ data:
         info:
             '1': "&6- &7On peu changer le mode dans le fichier config du &aCore"
             '2': "&0- &7avec l'option &aanti-explode&7."
-            '3': "&6- &eSi la région WorldGuard contient &aspawn &eoù &asafe &eil sera actif."
+            '3': "&0"
+            '5': "&6- &eSi la région WorldGuard contient &aspawn &eoù &asafe &eil sera actif."
     keep:
         name: "&aPréserver"
         type: function
@@ -412,7 +413,8 @@ data:
         - "mj.keepexperience"
         info:
             '1': "&6- &7Pour l'inventaire &6: &amj.keepinv &7où &amj.keepinventory"
-            '2': "&6- &7Pour l'expérience &6: &amj.keepexp &7où &amj.keepexperience"
+            '2': "&0"
+            '3': "&6- &7Pour l'expérience &6: &amj.keepexp &7où &amj.keepexperience"
     crafting:
         name: "&aRecette personnalisé"
         type: function
@@ -424,8 +426,8 @@ data:
         - "*"
         info:
             '1': "&6- &7C'est une action réservé au administrateur"
-            '2': "&0- &7pour cela, il faut aller dans"
-            '3': "&0- &7le fichier &aData &7du &aCoeur&7."
+            '2': "&0- &7pour cela, il faut aller dans le fichier"
+            '3': "&0- &7&aData &7du &aCoeur&7."
     godmode_core:
         name: "&aImmortalité"
         type: function

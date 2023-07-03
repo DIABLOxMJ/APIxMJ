@@ -424,7 +424,7 @@ data:
         info:
             '1': "&6- &a/speed [<argument>] [<number>]"
             '2': "&0"
-            '3': "&0- &eArgument &6:&r"
+            '3': "&6- &eArgument &6:&r"
             '4': "&0- &a0&6, &a1&6, &a2&6, &a3&6, &a4&6, &a5&6, &a6&6, &a7&6, &a8&6, &a9&6, &a10&6,"
             '5': "&0- &awalk &6et &afly"
             '6': "&0"
@@ -611,8 +611,9 @@ data:
         - "mj.essentials.godmode"
         info:
             '1': "&6- &a/godmode [<player>]"
-            '2': "&0- &7Il permet de rendre vous où un autre joueur,"
-            '3': "&0- &7invulnérable à tous les dégâts possible."
+            '2': "&0- &a/god [<player>]"
+            '3': "&0- &7Il permet de rendre vous où un autre joueur,"
+            '4': "&0- &7invulnérable à tous les dégâts possible."
     invsee:
         name: "&aÉditeur d'inventaire"
         type: command

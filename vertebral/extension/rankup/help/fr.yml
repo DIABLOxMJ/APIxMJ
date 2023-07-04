@@ -4,9 +4,9 @@ data:
         type: command
         page: 1
         description:
-            '1': "&0- &aUne boutique virtuel pour permettre au joueur"
+            '1': "&0- &aUne boutique virtuelle pour permettre au joueur"
             '2': "&0- &ade progresser en achetent des rangs en jeu"
-            '3': "&0- &aoù en ligne via une boutique lié au serveur."
+            '3': "&0- &aou en ligne via une boutique liée au serveur."
         permission:
         - "*"
         - "mj.*"

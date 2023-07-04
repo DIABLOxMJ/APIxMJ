@@ -2,7 +2,7 @@ data:
     prefix: "&6[&a&lDangerous&6]&r"
     heat_wave: "none"
     respawn_penalty: 
-        alert: "&cFaite attention, il ne vous reste encore &a$0 &atentative(s) &cavant d'être banni…"
-        kick: "&cVous avez été bannis du serveur temporairement pendant &a$0&c, pour être mort &a$1 &afois&c…"
+        alert: "&cFaites attention, il ne vous reste &a$0 &atentative(s) &cavant d'être banni."
+        kick: "&cVous avez été banni du serveur temporairement pendant &a$0&c, pour être mort &a$1 &afois&c."
         broadcast: "&cOups… &a$0 &ca été banni temporairement suite à une mort tragique !"
     sword_of_skeleton: "none"

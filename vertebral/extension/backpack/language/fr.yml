@@ -1,14 +1,14 @@
 data:
     prefix: "&6[&c&lBackpack&6]&r"
     default_name: "&6Sac à dos"
-    new_item: "&aVous avez créer un nouveau sac à dos !"
-    no_item: "&cL'item dans votre main ne correspond pas à un sac à dos…"
+    new_item: "&aVous avez créé un nouveau sac à dos !"
+    no_item: "&cL'item dans votre main ne correspond pas à un sac à dos."
     no_upgrade:
-        default: "&cVous ne pouvez pas upgrade ce sac à dos…"
-        vanilla: "&cVous n'avez pas &a$0 &cpour améliorer le sac à dos…"
-        essentials: "&cVous n'avez pas &a$0 &cpour améliorer le sac à dos…"
-    no_essentials: "&cOups &aEssentials &cn'est pas installé sur le serveur…"
-    upgrade: "&aFélicitation, Vous avez améliorer le sac à dos dans votre main !"
+        default: "&cVous ne pouvez pas upgrade ce sac à dos."
+        vanilla: "&cVous n'avez pas &a$0 &cpour améliorer le sac à dos."
+        essentials: "&cVous n'avez pas &a$0 &cpour améliorer le sac à dos."
+    no_essentials: "&cOups &aEssentiels &cn'est pas installé sur le serveur."
+    upgrade: "&aFélicitations, vous avez amélioré le sac à dos dans votre main !"
     object:
         tiers: "&7Taille &6: &a$0"
         uuid: "&7UUID &6: &a$0"

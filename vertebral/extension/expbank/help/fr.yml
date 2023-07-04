@@ -1,6 +1,6 @@
 data:
     sign:
-        name: "&aPanneau d'expérience"
+        name: "&aPanneau d'expériences"
         type: function
         page: 1
         description:
@@ -9,11 +9,11 @@ data:
         permission:
         - "none"
         info:
-            '1': "&6- &7Utiliser le mot &aexpbank &7où &aexp &7où &axp"
+            '1': "&6- &7Utiliser le mot &aexpbank &7ou &aexp &7ou &axp"
             '2': "&0- &7dans la première ligne à la création du panneau"
             '3': "&0- &7pour générer un panneau expbank."
     sign_config:
-        name: "&aPanneau d'expérience"
+        name: "&aPanneau d'expériences"
         type: function
         page: 1
         description:
@@ -23,8 +23,8 @@ data:
         - "*"
         info:
             '1': "&6- &7L'option &aquantity.level &7et &aquantity.point"
-            '2': "&0- &7Il permet de choisir la quantité de niveau où"
-            '3': "&0- &7point d'expérience à stocker à la fois."
+            '2': "&0- &7Il permet de choisir la quantité de niveau ou"
+            '3': "&0- &7points d'expérience à stocker à la fois."
     bottle:
         name: "&aBouteille d'expérience"
         type: command
@@ -39,4 +39,4 @@ data:
             '2': "&0- &a/bottle <number> [<level/point>]"
             '3': "&0- &a/xbp <number> [<level/point>]"
             '4': "&0- &a/expbottle <number> [<level/point>]"
-            '5': "&0- &7Il permet créer une bouteille d'expérience."
+            '5': "&0- &7Il permet de créer une bouteille d'expérience."

@@ -6,17 +6,17 @@ data:
         enable: "&7Vous avez changé l'affichage des logs en &6: &a$0"
         disable: "&aVous avez désactivé l'affichage des logs !"
         other_me: "&7Vous avez changé l'affichage des logs de &a$0 &7en &a$1"
-        other_it: "&7Votre niveau d'affichage des logs et désormais à &a$0 &7par &a$1"
+        other_it: "&7Votre niveau d'affichage des logs est désormais à &a$0 &7par &a$1"
     database:
-        reset: "&cRéinitialisation complète des données.. Connectez-vous dans quelques secondes.."
+        reset: "&cRéinitialisation complète des données... Connectez-vous dans quelques secondes"
     profil:
         create: "&7Vous avez un nouveau profil de jeu sous le nom de &a$0"
-        create_other: "&7Vous avez créer un profil pour le joueur &a$0 &7sous le nom de &a$1"
-        migration: "&7Vous avez migrer du profil &a$0 &7vers &a$1"
+        create_other: "&7Vous avez créé un profil pour le joueur &a$0 &7sous le nom de &a$1"
+        migration: "&7Vous avez migré du profil &a$0 &7vers &a$1"
     inventory:
         save: "&7Vous avez sauvegardé l'inventaire de &a$0 &7sous le nom &a$1"
         restore: "&7Vous avez restauré l'inventaire de &a$0 &7à partir de &a$1"
-        help: "&cVeuillez indiquer plutôt &asave &coù &arestore"
+        help: "&cVeuillez indiquer plutôt &asave &cou &arestore"
     time:
         wait: "&cVous devez attendre &a$0 &cpour utiliser cette commande"
         unknown: "&aTemps inconnu"
@@ -24,23 +24,23 @@ data:
         minute: "&a$1m:$0s&r"
         second: "&a$0 secondes&r"
     playtime:
-        player: "&a$0 &7C'est connecté ces &a$1 &7derniers jours &6(&a$2&6) &6(&a$3&6)"
+        player: "&a$0 &7S'est connecté ces &a$1 &7derniers jours &6(&a$2&6) &6(&a$3&6)"
         total: "&7Au total, il y a eu &a$0 &7joueurs sur &a$1 &7joueurs."
     report:
         prefix: "&6[&c&lReport&6]&r"
         message: "&7Vous avez signalé &6: &a$0"
-        alert: "&7Vous avez un signalement de &a$0 &7faite &a/reports &7pour le voir."
-        news: "&7Vous avez des signalements en attente faits &a/reports &7pour le voir."
-        error: "&cVeuillez spécifier quelque chose pour le signalement.."
-        empty: "&cIl y a aucun signalement dans la liste.."
-        read: "&7Liste de signalement\n&7Nombre de signalement &6: &a$0"
+        alert: "&7Vous avez un signalement de &a$0 &7faites &a/reports &7pour le voir."
+        news: "&7Vous avez des signalements en attente faites &a/reports &7pour le voir."
+        error: "&cVeuillez spécifier quelque chose pour le signalement"
+        empty: "&cIl y a aucun signalement dans la liste"
+        read: "&7Liste de signalements\n&7Nombre de signalements &6: &a$0"
     nick:
         prefix: "&6[&b&lNick&6]&r"
-        viewer: "&7Votre nom de joueur à était remplacer par &a$0"
+        viewer: "&7Votre nom de joueur a été remplacé par &a$0"
         change: "&7Vous avez désormais le surnom &a$0"
         reveal: "&7Le joueur &a$0 &7utilise le surnom &a$1"
-        reset: "&7Vous avez enlever le surnom de &a$0"
-        not_found: "&cAucun joueur utilise de surnom…"
+        reset: "&7Vous avez enlevé le surnom de &a$0"
+        not_found: "&cAucun joueur utilise de surnoms"
     recipes:
         title: "&eRecette &6: &a$0"
     storage:
@@ -49,14 +49,14 @@ data:
         saved: "&7Vous avez sauvegardé les items dans le stockage &a$0"
         value: "&7Vous avez changé la valeur de &a$0 &7en &a$1 &7dans &a$2"
         error: "&cVous ne pouvez pas éditer un stockage qui n'existe pas."
-        error_inv: "&cUne erreur d'inventaire et survenue.."
+        error_inv: "&cUne erreur d'inventaire est survenue"
         broadcast: "&a$0 &7a reçu &a$1"
         give: "&7Vous avez reçu un cadeau &6(&a$0&6) &7dans votre inventaire !"
         give_other: "&7Vous avez envoyé un cadeau &6(&a$0&6) &7dans l'inventaire de &a$1 &7!"
-        give_all: "&7Vous avez tous reçu un cadeau &6(&a$0&6) &7dans votre inventaire !"
+        give_all: "&7Vous avez tous reçus un cadeau &6(&a$0&6) &7dans votre inventaire !"
         alert_reward: "&7Vous avez des récompenses à récupérer faites &a/reward&7."
         give_reward: "&aVous avez récupéré toutes vos récompenses."
-        error_reward: "&cVous n'avez pas pu récupérer où n'avez pas de récompense."
+        error_reward: "&cVous n'avez pas pu récupérer où n'avez pas de récompenses."
         # from this place there is the customization of the names of the catalog present in /storage
         catalog:
             default: "&aDéfaut"

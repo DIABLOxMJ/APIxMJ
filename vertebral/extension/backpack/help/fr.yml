@@ -51,8 +51,8 @@ data:
         - "mj.backpack"
         info:
             '1': "&6- &a/backpack gui [<player>]"
-            '2': "&0- &7Il ouvre un menu avoir soit"
-            '3': "&0- &7tous les sacs à dos où celui"
+            '2': "&0- &7Il ouvre un menu pour avoir soit"
+            '3': "&0- &7tous les sacs à dos ou celui"
             '4': "&0- &7d'un joueur spécifique."
     rename:
         name: "&aRenommer un sac à dos"
@@ -74,7 +74,7 @@ data:
         page: 1
         description:
             '1': "&0- &aIl est trop petit le sac à dos"
-            '2': "&0- &aune améliorer sera accorder."
+            '2': "&0- &aune amélioration sera accordé."
         permission:
         - "none"
         info:
@@ -117,5 +117,5 @@ data:
             '6': "&0- &7jeté votre sac à dos dans son inventaire."
             '7': "&0- &bLe paradoxe du sac qui se mange lui-même."
             '8': "&0"
-            '9': "&6- &7Si un joueur, vous a pris le sac, il est"
+            '9': "&6- &7Si un joueur vous a pris le sac, il est"
             '10': "&0- &7de votre responsabilité."

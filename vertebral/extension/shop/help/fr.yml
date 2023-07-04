@@ -4,8 +4,8 @@ data:
         type: command
         page: 1
         description:
-            '1': "&0- &aLe meilleur de faire du commerce reste le"
-            '2': "&0- &amagasin, grâce à ceci vous pourrais faire"
+            '1': "&0- &aLa meilleure façon de faire du commerce reste le"
+            '2': "&0- &amagasin, grâce à ceci vous pourrez faire"
             '3': "&0- &ades achats et de la vente en masse."
         permission:
         - "*"
@@ -14,14 +14,14 @@ data:
         - "mj.shop"
         info:
             '1': "&6- &a/shop"
-            '2': "&0- &7Ouvre un menu interactive."
+            '2': "&0- &7Ouvre un menu interactif."
     sell:
         name: "&aVendeur"
         type: command
         page: 1
         description:
-            '1': "&0- &aVendre n'as jamais était si simple depuis"
-            '2': "&0- &aque cette commande et arrivé."
+            '1': "&0- &aVendre n'a jamais été si simple depuis"
+            '2': "&0- &aque cette commande est arrivée."
         permission:
         - "*"
         - "mj.*"
@@ -30,10 +30,10 @@ data:
         - "mj.shop.sell"
         info:
             '1': "&6- &a/sell [<all>]"
-            '2': "&0- &7Il permet de vendre l'item en main où"
+            '2': "&0- &7Il permet de vendre l'item en main ou"
             '3': "&0- &7préciser &aall &7et votre inventaire sera"
-            '4': "&0- &7vendu aussi, les items qui font pas partie"
-            '5': "&0- &7du magasin seront préserver."
+            '4': "&0- &7vendu aussi, les items qui ne font pas partie"
+            '5': "&0- &7du magasin seront préservés."
     sell_stick:
         name: "&aLe bâton du vendeur"
         type: function
@@ -48,5 +48,5 @@ data:
         - "mj.shop.sell.*"
         - "mj.shop.sell.stick"
         info:
-            '1': "&6- &7Très simple un bâton en main suffit à vendre"
+            '1': "&6- &7Très simple, un bâton en main suffit à vendre"
             '2': "&6- &7le contenu d'un coffre."

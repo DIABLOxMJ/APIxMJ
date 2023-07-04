@@ -3,23 +3,23 @@ data:
     title:
         current: "&eCalendrier Journalier"
         preview: "&eProchain Calendrier"
-    reset: "&aRénitialisation des données terminées &6(&a+mise à jour&6)"
+    reset: "&aRéinitialisation des données terminées &6(&a+mise à jour&6)"
     button:
         previous_day: "&cJour raté"
         today: "&aRécupérer la récompense du jour"
         next_day: "&eAccessible prochainement !"
         gifted: "&aValider !"
     gift:
-        retrieve: "&cVous avez déjà récupéré la récompense…"
-        current: "&7Vous avez récupéré la récompense journalier &6: &a$0"
-        christmas: "&7Vous avez récupéré la récompense noël du jour &6: &a$0"
+        retrieve: "&cVous avez déjà récupéré la récompense"
+        current: "&7Vous avez récupéré la récompense journalière &6: &a$0"
+        christmas: "&7Vous avez récupéré la récompense Noël du jour &6: &a$0"
     lore:
         item: "&7Objet &6: &a$0"
         money: "&7Argent &6: &a$0"
     define:
         item: "&7Vous avez défini &a$0 &7pour le jour &a$1"
         money: "&7Vous avez défini &a$0 &7pour le jour &a$1"
-        hide: "&7Vous avez retirer le jour &a$1"
+        hide: "&7Vous avez retiré le jour &a$1"
     type:
         second: "Seconde"
         minute: "Minute"
@@ -43,7 +43,7 @@ data:
         '5': "Mai"
         '6': "Juin"
         '7': "Juillet"
-        '8': "Aoüt"
+        '8': "Août"
         '9': "Septembre"
         '10': "Octobre"
         '11': "Novembre"

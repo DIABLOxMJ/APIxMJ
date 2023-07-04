@@ -9,7 +9,7 @@ data:
         permission:
         - "none"
         info:
-            '1': "&6- &7Vous ne pouvez plus rester exposé au soleil,"
+            '1': "&6- &7Vous ne pouvez plus rester exposer au soleil,"
             '2': "&0- &7pour éviter de prendre des dégâts, veiller à"
             '3': "&0- &7garder un bloc au-dessus de la tête pour rester"
             '4': "&0- &7à l'abri des brûlures."
@@ -41,5 +41,5 @@ data:
         permission:
         - "none"
         info:
-            '1': "&6- &7Désormais les squelettes peuvent apparaitres"
+            '1': "&6- &7Désormais les squelettes peuvent apparaîtres"
             '2': "&0- &7aléatoirement."

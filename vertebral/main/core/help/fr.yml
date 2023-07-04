@@ -9,14 +9,14 @@ data:
         permission:
         - "*"
         info:
-            '1': "&6- &7La commande possède deux préfix &a/apixmj &7où &a/mj"
+            '1': "&6- &7La commande possède deux préfixes &a/apixmj &7où &a/mj"
             '2': "&0"
             '3': "&6- &a/apixmj"
-            '4': "&0- &7Ouvre une interface pour seulement des personnes spéciale"
-            '5': "&0- &7on retrouvent la liste dans le fichier &aconfig &7dans &aaccess&7."
+            '4': "&0- &7Ouvre une interface pour les personnes spéciales"
+            '5': "&0- &7on retrouve la liste dans le fichier &aconfig &7dans &aaccess&7."
             '6': "&0"
             '7': "&6- &a/apixmj reload [<files/skript>]"
-            '8': "&0- &7Sans préciser il recharge le &aCoeur&7, où seulement les"
+            '8': "&0- &7Sans préciser, il recharge le &aCoeur&7, où seulement les"
             '9': "&0- &7fichiers sinon un autre Skript entièrement."
     debug1:
         name: "&aOutils de dépannage"
@@ -27,12 +27,12 @@ data:
         permission:
         - "*"
         info:
-            '1': "&6- &7La commande possède deux préfix &a/apixmj &7où &a/mj"
+            '1': "&6- &7La commande possède deux préfixes &a/apixmj &7où &a/mj"
             '2': "&0"
             '3': "&6- &a/apixmj debug"
-            '4': "&0- &7Donne la liste des fichiers actif d'APIxMJ."
+            '4': "&0- &7Donne la liste des fichiers actifs d'APIxMJ."
             '5': "&6- &a/apixmj debug uuid <uuid/player>"
-            '6': "&0- &7Indiquer un UUID où un nom de joueur"
+            '6': "&0- &7Indiquer un UUID ou un nom de joueur"
             '7': "&0- &7pour vérifier l'information."
             '8': "&6- &a/apixmj debug unload <skript>"
             '9': "&0- &7Décharge un fichier yml."
@@ -57,28 +57,28 @@ data:
         permission:
         - "*"
         info:
-            '1': "&6- &7La commande possède deux préfix &a/apixmj &7où &a/mj"
+            '1': "&6- &7La commande possède deux préfixes &a/apixmj &7où &a/mj"
             '2': "&0"
             '3': "&6- &a/apixmj debug online <player>"
             '4': "&0- &7Il permet de vérifier la présence d'un joueur."
             '5': "&6- &a/apixmj debug checkslot <number>"
-            '6': "&0- &7Indiquer un chiffre il donnera des informations"
+            '6': "&0- &7Indiquer un chiffre, il donnera des informations"
             '7': "&0- &7sur le slot d'inventaire."
             '8': "&6- &a/apixmj debug checkentity <number>"
             '9': "&0- &7Vérifie les entités dans un rayon autour du joueur."
             '10': "&6- &a/apixmj debug rename <text>"
             '11': "&0- &7Change le nom d'un item en main."
     dataeditor1:
-        name: "&aÉditeur de donnée"
+        name: "&aÉditeur de données"
         type: command
         page: 1
         description:
-            '1': "&0- &aUn éditeur révolutionnaire plus besoin de sortir un"
-            '2': "&0- &aprogramme FTP pour modifier quelque valeur."
+            '1': "&0- &aUn éditeur révolutionnaire, plus besoin de sortir un"
+            '2': "&0- &aprogramme FTP pour modifier quelques valeurs."
         permission:
         - "*"
         info:
-            '1': "&6- &7La commande possède deux préfix &a/dataeditor &7où &a/dae"
+            '1': "&6- &7La commande possède deux préfixes &a/dataeditor &7où &a/dae"
             '2': "&0"
             '3': "&6- &a/dataeditor text <file name> <path> <value>"
             '4': "&0- &7Il permet de changer une valeur de type texte."
@@ -93,16 +93,16 @@ data:
             '13': "&6- &a/dataeditor item <file name> <path>"
             '14': "&0- &7Il permet de changer une valeur de type item."
     dataeditor2:
-        name: "&aÉditeur de donnée"
+        name: "&aÉditeur de données"
         type: command
         page: 1
         description:
             '1': "&0- &aUn éditeur révolutionnaire plus besoin de sortir un"
-            '2': "&0- &aprogramme FTP pour modifier quelque valeur."
+            '2': "&0- &aprogramme FTP pour modifier quelques valeurs."
         permission:
         - "*"
         info:
-            '1': "&6- &7La commande possède deux préfix &a/dataeditor &7où &a/dae"
+            '1': "&6- &7La commande possède deux préfixes &a/dataeditor &7où &a/dae"
             '2': "&0"
             '3': "&6- &a/dataeditor item_name <text>"
             '4': "&0- &7Il permet de changer le nom d'un item."
@@ -120,12 +120,12 @@ data:
             '16': "&0- &7Un éditeur de texte pour modifier"
             '17': "&0- &7les panneaux ciblés."
     console:
-        name: "&aConsole de commande"
+        name: "&aConsole de commandes"
         type: command
         page: 1
         description:
-            '1': "&0- &aUn émulateur de commande, pour exécuté une commande"
-            '2': "&0- &aréservé à la console en tant que joueur."
+            '1': "&0- &aUn émulateur de commande, pour exécuter une commande"
+            '2': "&0- &aréservée à la console en tant que joueur."
         permission:
         - "*"
         info:
@@ -143,13 +143,13 @@ data:
         info:
             '1': "&6- &a/log <text>"
             '2': "&0- &7Ajoute une information dans les logs."
-            '3': "&0- &7Réservé à la console et autre plugins."
+            '3': "&0- &7Réservé à la console et autres plugins."
             '4': "&0"
             '5': "&6- &a/loglevel <number> [<player>]"
             '6': "&0- &7Active le degrès d'affichage pour recevoir les"
-            '7': "&0- &7logs en jeu réservé à la console et autre plugins."
+            '7': "&0- &7logs en jeu réservé à la console et autres plugins."
     log_action:
-        name: "&aIntéraction avec l'historique"
+        name: "&aInteraction avec l'historique"
         type: action
         page: 1
         description:
@@ -173,32 +173,32 @@ data:
             '2': "&0- &a/deop <player>"
             '3': "&0- &7Pareil qu'en vanilla de base, mais limité à une personne spécifique."
     userdata:
-        name: "&aDonnée de joueur"
+        name: "&aDonnées de joueur"
         type: function
         page: 1
         description:
-            '1': "&0- &aUn gestionnaire de fichier de donnée sur les joueurs."
+            '1': "&0- &aUn gestionnaire de fichier de données sur les joueurs."
         permission:
         - "*"
         info:
-            '1': "&6- &7Il faut se connecté au moins une fois pour généré les données"
+            '1': "&6- &7Il faut se connecter au moins une fois pour générer les données"
             '2': "&0- &7du joueur afin de suivre son activité sur le serveur."
             '3': "&0"
-            '4': "&6- &7A chaque reconnexion on vérifie si il y a changer ou non"
+            '4': "&6- &7A chaque reconnexion on vérifie si il a changé ou non"
             '5': "&0- &7son pseudo &6(&aPREMIUM&6)&7, il garde en mémoire le dernier"
-            '6': "&0- &7pseudo si il y a eu un changement, il faut vérifie également"
+            '6': "&0- &7pseudo si il y a eu un changement, il faut vérifier également"
             '7': "&0- &7l'adresse IP du joueur, si il utilise un VPN, changement de"
-            '8': "&0- &7connexion où si il y a la même IP d'un autre joueur."
+            '8': "&0- &7connexion où si il a la même IP d'un autre joueur."
             '9': "&0"
-            '10': "&6- &7Puis à la déconnexion on mes à jour son temps de jeu et"
-            '11': "&0- &7ces coordonnées pour savoir où il se trouve en jeu."
+            '10': "&6- &7Puis à la déconnexion on mets à jour son temps de jeu et"
+            '11': "&0- &7ses coordonnées pour savoir où il se trouve en jeu."
     profil_create:
         name: "&aCréation de profil"
         type: command
         page: 1
         description:
             '1': "&0- &aUne méthode pour avoir plusieurs profils de jeux"
-            '2': "&0- &asans pour autant ajouter un autre compte minecraft."
+            '2': "&0- &asans pour autant ajouter un autre compte Minecraft."
         permission:
         - "*"
         - "mj.*"
@@ -207,8 +207,8 @@ data:
         info:
             '1': "&6- &a/profil create <name> [<player>]"
             '2': "&0- &7Cette commande permet de générer un nouveau profil,"
-            '3': "&0- &7Il y a pas de limite de profil."
-            '4': "&0- &c/!\\ Il n'est pas recommander de laisser les joueurs"
+            '3': "&0- &7Il n'y a pas de limite de profils."
+            '4': "&0- &c/!\\ Il n'est pas recommandé de laisser les joueurs"
             '5': "&0- &cy avoir accès."
     profil_migration:
         name: "&aMigration de profil"
@@ -216,7 +216,7 @@ data:
         page: 1
         description:
             '1': "&0- &aUne méthode pour avoir plusieurs profils de jeux"
-            '2': "&0- &asans pour autant ajouter un autre compte minecraft."
+            '2': "&0- &asans pour autant ajouter un autre compte Minecraft."
         permission:
         - "*"
         - "mj.*"
@@ -242,36 +242,36 @@ data:
         info:
             '1': "&6- &a/inventory save <player> <inventory name>"
             '2': "&0- &7Cette commande permet de créer une sauvegarde,"
-            '3': "&0- &7par défaut le joueur à une sauvegarde a sa mort &6(&adeath&6)"
-            '4': "&0- &7aussi à la déconnexion &6(&alast&6)&7, et toute les 5 minutes"
+            '3': "&0- &7par défaut le joueur à une sauvegarde à sa mort &6(&adeath&6)"
+            '4': "&0- &7aussi à la déconnexion &6(&alast&6)&7, et toutes les 5 minutes"
             '5': "&0- &7automatiquement &6(&abackup&6)&7, la commande permet d'en"
             '6': "&0- &7faire autant qu'on le souhaite avec le nom qu'on désire"
             '7': "&0- &7mettre."
             '8': "&0"
             '9': "&6- &a/inventory restore <player> <inventory name>"
             '10': "&0- &7Cette commande permet de rendre l'inventaire ainsi que"
-            '11': "&0- &7l'expérience et le coffre du néant sauvegarder"
+            '11': "&0- &7l'expérience et le coffre du néant sauvegardé"
             '12': "&0- &7précédemment."
     report:
-        name: "&aSystème de rapport"
+        name: "&aSystème de rapports"
         type: command
         page: 1
         description:
-            '1': "&0- &aUn signalement de joueur, de problème technique ?"
+            '1': "&0- &aUn signalement de joueur, des problèmes techniques ?"
             '2': "&0- &aJ'ai la solution !"
         permission:
         - "none"
         info:
             '1': "&6- &a/report <text>"
-            '2': "&0- &7Cette commande permet de signalement la moindre"
+            '2': "&0- &7Cette commande permet de signaler la moindre"
             '3': "&0- &7chose, au nom de toute l'équipe de modération"
-            '4': "&0- &7essayer d'être clair, de faire comprendre en"
+            '4': "&0- &7essayez d'être clair, de faire comprendre en"
             '5': "&0- &7une fois ce que vous dites !"
             '6': "&0"
             '7': "&6- &a/reports"
-            '8': "&0- &7Voir la liste de signalement et de supprimer."
+            '8': "&0- &7Voir la liste de signalements et de supprimées."
     nick:
-        name: "&aSystème de surnom"
+        name: "&aSystème de surnoms"
         type: command
         page: 1
         description:
@@ -284,7 +284,7 @@ data:
         - "mj.nick"
         info:
             '1': "&6- &a/nick <text>"
-            '2': "&0- &7Cette commande permet de remplacer sont"
+            '2': "&0- &7Cette commande permet de remplacer son"
             '3': "&0- &7pseudo par un surnom choisi."
             '4': "&0"
             '5': "&6- &a/nick reset [pseudo]"
@@ -293,7 +293,7 @@ data:
             '8': "&0"
             '9': "&6- &a/nick reveal"
             '10': "&0- &7Il permet de connaître tous les joueurs"
-            '11': "&0- &7qui utilise un surnom."
+            '11': "&0- &7qui utilisent un surnom."
     storage1:
         name: "&aSystème de stockage"
         type: command
@@ -304,11 +304,11 @@ data:
         - "*"
         info:
             '1': "&6- &a/storage create <name>"
-            '2': "&0- &7Créer une nouvelle base de donnée de stockage."
+            '2': "&0- &7Créer une nouvelle base de données de stockage."
             '3': "&6- &a/storage set <storage name> price <number>"
             '4': "&0- &7Définir un prix à payer pour acheter ce stockage."
             '5': "&6- &a/storage set <storage name> quantity <number>"
-            '6': "&0- &7Définir une quantité limité de ce stockage."
+            '6': "&0- &7Définir une quantité limitée de ce stockage."
             '7': "&6- &a/storage set <storage name> limit <number>"
             '8': "&0- &7Définir la limite possible par joueur."
             '9': "&6- &a/storage set <storage name> timer_second <number>"
@@ -317,8 +317,8 @@ data:
             '12': "&0- &7Définir le temps en minute avant la prochaine récupération."
             '13': "&6- &a/storage set <storage name> timer_hour <number>"
             '14': "&0- &7Définir le temps en heure avant la prochaine récupération."
-            '15': "&0- &7Le temps seconde, minute et heure sont lier"
-            '16': "&0- &7lier par exemple 1h5m30s."
+            '15': "&0- &7Le temps secondes, minutes et heures sont liés"
+            '16': "&0- &7lié par exemple 1h5m30s."
             '17': "&6- &a/storage set <storage name> money <number>"
             '18': "&0- &7Définir la quantité d'argent obtenable à la"
             '19': "&0- &7récupération du stockage."
@@ -336,7 +336,7 @@ data:
             '3': "&0- &7ou non pour y avoir accès à la"
             '4': "&0- &7récupération du stockage &amj.storage.<storage name>&7."
             '5': "&6- &a/storage set <storage name> command <text>"
-            '6': "&0- &7Définir une commande à exécuté à la récupération."
+            '6': "&0- &7Définir une commande a exécuter à la récupération."
             '7': "&6- &a/storage set <storage name> time <number>"
             '8': "&0- &7Définir un temps à afficher."
             '9': "&6- &a/storage set <storage name> rank <text>"
@@ -345,14 +345,14 @@ data:
             '12': "&0- &7Ouvre un menu dans lequel on peut déposer et"
             '13': "&0- &7récupérer des items."
             '14': "&6- &a/storage give <storage name> [<player/all>]"
-            '15': "&0- &7Il permet de donner le stockage à un joueur où"
+            '15': "&0- &7Il permet de donner le stockage à un joueur ou"
             '16': "&0- &7à tout le serveur."
     recipes:
-        name: "&aVisualisseur de recette"
+        name: "&aVisualiseur de recettes"
         type: command
         page: 1
         description:
-            '1': "&0- &aBesoin de voir une recipe personnalisé ?"
+            '1': "&0- &aBesoin de voir une recipe personnalisée ?"
             '2': "&0- &aNous avons la solution."
         permission:
         - "*"
@@ -364,12 +364,12 @@ data:
         type: function
         page: 1
         description:
-            '1': "&0- &aOn dit stop au entité inutile du jeu comme"
-            '2': "&0- &ales chauve-souris, ADIEU !"
+            '1': "&0- &aOn dit stop aux entités inutiles du jeu comme"
+            '2': "&0- &ales chauves-souris, ADIEU !"
         permission:
         - "*"
         info:
-            '1': "&6- &7On peu changer le mode dans le fichier config du &aCore"
+            '1': "&6- &7On peut changer le mode dans le fichier config du &aCore"
             '2': "&0- &7avec l'option &ano_spawn_bat&7."
     enderman:
         name: "&aEnderman"
@@ -381,18 +381,18 @@ data:
         permission:
         - "*"
         info:
-            '1': "&6- &7On peu changer le mode dans le fichier config du &aCore"
+            '1': "&6- &7On peut changer le mode dans le fichier config du &aCore"
             '2': "&0- &7avec l'option &ano_enderman_griefing&7."
     explode:
         name: "&aAnti-Explosion"
         type: function
         page: 1
         description:
-            '1': "&0- &aOn dit stop au explosion !"
+            '1': "&0- &aOn dit stop aux explosions !"
         permission:
         - "*"
         info:
-            '1': "&6- &7On peu changer le mode dans le fichier config du &aCore"
+            '1': "&6- &7On peut changer le mode dans le fichier config du &aCore"
             '2': "&0- &7avec l'option &aanti-explode&7."
             '3': "&0"
             '5': "&6- &eSi la région WorldGuard contient &aspawn &eoù &asafe &eil sera actif."
@@ -403,7 +403,7 @@ data:
         description:
             '1': "&0- &aUne obligation pour l'équipe de modération, il permet"
             '2': "&0- &ade conserver l'inventaire et la barre d'expérience"
-            '3': "&0- &aséparement à la mort du joueur."
+            '3': "&0- &aséparément à la mort du joueur."
         permission:
         - "*"
         - "mj.*"
@@ -416,7 +416,7 @@ data:
             '2': "&0"
             '3': "&6- &7Pour l'expérience &6: &amj.keepexp &7où &amj.keepexperience"
     crafting:
-        name: "&aRecette personnalisé"
+        name: "&aRecette personnalisée"
         type: function
         page: 1
         description:
@@ -425,7 +425,7 @@ data:
         permission:
         - "*"
         info:
-            '1': "&6- &7C'est une action réservé au administrateur"
+            '1': "&6- &7C'est une action réservée au administrateur"
             '2': "&0- &7pour cela, il faut aller dans le fichier"
             '3': "&0- &7&aData &7du &aCoeur&7."
     godmode_core:
@@ -439,7 +439,7 @@ data:
         - "*"
         info:
             '1': "&6- &7Si la région WorldGuard contient &aspawn&7, &asafe &7où &acenter"
-            '2': "&0- &7il sera protéger pendant 5 secondes."
+            '2': "&0- &7il sera protégé pendant 5 secondes."
     security:
         name: "&aSécurité"
         type: function
@@ -452,5 +452,5 @@ data:
             '1': "&6- &7Faire un clic droit sur un bloc contenant le"
             '2': "&0- &7nom &acommand &7et bloquer pour les joueurs."
             '3': "&0"
-            '4': "&6- &7Faire apparaitre un minecart command block avec"
+            '4': "&6- &7Faire apparaitre un minecart commande block avec"
             '5': "&0- &7un dispenseur et bloquer pour tout le monde."

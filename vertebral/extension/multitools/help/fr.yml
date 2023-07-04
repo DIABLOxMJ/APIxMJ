@@ -5,12 +5,12 @@ data:
         page: 1
         description:
             '1': "&0- &aAutomatiser des annonces n'aura jamais été"
-            '2': "&0- &asi simple que d'utiliser l'éditeur de fichier"
-            '3': "&0- &aoù par le fichier de langue."
+            '2': "&0- &aaussi simple que d'utiliser l'éditeur de fichier"
+            '3': "&0- &aou par le fichier de langue."
         permission:
         - "*"
         info:
-            '1': "&6- &7Une annonce automatique apparaitra toute les"
+            '1': "&6- &7Une annonce automatique apparaitra toutes les"
             '2': "&0- &715 minutes de façon aléatoire."
     server:
         name: "&aMultiple serveur"
@@ -26,7 +26,7 @@ data:
         info:
             '1': "&6- &a/server <server name> [<player>]"
             '2': "&0- &7Changer de serveur à condition que BungeeCord"
-            '3': "&0- &7soit installer en avance."
+            '3': "&0- &7soit installé en avance."
     launch_pads:
         name: "&aPlaque de propulsion"
         type: function
@@ -44,7 +44,7 @@ data:
         type: command
         page: 1
         description:
-            '1': "&0- &aVous pouvez mettre ce que vous voulez sur la tête."
+            '1': "&0- &aVous pouvez mettre ce que vous voulez sur votre tête."
         permission:
         - "*"
         - "mj.*"
@@ -52,31 +52,31 @@ data:
         - "mj.hat"
         info:
             '1': "&6- &a/hat"
-            '2': "&0- &7Votre objet en main va prendre la place du casque."
+            '2': "&0- &7Votre objet en main prendra la place du casque."
     anvil:
         name: "&aEnclume incassable"
         type: function
         page: 1
         description:
-            '1': "&0- &aFini les enclumes cassé au spawn du serveur."
+            '1': "&0- &aFini les enclumes cassés au spawn du serveur."
         permission:
         - "*"
         info:
             '1': "&6- &7Grâce à cette invention les joueurs ne pourront"
-            '2': "&0- &7plus abimer les enclumes dans les régions choisis."
+            '2': "&0- &7plus abîmer les enclumes dans les régions choisies."
     no_fishing_rod:
         name: "&aPas de pêche au joueur"
         type: function
         page: 1
         description:
             '1': "&0- &aMarre de voir les joueurs déplacés par des coups"
-            '2': "&0- &ade canne à pêche des régions protéger, ceci et la"
-            '3': "&0- &asolution à ce drame de mort inexpliquer."
+            '2': "&0- &ade canne à pêche des régions protégées, ceci est la"
+            '3': "&0- &asolution à ce drame de mort inexpliqué."
         permission:
         - "*"
         info:
             '1': "&6- &7Grâce à cette invention les joueurs ne pourront"
-            '2': "&0- &7plus abimer les enclumes dans les régions choisis."
+            '2': "&0- &7plus abîmer les enclumes dans les régions choisies."
     no_damage:
         name: "&aImmortalité"
         type: function
@@ -87,5 +87,5 @@ data:
         permission:
         - "*"
         info:
-            '1': "&6- &7Pour l'activer aller dans le fichier config"
-            '2': "&0- &7et listés vos mondes dans &ano_damage_world_list&7."
+            '1': "&6- &7Pour l'activer, aller dans le fichier config"
+            '2': "&0- &7et listez vos mondes dans &ano_damage_world_list&7."

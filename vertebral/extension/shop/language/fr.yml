@@ -8,12 +8,12 @@ data:
         offer: "&aMagasin &6(&aProposition&6)"
     buy:
         price: "&7Prix d'achat &6: $0 &6(&aunité&6)"
-        interact_total: "&7Quantité achetée au totale &6: &a$0"
+        interact_total: "&7Quantité achetée au total &6: &a$0"
         interact_last: "&7Quantité achetée &6: &a$0"
         title: "&7Acheter du &a$0 &7pour &a$1"
     sell:
         price: "&7Prix de vente &6: $0 &6(&aunité&6)"
-        interact_total: "&7Quantité vendue au totale &6: &a$0"
+        interact_total: "&7Quantité vendue au total &6: &a$0"
         interact_last: "&7Quantité vendue &6: &a$0"
         title: "&7Vendre &ax$0 &7de &a$1 &7pour &a$2"
         success: "&7Vous avez vendu &a$0 &7pour &a+$1"
@@ -25,10 +25,10 @@ data:
     info:
         staff_data: "&eInformation de modération &6:&r"
     failed:
-        no_offer: "&cOffre indisponible"
+        no_offer: "&cOffre indisponible."
         no_enough: "&c(Vous n'avez pas $0&c)"
         no_item: "&c(Vous n'avez pas l'objet pour obtenir $0&c)"
-        no_selling: "&cVous n'avez rien vendu.."
+        no_selling: "&cVous n'avez rien vendu."
         inventory_full: "&c(inventaire plein)"
     index:
         category: 

@@ -4,8 +4,8 @@ data:
         type: command
         page: 1
         description:
-            '1': "&0- &aUn système traditionnaire, ajoutant son"
-            '2': "&0- &alot d'originalité."
+            '1': "&0- &aUn système traditionnel, ajoutant son"
+            '2': "&0- &alot d'originalités."
         permission:
         - "*"
         - "mj.*"
@@ -21,12 +21,12 @@ data:
         type: function
         page: 1
         description:
-            '1': "&0- &aUn système traditionnaire, ajoutant son"
-            '2': "&0- &alot d'originalité."
+            '1': "&0- &aUn système traditionnel, ajoutant son"
+            '2': "&0- &alot d'originalités."
         permission:
         - "none"
         info:
-            '1': "&6- &7Avec l'option &asilk_touch &7permet à toute"
+            '1': "&6- &7Avec l'option &asilk_touch &7permet à toutes"
             '2': "&0- &7les pioches de récolter un spawner."
             '3': "&0"
             '4': "&0- &7L'option &asilk_touch_pourcent &7change la"
@@ -46,5 +46,5 @@ data:
         info:
             '1': "&6- &acondition &7Active ou non l'option de limiteur."
             '2': "&0"
-            '3': "&6- &achunk_limit &7Le nombre de spawner autoriser"
+            '3': "&6- &achunk_limit &7Le nombre de spawners autorisés"
             '4': "&0- &7par chunk."

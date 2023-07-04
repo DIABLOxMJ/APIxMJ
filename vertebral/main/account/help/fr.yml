@@ -4,7 +4,7 @@ data:
         type: command
         page: 1
         description:
-            '1': "&0- &aUn système de multi-compte utilisateur."
+            '1': "&0- &aUn système multi-profil utilisateur."
         permission:
         - "*"
         - "mj.*"
@@ -18,9 +18,9 @@ data:
             '5': "&6- &a/compte"
             '6': "&0- &7Type de commande."
             '7': "&6- &a/account create <nom du compte>"
-            '8': "&0- &7Il permet de créer une nouvelle base de donnée"
+            '8': "&0- &7Il permet de créer une base de données"
             '9': "&0- &7pour jouer comme un nouveau joueur."
             '10': "&6- &a/account condition <pseudo>"
-            '11': "&0- &7Autorise où non un joueur à créer un nouveau compte."
+            '11': "&0- &7Autorise ou non un joueur a créer un nouveau compte."
             '12': "&6- &a/account change <nom du compte>"
             '13': "&0- &7Il permet de switcher de compte."

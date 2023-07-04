@@ -1,8 +1,9 @@
 data:
     kits:
     - nokit
-    report: ''
-    warp: ''
+    report: none
+    spawn: none
+    warp: none
     upgrade:
         money:
             '0':

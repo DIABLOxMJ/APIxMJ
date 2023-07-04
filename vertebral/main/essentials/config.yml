@@ -126,26 +126,6 @@ data:
         # The economic ranking display model, default : "&6[&a$0&6] &b$1 &6: &a$2"
         balance: "&6[&a$0&6] &b$1 &6: &a$2"
         # The display format of the message during a kick and ban, default : "$0%nl%%nl%$1%nl%%nl%$0%nl%%nl%$2%nl%$3%nl%%nl%$0%nl%"
-        kick: '$0
-
-
-            $1
-
-
-            $0
-
-
-            $2
-
-            $3
-
-
-            $0
-
-            '
+        kick: "$0%nl%%nl%$1%nl%%nl%$0%nl%%nl%$2%nl%$3%nl%%nl%$0%nl%"
         # A separator visible only during a kick and ban, default : "&6-----------------------------------"
         kick_separator: "&6-----------------------------------"
-    # The location of the server center in general that of the spawn, default : ""
-    spawn: ''
-    # Local lobby location there is no bungeecord, default : ""
-    lobby: ''

@@ -2492,7 +2492,7 @@ command /spawn:
 	executable by: player
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.spawn.*" or "mj.essentials.spawn":
-			set {_tp} to mj_core_location("essentials.config", "data.spawn")
+			set {_tp} to mj_core_location("essentials.data", "data.spawn")
 			mj_essentials_teleport(player, "spawn", {_tp})
 		else:
 			mj_manager_permission(player, "essentials", "data.spawn.prefix", "mj.essentials.spawn")
@@ -2502,7 +2502,7 @@ command /setspawn:
 	executable by: player
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.spawn.*" or "mj.essentials.setspawn":
-			mj_core_location("essentials.config", "data.spawn", "modify", player)
+			mj_core_location("essentials.data", "data.spawn", "modify", player)
 			mj_manager_message(player, "essentials", "data.spawn.prefix", "essentials", "data.spawn.create")
 		else:
 			mj_manager_permission(player, "essentials", "data.spawn.prefix", "mj.essentials.setspawn")
@@ -2522,7 +2522,7 @@ command /lobby:
 				set {_server} to mj_editfiles("manager.config", "data.bungeecord.server")
 				send player to server "%{_server}%"			
 			else:
-				set {_tp} to mj_core_location("essentials.config", "data.lobby")
+				set {_tp} to mj_core_location("essentials.data", "data.lobby")
 				mj_essentials_teleport(player, "lobby", {_tp})
 		else:
 			mj_manager_permission(player, "essentials", "data.lobby.prefix", "mj.essentials.lobby")
@@ -2533,7 +2533,7 @@ command /setlobby:
 	executable by: player
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.lobby.*" or "mj.essentials.setlobby":
-			mj_core_location("essentials.config", "data.lobby", "modify", player)
+			mj_core_location("essentials.data", "data.lobby", "modify", player)
 			mj_manager_message(player, "essentials", "data.lobby.prefix", "essentials", "data.lobby.create")
 		else:
 			mj_manager_permission(player, "essentials", "data.lobby.prefix", "mj.essentials.lobby")

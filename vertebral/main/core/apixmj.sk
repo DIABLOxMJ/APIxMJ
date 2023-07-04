@@ -394,7 +394,7 @@ function mj_core_logger(level: number=0, message: text, silent: boolean=false):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_logger_save_data(info: text):
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.core.folder")
-	set {_date} to now formatted with "yyyy-MM-dd"
+	set {_date} to now formatted with "yyyy-MM-dd-hh"
 	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log" doesn't exist:
 		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
 	set {_id} to mj_core_logger_id_generator()
@@ -415,11 +415,11 @@ on command:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
-	mj_core_logger_save_data("%player% has join the server")
+	mj_core_logger_save_data("%event-entity% has join the server")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on quit:
-	mj_core_logger_save_data("%player% has quit the server")
+	mj_core_logger_save_data("%event-entity% has quit the server")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
@@ -468,11 +468,11 @@ on rightclick:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on place:
-	mj_core_logger_save_data("%player% on place block %event-block%") #at %location of event-block%"
+	mj_core_logger_save_data("%event-entity% on place block %event-block%") #at %location of event-block%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on break:
-	mj_core_logger_save_data("%player% on break block %event-block%") #at %location of event-block%"
+	mj_core_logger_save_data("%event-entity% on break block %event-block%") #at %location of event-block%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on death:
@@ -1525,7 +1525,7 @@ on craft:
 # APIxMJ - Stats
 # ---------------------------------------------------------------------------------------------------------------------
 on place:
-	if player is player:
+	if event-entity is player:
 		if player's tool isn't item frame or painting:
 			set {_obj} to mj_core_stats_convert_name("%type of event-block%")
 			set {_count} to mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.place.%{_obj}%")
@@ -1534,7 +1534,7 @@ on place:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on break:
-	if player is player:
+	if event-entity is player:
 		if event-block is set:
 			set {_obj} to mj_core_stats_convert_name("%type of event-block%")
 			set {_count} to mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.break.%{_obj}%")
@@ -1545,7 +1545,7 @@ on break:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on leftclick:
-	if player is player:
+	if event-entity is player:
 		if player's tool isn't air:
 			set {_obj} to mj_core_stats_convert_name("%type of player's tool%")
 			set {_count} to mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.leftclick.%{_obj}%")
@@ -1554,7 +1554,7 @@ on leftclick:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:
-	if player is player:
+	if event-entity is player:
 		if player's tool isn't air:
 			set {_obj} to mj_core_stats_convert_name("%type of player's tool%")
 			set {_count} to mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.rightclick.%{_obj}%")

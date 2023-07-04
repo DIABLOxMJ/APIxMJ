@@ -285,78 +285,83 @@ on break:
 		set {_loc.4} to location({_x.1} - 1, {_y.1}, {_z.1}, ("%event-block's world%" parsed as world))
 		set {_loc.5} to location({_x.1}, {_y.1}, {_z.1} - 1, ("%event-block's world%" parsed as world))
 		set {_loc.6} to location({_x.1}, {_y.1} + 1, {_z.1}, ("%event-block's world%" parsed as world))
-		if "%type of block at {_loc.2}%" contains "eastward":
-			if "%type of block at {_loc.2}%" contains "wall sign":
-				if line 1 of block at {_loc.2} is {_name}:
-					if line 3 of block at {_loc.2} isn't "0":
-						set {_owner} to line 4 of block at {_loc.2}
-						if {_owner} isn't empty:
-							if {_owner} is "%player%":
-								mj_drawer_drop_sign(player, {_loc.2})
+		if type of block at {_loc.2} is sign:
+			if "%type of block at {_loc.2}%" contains "eastward":
+				if "%type of block at {_loc.2}%" contains "wall sign":
+					if line 1 of block at {_loc.2} is {_name}:
+						if line 3 of block at {_loc.2} isn't "0":
+							set {_owner} to line 4 of block at {_loc.2}
+							if {_owner} isn't empty:
+								if {_owner} is "%player%":
+									mj_drawer_drop_sign(player, {_loc.2})
+								else:
+									if player's gamemode isn't creative:
+										cancel event
+										mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
 							else:
-								if player's gamemode isn't creative:
-									cancel event
-									mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
-						else:
-							mj_drawer_drop_sign(player, {_loc.6})
-		if "%type of block at {_loc.3}%" contains "southward":
-			if "%type of block at {_loc.3}%" contains "wall sign":
-				if line 1 of block at {_loc.3} is {_name}:
-					if line 3 of block at {_loc.3} isn't "0":
-						set {_owner} to line 4 of block at {_loc.3}
-						if {_owner} isn't empty:
-							if {_owner} is "%player%":
-								mj_drawer_drop_sign(player, {_loc.3})
-							else:
-								if player's gamemode isn't creative:
-									cancel event
-									mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
-						else:
-							mj_drawer_drop_sign(player, {_loc.6})
-		if "%type of block at {_loc.4}%" contains "westward":
-			if "%type of block at {_loc.4}%" contains "wall sign":
-				if line 1 of block at {_loc.4} is {_name}:
-					if line 3 of block at {_loc.4} isn't "0":
-						set {_owner} to line 4 of block at {_loc.4}
-						if {_owner} isn't empty:
-							if {_owner} is "%player%":
-								mj_drawer_drop_sign(player, {_loc.4})
-							else:
-								if player's gamemode isn't creative:
-									cancel event
-									mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
-						else:
-							mj_drawer_drop_sign(player, {_loc.6})
-		if "%type of block at {_loc.5}%" contains "wall sign":
-			if "%type of block at {_loc.5}%" contains "eastward" or "southward" or "westward":
-				stop
-			else:
-				if line 1 of block at {_loc.5} is {_name}:
-					if line 3 of block at {_loc.5} isn't "0":
-						set {_owner} to line 4 of block at {_loc.5}
-						if {_owner} isn't empty:
-							if {_owner} is "%player%":
-								mj_drawer_drop_sign(player, {_loc.5})
-							else:
-								if player's gamemode isn't creative:
-									cancel event
-									mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
-						else:
-							mj_drawer_drop_sign(player, {_loc.6})
-		if "%type of block at {_loc.6}%" contains "sign":
-			if "%type of block at {_loc.6}%" doesn't contain "wall":
-				if line 1 of block at {_loc.6} is {_name}:
-					if line 3 of block at {_loc.6} isn't "0":
-						set {_owner} to line 4 of block at {_loc.6}
-						if {_owner} isn't empty:
-							if {_owner} is "%player%":
 								mj_drawer_drop_sign(player, {_loc.6})
+		if type of block at {_loc.2} is sign:
+			if "%type of block at {_loc.3}%" contains "southward":
+				if "%type of block at {_loc.3}%" contains "wall sign":
+					if line 1 of block at {_loc.3} is {_name}:
+						if line 3 of block at {_loc.3} isn't "0":
+							set {_owner} to line 4 of block at {_loc.3}
+							if {_owner} isn't empty:
+								if {_owner} is "%player%":
+									mj_drawer_drop_sign(player, {_loc.3})
+								else:
+									if player's gamemode isn't creative:
+										cancel event
+										mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
 							else:
-								if player's gamemode isn't creative:
-									cancel event
-									mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
-						else:
-							mj_drawer_drop_sign(player, {_loc.6})
+								mj_drawer_drop_sign(player, {_loc.6})
+		if type of block at {_loc.2} is sign:
+			if "%type of block at {_loc.4}%" contains "westward":
+				if "%type of block at {_loc.4}%" contains "wall sign":
+					if line 1 of block at {_loc.4} is {_name}:
+						if line 3 of block at {_loc.4} isn't "0":
+							set {_owner} to line 4 of block at {_loc.4}
+							if {_owner} isn't empty:
+								if {_owner} is "%player%":
+									mj_drawer_drop_sign(player, {_loc.4})
+								else:
+									if player's gamemode isn't creative:
+										cancel event
+										mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
+							else:
+								mj_drawer_drop_sign(player, {_loc.6})
+		if type of block at {_loc.2} is sign:
+			if "%type of block at {_loc.5}%" contains "wall sign":
+				if "%type of block at {_loc.5}%" contains "eastward" or "southward" or "westward":
+					stop
+				else:
+					if line 1 of block at {_loc.5} is {_name}:
+						if line 3 of block at {_loc.5} isn't "0":
+							set {_owner} to line 4 of block at {_loc.5}
+							if {_owner} isn't empty:
+								if {_owner} is "%player%":
+									mj_drawer_drop_sign(player, {_loc.5})
+								else:
+									if player's gamemode isn't creative:
+										cancel event
+										mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
+							else:
+								mj_drawer_drop_sign(player, {_loc.6})
+		if type of block at {_loc.2} is sign:
+			if "%type of block at {_loc.6}%" contains "sign":
+				if "%type of block at {_loc.6}%" doesn't contain "wall":
+					if line 1 of block at {_loc.6} is {_name}:
+						if line 3 of block at {_loc.6} isn't "0":
+							set {_owner} to line 4 of block at {_loc.6}
+							if {_owner} isn't empty:
+								if {_owner} is "%player%":
+									mj_drawer_drop_sign(player, {_loc.6})
+								else:
+									if player's gamemode isn't creative:
+										cancel event
+										mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
+							else:
+								mj_drawer_drop_sign(player, {_loc.6})
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 function mj_drawer_drop_sign(player: offlineplayer, loc: location):

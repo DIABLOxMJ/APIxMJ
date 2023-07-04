@@ -66,6 +66,7 @@ on sign change:
 		set line 1 to {_name}
 		set line 3 to "0"
 		mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.create_success")
+		mj_core_logger(2, "%player% create drawer sign at %event-location%")
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Drawer Sign (Create)
@@ -246,9 +247,13 @@ on rightclick:
 		if type of event-block is sign:
 			set {_name.2} to mj_editfiles("drawer.config", "data.sign.name")
 			if line 1 of event-block is {_name.2}:
-				cancel event
-				remove 1 of nametag from player's tool
-				set line 4 of event-block to "%player%"
+				if line 4 of event-block is empty:
+					cancel event
+					remove 1 of nametag from player's tool
+					set line 4 of event-block to "%player%"
+					mj_core_logger(2, "%player% private drawer sign at %event-location%")
+				else:
+					mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.already_owner")
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Drawer Sign (Private)
@@ -374,6 +379,7 @@ function mj_drawer_drop_sign(player: offlineplayer, loc: location):
 		drop 1 of {_item.2} at {_loc}
 	else:
 		drop {_value.2} of {_value.1} at {_loc}
+	mj_core_logger(2, "%{_player}% break drawer sign at %{_loc}% with %{_value.2}% of %{_value.1}%")
 	stop
 # --------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Drawer Sign (Break)

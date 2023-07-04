@@ -140,13 +140,17 @@ function mj_editfiles_gettext(source: text, find: text="data", player: player="n
 # =====================================================================================================================
 # APIxMJ - Command
 # ---------------------------------------------------------------------------------------------------------------------
-command /manager [<text>]:
+command /manager [<text>] [<text>]:
 	executable by: player
 	trigger:
 		if player is op:
 			if arg-1 is set:
 				if arg-1 is "reload":
-					player command "/sk reload apixmj_manager"
+					if arg-2 is "files":
+						mj_files_manager()
+						send "[APIxMJ] Data reloaded"
+					else:
+						player command "/sk reload apixmj_manager"
 				else if arg-1 is "data_update":
 					mj_manager_update_data()
 					mj_manager_message(player, "manager", "data.prefix", "manager", "data.data_update")
@@ -156,6 +160,8 @@ command /manager [<text>]:
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/manager":
 	set tab completions for position 1 to "reload" and "data_update"
+	if tab arg-1 is "reload":
+		set tab completions for position 2 to "files"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Command
@@ -822,7 +828,7 @@ function mj_manager_skript_start():
 			set {_list.2::*} to mj_manager_nodes("manager.data", "data.addon.%{_value.1}%")
 			loop {_list.2::*}:
 				set {_value.2} to loop-value-2
-				set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_value.1}%.%{_value.2}%.condition")
+				set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.condition")
 				if {_check} is true:
 					set {_list.3::*} to mj_manager_nodes("manager.data", "data.addon.%{_value.1}%.%{_value.2}%.skript")
 					loop {_list.3::*}:
@@ -1213,23 +1219,54 @@ command /rules:
 		mj_manager_rules_menu_viewer(player)
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_rules_menu_viewer(player: player):
+function mj_manager_rules_menu_viewer(player: player, index: text="none"):
 	set {_title} to mj_editfiles_gettext("manager", "data.menu.rules", {_player})
 	set {_item} to mj_editfiles("manager.config", "data.gui_background.item")
 	mj_manager_menu_gui_generator({_player}, 6, {_title}, {_item})
 	wait 2 ticks
-	mj_manager_rules_menu_viewer_button({_player})
+	set {_lang} to mj_manager_userdata_language({_player})
+	set {_list::*} to mj_manager_nodes("custom.rules.%{_lang}%", "data.index")
+	loop {_list::*}:
+		mj_manager_rules_menu_viewer_index({_player}, loop-value)
+	set {_value} to {_index}
+	if {_index} is "none":
+		set {_value} to "%{_list::1}%"
+	mj_manager_rules_menu_viewer_data({_player}, {_value})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_rules_menu_viewer_button(player: player):
-	set {_slot} to 0
+function mj_manager_rules_menu_viewer_index(player: player, index: text):
 	set {_lang} to mj_manager_userdata_language({_player})
-	set {_list::*} to mj_manager_nodes("custom.rules.%{_lang}%")
+	set {_name} to mj_editfiles("custom.rules.%{_lang}%", "data.index.%{_index}%.name")
+	set {_slot} to mj_editfiles_number("custom.rules.%{_lang}%", "data.index.%{_index}%.slot")
+	set {_item.1} to mj_manager_item_convert("custom.rules.%{_lang}%", "data.index.%{_index}%.item")
+	set {_item.2} to mj_manager_rules_menu_viewer_index_lore({_player}, {_item.1}, {_index})
+	make a gui slot {_slot} of {_player} with {_item.2} named {_name} to run:
+		mj_manager_rules_menu_viewer({_player}, {_index})
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_rules_menu_viewer_index_lore(player: player, item: item, value: text) :: item:
+	set {_lang} to mj_manager_userdata_language({_player})
+	set {_count} to mj_manager_item_lore_count({_player}, {_item})
+	set {_data.1} to mj_editfiles_gettext("manager", "data.category.description", {_player})
+	set line {_count} of lore of {_item} to "%{_data.1}%"
+	add 2 to {_count}
+	set {_list::*} to mj_manager_nodes("custom.rules.%{_lang}%", "data.index.%{_value}%.description")
+	loop {_list::*}:
+		set {_data.2} to mj_editfiles("custom.rules.%{_lang}%", "data.index.%{_value}%.description.%loop-value%")
+		set line {_count} of lore of {_item} to "%{_data.2}%"
+		add 1 to {_count}
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_rules_menu_viewer_data(player: player, index: text):
+	set {_slot} to 9
+	set {_lang} to mj_manager_userdata_language({_player})
+	set {_list::*} to mj_manager_nodes("custom.rules.%{_lang}%", "data.%{_index}%")
 	loop {_list::*}:
 		set {_value} to loop-value
-		set {_name} to mj_editfiles("custom.rules.%{_lang}%", "data.%{_value}%.name")
-		set {_item.1} to mj_manager_item_convert("custom.rules.%{_lang}%", "data.%{_value}%.item")
-		set {_item.2} to mj_manager_rules_menu_viewer_button_lore({_player}, {_item.1}, {_value})
+		set {_name} to mj_editfiles("custom.rules.%{_lang}%", "data.%{_index}%.%{_value}%.name")
+		set {_item.1} to mj_manager_item_convert("custom.rules.%{_lang}%", "data.%{_index}%.%{_value}%.item")
+		set {_item.2} to mj_manager_rules_menu_viewer_data_lore({_player}, {_item.1}, {_index}, {_value})
 		make a gui slot {_slot} of {_player} with {_item.2} named {_name} to run:
 			stop
 		add 1 to {_slot}
@@ -1237,15 +1274,15 @@ function mj_manager_rules_menu_viewer_button(player: player):
 			exit loop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_rules_menu_viewer_button_lore(player: player, item: item, value: text) :: item:
+function mj_manager_rules_menu_viewer_data_lore(player: player, item: item, index: text, value: text) :: item:
 	set {_lang} to mj_manager_userdata_language({_player})
 	set {_count} to mj_manager_item_lore_count({_player}, {_item})
 	set {_data.1} to mj_editfiles_gettext("manager", "data.category.description", {_player})
 	set line {_count} of lore of {_item} to "%{_data.1}%"
 	add 2 to {_count}
-	set {_list::*} to mj_manager_nodes("custom.rules.%{_lang}%", "data.%{_value}%.description")
+	set {_list::*} to mj_manager_nodes("custom.rules.%{_lang}%", "data.%{_index}%.%{_value}%.description")
 	loop {_list::*}:
-		set {_data.2} to mj_editfiles("custom.rules.%{_lang}%", "data.%{_value}%.description.%loop-value%")
+		set {_data.2} to mj_editfiles("custom.rules.%{_lang}%", "data.%{_index}%.%{_value}%.description.%loop-value%")
 		set line {_count} of lore of {_item} to "%{_data.2}%"
 		add 1 to {_count}
 	return {_item}

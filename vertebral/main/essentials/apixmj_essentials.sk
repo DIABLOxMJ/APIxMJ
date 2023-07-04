@@ -2413,10 +2413,11 @@ on any move:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on command:
-	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.freeze")
-	if {_check} is true:
-		if command isn't "message" or "msg" or "m" or "tell" or "reply" or "r":
-			cancel event
+	if sender is player:
+		set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.freeze")
+		if {_check} is true:
+			if command isn't "message" or "msg" or "m" or "tell" or "reply" or "r":
+				cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on click:

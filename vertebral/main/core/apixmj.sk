@@ -684,18 +684,17 @@ function mj_core_profil_create(player: offlineplayer, value: text):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_profil_migration(player: offlineplayer, value: text):
 	set {_profil} to mj_editfiles("userdata", "data.%{_player}'s uuid%.profil")
-	mj_core_location("userdata.%{_player}'s uuid%.%{_profil}%", "data", "modify", {_player})
+	mj_core_location("userdata.%{_player}'s uuid%", "data", "modify", {_player})
 	mj_editfiles("userdata", "data.%{_player}'s uuid%.playtime", "modify", "%{_player}'s time played%")
 	mj_core_inventory_save({_player}, "last")
 	wait 1 second
 	mj_editfiles("userdata", "data.%{_player}'s uuid%.profil", "modify", {_value})
 	mj_core_playerdata({_player})
 	console command "/profil_update %{_player}%"
-	wait 1 second
 	unload yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
 	mj_core_logger(2, "%{_player}% unloading userdata file..")
 	mj_core_inventory_restore({_player}, "last")
-	set {_tp} to mj_core_location("userdata.%{_player}'s uuid%.%{_value}%", "data")
+	set {_tp} to mj_core_location("userdata.%{_player}'s uuid%", "data")
 	teleport {_player} to {_tp}
 	mj_manager_message({_player}, "core", "data.prefix", "core", "data.profil.migration", {_profil}, {_value})
 	stop

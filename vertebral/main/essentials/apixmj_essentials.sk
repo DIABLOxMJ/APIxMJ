@@ -2550,7 +2550,7 @@ command /t [<player>]:
 			if arg-1 is set:
 				mj_essentials_back(player)
 				mj_manager_message(player, "essentials", "data.teleport.prefix", "essentials", "data.teleport.me_to_me", "%arg-1%")
-				set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.essentials.vanish")
+				set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.vanish")
 				if {_check} is false:
 					mj_manager_message(arg-1, "essentials", "data.teleport.prefix", "essentials", "data.teleport.me_to_it", "%player%")
 				teleport player at arg-1
@@ -2567,7 +2567,9 @@ command /s [<player>]:
 			if arg-1 is set:
 				mj_essentials_back(arg-1)
 				mj_manager_message(player, "essentials", "data.teleport.prefix", "essentials", "data.teleport.it_to_me", "%arg-1%")
-				mj_manager_message(arg-1, "essentials", "data.teleport.prefix", "essentials", "data.teleport.it_to_it", "%player%")
+				set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.vanish")
+				if {_check} is false:
+					mj_manager_message(arg-1, "essentials", "data.teleport.prefix", "essentials", "data.teleport.it_to_it", "%player%")
 				teleport arg-1 at player
 			else:
 				mj_manager_message(player, "essentials", "data.teleport.prefix", "manager", "data.argument.player")

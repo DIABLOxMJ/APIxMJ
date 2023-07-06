@@ -300,7 +300,7 @@ on break:
 										mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
 							else:
 								mj_drawer_drop_sign(player, {_loc.6})
-		if type of block at {_loc.2} is sign:
+		if type of block at {_loc.3} is sign:
 			if "%type of block at {_loc.3}%" contains "southward":
 				if "%type of block at {_loc.3}%" contains "wall sign":
 					if line 1 of block at {_loc.3} is {_name}:
@@ -315,7 +315,7 @@ on break:
 										mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
 							else:
 								mj_drawer_drop_sign(player, {_loc.6})
-		if type of block at {_loc.2} is sign:
+		if type of block at {_loc.4} is sign:
 			if "%type of block at {_loc.4}%" contains "westward":
 				if "%type of block at {_loc.4}%" contains "wall sign":
 					if line 1 of block at {_loc.4} is {_name}:
@@ -330,7 +330,7 @@ on break:
 										mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
 							else:
 								mj_drawer_drop_sign(player, {_loc.6})
-		if type of block at {_loc.2} is sign:
+		if type of block at {_loc.5} is sign:
 			if "%type of block at {_loc.5}%" contains "wall sign":
 				if "%type of block at {_loc.5}%" contains "eastward" or "southward" or "westward":
 					stop
@@ -347,7 +347,7 @@ on break:
 										mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.no_owner")
 							else:
 								mj_drawer_drop_sign(player, {_loc.6})
-		if type of block at {_loc.2} is sign:
+		if type of block at {_loc.6} is sign:
 			if "%type of block at {_loc.6}%" contains "sign":
 				if "%type of block at {_loc.6}%" doesn't contain "wall":
 					if line 1 of block at {_loc.6} is {_name}:

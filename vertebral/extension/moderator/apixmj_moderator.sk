@@ -201,7 +201,7 @@ function mj_moderator_menu_sanction_execute(player: player, value: offlineplayer
 	if {_cmd} contains "<reason>":
 		set {_reason} to mj_editfiles("temp", "data.%{_player}'s uuid%.moderator.selector.reason")
 		replace "<reason>" with "%{_reason}%" in {_cmd}
-	replace "<player>" with "%{_value}%" in {_cmd}
+	#replace "<player>" with "%{_value}%" in {_cmd}
 	{_player} command {_cmd}
 	mj_editfiles("temp", "data.%{_player}'s uuid%.moderator.selector", "modify", "none")
 	mj_manager_message({_player}, "moderator", "data.prefix", "moderator", "data.menu.information.sanction.command", {_cmd})
@@ -246,18 +246,18 @@ function mj_moderator_menu_sanction_reason(player: player, value: offlineplayer,
 function mj_moderator_menu_sanction_reason_button_selector(player: player, value: offlineplayer, value.2: text, type: text):
 	set {_list::*} to mj_manager_nodes("moderator.data", "data.menu.sanction.button")
 	loop {_list::*}:
-		set {_value.2} to loop-value
-		set {_name.1} to mj_editfiles_gettext("moderator", "data.menu.sanction.button.%{_value.2}%.name", {_player})
-		if {_type} is {_value.2}:
+		set {_value.3} to loop-value
+		set {_name.1} to mj_editfiles_gettext("moderator", "data.menu.sanction.button.%{_value.3}%.name", {_player})
+		if {_type} is {_value.3}:
 			set {_name.2} to mj_editfiles_gettext("moderator", "data.menu.information.sanction.list_name", {_player}, "&c%{_name.1}%")
 		else:
 			set {_name.2} to mj_editfiles_gettext("moderator", "data.menu.information.sanction.list_name", {_player}, "&a%{_name.1}%")
-		set {_slot} to mj_editfiles_number("moderator.data", "data.menu.sanction.button.%{_value.2}%.slot")
-		set {_item.1} to mj_manager_item_convert("moderator.data", "data.menu.sanction.button.%{_value.2}%.item", true)
+		set {_slot} to mj_editfiles_number("moderator.data", "data.menu.sanction.button.%{_value.3}%.slot")
+		set {_item.1} to mj_manager_item_convert("moderator.data", "data.menu.sanction.button.%{_value.3}%.item", true)
 		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "moderator", "data.menu.information.sanction.open_list")
 		make a gui slot {_slot} of {_player} with {_item.2} named {_name.2} to run:
 			if {_type} isn't {_value.2}:
-				mj_moderator_menu_sanction_reason({_player}, {_value}, {_value.2})
+				mj_moderator_menu_sanction_reason({_player}, {_value}, {_value.2}, {_value.3})
 			stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

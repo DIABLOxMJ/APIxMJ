@@ -1,0 +1,6 @@
+data:
+    rank:
+        # This rank set by default to the player, default : player
+        player: player
+        # This rank defines by default the members of the moderation, default : owner
+        staff: owner

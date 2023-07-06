@@ -1,0 +1,211 @@
+data:
+    prefix: "&6[&a&lModération&6]&r"
+    menu:
+        title:
+            main: "&6Menu Modération"
+            personal: "&6Joueur &a$0"
+            player_list: "&6Menu liste de joueur"
+            sanction: "&6Choisir une sanction"
+            time: "&6Durée de la sanction"
+        button:
+            moderate: "&7Modérer le joueur"
+            teleport: "&7Se téléporter vers le joueur"
+        information:
+            player:
+                ping: "&7Ping &6: $0ms"
+                health: "&7Santé &6: &a$0&c❤"
+                hunger: "&7Faim &6: &a$0"
+                world: "&7Monde &6: &a$0"
+                location: "&7Position &6: &a$0"
+                connected: "&a[Connecté]"
+                not_connected: "&c[Déconnecté]"
+            sanction:
+                list_name: "&7Listes de Sanction &6:&r $0"
+                open_list: "&7Ouvrir la liste"
+                selector:
+                    time: "&7Définir ce temps"
+                    reason: "&7Définir cette sanction"
+                time: "&7Vous avez choisi une durée de &a$0"
+                command: "&7Vous avez éxécuté la commande suivante &6:&r &a$0"
+        main_menu:
+            button:
+                player_list:
+                    name: "&aLa liste des joueurs"
+                help:
+                    name: "&aAide de modération"
+                profil:
+                    name: "&aChanger de profil"
+                player_head:
+                    name: "&a$0"
+        personal:
+            button:
+                player_head:
+                    name: "&a$0"
+                ban:
+                    name: "&aBannir"
+                tempban:
+                    name: "&aBannir temporairement"
+                mute:
+                    name: "&aRendre muet"
+                tempmute:
+                    name: "&aRendre muet temporairement"
+                kick:
+                    name: "&aExpulser"
+                warn:
+                    name: "&aMettre un avertissement"
+                warns:
+                    name: "&aVoir ces avertissements"
+                freeze:
+                    name: "&aGêler"
+                unfreeze:
+                    name: "&aLibérer du gêle"
+                tpa:
+                    name: "&aSe téléporter à lui"
+                tpahere:
+                    name: "&aLe téléporter à nous"
+                invsee:
+                    name: "&aVoir sont inventaire"
+                enderchest:
+                    name: "&aVoir sont coffre du néant"
+                backpack:
+                    name: "&aVoir ces sac à dos"
+        time:
+            button:
+                second_1: "&e1 Seconde"
+                second_10: "&e10 Secondes"
+                second_25: "&e25 Secondes"
+                second_30: "&e30 Secondes"
+                second_45: "&e45 Secondes"
+                second_50: "&e50 Secondes"
+                minute_1: "&e1 Minute"
+                minute_10: "&e10 Minutes"
+                minute_25: "&e25 Minutes"
+                minute_30: "&e30 Minutes"
+                minute_45: "&e45 Minutes"
+                minute_50: "&e50 Minutes"
+                hour_1: "&e1 Heure"
+                hour_10: "&e10 Heures"
+                hour_25: "&e25 Heures"
+                hour_30: "&e30 Heures"
+                hour_45: "&e45 Heures"
+                hour_50: "&e50 Heures"
+                day_1: "&e1 Jour"
+                day_10: "&e10 Jours"
+                day_25: "&e25 Jours"
+                day_30: "&e30 Jours"
+                day_45: "&e45 Jours"
+                day_50: "&e50 Jours"
+                week_1: "&e1 Semaine"
+                week_10: "&e10 Semaines"
+                week_25: "&e25 Semaines"
+                week_30: "&e30 Semaines"
+                week_45: "&e45 Semaines"
+                week_50: "&e50 Semaines"
+                month_1: "&e1 Mois"
+                month_10: "&e10 Mois"
+                month_25: "&e25 Mois"
+                month_30: "&e30 Mois"
+                month_45: "&e45 Mois"
+                month_50: "&e50 Mois"
+                year_1: "&e1 Année"
+                year_10: "&e10 Années"
+                year_25: "&e25 Années"
+                year_30: "&e30 Années"
+                year_45: "&e45 Années"
+                year_50: "&e50 Années"
+        sanction:
+            button:
+                chat:
+                    name: "Chat"
+                cheat:
+                    name: "Cheat"
+                other:
+                    name: "Divers"
+    sanction:
+        chat:
+            pub:
+                name: "&6Publicité"
+                warn: "Pub"
+            menace_irl:
+                name: "&6Menace IRL"
+                warn: "Menace IRL"
+            link:
+                name: "&6Liens Interdits"
+                warn: "Liens interdits"
+            menace_ig:
+                name: "&6Menace In-Game"
+                warn: "Menace IG"
+            insulte:
+                name: "&6Insultes envers le staff"
+                warn: "Insulte le staff"
+            contour_chat:
+                name: "&6Contournement du chat"
+                warn: "Contourne les règles du chat"
+            infraction:
+                name: "&6Insitation à une infraction"
+                warn: "Insitation à faire une infraction"
+            language:
+                name: "&6Mauvais langage"
+                warn: "Mauvais langage"
+            propos:
+                name: "&6Homophobie/Racisme/Sexuel"
+                warn: "Propos déplacés"
+            provoc:
+                name: "&6Provocation"
+                warn: "Provoc"
+            menteur:
+                name: "&6Menteur"
+                warn: "Ment"
+            spam:
+                name: "&6Spams"
+                warn: "Spam chat"
+            maj:
+                name: "&6Abus des MAJUSCULES"
+                warn: "Abus Majs"
+        cheat:
+            anti_knock:
+                name: "&6Anti-Knockback"
+                warn: "Anti-Knock"
+            sniper:
+                name: "&6Sniper"
+                warn: "Aimbot"
+            forcefield:
+                name: "&6Champ de force"
+                warn: "Forcefield"
+            macro:
+                name: "&6Macro"
+                warn: "Macro"
+            easy_tp:
+                name: "&6Endroit rapide"
+                warn: "EasyTP"
+            fly:
+                name: "&6Volatil"
+                warn: "Fly"
+            speed:
+                name: "&6Vitesse"
+                warn: "Speed"
+        other:
+            pseudo:
+                name: "&6Pseudo inaproprié"
+                warn: "Pseudo Interits"
+            skin:
+                name: "&6Skin inaproprié"
+                warn: "Skin interdits"
+            item_name:
+                name: "&6Nom d'items inaproprié"
+                warn: "Nom d'item inaproprié"
+            crossteam:
+                name: "&6Coopération interdits"
+                warn: "Cross Team"
+            report:
+                name: "&6Signalement inutile"
+                warn: "Report inutile"
+            report_chat:
+                name: "&6Signalement chat invalide"
+                warn: "Abusreport"
+            build:
+                name: "&6Construction inaproprié"
+                warn: "Build dégeulasse"
+            no_game:
+                name: "&6Anti-Jeux"
+                warn: "Anti-Jeux"

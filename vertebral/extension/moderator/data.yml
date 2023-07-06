@@ -1,0 +1,208 @@
+data:
+    menu:
+        main_menu:
+            button:
+                player_list:
+                    slot: 11
+                    item: paper
+                help:
+                    slot: 13
+                    item: paper
+                profil:
+                    slot: 15
+                    item: paper
+                player_head:
+                    slot: 4
+                    item: player's head
+        personal:
+            button:
+                player_head:
+                    command: /none
+                    reason: false
+                    slot: 4
+                    item: player's head
+                ban:
+                    command: /ban <player> <reason>
+                    menu: true
+                    slot: 10
+                    item: campfire
+                tempban:
+                    command: /tempban <player> <time> <reason>
+                    menu: true
+                    slot: 11
+                    item: soul campfire
+                mute:
+                    command: /mute <player> <reason>
+                    menu: true
+                    slot: 12
+                    item: skeleton head
+                tempmute:
+                    command: /tempmute <player> <time> <reason>
+                    menu: true
+                    slot: 13
+                    item: wither skeleton head
+                kick:
+                    command: /kick <player> <reason>
+                    menu: true
+                    slot: 14
+                    item: stick
+                warn:
+                    command: /warn <player> <reason>
+                    menu: true
+                    slot: 15
+                    item: bell
+                warns:
+                    command: /warns <player>
+                    menu: true
+                    slot: 16
+                    item: paper
+                freeze:
+                    command: /freeze <player> <reason>
+                    menu: true
+                    slot: 19
+                    item: chest
+                unfreeze:
+                    command: /unfreeze <player>
+                    menu: true
+                    slot: 20
+                    item: chest
+                tpa:
+                    command: /t <player>
+                    menu: false
+                    slot: 21
+                    item: ender pearl
+                tpahere:
+                    command: /s <player>
+                    menu: false
+                    slot: 22
+                    item: eye of ender
+                invsee:
+                    command: /invsee <player>
+                    menu: false
+                    slot: 23
+                    item: chest
+                enderchest:
+                    command: /enderchest <player>
+                    menu: false
+                    slot: 24
+                    item: ender chest
+                backpack:
+                    command: /backpack gui <player>
+                    menu: false
+                    slot: 25
+                    item: brown shulker box
+        time:
+            button:
+                second_1: 1s
+                second_10: 10s
+                second_25: 25s
+                second_30: 30s
+                second_45: 45s
+                second_50: 50s
+                minute_1: 1m
+                minute_10: 10m
+                minute_25: 25m
+                minute_30: 30m
+                minute_45: 45m
+                minute_50: 50m
+                hour_1: 1h
+                hour_10: 10h
+                hour_25: 25h
+                hour_30: 30h
+                hour_45: 45h
+                hour_50: 50h
+                day_1: 1d
+                day_10: 10d
+                day_25: 25d
+                day_30: 30d
+                day_45: 45d
+                day_50: 50d
+                week_1: 1w
+                week_10: 10w
+                week_25: 25w
+                week_30: 30w
+                week_45: 45w
+                week_50: 50w
+                month_1: 1mo
+                month_10: 10mo
+                month_25: 25mo
+                month_30: 30mo
+                month_45: 45mo
+                month_50: 50mo
+                year_1: 1y
+                year_10: 10y
+                year_25: 25y
+                year_30: 30y
+                year_45: 45y
+                year_50: 50y
+        sanction:
+            button:
+                chat:
+                    slot: 2
+                    item: paper
+                cheat:
+                    slot: 4
+                    item: diamond pickaxe
+                other:
+                    slot: 6
+                    item: tropical fish bucket
+    sanction:
+        chat:
+            pub:
+                item: oak sign
+            menace_irl:
+                item: netherite hoe
+            link:
+                item: popped chorus fruit
+            menace_ig:
+                item: flint and steel
+            insulte:
+                item: netherite helmet
+            contour_chat:
+                item: map
+            infraction:
+                item: netherite chestplate
+            language:
+                item: paper
+            propos:
+                item: nether star
+            provoc:
+                item: ladder
+            menteur:
+                item: diamond
+            spam:
+                item: blaze powder
+            maj:
+                item: redstone
+        cheat:
+            anti_knock:
+                item: cobweb
+            sniper:
+                item: bow
+            forcefield:
+                item: gold sword
+            macro:
+                item: packed ice
+            easy_tp:
+                item: nether brick
+            fly:
+                item: feather
+            speed:
+                item: netherite boots
+        other:
+            pseudo:
+                item: nametag
+            skin:
+                item: creeper head
+            item_name:
+                item: diamond sword
+            crossteam:
+                item: iron chestplate
+            report:
+                item: dark oak sapling
+            report_chat:
+                item: anvil
+            build:
+                item: grass block
+            no_game:
+                item: minecart

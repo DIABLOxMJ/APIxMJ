@@ -1,0 +1,347 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_moderator():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.moderator.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.moderator.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.moderator.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.moderator.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.moderator.help.%loop-value%"
+	loop all players:
+		mj_moderator_playerdata(loop-player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_essentials.sk":
+		send "[APIxMJ] Loading moderator..." to console
+		mj_files_moderator()
+		mj_editfiles("manager.data", "data.addon.vertebral_extension.moderator.version", "modify", "2023.06.18.0001")
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_essentials.sk)"
+		unload script file "apixmj_moderator.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_moderator.sk" to "-apixmj_moderator.sk"
+	send "[APIxMJ] Unloading moderator.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_moderator_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_playerdata(player: offlineplayer):
+	wait 16 seconds
+	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	set {_check1} to yaml value "data.%{_player}'s uuid%.source.moderator" from "mj.userdata"
+	if {_check1} isn't set:
+		set {_rank.1} to mj_editfiles("moderator.config", "data.rank.player")
+		set {_rank.2} to mj_editfiles("moderator.config", "data.rank.staff")
+		set yaml value "data.%{_player}'s uuid%.source.moderator.condition" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.condition" from "mj.userdata" to true
+		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.operator" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.rank" from "mj.userdata" to {_rank.1}
+		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.profil" from "mj.userdata" to "Default"
+		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.condition" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.operator" from "mj.userdata" to false
+		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.rank" from "mj.userdata" to {_rank.2}
+		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.profil" from "mj.userdata" to "Staff"
+		save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% moderator data file was generated..")
+	set {_check2} to yaml value "data.source.moderator" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check2} isn't set:
+		set yaml value "data.source.moderator.operator" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.moderator.rank" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		mj_core_logger(1, "%{_player}% moderator data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Command
+# ---------------------------------------------------------------------------------------------------------------------
+command /moderator [<offlineplayer>]:
+	aliases: moderation, modo, mod, advancedstaff, as
+	executable by: player
+	trigger:
+		set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.source.moderator.condition")
+		if {_check} is true:
+			if arg-1 is set:
+				mj_moderator_menu_personal(player, arg-1)
+			else:
+				mj_moderator_menu(player)
+		else:
+			send "no access"
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/moderator" or "/moderation" or "/modo" or "/mod" or "/advancedstaff" or "/as":
+	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.source.moderator.condition")
+	if {_check} is true:
+		set {_list::*} to mj_manager_nodes("userdata")
+		loop {_list::*}:
+			set {_player} to loop-value parsed as offlineplayer
+			add {_player} to {_list2::*}
+		set tab completions for position 1 to {_list2::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /mod_access [<offlineplayer>]:
+	executable by: player
+	trigger:
+		if player is op:
+			if arg-1 is set:
+				set {_check} to mj_editfiles_boolean("userdata", "data.%arg-1's uuid%.source.moderator.condition")
+				mj_editfiles_boolean("userdata", "data.%arg-1's uuid%.source.moderator.condition", "modify", false)
+				if {_check} isn't true:
+					mj_editfiles_boolean("userdata", "data.%arg-1's uuid%.source.moderator.condition", "modify", true)
+			else:
+				mj_manager_message(player, "moderator", "data.prefix", "manager", "data.argument.player")
+		else:
+			mj_manager_permission(player, "moderator", "data.prefix", "mj.operator")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/mod_access":
+	if player is op:
+		set {_list::*} to mj_manager_nodes("userdata")
+		loop {_list::*}:
+			set {_player} to loop-value parsed as offlineplayer
+			add {_player} to {_list2::*}
+		set tab completions for position 1 to {_list2::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Command
+# =====================================================================================================================
+# APIxMJ - Menu
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu(player: player):
+	set {_title} to mj_editfiles_gettext("moderator", "data.menu.title.main", {_player})
+	mj_core_gui_generator({_player}, 3, true, "default", {_title}, "moderator")
+	mj_moderator_menu_button_player_head({_player}, {_player}, "main_menu")
+	set {_name} to mj_editfiles_gettext("moderator", "data.menu.main_menu.button.player_list.name", {_player})
+	set {_slot} to mj_editfiles_number("moderator.data", "data.menu.main_menu.button.player_list.slot")
+	set {_item} to mj_manager_item_convert("moderator.data", "data.menu.main_menu.button.player_list.item")
+	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+		mj_moderator_menu_player_list({_player})
+		stop
+	set {_name} to mj_editfiles_gettext("moderator", "data.menu.main_menu.button.help.name", {_player})
+	set {_slot} to mj_editfiles_number("moderator.data", "data.menu.main_menu.button.help.slot")
+	set {_item} to mj_manager_item_convert("moderator.data", "data.menu.main_menu.button.help.item")
+	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+		stop
+	set {_name} to mj_editfiles_gettext("moderator", "data.menu.main_menu.button.profil.name", {_player})
+	set {_slot} to mj_editfiles_number("moderator.data", "data.menu.main_menu.button.profil.slot")
+	set {_item} to mj_manager_item_convert("moderator.data", "data.menu.main_menu.button.profil.item")
+	make a gui slot {_slot} of {_player} with {_item} named {_name} to close:
+		mj_moderator_action_profil({_player})
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu_personal(player: player, value: offlineplayer):
+	set {_title} to mj_editfiles_gettext("moderator", "data.menu.title.personal", {_player}, "%{_value}%")
+	mj_core_gui_generator({_player}, 5, true, "default", {_title}, "moderator")
+	mj_moderator_menu_button_player_head({_player}, {_value}, "personal")
+	set {_list::*} to mj_manager_nodes("moderator.data", "data.menu.personal.button")
+	remove "player_head" from {_list::*}
+	loop {_list::*}:
+		set {_value.2} to loop-value
+		set {_name} to mj_editfiles_gettext("moderator", "data.menu.personal.button.%{_value.2}%.name", {_player})
+		set {_slot} to mj_editfiles_number("moderator.data", "data.menu.personal.button.%{_value.2}%.slot")
+		set {_item} to mj_manager_item_convert("moderator.data", "data.menu.personal.button.%{_value.2}%.item")
+		make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+			mj_moderator_menu_sanction({_player}, {_value}, {_value.2})
+			stop		
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu_player_list(player: player):
+	set {_title} to mj_editfiles_gettext("moderator", "data.menu.title.player_list", {_player})
+	mj_core_gui_generator({_player}, 6, true, "default", {_title}, "moderator")
+	set {_slot} to 0
+	set {_list::*} to mj_manager_nodes("userdata")
+	loop {_list::*}:
+		set {_value} to loop-value parsed as offlineplayer
+		set {_name} to mj_editfiles_gettext("moderator", "data.menu.personal.button.player_head.name", {_player}, "%{_value}%")
+		set {_item.1} to mj_moderator_menu_button_player_head({_player}, {_value}, "personal", "extract")
+		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "moderator", "data.menu.button.moderate")
+		set {_item.3} to mj_manager_item_button({_player}, {_item.2}, "right_click", "moderator", "data.menu.button.teleport", true)
+		set {_info} to mj_editfiles_gettext("moderator", "data.menu.information.player.not_connected", {_player})
+		if {_value} is online:
+			set {_info} to mj_editfiles_gettext("moderator", "data.menu.information.player.connected", {_player})
+		make a gui slot {_slot} of {_player} with {_item.3} named "%{_name}% %{_info}%" to run:
+			if gui-click-type is left mouse button:
+				mj_moderator_menu_personal({_player}, {_value})
+			if gui-click-type is right mouse button:
+				mj_moderator_action_teleport({_player}, {_value})
+			stop
+		add 1 to {_slot}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Menu
+# =====================================================================================================================
+# APIxMJ - Menu Sanction
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu_sanction(player: player, value: offlineplayer, value.2: text):
+	set {_cmd} to mj_editfiles("moderator.data", "data.menu.personal.button.%{_value.2}%.command")
+	if {_cmd} contains "<time>":
+		mj_moderator_menu_sanction_time({_player}, {_value}, {_value.2})
+	else if {_cmd} contains "<reason>":
+		mj_moderator_menu_sanction_reason({_player}, {_value}, {_value.2})
+	else:
+		mj_moderator_menu_sanction_execute({_player}, {_value}, {_value.2})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu_sanction_execute(player: player, value: offlineplayer, value.2: text):
+	set {_cmd} to mj_editfiles("moderator.data", "data.menu.personal.button.%{_value.2}%.command")
+	if {_cmd} contains "<time>":
+		set {_time} to mj_editfiles("temp", "data.%{_player}'s uuid%.moderator.selector.time")
+		replace "<time>" with "%{_time}%" in {_cmd}
+	if {_cmd} contains "<reason>":
+		set {_reason} to mj_editfiles("temp", "data.%{_player}'s uuid%.moderator.selector.reason")
+		replace "<reason>" with "%{_reason}%" in {_cmd}
+	replace "<player>" with "%{_value}%" in {_cmd}
+	{_player} command {_cmd}
+	mj_editfiles("temp", "data.%{_player}'s uuid%.moderator.selector", "modify", "none")
+	mj_manager_message({_player}, "moderator", "data.prefix", "moderator", "data.menu.information.sanction.command", {_cmd})
+	set {_menu} to mj_editfiles_boolean("moderator.data", "data.menu.personal.button.%{_value.2}%.menu")
+	if {_menu} is true:
+		mj_moderator_menu_personal({_player}, {_value})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu_sanction_time(player: player, value: offlineplayer, value.2: text):
+	set {_title} to mj_editfiles_gettext("moderator", "data.menu.title.time", {_player})
+	mj_core_gui_generator({_player}, 6, true, "default", {_title}, "moderator")
+	set {_cmd} to mj_editfiles("moderator.data", "data.menu.personal.button.%{_value.2}%.command")
+	set {_slot} to 0
+	set {_list::*} to mj_manager_nodes("moderator.data", "data.menu.time.button")
+	loop {_list::*}:
+		set {_value.3} to loop-value
+		set {_name} to mj_editfiles_gettext("moderator", "data.menu.time.button.%{_value.3}%", {_player})
+		set {_value.4} to mj_editfiles("moderator.data", "data.menu.time.button.%{_value.3}%")
+		set {_item.1} to gold clock
+		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "moderator", "data.menu.information.sanction.selector.time")
+		make a gui slot {_slot} of {_player} with {_item.2} named {_name} to run:
+			mj_editfiles("temp", "data.%{_player}'s uuid%.moderator.selector.time", "modify", {_value.4})
+			mj_manager_message({_player}, "moderator", "data.prefix", "moderator", "data.menu.information.sanction.time", {_name})
+			if {_cmd} contains "<reason>":
+				mj_moderator_menu_sanction_reason({_player}, {_value}, {_value.2})
+			stop
+		add 1 to {_slot}
+	mj_moderator_menu_button_return({_player}, {_value}, 49)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu_sanction_reason(player: player, value: offlineplayer, value.2: text, type: text="none"):
+	set {_title} to mj_editfiles_gettext("moderator", "data.menu.title.sanction", {_player})
+	mj_core_gui_generator({_player}, 6, true, "default", {_title}, "moderator")
+	if {_type} is "none":
+		set {_list::*} to mj_manager_nodes("moderator.data", "data.menu.sanction.button")
+		set {_type} to {_list::1}
+	mj_moderator_menu_sanction_reason_button_selector({_player}, {_value}, {_value.2}, {_type})
+	mj_moderator_menu_sanction_reason_button_action({_player}, {_value}, {_value.2}, {_type})
+	mj_moderator_menu_button_return({_player}, {_value}, 49)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu_sanction_reason_button_selector(player: player, value: offlineplayer, value.2: text, type: text):
+	set {_list::*} to mj_manager_nodes("moderator.data", "data.menu.sanction.button")
+	loop {_list::*}:
+		set {_value.2} to loop-value
+		set {_name.1} to mj_editfiles_gettext("moderator", "data.menu.sanction.button.%{_value.2}%.name", {_player})
+		if {_type} is {_value.2}:
+			set {_name.2} to mj_editfiles_gettext("moderator", "data.menu.information.sanction.list_name", {_player}, "&c%{_name.1}%")
+		else:
+			set {_name.2} to mj_editfiles_gettext("moderator", "data.menu.information.sanction.list_name", {_player}, "&a%{_name.1}%")
+		set {_slot} to mj_editfiles_number("moderator.data", "data.menu.sanction.button.%{_value.2}%.slot")
+		set {_item.1} to mj_manager_item_convert("moderator.data", "data.menu.sanction.button.%{_value.2}%.item", true)
+		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "moderator", "data.menu.information.sanction.open_list")
+		make a gui slot {_slot} of {_player} with {_item.2} named {_name.2} to run:
+			if {_type} isn't {_value.2}:
+				mj_moderator_menu_sanction_reason({_player}, {_value}, {_value.2})
+			stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu_sanction_reason_button_action(player: player, value: offlineplayer, value.2: text, type: text):
+	set {_slot} to 9
+	set {_list::*} to mj_manager_nodes("moderator.data", "data.sanction.%{_type}%")
+	loop {_list::*}:
+		set {_value.3} to loop-value
+		set {_name} to mj_editfiles_gettext("moderator", "data.sanction.%{_type}%.%{_value.3}%.name", {_player})
+		set {_value.4} to mj_editfiles_gettext("moderator", "data.sanction.%{_type}%.%{_value.3}%.warn", {_player})
+		set {_item.1} to mj_manager_item_convert("moderator.data", "data.sanction.%{_type}%.%{_value.3}%.item", true)
+		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "moderator", "data.menu.information.sanction.selector.reason")
+		make a gui slot {_slot} of {_player} with {_item.2} named {_name} to run:
+			mj_editfiles("temp", "data.%{_player}'s uuid%.moderator.selector.reason", "modify", {_value.4})
+			mj_moderator_menu_sanction_execute({_player}, {_value}, {_value.2})
+			stop
+		add 1 to {_slot}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Menu Sanction
+# =====================================================================================================================
+# APIxMJ - Button
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu_button_player_head(player: player, value: offlineplayer, category: text, mode: text="define") :: item:
+	set {_name} to mj_editfiles_gettext("moderator", "data.menu.%{_category}%.button.player_head.name", {_player}, "%{_value}%")
+	set {_slot} to mj_editfiles_number("moderator.data", "data.menu.%{_category}%.button.player_head.slot")
+	set {_item} to {_value}'s skull
+	if {_value} is online:
+		set {_ping.1} to mj_essentials_ping({_value})
+		set {_ping.2} to mj_editfiles_gettext("moderator", "data.menu.information.player.ping", {_player}, {_ping.1})
+		set {_health} to mj_editfiles_gettext("moderator", "data.menu.information.player.health", {_player}, "%{_value}'s health%")
+		set {_hunger} to mj_editfiles_gettext("moderator", "data.menu.information.player.hunger", {_player}, "%{_value}'s hunger%")
+		set {_world} to mj_editfiles_gettext("moderator", "data.menu.information.player.world", {_player}, "%{_value}'s world%")
+		set {_loc.1} to mj_core_location_viewer({_value}, "show")
+		set {_loc.2} to mj_editfiles_gettext("moderator", "data.menu.information.player.location", {_player}, {_loc.1})
+		set line 2 of lore of {_item} to {_ping.2}
+		set line 3 of lore of {_item} to {_health}
+		set line 4 of lore of {_item} to {_hunger}
+		set line 6 of lore of {_item} to {_world}
+		set line 7 of lore of {_item} to {_loc.2}
+	set {_info} to mj_editfiles_gettext("moderator", "data.menu.information.player.not_connected", {_player})
+	if {_value} is online:
+		set {_info} to mj_editfiles_gettext("moderator", "data.menu.information.player.connected", {_player})
+	if {_mode} is "define":
+		make a gui slot {_slot} of {_player} with {_item} named "%{_name}% %{_info}%" to run:
+			stop
+		stop
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_menu_button_return(player: player, value: offlineplayer, slot: number=0):
+	set {_name} to mj_editfiles_gettext("manager", "data.button.return", {_player})
+	make a gui slot {_slot} of {_player} with barrier block named {_name} to run:
+		mj_moderator_menu_personal({_player}, {_value})
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Button
+# =====================================================================================================================
+# APIxMJ - Action
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_action_teleport(player: player, value: offlineplayer):
+
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_moderator_action_profil(player: player):
+	set {_check} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.source.moderator.condition")
+	if {_check} is true:
+		set {_profil.1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.profil")
+		set {_profil.2} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.moderator.profil.staff.profil")
+		if {_profil.1} isn't {_profil.2}:
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.source.moderator.profil.player.profil", "modify", {_profil})
+			set {_op} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.source.moderator.profil.staff.profil")
+			set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.moderator.profil.staff.rank")
+		else:
+			set {_profil.2} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.moderator.profil.player.profil")
+			set {_op} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.source.moderator.profil.player.profil")
+			set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.moderator.profil.player.rank")
+		mj_core_profil_migration({_player}, {_profil.2})
+		mj_ranker_modify({_player}, {_rank})
+		deop {_player}
+		if {_op} is true:
+			op {_player}
+		mj_manager_message({_player}, "moderator", "data.prefix", "moderator", "data.menu.information.sanction.command", {_cmd})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Action
+# =====================================================================================================================

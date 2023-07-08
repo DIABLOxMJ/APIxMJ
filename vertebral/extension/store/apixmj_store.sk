@@ -42,7 +42,7 @@ on command:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_store_playerdata(player: offlineplayer):
-	wait 26 seconds
+	wait 234 ticks
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.%{_player}'s uuid%.source.store" from "mj.userdata"
 	if {_check1} isn't set:

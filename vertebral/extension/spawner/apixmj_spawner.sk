@@ -56,7 +56,7 @@ on command:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_spawner_playerdata(player: offlineplayer):
-	wait 25 seconds
+	wait 232 ticks
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.%{_player}'s uuid%.source.spawner" from "mj.userdata"
 	if {_check1} isn't set:

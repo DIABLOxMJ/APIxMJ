@@ -42,7 +42,7 @@ on command:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_backpack_playerdata(player: offlineplayer):
-	wait 12 seconds
+	wait 204 ticks
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.%{_player}'s uuid%.source.backpack" from "mj.userdata"
 	if {_check1} isn't set:

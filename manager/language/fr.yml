@@ -357,12 +357,6 @@ data:
                 name_lite: "&aLobby"
                 lore:
                     '1': "&6- &7Un gestionnaire pour les lobbys de serveur."
-            lootbox:
-                name: "&aLootBox"
-                name_lite: "&aLootBox"
-                lore:
-                    '1': "&6- &7Avez-vous des clés? Jouez à la boîte mystère et"
-                    '2': "&0- &7obtenez des récompenses diverses et variées."
             menu:
                 name: "&aMenu"
                 name_lite: "&aMenu"
@@ -381,6 +375,12 @@ data:
                 lore:
                     '1': "&6- &7Une petite boîte à outils pour améliorer les"
                     '2': "&0- &7possibilités en jeu et améliorer le spawn."
+            mystery_box:
+                name: "&aBoîte mystère"
+                name_lite: "&aBoîte mystère"
+                lore:
+                    '1': "&6- &7Avez-vous des clés? Jouez à la boîte mystère et"
+                    '2': "&0- &7obtenez des récompenses diverses et variées."
             portal:
                 name: "&aPortail"
                 name_lite: "&aPortail"

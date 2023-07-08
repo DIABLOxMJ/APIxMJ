@@ -666,7 +666,7 @@ function mj_manager_menu_control_button_condition_list(player: player, source: t
 		set {_slot} to 0
 		set {_list.1::*} to mj_manager_nodes("temp", "data.manager.addon")
 		loop {_list.1::*}:
-			if loop-value-1 doesn't contain "main":
+			if loop-value-1 is "main" or "vertebral.main":
 				set {_list.2::*} to mj_manager_nodes("temp", "data.manager.addon.%loop-value-1%")
 				loop {_list.2::*}:
 					set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%loop-value-1%.%loop-value-2%.installed")

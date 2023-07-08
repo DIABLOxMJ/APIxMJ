@@ -42,7 +42,7 @@ on command:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_rankup_playerdata(player: offlineplayer):
-	wait 23 seconds
+	wait 228 ticks
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.%{_player}'s uuid%.source.rankup" from "mj.userdata"
 	if {_check1} isn't set:

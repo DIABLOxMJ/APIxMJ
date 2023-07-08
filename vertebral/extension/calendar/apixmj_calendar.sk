@@ -42,7 +42,7 @@ on command:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_calendar_playerdata(player: offlineplayer):
-	wait 13 seconds
+	wait 206 ticks
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.%{_player}'s uuid%.source.calendar" from "mj.userdata"
 	if {_check1} isn't set:

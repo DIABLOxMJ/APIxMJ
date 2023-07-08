@@ -742,40 +742,6 @@ data:
                 item: beacon
                 gui_background:
                     item: green stained glass pane
-            lootbox:
-                name: data.addon.vertebral_extension.lootbox.name
-                experimental: true
-                visible: true
-                depends:
-                    '1': main.manager
-                    '2': vertebral_main.core
-                variants:
-                    '1': none
-                conflicts:
-                    '1': none
-                optional:
-                    '1': none
-                github_folder: vertebral/extension/lootbox
-                folder: main/extension/lootbox
-                slot: 21
-                skript:
-                    '1': apixmj_lootbox
-                yml:
-                    '1': config
-                file:
-                    '1': mj.lootbox.config
-                    '2': mj.lootbox.data
-                preset:
-                    '1': none
-                datapack:
-                    '1': none
-                reset:
-                    '1':
-                        file: none
-                        data: data
-                item: leather
-                gui_background:
-                    item: light blue stained glass pane
             menu:
                 name: data.addon.vertebral_extension.menu.name
                 experimental: true
@@ -791,7 +757,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/menu
                 folder: main/extension/menu
-                slot: 22
+                slot: 21
                 skript:
                     '1': apixmj_menu
                 yml:
@@ -827,7 +793,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/moderator
                 folder: main/extension/moderator
-                slot: 23
+                slot: 22
                 skript:
                     '1': apixmj_moderator
                 yml:
@@ -861,7 +827,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/multitools
                 folder: main/extension/multitools
-                slot: 24
+                slot: 23
                 skript:
                     '1': apixmj_multitools
                 yml:
@@ -880,6 +846,40 @@ data:
                 item: oak log
                 gui_background:
                     item: light gray stained glass pane
+            mystery_box:
+                name: data.addon.vertebral_extension.mystery_box.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/mystery_box
+                folder: main/extension/mystery_box
+                slot: 24
+                skript:
+                    '1': apixmj_mystery_box
+                yml:
+                    '1': config
+                file:
+                    '1': mj.mystery_box.config
+                    '2': mj.mystery_box.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: leather
+                gui_background:
+                    item: light blue stained glass pane
             portal:
                 name: data.addon.vertebral_extension.portal.name
                 experimental: true

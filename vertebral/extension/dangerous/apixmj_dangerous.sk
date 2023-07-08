@@ -41,7 +41,7 @@ on command:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_dangerous_playerdata(player: offlineplayer):
-	wait 14 seconds
+	wait 208 ticks
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.%{_player}'s uuid%.source.dangerous" from "mj.userdata"
 	if {_check1} isn't set:

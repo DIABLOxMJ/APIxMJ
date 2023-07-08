@@ -36,7 +36,7 @@ on join:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_moderator_playerdata(player: offlineplayer):
-	wait 16 seconds
+	wait 220 ticks
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check1} to yaml value "data.%{_player}'s uuid%.source.moderator" from "mj.userdata"
 	if {_check1} isn't set:

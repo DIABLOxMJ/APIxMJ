@@ -469,12 +469,11 @@ data:
                     '1': "&6- &7Un mode de jeu où le but est simple"
                     '2': "&0- &7détruire les lits adverses."
         server_dedicated_diamond_city:
-            dc_startup:
-                name: "&bDémarreur"
-                name_lite: "&bDémarreur"
+            dc_core:
+                name: "&bCœur"
+                name_lite: "&bCœur"
                 lore:
-                    '1': "&6- &7Un système pour introduire les"
-                    '2': "&0- &7nouveaux joueurs confortablement."
+                    '1': "&6- &7Un module centrale pour le serveur."
         editor:
             bedwars_editor:
                 name: "&aÉditeur du Bedwars"

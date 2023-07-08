@@ -1,0 +1,68 @@
+data:
+    spawn:
+        mj-20230630012227-8627:
+            location:
+                x: -38.5
+                y: 47.0
+                z: 41.5
+                world: world
+                yaw: 270.0
+                pitch: 0.0
+        mj-20230630012248-2734:
+            location:
+                x: -24.5
+                y: 47.0
+                z: 35.5
+                world: world
+                yaw: 90.0
+                pitch: 0.0
+        mj-20230630012304-2329:
+            location:
+                x: -38.5
+                y: 47.0
+                z: 29.5
+                world: world
+                yaw: 270.0
+                pitch: 0.0
+        mj-20230630012316-6191:
+            location:
+                x: -38.5
+                y: 47.0
+                z: 11.5
+                world: world
+                yaw: 270.0
+                pitch: 0.0
+        mj-20230630012337-6229:
+            location:
+                x: -19.5
+                y: 47.0
+                z: 16.5
+                world: world
+                yaw: 0.0
+                pitch: 0.0
+    portal_exit:
+        region: spawn_exit
+    intro:
+        region: spawn_intro
+        message:
+            '1': stade_01
+            '2': stade_02
+            '3': stade_03
+            '4': stade_04
+            '5': stade_05
+            '6': stade_06
+            '7': stade_07
+            '8': stade_08
+        time:
+            '1': 7s
+            '2': 7s
+            '3': 7s
+            '4': 7s
+            '5': 10s
+            '6': 7s
+            '7': 5s
+            '8': 0s
+    cantine:
+        region: spawn_cantine
+    exterior_protect:
+        region: spawn_cantine

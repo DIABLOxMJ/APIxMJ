@@ -1,0 +1,197 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_diamond_city():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.server_dedicated_diamond_city.dc_core.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.diamond_city.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.diamond_city.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.diamond_city.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.diamond_city.help.%loop-value%"
+	loop all players:
+		mj_diamond_city_playerdata(loop-player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+		send "[APIxMJ] Loading dc_startup..." to console
+		mj_files_diamond_city()
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		unload script file "apixmj_dc_startup.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_dc_startup.sk" to "-apixmj_dc_startup.sk"
+	send "[APIxMJ] Unloading dc_startup.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_diamond_city_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on command:
+	if complete command contains "profil_update":
+		set {_list::*} to complete command split at " "
+		set {_player} to {_list::2} parsed as offlineplayer
+		mj_diamond_city_playerdata({_player})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_diamond_city_playerdata(player: offlineplayer):
+	wait 50 seconds
+	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	set {_check1} to yaml value "data.%{_player}'s uuid%.source.diamond_city" from "mj.userdata"
+	if {_check1} isn't set:
+		set yaml value "data.%{_player}'s uuid%.source.diamond_city" from "mj.userdata" to "none"
+		save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% diamond_city data file was generated..")
+	set {_check2} to yaml value "data.source.diamond_city" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check2} isn't set:
+		set yaml value "data.source.diamond_city" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		mj_core_logger(1, "%{_player}% diamond_city data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Spawn
+# ---------------------------------------------------------------------------------------------------------------------
+command /dc_setspawn:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.diamond_city.*" or "mj.diamond_city":
+			set {_id} to mj_core_id_generator()
+			mj_core_location("diamond_city.data", "data.spawn.%{_id}%", "modify", player)
+			send "[DIAMOND CITY] Saved spawn location : %{_id}%, %player's location%"
+		else:
+			mj_manager_permission(player, "diamond_city", "data.prefix", "mj.diamond_city")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on first join:
+	wait 2 ticks
+	mj_diamond_city_spawn(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on command:
+	if command is "spawn":
+		cancel event
+		mj_essentials_back(player)
+		mj_diamond_city_spawn(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_diamond_city_spawn(player: player):
+	set {_list::*} to mj_manager_nodes("diamond_city.data", "data.spawn")
+	set {_value.1} to {_list::1}
+	set {_last} to mj_core_location("diamond_city.data", "data.spawn.%{_list::1}%")
+	loop {_list::*}:
+		set {_value.2} to loop-value
+		if {_value.1} isn't {_value.2}:
+			if chance of 25%:
+				set {_loc} to mj_core_location("diamond_city.data", "data.spawn.%{_value.2}%")
+				exit loop
+	if {_loc} is set:
+		teleport {_player} to {_loc}
+	else:
+		teleport {_player} to {_last}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Spawn
+# =====================================================================================================================
+# APIxMJ - Portail
+# ---------------------------------------------------------------------------------------------------------------------
+on region enter:
+	set {_region} to mj_editfiles("diamond_city.data", "data.portal_exit.region")
+	if "%event-region%" contains {_region}:
+		set {_x} to a random number from 5 to 50
+		set {_z} to a random number from 5 to 50
+		if chance of 50%:
+			set {_x} to a random number from -5 to -50
+		if chance of 50%:
+			set {_z} to a random number from -5 to -50
+		if chance of 50%:
+			set {_x} to a random number from -5 to 50
+		if chance of 50%:
+			set {_z} to a random number from -5 to 50
+		if chance of 50%:
+			set {_x} to a random number from 5 to -50
+		if chance of 50%:
+			set {_z} to a random number from 5 to -50
+		set {_world} to player's world
+		set {_result} to location({_x}, 200, {_z}, {_world}, 0, 0)
+		teleport player to {_result}
+		mj_timecount("godmode_%player%", "backward", 0, 0, 15, "none", player)
+		set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.exit")
+		if {_check} isn't true:
+			mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.exit", "modify", true)
+			mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.portal_exit")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Portail
+# =====================================================================================================================
+# APIxMJ - Intro
+# ---------------------------------------------------------------------------------------------------------------------
+on region enter:
+	set {_region} to mj_editfiles("diamond_city.data", "data.intro.region")
+	if "%event-region%" contains {_region}:
+		set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.intro")
+		if {_check} isn't true:
+			mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.intro", "modify", true)
+			set {_lang} to mj_manager_userdata_language({_player})
+			set {_list.1::*} to mj_manager_nodes("diamond_city.data", "data.intro.message")
+			loop {_list.1::*}:
+				set {_value.1} to loop-value-1
+				set {_value.2} to mj_editfiles("diamond_city.data", "data.intro.message.%{_value.1}%")
+				set {_value.3} to mj_editfiles("diamond_city.data", "data.intro.time.%{_value.1}%")
+				set {_value.4} to mj_core_converter_time({_value.3})
+				set {_list.2::*} to mj_manager_nodes("diamond_city.language.%{_lang}%", "data.intro.message.%{_value.2}%")
+				loop {_list.2::*}:
+					set {_value.5} to mj_editfiles_gettext("diamond_city", "data.intro.message.%{_value.2}%.%loop-value-2%", {_player})
+					send {_value.5}
+				wait {_value.4}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Intro
+# =====================================================================================================================
+# APIxMJ - Cantine
+# ---------------------------------------------------------------------------------------------------------------------
+on region enter:
+	set {_region} to mj_editfiles("diamond_city.data", "data.cantine.region")
+	if "%event-region%" contains {_region}:
+		set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.cantine")
+		if {_check} isn't true:
+			mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.cantine", "modify", true)
+			give 48 steak to player
+			mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.cantine")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Cantine
+# =====================================================================================================================
+# APIxMJ - Airlock
+# ---------------------------------------------------------------------------------------------------------------------
+on region enter:
+	set {_region} to mj_editfiles("diamond_city.data", "data.exterior_protect.region")
+	if "%event-region%" contains {_region}:
+		set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.cantine")
+		if {_check} isn't true:
+			mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.cantine", "modify", true)
+			give leather helmet of fire protection 1 to player
+			mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.exterior_protect")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Airlock
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+every 1 tick:
+	loop all players:
+		if loop-player's tool is gold clock:
+			set {_send} to mj_editfiles_gettext("diamond_city", "data.glock_time", player, "%time in loop-player's world%")
+			mj_core_infobar(loop-player, 1, {_send})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function
+# =====================================================================================================================

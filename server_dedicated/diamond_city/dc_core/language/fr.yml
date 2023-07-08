@@ -1,0 +1,53 @@
+data:
+    prefix: "&6[&b&lDIAMOND CITY&6]&r"
+    portal_exit: "&aBonne aventure !"
+    intro:
+        message:
+            stade_01:
+                '1': "&0"
+                '2': "&6[&b&lDIAMOND CITY&6] &7Bonjour et bienvenue sur le serveur, nous"
+                '3': " &6- &7sommes une petite communauté de joueurs qui souhaitent recréer"
+                '4': " &6- &7un serveur avec l'esprit que représentait Minecraft à l'époque."
+                '5': "&0"
+            stade_02:
+                '1': "&0"
+                '2': "&6[&b&lDIAMOND CITY&6] &7Si vous êtes du genre à jouer dans ce même"
+                '3': " &6- &7état d'esprit de jeu, vous êtes les bienvenu(e)s sur ce serveur."
+                '4': "&0"
+            stade_03:
+                '1': "&0"
+                '2': "&6[&b&lDIAMOND CITY&6] &7Choses à savoir, les commandes ont été"
+                '3': " &6- &7raccourcies. Donc pas de soucis à se faire pour les connaître,"
+                '4': " &6- &7au cas où le &a/help &7ou &a/menu &7est là en cas de besoin."
+                '5': "&0"
+            stade_04:
+                '1': "&0"
+                '2': "&6[&b&lDIAMOND CITY&6] &7Alors, nous ne sommes pas juste dans un"
+                '3': " &6- &7serveur classique, le serveur fonctionne sous un écosystème"
+                '4': " &6- &7unique du &cFondateur&7."
+                '5': "&0"
+            stade_05:
+                '1': "&0"
+                '2': "&6[&b&lDIAMOND CITY&6] &7Nous avons apportés un lot de nouveautés"
+                '3': " &6- &7particulières, comme des sacs à dos personnalisés, un"
+                '4': " &6- &7système de stockage spécial, un soleil hostile, etc…"
+                '5': " &6- &7Toutes les informations utiles sont dans le &a/help&7."
+                '6': "&0"
+            stade_06:
+                '1': "&0"
+                '2': "&6[&b&lDIAMOND CITY&6] &7En cas de besoin, si un membre de la"
+                '3': " &6- &7modération est présent en jeu, tu peux utiliser la"
+                '4': " &6- &7commande &a/help <ta question ?> &7ou &aDiscord&7."
+                '5': "&0"
+            stade_07:
+                '1': "&0"
+                '2': "&6[&b&lDIAMOND CITY&6] &7Au nom de toute l'équipe de modération,"
+                '3': " &6- &7nous te souhaitons un bon jeu."
+                '4': "&0"
+            stade_08:
+                '1': "&0"
+                '2': " &6[&e&l!&6] &aN'hésite pas à faire un tour à la cantine avant de partir à l'aventure !"
+                '3': "&0"
+    cantine: "&aOn vous offre un peu de nourriture afin de démarrer votre aventure."
+    exterior_protect: "&aVous avez reçu un casque pour vous protéger du soleil, pour votre début d'aventure."
+    clock_time: "&6&l< &7&lTemps actuel &6&l: &a&l$0 &6&l>"

@@ -4,7 +4,7 @@ data:
         title:
             main: "&6Menu Modération"
             personal: "&6Joueur &a$0"
-            player_list: "&6Menu liste de joueur"
+            player_list: "&6Menu liste de joueurs"
             sanction: "&6Choisir une sanction"
             time: "&6Durée de la sanction"
         button:
@@ -20,13 +20,13 @@ data:
                 connected: "&a[Connecté]"
                 not_connected: "&c[Déconnecté]"
             sanction:
-                list_name: "&7Listes de Sanction &6:&r $0"
+                list_name: "&7Listes de Sanctions &6:&r $0"
                 open_list: "&7Ouvrir la liste"
                 selector:
                     time: "&7Définir ce temps"
                     reason: "&7Définir cette sanction"
                 time: "&7Vous avez choisi une durée de &a$0"
-                command: "&7Vous avez éxécuté la commande suivante &6:&r &a$0"
+                command: "&7Vous avez exécuté la commande suivante &6:&r &a$0"
         main_menu:
             button:
                 player_list:
@@ -54,21 +54,21 @@ data:
                 warn:
                     name: "&aMettre un avertissement"
                 warns:
-                    name: "&aVoir ces avertissements"
+                    name: "&aVoir ses avertissements"
                 freeze:
                     name: "&aGêler"
                 unfreeze:
-                    name: "&aLibérer du gêle"
+                    name: "&aLibérer du gel"
                 tpa:
                     name: "&aSe téléporter à lui"
                 tpahere:
-                    name: "&aLe téléporter à nous"
+                    name: "&aLe téléporter à moi"
                 invsee:
-                    name: "&aVoir sont inventaire"
+                    name: "&aVoir son inventaire"
                 enderchest:
-                    name: "&aVoir sont coffre du néant"
+                    name: "&aVoir son coffre du néant"
                 backpack:
-                    name: "&aVoir ces sac à dos"
+                    name: "&aVoir ses sacs à dos"
         time:
             button:
                 second_1: "&e1 Seconde"
@@ -142,8 +142,8 @@ data:
                 name: "&6Contournement du chat"
                 warn: "Contourne les règles du chat"
             infraction:
-                name: "&6Insitation à une infraction"
-                warn: "Insitation à faire une infraction"
+                name: "&6Incitation à une infraction"
+                warn: "Incitation à faire une infraction"
             language:
                 name: "&6Mauvais langage"
                 warn: "Mauvais langage"
@@ -186,26 +186,26 @@ data:
                 warn: "Speed"
         other:
             pseudo:
-                name: "&6Pseudo inaproprié"
-                warn: "Pseudo Interits"
+                name: "&6Pseudo inapproprié"
+                warn: "Pseudo interdit"
             skin:
-                name: "&6Skin inaproprié"
-                warn: "Skin interdits"
+                name: "&6Skin inapproprié"
+                warn: "Skin interdit"
             item_name:
-                name: "&6Nom d'items inaproprié"
-                warn: "Nom d'item inaproprié"
+                name: "&6Nom d'item inapproprié"
+                warn: "Nom d'item inapproprié"
             crossteam:
-                name: "&6Coopération interdits"
+                name: "&6Coopération interdit"
                 warn: "Cross Team"
             report:
                 name: "&6Signalement inutile"
                 warn: "Report inutile"
             report_chat:
                 name: "&6Signalement chat invalide"
-                warn: "Abusreport"
+                warn: "Abus report"
             build:
-                name: "&6Construction inaproprié"
+                name: "&6Construction inappropriée"
                 warn: "Build dégeulasse"
             no_game:
-                name: "&6Anti-Jeux"
-                warn: "Anti-Jeux"
+                name: "&6Anti-Jeu"
+                warn: "Anti-Jeu"

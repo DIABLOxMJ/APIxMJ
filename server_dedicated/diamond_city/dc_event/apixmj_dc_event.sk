@@ -39,10 +39,11 @@ on crafting of cake:
 on rightclick:
 	if event-block is cake:
 		set {_loc} to event-location
-		wait 1 second
+		wait 5 ticks
 		set {_check} to block at {_loc}
 		if type of {_check} is air:
-			set {_item} to mj_manager_item_convert("mystery_box.data", "data.box_01.key")
+			set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_01")
+			set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
 			if chance of 50%:
 				give 1 of {_item} to player
 				mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.success")

@@ -175,9 +175,9 @@ on region enter:
 on region enter:
 	set {_region} to mj_editfiles("diamond_city.data", "data.exterior_protect.region")
 	if "%event-region%" contains {_region}:
-		set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.cantine")
+		set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.airlock")
 		if {_check} isn't true:
-			mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.cantine", "modify", true)
+			mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.airlock", "modify", true)
 			give leather helmet of fire protection 1 to player
 			mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.exterior_protect")
 	stop

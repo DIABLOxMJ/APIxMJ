@@ -65,4 +65,4 @@ data:
     cantine:
         region: spawn_cantine
     exterior_protect:
-        region: spawn_cantine
+        region: spawn_helmet

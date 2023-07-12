@@ -1,0 +1,6 @@
+data:
+    # This and a WorldGuard region identifier to limit vault control, default : mystery_box
+    region: mystery_box
+    gui:
+        # Do I have to remove the interface to give the reward directly?, default : false
+        condition: false

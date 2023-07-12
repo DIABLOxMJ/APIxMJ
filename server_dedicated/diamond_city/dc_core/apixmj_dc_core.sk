@@ -25,8 +25,8 @@ on load:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on skript stop:
-	rename file "plugins/Skript/scripts/apixmj_dc_startup.sk" to "-apixmj_dc_startup.sk"
-	send "[APIxMJ] Unloading dc_startup.."
+	rename file "plugins/Skript/scripts/apixmj_dc_core.sk" to "-apixmj_dc_core.sk"
+	send "[APIxMJ] Unloading dc_core.."
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
@@ -189,7 +189,7 @@ on region enter:
 every 1 tick:
 	loop all players:
 		if loop-player's tool is gold clock:
-			set {_send} to mj_editfiles_gettext("diamond_city", "data.glock_time", player, "%time in loop-player's world%")
+			set {_send} to mj_editfiles_gettext("diamond_city", "data.glock_time", loop-player, "%time in loop-player's world%")
 			mj_core_infobar(loop-player, 1, {_send})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

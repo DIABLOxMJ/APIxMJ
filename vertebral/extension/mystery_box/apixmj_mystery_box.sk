@@ -1,0 +1,352 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_mystery_box():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.mystery_box.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.mystery_box.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.mystery_box.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.mystery_box.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.mystery_box.help.%loop-value%"
+	loop all players:
+		mj_mystery_box_playerdata(loop-player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+		send "[APIxMJ] Loading mystery_box..." to console
+		mj_files_mystery_box()
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		unload script file "apixmj_mystery_box.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_mystery_box.sk" to "-apixmj_mystery_box.sk"
+	send "[APIxMJ] Unloading mystery_box.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_mystery_box_playerdata(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on command:
+	if complete command contains "profil_update":
+		set {_list::*} to complete command split at " "
+		set {_player} to {_list::2} parsed as offlineplayer
+		mj_mystery_box_playerdata({_player})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_playerdata(player: offlineplayer):
+	wait 224 ticks
+	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+	set {_check1} to yaml value "data.%{_player}'s uuid%.source.mystery_box" from "mj.userdata"
+	if {_check1} isn't set:
+		set yaml value "data.%{_player}'s uuid%.source.mystery_box" from "mj.userdata" to "none"
+		save yaml "mj.userdata"
+		mj_core_logger(1, "%{_player}% mystery_box data file was generated..")
+	set {_check2} to yaml value "data.source.mystery_box" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check2} isn't set:
+		set yaml value "data.source.mystery_box" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		mj_core_logger(1, "%{_player}% mystery_box data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Command
+# ---------------------------------------------------------------------------------------------------------------------
+command /mystery_box [<text>] [<text>] [<number>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.mystery_box.*" or "mj.mystery_box":
+			if arg-1 is set:
+				if arg-1 is "create" or "location" or "key" or "loot":
+					if arg-2 is set:
+						mj_mystery_box_controller(player, arg-1, arg-2, arg-3)
+					else:
+						mj_manager_message(player, "mystery_box", "data.prefix", "core", "data.argument.name")
+				else:
+					mj_manager_message(player, "mystery_box", "data.prefix", "core", "data.argument.name")
+			else:
+				mj_manager_message(player, "mystery_box", "data.prefix", "core", "data.argument.name")
+		else:
+			mj_manager_permission(player, "mystery_box", "data.prefix", "mj.mystery_box")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/mystery_box":
+	if player has permission "*" or "mj.*" or "mj.mystery_box.*" or "mj.mystery_box":
+		set tab completions for position 1 to "create", "location", "key" and "loot"
+		if tab arg-1 is "create":
+			set tab completions for position 1 to "new_name"
+		if tab arg-1 is "location" or "key" or "loot":
+			set {_list.1::*} to mj_core_id_converter("mystery_box.data", "data")
+			set tab completions for position 2 to {_list.1::*}
+			if tab arg-2 is set:
+				set {_id} to mj_core_id_checker("mystery_box.data", "data", tab arg-2)
+				set {_value} to mj_editfiles("mystery_box.data", "data.%{_id}%.catalog")
+				if {_value} is "none":
+					set tab completions for position 3 to "1"
+				else:
+					set {_list.2::*} to mj_manager_nodes("mystery_box.data", "data.%{_id}%.catalog")
+					set tab completions for position 3 to {_list.2::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Command
+# =====================================================================================================================
+# APIxMJ - Controller
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_controller(player: player, type: text, name: text, slot: number=0):
+	set {_loc} to location of {_player}'s target block
+	if {_type} is "create":
+		set {_id} to mj_core_id_generator()
+		mj_mystery_box_data_base_generator({_id}, {_name})
+		mj_core_location_block("mystery_box.data", "data.%{_id}%", "modify", {_loc})
+		mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.create", {_id})
+	else if {_type} is "key" or "loot" or "location":
+		set {_id} to mj_core_id_checker("mystery_box.data", "data", {_name})
+		if {_type} is "key":
+			mj_editfiles_stock("mystery_box.data", "data.%{_id}%.key", "modify", {_item})
+			mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.key", {_name})
+		else if {_type} is "loot":
+			set {_item} to {_player}'s tool
+			set {_value} to mj_editfiles("mystery_box.data", "data.%{_id}%.catalog.%{_slot}%.name")
+			if {_value} isn't set:
+				mj_mystery_box_data_loot_generator({_id}, {_slot})
+			mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_slot}%.count", "modify", 1)
+			mj_editfiles_stock("mystery_box.data", "data.%{_id}%.catalog.%{_slot}%.item", "modify", {_item})
+			mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.loot", "%{_item}%", "%{_slot}%", {_name})
+		else:
+			mj_core_location_block("mystery_box.data", "data.%{_id}%", "modify", {_loc})
+			mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.location", {_name})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Controller
+# =====================================================================================================================
+# APIxMJ - Data
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_data_base_generator(id: text, name: text):
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	loop {_list::*}:
+		mj_editfiles("mystery_box.language.%loop-value%", "data.product.%{_id}%.name", "modify", "&adata.product.%{_id}%.name")
+	set yaml value "data.%{_id}%.name" from "mj.mystery_box.data" to "data.product.%{_id}%.name"
+	set yaml value "data.%{_id}%.price" from "mj.mystery_box.data" to 0
+	set yaml value "data.%{_id}%.key" from "mj.mystery_box.data" to "tripwire hooks"
+	set yaml value "data.%{_id}%.location" from "mj.mystery_box.data" to "none"
+	set yaml value "data.%{_id}%.catalog" from "mj.mystery_box.data" to "none"
+	save yaml "mj.mystery_box.data"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_data_loot_generator(id: text, count: number):
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	loop {_list::*}:
+		mj_editfiles("mystery_box.language.%loop-value%", "data.product.%{_id}%.catalog.%{_count}%.name", "modify", "&adata.product.%{_id}%.catalog.%{_count}%.name")
+	set yaml value "data.%{_id}%.catalog.%{_count}%.name" from "mj.mystery_box.data" to "data.product.%{_id}%.catalog.%{_count}%.name"
+	set yaml value "data.%{_id}%.catalog.%{_count}%.type" from "mj.mystery_box.data" to "none"
+	set yaml value "data.%{_id}%.catalog.%{_count}%.pourcent" from "mj.mystery_box.data" to 100
+	set yaml value "data.%{_id}%.catalog.%{_count}%.money" from "mj.mystery_box.data" to 0
+	set yaml value "data.%{_id}%.catalog.%{_count}%.command" from "mj.mystery_box.data" to "/none"
+	set yaml value "data.%{_id}%.catalog.%{_count}%.storage" from "mj.mystery_box.data" to "none"
+	set yaml value "data.%{_id}%.catalog.%{_count}%.quantity" from "mj.mystery_box.data" to 0
+	set yaml value "data.%{_id}%.catalog.%{_count}%.limit" from "mj.mystery_box.data" to 0
+	set yaml value "data.%{_id}%.catalog.%{_count}%.count" from "mj.mystery_box.data" to 1
+	set yaml value "data.%{_id}%.catalog.%{_count}%.item" from "mj.mystery_box.data" to "stone block"
+	save yaml "mj.mystery_box.data"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Data
+# =====================================================================================================================
+# APIxMJ - Viewer
+# ---------------------------------------------------------------------------------------------------------------------
+on leftclick:
+	set {_region} to mj_editfiles("mystery_box.config", "data.region")
+	if "%region at event-block%" contains {_region}:
+		if type of event-block is chest or ender chest or any shulker box:
+			set {_list::*} to mj_manager_nodes("mystery_box.data")
+			loop {_list::*}:
+				set {_id} to loop-value
+				mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box", "modify", event-location)
+				set {_loc.1} to mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box")
+				set {_loc.2} to mj_core_location_block("mystery_box.data", "data.%{_id}%")
+				if {_loc.1} is {_loc.2}:
+					if player's gamemode isn't creative:
+						mj_mystery_box_viewer(player, {_id})
+						exit loop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_viewer(player: player, id: text):
+	set {_name} to mj_editfiles_gettext("mystery_box", "data.product.%{_id}%.name", {_player})
+	set {_count} to mj_manager_nodes_count("mystery_box.data", "data.%{_id}%.catalog")
+	broadcast "count : %{_count}%"
+	if {_count} >= 22:
+		set {_size} to 6
+	else if {_count} >= 15:
+		set {_size} to 5
+	else if {_count} >= 8:
+		set {_size} to 4
+	else:
+		set {_size} to 3
+	mj_core_gui_generator({_player}, {_size}, true, "default", {_name}, "mystery_box")
+	set {_slot} to 10
+	set {_list::*} to mj_manager_nodes("mystery_box.data", "data.%{_id}%.catalog")
+	loop {_list::*}:
+		set {_value} to loop-value
+		mj_mystery_box_viewer_item({_player}, {_id}, {_value}, {_slot})
+		add 1 to {_slot}
+		if {_slot} is 17 or 26 or 35:
+			add 2 to {_slot}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_viewer_item(player: player, id: text, value: text, slot: number):
+	set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.item")
+	set {_count} to mj_manager_item_lore_count({_player}, {_item})
+	set {_name} to mj_editfiles_gettext("mystery_box", "data.catalog.%{_id}%.catalog.%{_value}%")
+	set {_amount} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.count")
+	set {_pourcent} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.pourcent")
+	set {_lore.1} to mj_editfiles_gettext("mystery_box", "data.amount", {_player}, "%{_amount}%")
+	set {_lore.2} to mj_editfiles_gettext("mystery_box", "data.pourcent", {_player}, "%{_pourcent}%")
+	set line {_count} of lore of {_item} to {_lore.1}
+	add 1 to {_count}
+	set line {_count} of lore of {_item} to {_lore.2}
+	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Viewer
+# =====================================================================================================================
+# APIxMJ - Action
+# ---------------------------------------------------------------------------------------------------------------------
+on rightclick:
+	set {_region} to mj_editfiles("mystery_box.config", "data.region")
+	if "%region at event-block%" contains {_region}:
+		if type of event-block is chest or ender chest or any shulker box:
+			set {_list::*} to mj_manager_nodes("mystery_box.data")
+			loop {_list::*}:
+				set {_id} to loop-value
+				mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box", "modify", event-location)
+				set {_loc.1} to mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box")
+				set {_loc.2} to mj_core_location_block("mystery_box.data", "data.%{_id}%")
+				if {_loc.1} is {_loc.2}:
+					cancel event
+					mj_mystery_box_check(player, {_id})
+					exit loop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_check(player: player, id: text):
+	set {_item} to {_player}'s tool
+	set {_key} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
+	if 1 of {_item} is 1 of {_key}:
+		remove 1 of {_item} from {_player}'s tool
+		set {_check} to mj_editfiles_boolean("mystery_box.config", "data.gui.condition")
+		if {_check} is true:
+			set {_value} to mj_mystery_box_result({_id})
+			mj_mystery_box_give({_player}, {_id}, {_value})
+		else:
+			mj_mystery_box_gui({_player}, {_id})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Action
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_result(id: text) :: number:
+	set {_list::*} to mj_manager_nodes("mystery_box.data", "data.%{_id}%.catalog")
+	loop {_list::*}:
+		set {_value} to loop-value parsed as number
+		if {_value} isn't 1:
+			set {_pourcent} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.pourcent")
+			broadcast "random : %{_id}% -> %{_value}% = %{_pourcent}%%%"
+			if chance of {_pourcent}%:
+				set {_result} to {_value}
+				exit loop
+			else:
+				set {_result} to 1
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_give(player: player, id: text, value: number):
+	set {_type} to mj_editfiles("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.type")
+	set {_count} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.count")
+	if {_type} is "money":
+		set {_gift} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.money")
+		mj_essentials_money_system({_player}, {_gift}, true, "mystery_box")
+	else if {_type} is "command":
+		set {_gift} to mj_editfiles("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.command")
+		replace "<player>" with "%{_player}%" in {_gift}
+		loop {_count} times:
+			console command {_gift}
+	else if {_type} is "storage":
+		set {_gift} to mj_editfiles("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.storage")
+		mj_core_storage_gift("%{_player}%", {_gift})
+	else:
+		set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.item")
+		loop {_count} times:
+			give {_item} to {_player}
+	set {_name.1} to mj_editfiles_gettext("mystery_box", "data.catalog.%{_id}%.%{_value}%", {_player})
+	set {_name.2} to mj_editfiles_gettext("mystery_box", "data.product.%{_id}%.name", {_player})
+	set {_pourcent} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.pourcent")
+	mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.winner", {_name.1}, "%{_count}%")
+	mj_core_logger(1, "%{_player}% receive %{_name.1}% in the box %{_name.2}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function
+# =====================================================================================================================
+# APIxMJ - Animation
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_gui(player: player, id: text):
+	set {_name} to mj_editfiles_gettext("mystery_box", "data.product.%{_id}%.name", {_player})
+	set {_title} to mj_editfiles_gettext("mystery_box", "data.title", {_player}, {_name})
+	mj_core_gui_generator({_player}, 3, true, "default", {_title}, "mystery_box")
+	set {_value} to mj_mystery_box_result({_id})
+	mj_mystery_box_gui_animation({_player}, {_id}, {_value})
+	make a gui slot 4 and 22 of {_player} with lime stained glass pane named " " to run:
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_gui_animation(player: player, id: text, result: number):
+	set {_close} to false
+	loop 15 times:
+		set {_check} to mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui")
+		if {_check} is "mystery_box":
+			mj_mystery_box_animation({_player}, {_id})
+			wait 1 ticks
+		else:
+			set {_close} to true
+			exit loop
+	loop 10 times:
+		set {_check} to mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui")
+		if {_check} is "mystery_box":
+			mj_mystery_box_animation({_player}, {_id})
+			wait 1 ticks
+		else:
+			set {_close} to true
+			exit loop
+	loop 5 times:
+		set {_check} to mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui")
+		if {_check} is "mystery_box":
+			mj_mystery_box_animation({_player}, {_id})
+			wait 5 ticks
+		else:
+			set {_close} to true
+			exit loop
+	wait 5 ticks
+	if {_close} isn't true:
+		set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.catalog.%{_result}%.item")
+		make a gui slot 13 of {_player} with {_item} to run:
+			stop
+	mj_mystery_box_give({_player}, {_id}, {_result})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_mystery_box_animation(player: player, id: text):
+	set {_count} to mj_manager_nodes_count("mystery_box.data", "data.%{_id}%.catalog")
+	set {_random} to a random integer from 1 to {_count}
+	set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.catalog.%{_random}%.item")
+	make a gui slot 13 of {_player} with {_item} to run:
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Animation
+# =====================================================================================================================

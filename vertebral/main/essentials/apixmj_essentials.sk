@@ -165,7 +165,7 @@ on quit:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_join(player: player, mode: text="join"):
-	wait 2 ticks
+	wait 4 ticks
 	set {_check} to mj_timecount_text("connect_%{_player}%", "name")
 	if {_check} is "none":
 		set {_send} to mj_editfiles("essentials.config", "data.format.%{_mode}%")
@@ -1760,6 +1760,7 @@ on chat:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
+	wait 3 ticks
 	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.vanish")
 	if {_check} is true:
 		mj_essentials_vanish_actualizer()
@@ -1942,8 +1943,8 @@ on tab complete of "/tempban":
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
-	set {_check1} to mj_editfiles_boolean("userdata", "data.%player's uuid%.source.essentials.ban")
-	if {_check1} is true:
+	set {_check.1} to mj_editfiles_boolean("userdata", "data.%player's uuid%.source.essentials.ban")
+	if {_check.1} is true:
 		set {_time} to mj_editfiles_date("userdata", "data.%player's uuid%.source.essentials.tempban")
 		if {_time} < now:
 			mj_editfiles_boolean("userdata", "data.%player's uuid%.source.essentials.ban", "modify", false)
@@ -1953,8 +1954,8 @@ on join:
 		else:
 			set {_reason} to mj_editfiles("userdata", "data.%player's uuid%.source.essentials.reason")
 			mj_timecount("connect_%player%", "backward", 0, 0, 5)
-			set {_check2} to mj_editfiles_boolean("essentials.config", "data.bungeecord.condition")
-			if {_check2} is true:
+			set {_check.2} to mj_editfiles_boolean("essentials.config", "data.bungeecord.condition")
+			if {_check.2} is true:
 				set {_server} to mj_editfiles("essentials.config", "data.bungeecord.server")
 				mj_manager_message(player, "essentials", "data.tempban.prefix", "essentials", "data.tempban.info", "%{_reason}%", "%{_time}%")
 				send player to server "%{_server}%"

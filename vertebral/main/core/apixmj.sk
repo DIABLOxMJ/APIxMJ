@@ -552,7 +552,7 @@ on join:
 on quit:
 	if event-entity is player:
 		set {_profil} to mj_editfiles("userdata", "data.%player's uuid%.profil")
-		mj_core_location("userdata.%player's uuid%.%{_profil}%", "data", "modify", player)
+		mj_core_location("userdata.%player's uuid%", "data", "modify", player)
 		mj_editfiles("userdata", "data.%player's uuid%.playtime", "modify", "%player's time played%")
 		wait 2 seconds
 		if player is offline:
@@ -568,8 +568,8 @@ function mj_core_playerdata(player: offlineplayer):
 	load yaml "plugins/APIxMJ/%{_folder}%/userdata/%{_player}'s uuid%/%{_profil}%.yml" as "mj.userdata.%{_player}'s uuid%.%{_profil}%"
 	mj_core_logger(1, "%{_player}% loading userdata file..")
 	wait 5 ticks
-	set {_check1} to yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata"
-	if {_check1} isn't set:
+	set {_check.1} to yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata"
+	if {_check.1} isn't set:
 		set yaml value "data.%{_player}'s uuid%.pseudo" from "mj.userdata" to "%{_player}%"
 		set yaml value "data.%{_player}'s uuid%.last_pseudo" from "mj.userdata" to "none"
 		set yaml value "data.%{_player}'s uuid%.ip" from "mj.userdata" to "0.0.0.0"
@@ -583,8 +583,8 @@ function mj_core_playerdata(player: offlineplayer):
 		save yaml "mj.userdata"
 		mj_core_logger(1, "%{_player}% core data file was generated..")
 	wait 5 ticks
-	set {_check2} to yaml value "data.pseudo" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	if {_check2} isn't set:
+	set {_check.2} to yaml value "data.pseudo" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check.2} isn't set:
 		set yaml value "data.pseudo" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "%{_player}%"
 		set yaml value "data.language" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "fr"
 		set yaml value "data.temp.mute" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false

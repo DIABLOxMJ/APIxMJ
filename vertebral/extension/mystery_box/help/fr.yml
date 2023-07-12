@@ -4,10 +4,10 @@ data:
         type: action
         page: 1
         description:
-            '1': "&0- &aAvoir des récompenses cela rend intéressent."
+            '1': "&0- &aAvoir des récompenses, cela est intriguant."
         permission:
         - "none"
         info:
             '1': "&6- &7Si vous avez des clés pour ouvrir des boîtes,"
-            '2': "&0- &7rendez-vous au spawn et il y a surement un lieu"
+            '2': "&0- &7rendez-vous au spawn, il y a sûrement un lieu"
             '3': "&0- &7qui entrepose les boîtes mystères."

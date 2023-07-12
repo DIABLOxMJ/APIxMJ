@@ -49,9 +49,9 @@ data:
                 '2': " &6[&e&l!&6] &aN'hésite pas à faire un tour à la cantine avant de partir à l'aventure !"
                 '3': "&0"
     cantine: "&aOn vous offre un peu de nourriture afin de démarrer votre aventure."
-    exterior_protect: "&aVous avez reçu un casque pour vous protéger du soleil, pour votre début d'aventure."
+    exterior_protect: "&aVous avez reçu un casque pour vous protéger du soleil pour votre début d'aventure."
     clock_time: "&6&l< &7&lTemps actuel &6&l: &a&l$0 &6&l>"
     event_01:
-        eat: "&aChaque gâteau manger donnera une potentielle clé de gagner !"
+        eat: "&aChaque gâteau mangé donnera potentiellement une clé à gagner !"
         no_craft: "&cVous devez le fabriquer dans la &acuisine de l'abri &c!"
         success: "&aVous avez obtenu une clé de boîte mystère, retournez dans la cantine de l'abri pour l'utiliser !"

@@ -284,7 +284,7 @@ function mj_mystery_box_give(player: player, id: text, value: number):
 		set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.item")
 		loop {_count} times:
 			give {_item} to {_player}
-	set {_name.1} to mj_editfiles_gettext("mystery_box", "data.catalog.%{_id}%.%{_value}%", {_player})
+	set {_name.1} to mj_editfiles_gettext("mystery_box", "data.product.%{_id}%.catalog.%{_value}%.name", {_player})
 	set {_name.2} to mj_editfiles_gettext("mystery_box", "data.product.%{_id}%.name", {_player})
 	set {_pourcent} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.pourcent")
 	mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.winner", {_name.1}, "%{_count}%")

@@ -17,11 +17,11 @@ function mj_files_diamond_city():
 on load:
 	set {_list::*} to mj_manager_skript_list()
 	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
-		send "[APIxMJ] Loading dc_startup..." to console
+		send "[APIxMJ] Loading dc_core..." to console
 		mj_files_diamond_city()
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
-		unload script file "apixmj_dc_startup.sk"
+		unload script file "apixmj_dc_core.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on skript stop:

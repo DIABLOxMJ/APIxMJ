@@ -470,7 +470,7 @@ function mj_manager_menu_control_installer_file(player: player, source: text, id
 			create script "plugins/APIxMJ/%{_folder}%/preset/log.txt"
 			delete file "plugins/APIxMJ/%{_folder}%/preset/log.txt"
 			wait 2 ticks
-			download file from "%{_link}%/main/%{_github}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/preset/%{_file}%.yml"
+			download file from "%{_link}%/main/%{_github}%/preset/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/preset/%{_file}%.yml"
 	set {_list.3::*} to mj_editfiles_list("manager.config", "data.language.list")
 	loop {_list.3::*}:
 		download file from "%{_link}%/main/%{_github}%/language/%loop-value%.yml" to file "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml"

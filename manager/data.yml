@@ -521,7 +521,6 @@ data:
                     '1': apixmj_backpack
                 yml:
                     '1': config
-                    '2': data
                 file:
                     '1': mj.backpack.config
                     '2': mj.backpack.data
@@ -1386,7 +1385,7 @@ data:
                     '1': mj.dc_core.config
                     '2': mj.dc_core.data
                 preset:
-                    '1': default
+                    '1': none
                 datapack:
                     '1': none
                 reset:

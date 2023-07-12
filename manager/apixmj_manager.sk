@@ -631,7 +631,7 @@ function mj_manager_menu_control_reinstaller(player: player, source: text, id: t
 # APIxMJ - Gui Control (Condition)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_condition(player: player, source: text, id: text, slot: number=-1):
-	if "%{_source}%" doesn't contain "main":
+	if {_source} isn't "main" or "vertebral_main":
 		set {_check.1} to mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.version")
 		if {_check.1} isn't "0000.00.00.0000":
 			set {_name.1} to mj_editfiles_gettext("manager", "data.addon.%{_source}%.%{_id}%.name", {_player})
@@ -666,7 +666,7 @@ function mj_manager_menu_control_button_condition_list(player: player, source: t
 		set {_slot} to 0
 		set {_list.1::*} to mj_manager_nodes("temp", "data.manager.addon")
 		loop {_list.1::*}:
-			if loop-value-1 is "main" or "vertebral.main":
+			if loop-value-1 isn't "main" or "vertebral_main":
 				set {_list.2::*} to mj_manager_nodes("temp", "data.manager.addon.%loop-value-1%")
 				loop {_list.2::*}:
 					set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%loop-value-1%.%loop-value-2%.installed")

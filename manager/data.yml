@@ -1361,7 +1361,7 @@ data:
         server_dedicated_diamond_city:
             dc_core:
                 name: data.addon.server_dedicated_diamond_city.dc_core.name
-                experimental: true
+                experimental: false
                 visible: true
                 depends:
                     '1': main.manager
@@ -1382,19 +1382,54 @@ data:
                     '1': config
                     '2': data
                 file:
-                    '1': mj.dc_core.config
-                    '2': mj.dc_core.data
+                    '1': mj.diamond_city.config
+                    '2': mj.diamond_city.data
                 preset:
                     '1': none
                 datapack:
                     '1': none
                 reset:
                     '1':
-                        file: mj.dc_core.data
+                        file: mj.diamond_city.data
                         data: data
                 item: command block
                 gui_background:
                     item: light blue stained glass pane
+            dc_event:
+                name: data.addon.server_dedicated_diamond_city.dc_event.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': server_dedicated_diamond_city.dc_core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: server_dedicated/diamond_city/dc_event
+                folder: server_dedicated/diamond_city/dc_event
+                slot: 11
+                skript:
+                    '1': apixmj_dc_event
+                yml:
+                    '1': none
+                file:
+                    '1': mj.diamond_city.config
+                    '2': mj.diamond_city.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.diamond_city.data
+                        data: data
+                item: cake
+                gui_background:
+                    item: lime stained glass pane
         editor:
             bedwars_editor:
                 name: data.addon.editor.bedwars_editor.name

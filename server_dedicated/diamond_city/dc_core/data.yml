@@ -66,3 +66,5 @@ data:
         region: spawn_cantine
     exterior_protect:
         region: spawn_helmet
+    event_01:
+        region: event_cantine

@@ -474,6 +474,11 @@ data:
                 name_lite: "&bCœur"
                 lore:
                     '1': "&6- &7Un module centrale pour le serveur."
+            dc_event:
+                name: "&bÉvènement"
+                name_lite: "&bÉvent"
+                lore:
+                    '1': "&6- &7Un module générative d'évènement."
         editor:
             bedwars_editor:
                 name: "&aÉditeur du Bedwars"

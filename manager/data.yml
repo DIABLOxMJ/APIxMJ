@@ -797,6 +797,7 @@ data:
                     '1': apixmj_moderator
                 yml:
                     '1': config
+                    '2': data
                 file:
                     '1': mj.moderator.config
                     '2': mj.moderator.data

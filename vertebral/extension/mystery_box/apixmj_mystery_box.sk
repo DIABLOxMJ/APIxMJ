@@ -86,14 +86,15 @@ on tab complete of "/mystery_box":
 		if tab arg-1 is "location" or "key" or "loot":
 			set {_list.1::*} to mj_core_id_converter("mystery_box.data", "data")
 			set tab completions for position 2 to {_list.1::*}
-			if tab arg-2 is set:
-				set {_id} to mj_core_id_checker("mystery_box.data", "data", tab arg-2)
-				set {_value} to mj_editfiles("mystery_box.data", "data.%{_id}%.catalog")
-				if {_value} is "none":
-					set tab completions for position 3 to "1"
-				else:
-					set {_list.2::*} to mj_manager_nodes("mystery_box.data", "data.%{_id}%.catalog")
-					set tab completions for position 3 to {_list.2::*}
+			if tab arg-1 is "loot":
+				if tab arg-2 is set:
+					set {_id} to mj_core_id_checker("mystery_box.data", "data", tab arg-2)
+					set {_value} to mj_editfiles("mystery_box.data", "data.%{_id}%.catalog")
+					if {_value} is "none":
+						set tab completions for position 3 to "1"
+					else:
+						set {_list.2::*} to mj_manager_nodes("mystery_box.data", "data.%{_id}%.catalog")
+						set tab completions for position 3 to {_list.2::*}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Command
@@ -106,14 +107,14 @@ function mj_mystery_box_controller(player: player, type: text, name: text, slot:
 		set {_id} to mj_core_id_generator()
 		mj_mystery_box_data_base_generator({_id}, {_name})
 		mj_core_location_block("mystery_box.data", "data.%{_id}%", "modify", {_loc})
-		mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.create", {_id})
+		mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.create", {_name})
 	else if {_type} is "key" or "loot" or "location":
 		set {_id} to mj_core_id_checker("mystery_box.data", "data", {_name})
+		set {_item} to {_player}'s tool
 		if {_type} is "key":
 			mj_editfiles_stock("mystery_box.data", "data.%{_id}%.key", "modify", {_item})
 			mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.key", {_name})
 		else if {_type} is "loot":
-			set {_item} to {_player}'s tool
 			set {_value} to mj_editfiles("mystery_box.data", "data.%{_id}%.catalog.%{_slot}%.name")
 			if {_value} isn't set:
 				mj_mystery_box_data_loot_generator({_id}, {_slot})
@@ -133,7 +134,7 @@ function mj_mystery_box_data_base_generator(id: text, name: text):
 	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
 	loop {_list::*}:
 		mj_editfiles("mystery_box.language.%loop-value%", "data.product.%{_id}%.name", "modify", "&adata.product.%{_id}%.name")
-	set yaml value "data.%{_id}%.name" from "mj.mystery_box.data" to "data.product.%{_id}%.name"
+	set yaml value "data.%{_id}%.name" from "mj.mystery_box.data" to {_name}
 	set yaml value "data.%{_id}%.price" from "mj.mystery_box.data" to 0
 	set yaml value "data.%{_id}%.key" from "mj.mystery_box.data" to "tripwire hooks"
 	set yaml value "data.%{_id}%.location" from "mj.mystery_box.data" to "none"
@@ -181,7 +182,6 @@ on leftclick:
 function mj_mystery_box_viewer(player: player, id: text):
 	set {_name} to mj_editfiles_gettext("mystery_box", "data.product.%{_id}%.name", {_player})
 	set {_count} to mj_manager_nodes_count("mystery_box.data", "data.%{_id}%.catalog")
-	broadcast "count : %{_count}%"
 	if {_count} >= 22:
 		set {_size} to 6
 	else if {_count} >= 15:
@@ -204,7 +204,7 @@ function mj_mystery_box_viewer(player: player, id: text):
 function mj_mystery_box_viewer_item(player: player, id: text, value: text, slot: number):
 	set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.item")
 	set {_count} to mj_manager_item_lore_count({_player}, {_item})
-	set {_name} to mj_editfiles_gettext("mystery_box", "data.catalog.%{_id}%.catalog.%{_value}%")
+	set {_name} to mj_editfiles_gettext("mystery_box", "data.product.%{_id}%.catalog.%{_value}%.name")
 	set {_amount} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.count")
 	set {_pourcent} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.pourcent")
 	set {_lore.1} to mj_editfiles_gettext("mystery_box", "data.amount", {_player}, "%{_amount}%")
@@ -259,7 +259,6 @@ function mj_mystery_box_result(id: text) :: number:
 		set {_value} to loop-value parsed as number
 		if {_value} isn't 1:
 			set {_pourcent} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.pourcent")
-			broadcast "random : %{_id}% -> %{_value}% = %{_pourcent}%%%"
 			if chance of {_pourcent}%:
 				set {_result} to {_value}
 				exit loop

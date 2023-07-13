@@ -364,6 +364,14 @@ on break:
 								mj_drawer_drop_sign(player, {_loc.6})
 	stop
 # --------------------------------------------------------------------------------------------------------------------
+on explode:
+	set {_name} to mj_editfiles("drawer.config", "data.sign.name")
+	loop exploded blocks:
+		if type of loop-block is sign:
+			if line 1 of loop-block is {_name}:
+				cancel event
+	stop
+# --------------------------------------------------------------------------------------------------------------------
 function mj_drawer_drop_sign(player: offlineplayer, loc: location):
 	set {_block.1} to block at {_loc}
 	set {_value.1} to line 2 of {_block.1} parsed as item

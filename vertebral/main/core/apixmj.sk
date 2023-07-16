@@ -984,14 +984,14 @@ command /reports:
 	executable by: player
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.report.*" or "mj.report.admin":
-			set {_count} to mj_manager_nodes_count("manager.data", "data.report")
+			set {_count} to mj_manager_nodes_count("core.data", "data.report")
 			if {_count} is set:
-				mj_manager_message(player, "manager", "data.report.prefix", "manager", "data.report.read", "%{_count}%")
+				mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.read", "%{_count}%")
 				mj_core_data_read(player, "manager.data", "data.report")
 			else:
-				mj_manager_message(player, "manager", "data.report.prefix", "manager", "data.report.empty")
+				mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.empty")
 		else:
-			mj_manager_permission(player, "manager", "data.report.prefix", "mj.manager.report.admin")
+			mj_manager_permission(player, "core", "data.report.prefix", "mj.manager.report.admin")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
@@ -1432,6 +1432,10 @@ on inventory close:
 # APIxMJ - GodMode
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
+	mj_timecount("godmode_%player%", "backward", 0, 0, 15, "none", player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on respawn:
 	mj_timecount("godmode_%player%", "backward", 0, 0, 15, "none", player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

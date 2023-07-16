@@ -123,38 +123,38 @@ function mj_diamond_city_spawn(player: player):
 on region enter:
 	set {_region} to mj_editfiles("diamond_city.data", "data.portal_exit.region")
 	if "%event-region%" contains {_region}:
-		set {_check} to mj_editfiles_number("userdata.%player's uuid%", "data.source.essentials.back.location.x")
-		if {_check} is set:
-			set {_name} to mj_timecount_text("back_%player%", "name")
-			if {_name} is "none":
-				set {_tp} to mj_core_location("userdata.%player's uuid%", "data.source.essentials.back")
-				teleport player to {_tp}
-			else:
-				set {_time} to mj_timecount_viewer("back_%player%")
-				mj_manager_message(player, "essentials", "data.back.prefix", "core", "data.time.wait", {_time})
-		else:
-			set {_x} to a random number from 5 to 50
-			set {_z} to a random number from 5 to 50
-			if chance of 50%:
-				set {_x} to a random number from -5 to -50
-			if chance of 50%:
-				set {_z} to a random number from -5 to -50
-			if chance of 50%:
-				set {_x} to a random number from -5 to 50
-			if chance of 50%:
-				set {_z} to a random number from -5 to 50
-			if chance of 50%:
-				set {_x} to a random number from 5 to -50
-			if chance of 50%:
-				set {_z} to a random number from 5 to -50
-			set {_world} to player's world
-			set {_result} to location({_x}, 200, {_z}, {_world}, 0, 0)
-			teleport player to {_result}
-			mj_timecount("godmode_%player%", "backward", 0, 0, 15, "none", player)
-			set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.exit")
-			if {_check} isn't true:
-				mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.exit", "modify", true)
-				mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.portal_exit")
+	#	set {_check} to mj_editfiles_number("userdata.%player's uuid%", "data.source.essentials.back.location.x")
+	#	if {_check} is set:
+	#		set {_name} to mj_timecount_text("back_%player%", "name")
+	#		if {_name} is "none":
+	#			set {_tp} to mj_core_location("userdata.%player's uuid%", "data.source.essentials.back")
+	#			teleport player to {_tp}
+	#		else:
+	#			set {_time} to mj_timecount_viewer("back_%player%")
+	#			mj_manager_message(player, "essentials", "data.back.prefix", "core", "data.time.wait", {_time})
+	#	else:
+		set {_x} to a random number from 5 to 50
+		set {_z} to a random number from 5 to 50
+		if chance of 50%:
+			set {_x} to a random number from -5 to -50
+		if chance of 50%:
+			set {_z} to a random number from -5 to -50
+		if chance of 50%:
+			set {_x} to a random number from -5 to 50
+		if chance of 50%:
+			set {_z} to a random number from -5 to 50
+		if chance of 50%:
+			set {_x} to a random number from 5 to -50
+		if chance of 50%:
+			set {_z} to a random number from 5 to -50
+		set {_world} to player's world
+		set {_result} to location({_x}, 200, {_z}, {_world}, 0, 0)
+		teleport player to {_result}
+		mj_timecount("godmode_%player%", "backward", 0, 0, 15, "none", player)
+		set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.exit")
+		if {_check} isn't true:
+			mj_editfiles_boolean("temp", "data.%player's uuid%.diamond_city.spawn.exit", "modify", true)
+			mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.portal_exit")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Portail

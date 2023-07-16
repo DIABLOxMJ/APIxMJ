@@ -971,6 +971,7 @@ command /playtime [<number=1>]:
 # APIxMJ - Report
 # ---------------------------------------------------------------------------------------------------------------------
 command /report [<text>]:
+	aliases: suggestion, sugg
 	executable by: player
 	trigger:
 		if arg-1 is set:

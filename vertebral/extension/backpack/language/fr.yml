@@ -9,6 +9,7 @@ data:
         essentials: "&cVous n'avez pas &a$0 &cpour améliorer le sac à dos."
     no_essentials: "&cOups &aEssentiels &cn'est pas installé sur le serveur."
     upgrade: "&aFélicitations, vous avez amélioré le sac à dos dans votre main !"
+    already_open: "&cLe sac à dos et déjà ouvert par &a$0&c."
     object:
         tiers: "&7Taille &6: &a$0"
         uuid: "&7UUID &6: &a$0"

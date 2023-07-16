@@ -287,16 +287,28 @@ function mj_backpack_upgrade(player: player):
 function mj_backpack_action_open(player: player, id: text):
 	close {_player}'s Inventory
 	wait 2 ticks
-	set {_title} to mj_editfiles("backpack.data", "data.%{_id}%.name")
-	set {_size} to mj_editfiles_number("backpack.data", "data.%{_id}%.size")
-	set {_inv} to chest with {_size} rows named {_title}
-	set {_storage} to yaml value "data.%{_id}%.storage" from "mj.backpack.data"
-	if {_storage} is set:
-		set {_inv}'s serialized contents to {_storage}
-	open {_inv} to {_player}
-	mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui", "modify", "backpack")
-	mj_editfiles_boolean("temp", "data.%{_player}'s uuid%.backpack.condition", "modify", true)
-	mj_editfiles("temp", "data.%{_player}'s uuid%.backpack.id", "modify", {_id})
+	set {_list::*} to mj_manager_nodes("userdata")
+	loop {_list::*}:
+		set {_value.1} to loop-value
+		set {_value.2} to mj_editfiles("temp", "data.%{_value.1}%.backpack.id")
+		if {_id} is {_value.2}:
+			set {_value.3} to mj_editfiles_boolean("temp", "data.%{_value.1}%.backpack.condition")
+			if {_value.3} isn't true:
+				set {_title} to mj_editfiles("backpack.data", "data.%{_id}%.name")
+				set {_size} to mj_editfiles_number("backpack.data", "data.%{_id}%.size")
+				set {_inv} to chest with {_size} rows named {_title}
+				set {_storage} to yaml value "data.%{_id}%.storage" from "mj.backpack.data"
+				if {_storage} is set:
+					set {_inv}'s serialized contents to {_storage}
+				open {_inv} to {_player}
+				mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui", "modify", "backpack")
+				mj_editfiles_boolean("temp", "data.%{_player}'s uuid%.backpack.condition", "modify", true)
+				mj_editfiles("temp", "data.%{_player}'s uuid%.backpack.id", "modify", {_id})
+				exit loop
+			else:
+				set {_value.4} to {_value.1} parsed as offlineplayer
+				mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.already_open", "%{_value.4}%")
+				exit loop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

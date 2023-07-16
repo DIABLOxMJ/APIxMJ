@@ -146,7 +146,7 @@ every 1 second:
 # APIxMJ - Respawn penalty
 # ---------------------------------------------------------------------------------------------------------------------
 on death:
-	set {_check} to mj_editfiles_boolean("dangerous.config", "data.heat_wave.condition")
+	set {_check} to mj_editfiles_boolean("dangerous.config", "data.respawn_penalty.condition")
 	if {_check} is true:
 		if type of event-entity is player:
 			set {_count} to mj_editfiles_number("userdata.%player's uuid%", "data.source.dangerous.death_count")

@@ -1570,6 +1570,13 @@ on death:
 		mj_editfiles_number("userdata.%attacker's uuid%", "data.support.stats.kill.%{_obj}%", "modify", {_count})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
+on death:
+	if type of event-entity is player:
+		set {_count} to mj_editfiles_number("userdata.%victim's uuid%", "data.support.stats.death")
+		add 1 to {_count}
+		mj_editfiles_number("userdata.%victim's uuid%", "data.support.stats.death", "modify", {_count})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_core_stats_convert_name(item: text) :: text:
 	replace "northward " or "downward " or "westward " or "eastward " or "southward " or "top " or "double " or "hanging " or "unbroken " or "damaged " or "chipped " with "" in {_item}
 	replace "ascending " or "z-aligned " or "east " or "east-" or "west " or "south " or "upward " or "powered " or "floor " or "wall " or "top-half " or "short " with "" in {_item}

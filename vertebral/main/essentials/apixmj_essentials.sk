@@ -2620,7 +2620,7 @@ function mj_essentials_teleport(player: player, type: text, tp: location, info1:
 			wait 5 seconds
 			set {_xyz2} to mj_core_location_viewer({_player})
 			if {_xyz1} is {_xyz2}:
-				mj_essentials_back({_player})		
+				mj_essentials_back({_player})
 				set {_h} to mj_editfiles_number("essentials.config", "data.teleport.time.hour")
 				set {_m} to mj_editfiles_number("essentials.config", "data.teleport.time.minute")
 				set {_s} to mj_editfiles_number("essentials.config", "data.teleport.time.second")

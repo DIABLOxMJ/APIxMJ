@@ -797,7 +797,10 @@ function mj_core_inventory_restore(player: player, type: text):
 	set {_gamemode} to {_gamemode} parsed as gamemode
 	set {_player}'s gamemode to {_gamemode}
 	set {_health} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.health")
-	set {_player}'s health to {_health}
+	if {_health} is 0:
+		set {_player}'s health to 20
+	else:
+		set {_player}'s health to {_health}
 	set {_hunger} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.hunger")
 	set {_player}'s food to {_hunger}
 	set {_ec} to mj_editfiles_stock("userdata.%{_player}'s uuid%", "data.support.inventory.%{_type}%.enderchest")

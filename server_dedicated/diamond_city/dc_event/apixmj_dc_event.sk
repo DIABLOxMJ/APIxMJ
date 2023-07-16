@@ -23,12 +23,11 @@ command /event:
 	executable by: player
 	trigger:
 	set {_check} to mj_editfiles("diamond_city.config", "data.event")
-	if {_check} isn't "none":
-		set {_lang} to mj_manager_userdata_language({_player})
-		set {_list::*} to mj_manager_nodes("diamond_city.language.%{_lang}%", "data.event_info.%{_check}%")
-		loop {_list::*}:
-			set {_value} to mj_editfiles_gettext("diamond_city", "data.event_info.%{_check}%.%loop-value%", {_player})
-			send {_value}
+	set {_lang} to mj_manager_userdata_language({_player})
+	set {_list::*} to mj_manager_nodes("diamond_city.language.%{_lang}%", "data.event_info.%{_check}%")
+	loop {_list::*}:
+		set {_value} to mj_editfiles_gettext("diamond_city", "data.event_info.%{_check}%.%loop-value%", {_player})
+		send {_value}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Command

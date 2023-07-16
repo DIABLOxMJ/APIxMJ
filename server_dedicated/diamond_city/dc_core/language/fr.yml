@@ -51,6 +51,17 @@ data:
     cantine: "&aOn vous offre un peu de nourriture afin de démarrer votre aventure."
     exterior_protect: "&aVous avez reçu un casque pour vous protéger du soleil pour votre début d'aventure."
     clock_time: "&6&l< &7&lTemps actuel &6&l: &a&l$0 &6&l>"
+    event_info:
+            event_01:
+                '1': "&0"
+                '2': "&6[&b&lDIAMOND CITY&6] &7Évènement en cours !"
+                '3': " &6- &7Le but consiste à récolter des ressources afin de fabriquer des"
+                '4': " &6- &7gâteau seulement réalisable dans la cuisine de l'abri. &6(&aSpawn&6)"
+                '5': "&0"
+                '6': " &6- &7Ensuite de manger le gâteau à l'extérieur de l'abri, afin d'obtenir"
+                '7': " &6- &7une clé pour obtenir une récompense dans la boîte mystère qui se"
+                '8': " &6- &7trouve dans la cantine de l'abri. &6(&aSpawn&6)"
+                '9': "&0"
     event_01:
         eat: "&aChaque gâteau mangé donnera potentiellement une clé à gagner !"
         no_craft: "&cVous devez le fabriquer dans la &acuisine de l'abri &c!"

@@ -17,36 +17,58 @@ on skript stop:
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Files
 # =====================================================================================================================
+# APIxMJ - Command
+# ---------------------------------------------------------------------------------------------------------------------
+command /event:
+	executable by: player
+	trigger:
+	set {_check} to mj_editfiles("diamond_city.config", "data.event")
+	if {_check} isn't "none":
+		set {_lang} to mj_manager_userdata_language({_player})
+		set {_list::*} to mj_manager_nodes("diamond_city.language.%{_lang}%", "data.event_info.%{_check}%")
+		loop {_list::*}:
+			set {_value} to mj_editfiles_gettext("diamond_city", "data.event_info.%{_check}%.%loop-value%", {_player})
+			send {_value}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Command
+# =====================================================================================================================
 # APIxMJ - Event 01
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:
-	set {_region} to mj_editfiles("diamond_city.data", "data.event_01.region")
-	if "%region at player%" contains {_region}:
-		if player's gamemode isn't creative:
-			cancel event
-			open workbench view to player
+	set {_check} to mj_editfiles("diamond_city.config", "data.event")
+	if {_check} is "event_01":
+		set {_region} to mj_editfiles("diamond_city.data", "data.event_01.region")
+		if "%region at player%" contains {_region}:
+			if player's gamemode isn't creative:
+				cancel event
+				open workbench view to player
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on crafting of cake:
-	set {_region} to mj_editfiles("diamond_city.data", "data.event_01.region")
-	if "%region at player%" contains {_region}:
-		mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.eat")
-	else:
-		cancel event
-		mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.no_craft")
+	set {_check} to mj_editfiles("diamond_city.config", "data.event")
+	if {_check} is "event_01":
+		set {_region} to mj_editfiles("diamond_city.data", "data.event_01.region")
+		if "%region at player%" contains {_region}:
+			mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.eat")
+		else:
+			cancel event
+			mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.no_craft")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:
-	if event-block is cake:
-		set {_loc} to event-location
-		wait 5 ticks
-		set {_check} to block at {_loc}
-		if type of {_check} is air:
-			set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_01")
-			set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
-			if chance of 50%:
-				give 1 of {_item} to player
-				mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.success")
+	if type of event-block is cake:
+		set {_check} to mj_editfiles("diamond_city.config", "data.event")
+		if {_check} is "event_01":
+			set {_loc} to event-location
+			wait 5 ticks
+			set {_check} to block at {_loc}
+			if type of {_check} is air:
+				set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_01")
+				set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
+				if chance of 50%:
+					give 1 of {_item} to player
+					mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.success")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Event 01

@@ -977,7 +977,7 @@ command /report [<text>]:
 		if arg-1 is set:
 			mj_core_report(player, arg-1)
 		else:
-			mj_manager_message(player, "manager", "data.report.prefix", "manager", "data.report.error")
+			mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.error")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /reports:

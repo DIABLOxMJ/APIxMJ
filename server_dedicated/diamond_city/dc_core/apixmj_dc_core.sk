@@ -81,20 +81,25 @@ on command:
 		cancel event
 		set {_name} to mj_timecount_text("spawn_%player%", "name")
 		if {_name} is "none":
-			mj_manager_message(player, "diamond_city", "data.prefix", "essentials", "data.teleport.wait")
-			set {_xyz1} to mj_core_location_viewer(player)
-			wait 5 seconds
-			set {_xyz2} to mj_core_location_viewer(player)
-			if {_xyz1} is {_xyz2}:
-				set {_h} to mj_editfiles_number("essentials.config", "data.teleport.time.hour")
-				set {_m} to mj_editfiles_number("essentials.config", "data.teleport.time.minute")
-				set {_s} to mj_editfiles_number("essentials.config", "data.teleport.time.second")
-				mj_timecount("spawn_%player%", "backward", {_h}, {_m}, {_s})
-				mj_timecount("godmode_%player%", "backward", 0, 0, 10)
+			if player's gamemode isn't creative:
+				mj_manager_message(player, "diamond_city", "data.prefix", "essentials", "data.teleport.wait")
+				set {_xyz1} to mj_core_location_viewer(player)
+				wait 5 seconds
+				set {_xyz2} to mj_core_location_viewer(player)
+				if {_xyz1} is {_xyz2}:
+					set {_h} to mj_editfiles_number("essentials.config", "data.teleport.time.hour")
+					set {_m} to mj_editfiles_number("essentials.config", "data.teleport.time.minute")
+					set {_s} to mj_editfiles_number("essentials.config", "data.teleport.time.second")
+					mj_timecount("spawn_%player%", "backward", {_h}, {_m}, {_s})
+					mj_timecount("godmode_%player%", "backward", 0, 0, 10)
+					mj_essentials_back(player)
+					mj_diamond_city_spawn(player)
+				else:
+					mj_manager_message(player, "diamond_city", "data.prefix", "essentials", "data.teleport.cancel")
+			else:
 				mj_essentials_back(player)
 				mj_diamond_city_spawn(player)
-			else:
-				mj_manager_message(player, "diamond_city", "data.prefix", "essentials", "data.teleport.cancel")
+
 		else:
 			set {_time} to mj_timecount_viewer("spawn_%player%")
 			mj_manager_message(player, "essentials", "data.back.prefix", "core", "data.time.wait", {_time})

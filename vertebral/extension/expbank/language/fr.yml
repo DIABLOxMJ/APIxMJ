@@ -6,6 +6,7 @@ data:
     deposit_failed: "&cVous n'avez pas les moyens pour déposer de l'expérience."
     withdraw_failed: "&cVous n'avez pas les moyens pour récupérer de l'expérience."
     exp_failed: "&cVous n'avez pas l'expérience nécessaire pour faire ceci."
+    inv_failed: "&cVous n'avez plus de place dans votre inventaire."
     no_owner: "&cVous n'êtes pas le propriétaire."
     convert_level: "&7Vous avez transféré &a$0 level(s) &7d'expérience en bouteille."
     convert_point: "&7Vous avez transféré &a$0 point(s) &7d'expérience en bouteille."

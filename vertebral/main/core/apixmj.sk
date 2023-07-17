@@ -1514,15 +1514,20 @@ function mj_core_recipes_loader():
 		set {_name} to mj_editfiles("core.data", "data.recipe.%{_value}%.name")
 		set {_type} to mj_editfiles_boolean("core.data", "data.recipe.%{_value}%.shapeless")
 		set {_item} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.item")
+		set {_count} to mj_editfiles_number("core.data", "data.recipe.%{_value}%.count")
+		set {_give} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.give")
 		set {_slot} to 1
 		loop 9 times:
 			set {_item.%{_slot}%} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.method.slot_%{_slot}%")
 			add 1 to {_slot}
-		set {_recipe} to {_item} named "%{_name}%"
-		if {_type} is true:
-			register new shapeless recipe for {_recipe} using {_item.1}, {_item.2}, {_item.3}, {_item.4}, {_item.5}, {_item.6}, {_item.7}, {_item.8} and {_item.9} with id "apixmj.%{_value}%"
+		if {_give} is air:
+			set {_recipe} to {_item} named "%{_name}%"
 		else:
-			register new shaped recipe for {_recipe} using {_item.1}, {_item.2}, {_item.3}, {_item.4}, {_item.5}, {_item.6}, {_item.7}, {_item.8} and {_item.9} with id "apixmj.%{_value}%"
+			set {_recipe} to {_give}
+		if {_type} is true:
+			register new shapeless recipe for {_count} of {_recipe} using {_item.1}, {_item.2}, {_item.3}, {_item.4}, {_item.5}, {_item.6}, {_item.7}, {_item.8} and {_item.9} with id "apixmj.%{_value}%"
+		else:
+			register new shaped recipe for {_count} of {_recipe} using {_item.1}, {_item.2}, {_item.3}, {_item.4}, {_item.5}, {_item.6}, {_item.7}, {_item.8} and {_item.9} with id "apixmj.%{_value}%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

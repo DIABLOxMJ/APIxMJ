@@ -59,21 +59,28 @@ on rightclick:
 	if type of event-block is cake:
 		set {_check} to mj_editfiles("diamond_city.config", "data.event")
 		if {_check} is "event_01":
-			set {_name} to mj_timecount_text("event_%player%", "name")
-			if {_name} is "none":
-				set {_loc} to event-location
-				wait 2 ticks
-				set {_check} to block at {_loc}
-				if type of {_check} is air:
-					set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_01")
-					set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
-					if chance of 50%:
-						give 1 of {_item} to player
-						mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.success")
-						mj_timecount("spawn_%player%", "backward", 0, 0, 1)
-			else:
-				set {_time} to mj_timecount_viewer("event_%player%")
-				mj_manager_message(player, "diamond_city", "data.prefix", "core", "data.time.wait", {_time})
+			#set {_name} to mj_timecount_text("event_%player%", "name")
+			#if {_name} is "none":
+			set {_loc} to event-location
+			wait 2 ticks
+			set {_check} to block at {_loc}
+			if type of {_check} is air:
+				set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_01")
+				set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
+				if chance of 50%:
+					give 1 of {_item} to player
+					mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.success")
+					mj_timecount("spawn_%player%", "backward", 0, 0, 1)
+			#else:
+			#	set {_time} to mj_timecount_viewer("event_%player%")
+			#	mj_manager_message(player, "diamond_city", "data.prefix", "core", "data.time.wait", {_time})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on place:
+	set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_01")
+	set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
+	if player's tool is {_item}:
+		cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Event 01

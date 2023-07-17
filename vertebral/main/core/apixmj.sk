@@ -1496,7 +1496,7 @@ function mj_core_menu_recipes_viewer(player: player, value: text="none"):
 	make a gui slot 24 of {_player} with {_count} of {_item} named {_name} to run:
 		stop
 	set {_return} to mj_editfiles_gettext("manager", "data.button.return", {_player})
-	make a gui slot 8 of {_player} with {_count} of barrier block named {_return} to run:
+	make a gui slot 8 of {_player} with barrier block named {_return} to run:
 		mj_core_menu_recipes({_player})
 		stop
 	stop

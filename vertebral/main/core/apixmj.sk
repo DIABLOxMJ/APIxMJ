@@ -1455,45 +1455,59 @@ on damage:
 # =====================================================================================================================
 # APIxMJ - Crafting
 # ---------------------------------------------------------------------------------------------------------------------
-command /recipes [<text>]:
+command /recipes:
 	trigger:
-		if arg-1 is set:
-			mj_core_menu_recipes(player, arg-1)
-		else:
-			mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
+		mj_core_menu_recipes(player)
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
-on tab complete of "/recipes":
+function mj_core_menu_recipes(player: player):
+	set {_title} to mj_editfiles_gettext("core", "data.recipes.title", {_player}, "")
+	mj_core_gui_generator({_player}, 6, true, "default", {_title}, "recipes")
+	set {_slot} to 10
 	set {_list::*} to mj_manager_nodes("core.data", "data.recipe")
-	set tab completions for position 1 to {_list::*}
+	loop {_list::*}:
+		set {_value} to loop-value
+		set {_name} to mj_editfiles("core.data", "data.recipe.%{_value}%.name")
+		set {_item.1} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.item")
+		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "core", "data.recipes.open")
+		make a gui slot {_slot} of {_player} with {_item.2} named {_name} to run:
+			mj_core_menu_recipes_viewer({_player}, {_value})
+			stop
+		add 1 to {_slot}
+		if {_slot} is 17 or 26 or 35:
+			add 2 to {_slot}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_menu_recipes(player: player, value: text="none"):
+function mj_core_menu_recipes_viewer(player: player, value: text="none"):
 	set {_name} to mj_editfiles("core.data", "data.recipe.%{_value}%.name")
 	set {_title} to mj_editfiles_gettext("core", "data.recipes.title", {_player}, {_name})
 	mj_core_gui_generator({_player}, 5, true, "default", {_title}, "recipes")
 	set {_item} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.item")
 	set {_count} to mj_editfiles_number("core.data", "data.recipe.%{_value}%.count")
-	mj_core_menu_recipes_icon({_player}, {_value}, 11, 1)
-	mj_core_menu_recipes_icon({_player}, {_value}, 12, 2)
-	mj_core_menu_recipes_icon({_player}, {_value}, 13, 3)
-	mj_core_menu_recipes_icon({_player}, {_value}, 20, 4)
-	mj_core_menu_recipes_icon({_player}, {_value}, 21, 5)
-	mj_core_menu_recipes_icon({_player}, {_value}, 22, 6)
-	mj_core_menu_recipes_icon({_player}, {_value}, 29, 7)
-	mj_core_menu_recipes_icon({_player}, {_value}, 30, 8)
-	mj_core_menu_recipes_icon({_player}, {_value}, 31, 9)
+	mj_core_menu_recipes_viewer_item({_player}, {_value}, 11, 1)
+	mj_core_menu_recipes_viewer_item({_player}, {_value}, 12, 2)
+	mj_core_menu_recipes_viewer_item({_player}, {_value}, 13, 3)
+	mj_core_menu_recipes_viewer_item({_player}, {_value}, 20, 4)
+	mj_core_menu_recipes_viewer_item({_player}, {_value}, 21, 5)
+	mj_core_menu_recipes_viewer_item({_player}, {_value}, 22, 6)
+	mj_core_menu_recipes_viewer_item({_player}, {_value}, 29, 7)
+	mj_core_menu_recipes_viewer_item({_player}, {_value}, 30, 8)
+	mj_core_menu_recipes_viewer_item({_player}, {_value}, 31, 9)
 	make a gui slot 24 of {_player} with {_count} of {_item} named {_name} to run:
+		stop
+	set {_return} to mj_editfiles_gettext("manager", "data.button.return", {_player})
+	make a gui slot 8 of {_player} with {_count} of barrier block named {_return} to run:
+		mj_core_menu_recipes({_player})
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_menu_recipes_icon(player: player, value: text="none", slot: number=0, count: number=1):
+function mj_core_menu_recipes_viewer_item(player: player, value: text="none", slot: number=0, count: number=1):
 	set {_item} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.method.slot_%{_count}%")
 	make a gui slot {_slot} of {_player} with {_item} to run:
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-on load:
+function mj_core_recipes_loader():
 	set {_list::*} to mj_manager_nodes("core.data", "data.recipe")
 	loop {_list::*}:
 		set {_value} to loop-value
@@ -1509,6 +1523,10 @@ on load:
 			register new shapeless recipe for {_recipe} using {_item.1}, {_item.2}, {_item.3}, {_item.4}, {_item.5}, {_item.6}, {_item.7}, {_item.8} and {_item.9} with id "apixmj.%{_value}%"
 		else:
 			register new shaped recipe for {_recipe} using {_item.1}, {_item.2}, {_item.3}, {_item.4}, {_item.5}, {_item.6}, {_item.7}, {_item.8} and {_item.9} with id "apixmj.%{_value}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	mj_core_recipes_loader()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on craft:

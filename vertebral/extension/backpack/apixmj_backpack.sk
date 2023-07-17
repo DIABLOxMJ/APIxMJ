@@ -70,11 +70,11 @@ command /backpack [<text>] [<text>]:
 					if arg-1 is "gui":
 						if arg-2 is set:
 							if arg-2 is "all":
-								mj_backpack_listed(player, player, true)
+								mj_backpack_listed(player, player)
 							else:
-								mj_backpack_listed(player, (arg-2 parsed as offlineplayer))
+								mj_backpack_listed(player, (arg-2 parsed as offlineplayer), true)
 						else:
-							mj_backpack_listed(player, player)
+							mj_backpack_listed(player, player, true)
 					else if arg-1 is "create":
 						if arg-2 is set:
 							mj_backpack_create((arg-2 parsed as player), 1)
@@ -146,6 +146,19 @@ function mj_backpack_create(player: player, size: number=6):
 	mj_core_logger(1, "%{_player}% generate a new backpack with id (%{_id}%)")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
+function mj_backpack_recover(player: player, id: text):
+	set {_name} to mj_editfiles("backpack.data", "data.%{_id}%.name")
+	set {_item.1} to mj_manager_item_convert("backpack.config", "data.object.item")
+	set {_item.2} to {_item.1} named {_name}
+	set {_size} to mj_editfiles_number("backpack.data", "data.%{_id}%.size")
+	set {_lore.1} to mj_editfiles_gettext("backpack", "data.object.tiers", {_player}, "%{_size}%")
+	set {_lore.2} to mj_editfiles_gettext("backpack", "data.object.uuid", {_player}, "%{_id}%")
+	set line 2 of lore of {_item.2} to "%{_lore.1}%"
+	set line 3 of lore of {_item.2} to "%{_lore.2}%"
+	give {_item.2} to {_player}
+	mj_core_logger(1, "%{_player}% regenerate a new backpack with id (%{_id}%)")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_backpack_create_page_count(player: player) :: number:
 	set {_page} to 1
 	set {_count} to 0
@@ -177,7 +190,7 @@ function mj_backpack_rename(player: player, value: text="none"):
 		mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_item")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_backpack_listed(player: player, target: offlineplayer, filter: boolean=false):
+function mj_backpack_listed(player: player, target: offlineplayer, filter: boolean=false, type: text="none"):
 	set {_title} to mj_editfiles_gettext("backpack", "data.menu.title_listed_all", {_player})
 	if {_filter} isn't true:
 		set {_title} to mj_editfiles_gettext("backpack", "data.menu.title_listed", {_player}, "%{_target}%")
@@ -186,37 +199,43 @@ function mj_backpack_listed(player: player, target: offlineplayer, filter: boole
 	set {_list::*} to mj_manager_nodes("backpack.data")
 	loop {_list::*}:
 		set {_id} to loop-value
-		if {_filter} isn't true:
+		if {_filter} is true:
 			set {_owner} to mj_editfiles("backpack.data", "data.%{_id}%.owner")
 			if {_target}'s uuid is {_owner}:
-				set {_name} to mj_editfiles("backpack.data", "data.%{_id}%.name")
-				set {_item} to mj_manager_item_convert("backpack.config", "data.object.item")
-				set {_size} to mj_editfiles_number("backpack.data", "data.%{_id}%.size")
-				set {_lore.1} to mj_editfiles_gettext("backpack", "data.object.tiers", {_player}, "%{_size}%")
-				set {_lore.2} to mj_editfiles_gettext("backpack", "data.object.uuid", {_player}, "%{_id}%")
-				set line 2 of lore of {_item} to "%{_lore.1}%"
-				set line 3 of lore of {_item} to "%{_lore.2}%"
+				set {_item} to mj_backpack_listed_item({_player}, {_id})
+				if {_type} is "give":
+					set {_item} to mj_manager_item_button({_player}, {_item}, "left_click", "backpack", "data.give")
 				make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
-					mj_backpack_action_open_check({_player}, {_id})
+					if {_type} is "give":
+						close {_player}'s inventory
+						mj_backpack_recover({_player}, {_id})
+					else:
+						mj_backpack_action_open_check({_player}, {_id})
 					stop
 				add 1 to {_slot}
 		else:
-			set {_name} to mj_editfiles("backpack.data", "data.%{_id}%.name")
-			set {_item} to mj_manager_item_convert("backpack.config", "data.object.item")
-			set {_size} to mj_editfiles_number("backpack.data", "data.%{_id}%.size")
-			set {_owner} to mj_editfiles("backpack.data", "data.%{_id}%.owner")
-			set {_owner} to {_owner} parsed as offlineplayer
-			set {_lore.1} to mj_editfiles_gettext("backpack", "data.object.tiers", {_player}, "%{_size}%")
-			set {_lore.2} to mj_editfiles_gettext("backpack", "data.object.uuid", {_player}, "%{_id}%")
-			set {_lore.3} to mj_editfiles_gettext("backpack", "data.object.owner", {_player}, "%{_owner}%")
-			set line 2 of lore of {_item} to "%{_lore.1}%"
-			set line 3 of lore of {_item} to "%{_lore.2}%"
-			set line 4 of lore of {_item} to "%{_lore.3}%"
+			set {_item} to mj_backpack_listed_item({_player}, {_id}, true)
 			make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
 				mj_backpack_action_open_check({_player}, {_id})
 				stop
 			add 1 to {_slot}
 	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_backpack_listed_item(player: player, id: text, owner: boolean=false) :: object:
+	set {_name} to mj_editfiles("backpack.data", "data.%{_id}%.name")
+	set {_item} to mj_manager_item_convert("backpack.config", "data.object.item")
+	set {_item} to {_item} named {_name}
+	set {_size} to mj_editfiles_number("backpack.data", "data.%{_id}%.size")
+	set {_lore.1} to mj_editfiles_gettext("backpack", "data.object.tiers", {_player}, "%{_size}%")
+	set {_lore.2} to mj_editfiles_gettext("backpack", "data.object.uuid", {_player}, "%{_id}%")
+	set line 2 of lore of {_item} to "%{_lore.1}%"
+	set line 3 of lore of {_item} to "%{_lore.2}%"
+	if {_owner} is true:
+		set {_owner} to mj_editfiles("backpack.data", "data.%{_id}%.owner")
+		set {_owner} to {_owner} parsed as offlineplayer
+		set {_lore.3} to mj_editfiles_gettext("backpack", "data.object.owner", {_player}, "%{_owner}%")
+		set line 4 of lore of {_item} to "%{_lore.3}%"
+	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_backpack_get_size(player: player) :: number:
 	set {_value.1} to line 2 of lore of {_player}'s tool
@@ -323,34 +342,63 @@ function mj_backpack_action_open(player: player, id: text):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
-	set {_check} to yaml value "data.recipe.backpack" from "mj.core.data"
-	if {_check} isn't set:
-		set yaml value "data.recipe.backpack.name" from "mj.core.data" to "&aBackpack"
-		set yaml value "data.recipe.backpack.shapeless" from "mj.core.data" to false
-		set yaml value "data.recipe.backpack.item" from "mj.core.data" to "knowledge book"
-		set yaml value "data.recipe.backpack.give" from "mj.core.data" to "air"
-		set yaml value "data.recipe.backpack.count" from "mj.core.data" to 1
-		set yaml value "data.recipe.backpack.method.slot_1" from "mj.core.data" to "string"
-		set yaml value "data.recipe.backpack.method.slot_2" from "mj.core.data" to "leather"
-		set yaml value "data.recipe.backpack.method.slot_3" from "mj.core.data" to "string"
-		set yaml value "data.recipe.backpack.method.slot_4" from "mj.core.data" to "leather"
-		set yaml value "data.recipe.backpack.method.slot_5" from "mj.core.data" to "emerald"
-		set yaml value "data.recipe.backpack.method.slot_6" from "mj.core.data" to "leather"
-		set yaml value "data.recipe.backpack.method.slot_7" from "mj.core.data" to "leather"
-		set yaml value "data.recipe.backpack.method.slot_8" from "mj.core.data" to "leather"
-		set yaml value "data.recipe.backpack.method.slot_9" from "mj.core.data" to "leather"
+	set {_check.1} to yaml value "data.recipe.backpack_1" from "mj.core.data"
+	if {_check.1} isn't set:
+		set yaml value "data.recipe.backpack_1.name" from "mj.core.data" to "&aBackpack"
+		set yaml value "data.recipe.backpack_1.shapeless" from "mj.core.data" to false
+		set yaml value "data.recipe.backpack_1.item" from "mj.core.data" to "knowledge book"
+		set yaml value "data.recipe.backpack_1.give" from "mj.core.data" to "air"
+		set yaml value "data.recipe.backpack_1.count" from "mj.core.data" to 1
+		set yaml value "data.recipe.backpack_1.method.slot_1" from "mj.core.data" to "string"
+		set yaml value "data.recipe.backpack_1.method.slot_2" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack_1.method.slot_3" from "mj.core.data" to "string"
+		set yaml value "data.recipe.backpack_1.method.slot_4" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack_1.method.slot_5" from "mj.core.data" to "emerald"
+		set yaml value "data.recipe.backpack_1.method.slot_6" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack_1.method.slot_7" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack_1.method.slot_8" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack_1.method.slot_9" from "mj.core.data" to "leather"
 		save yaml "mj.core.data"
-		mj_core_logger(1, "%{_player}% recipe backpack added..")
+		mj_core_logger(1, "recipe backpack_1 added..")
+	set {_check.2} to yaml value "data.recipe.backpack_2" from "mj.core.data"
+	if {_check.2} isn't set:
+		set yaml value "data.recipe.backpack_2.name" from "mj.core.data" to "&aRecover Backpack"
+		set yaml value "data.recipe.backpack_2.shapeless" from "mj.core.data" to false
+		set yaml value "data.recipe.backpack_2.item" from "mj.core.data" to "knowledge book"
+		set yaml value "data.recipe.backpack_2.give" from "mj.core.data" to "air"
+		set yaml value "data.recipe.backpack_2.count" from "mj.core.data" to 1
+		set yaml value "data.recipe.backpack_2.method.slot_1" from "mj.core.data" to "string"
+		set yaml value "data.recipe.backpack_2.method.slot_2" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack_2.method.slot_3" from "mj.core.data" to "string"
+		set yaml value "data.recipe.backpack_2.method.slot_4" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack_2.method.slot_5" from "mj.core.data" to "diamond"
+		set yaml value "data.recipe.backpack_2.method.slot_6" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack_2.method.slot_7" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack_2.method.slot_8" from "mj.core.data" to "leather"
+		set yaml value "data.recipe.backpack_2.method.slot_9" from "mj.core.data" to "leather"
+		save yaml "mj.core.data"
+		mj_core_logger(1, "recipe backpack_2 added..")
+	mj_core_recipes_loader()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on craft of knowledge book:
-	set {_name} to mj_editfiles("core.data", "data.recipe.backpack.name")
-	set {_item} to mj_manager_item_convert("core.data", "data.recipe.backpack.item")
+	set {_name} to mj_editfiles("core.data", "data.recipe.backpack_1.name")
+	set {_item} to mj_manager_item_convert("core.data", "data.recipe.backpack_1.item")
 	if name of event-item is {_name}:
 		wait 1 tick
 		close player's inventory
 		remove 1 of {_item} from player's inventory
 		mj_backpack_create(player, 1)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on craft of knowledge book:
+	set {_name} to mj_editfiles("core.data", "data.recipe.backpack_2.name")
+	set {_item} to mj_manager_item_convert("core.data", "data.recipe.backpack_2.item")
+	if name of event-item is {_name}:
+		wait 1 tick
+		close player's inventory
+		remove 1 of {_item} from player's inventory
+		mj_backpack_listed(player, player, true, "give")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:
@@ -374,42 +422,6 @@ on inventory close:
 			save yaml "mj.backpack.data"
 			mj_editfiles_boolean("temp", "data.%player's uuid%.backpack.condition", "modify", false)
 	stop
-# ---------------------------------------------------------------------------------------------------------------------
-#on rightclick:
-	#set {_item} to mj_manager_item_convert("backpack.config", "data.object.item")
-	#if type of player's tool is {_item}:
-	#	set {_lore.3} to line 3 of lore of player's tool
-	#	set {_lore.4} to mj_editfiles("backpack.config", "data.object.lore.2")
-	#	if "%{_lore.3}%" contains "%{_lore.4}%":
-	#		cancel event
-	#		#set {_title} to mj_editfiles_gettext("backpack", "data.title_gui", player)
-	#		set {_title} to name of player's tool
-	#		set {_lore.1} to line 2 of lore of player's tool
-	#		set {_lore.2} to mj_editfiles("backpack.config", "data.object.lore.1")
-	#		replace {_lore.2} with "" in {_lore.1}
-	#		set {_size} to {_lore.1} parsed as number
-	#		set {_inv} to chest with {_size} rows named {_title}
-	#		replace {_lore.4} with "" in {_lore.3}
-	#		set {_storage} to yaml value "data.%{_lore.3}%.storage" from "mj.backpack.data"
-	#		if {_storage} is set:
-	#			set {_inv}'s serialized contents to {_storage}
-	#		open {_inv} to player
-	#		mj_editfiles("userdata.%player's uuid%", "data.temp.gui", "modify", "backpack")
-	#		mj_editfiles_boolean("temp", "data.%player's uuid%.backpack.condition", "modify", true)
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-#on inventory close:
-	#set {_check} to mj_editfiles_boolean("temp", "data.%player's uuid%.backpack.condition")
-	#if {_check} is true:
-	#	if "%event-inventory%" is "inventory of <none>":
-	#		set {_lore.1} to line 3 of lore of player's tool
-	#		set {_lore.2} to mj_editfiles("backpack.config", "data.object.lore.2")
-	#		replace {_lore.2} with "" in {_lore.1}
-	#		set {_storage} to event-inventory's serialized contents
-	#		set yaml value "data.%{_lore.1}%.storage" from "mj.backpack.data" to {_storage}
-	#		save yaml "mj.backpack.data"
-	#		mj_editfiles_boolean("temp", "data.%player's uuid%.backpack.condition", "modify", false)
-	#stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Function
 # =====================================================================================================================

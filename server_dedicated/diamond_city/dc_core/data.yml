@@ -40,8 +40,6 @@ data:
                 world: world
                 yaw: 0.0
                 pitch: 0.0
-    portal_exit:
-        region: spawn_exit
     intro:
         region: spawn_intro
         message:
@@ -62,6 +60,10 @@ data:
             '6': 7s
             '7': 5s
             '8': 0s
+    portal_exit:
+        region: spawn_exit
+    portal_return:
+        region: spawn_return
     cantine:
         region: spawn_cantine
     exterior_protect:

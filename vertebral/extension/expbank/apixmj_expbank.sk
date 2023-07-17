@@ -250,24 +250,27 @@ on tab complete of "bottlexp" or "xpb" or "bottle" and "/expbottle":
 on rightclick:
 	set {_item} to mj_manager_item_convert("expbank.config", "data.bottle.item")
 	if 1 of player's tool is {_item}:
-		set {_name} to mj_editfiles("expbank.config", "data.bottle.name")
-		if name of player's tool is {_name}:
+		if 1 of player's offhand isn't {_item}:
+			set {_name} to mj_editfiles("expbank.config", "data.bottle.name")
+			if name of player's tool is {_name}:
+				cancel event
+				set {_lore} to line 1 of lore of player's tool
+				set {_level} to mj_editfiles("expbank.config", "data.bottle.lore.level")
+				set {_point} to mj_editfiles("expbank.config", "data.bottle.lore.point")
+				if {_lore} contains {_level}:
+					replace all "%{_level}%" with "" in {_lore}
+					set {_xp} to {_lore} parsed as number
+					add {_xp} to player's level
+					remove 1 of player's tool from player's inventory
+					mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.take_level", "%{_xp}%")
+				else if {_lore} contains {_point}:
+					replace all "%{_point}%" with "" in {_lore}
+					set {_xp} to {_lore} parsed as number
+					add {_xp} to player's xp
+					remove 1 of player's tool from player's inventory
+					mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.take_point", "%{_xp}%")
+		else:
 			cancel event
-			set {_lore} to line 1 of lore of player's tool
-			set {_level} to mj_editfiles("expbank.config", "data.bottle.lore.level")
-			set {_point} to mj_editfiles("expbank.config", "data.bottle.lore.point")
-			if {_lore} contains {_level}:
-				replace all "%{_level}%" with "" in {_lore}
-				set {_xp} to {_lore} parsed as number
-				add {_xp} to player's level
-				remove 1 of player's tool from player's inventory
-				mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.take_level", "%{_xp}%")
-			else if {_lore} contains {_point}:
-				replace all "%{_point}%" with "" in {_lore}
-				set {_xp} to {_lore} parsed as number
-				add {_xp} to player's xp
-				remove 1 of player's tool from player's inventory
-				mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.take_point", "%{_xp}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 #on rightclick with bottle o' enchanting:

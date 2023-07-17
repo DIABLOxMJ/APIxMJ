@@ -987,7 +987,7 @@ command /reports:
 			set {_count} to mj_manager_nodes_count("core.data", "data.report")
 			if {_count} is set:
 				mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.read", "%{_count}%")
-				mj_core_data_read(player, "manager.data", "data.report")
+				mj_core_data_read(player, "core.data", "data.report")
 			else:
 				mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.empty")
 		else:
@@ -1003,11 +1003,11 @@ on join:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_report(player: player, info: text):
-	mj_core_data_memory("manager.data", "data.report", "&a%{_player}% &6: &c%{_info}%")
-	mj_manager_message({_player}, "manager", "data.report.prefix", "manager", "data.report.message", {_info})
+	mj_core_data_memory("core.data", "data.report", "&a%{_player}% &6: &c%{_info}%")
+	mj_manager_message({_player}, "core", "data.report.prefix", "core", "data.report.message", {_info})
 	loop all players:
 		if loop-player has permission "*" or "mj.*" or "mj.report.*" or "mj.report.admin":
-			mj_manager_message(loop-player, "manager", "data.report.prefix", "manager", "data.report.alert", "%{_player}%")
+			mj_manager_message(loop-player, "core", "data.report.prefix", "core", "data.report.alert", "%{_player}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Report

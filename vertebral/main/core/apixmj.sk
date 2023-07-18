@@ -661,8 +661,8 @@ function mj_core_profil_create(player: offlineplayer, value: text):
 	mj_core_inventory_save({_player}, "last")
 	wait 1 second
 	mj_editfiles("userdata", "data.%{_player}'s uuid%.profil", "modify", {_value})
-	set {_list1::*} to mj_editfiles_list("userdata", "data.%{_player}'s uuid%.profil_list")
-	add {_value} to {_list1::*}
+	set {_list.1::*} to mj_editfiles_list("userdata", "data.%{_player}'s uuid%.profil_list")
+	add {_value} to {_list.1::*}
 	mj_editfiles_list("userdata", "data.%{_player}'s uuid%.profil_list", "modify", {_list1::*})
 	mj_core_playerdata({_player})
 	console command "/profil_update %{_player}%"
@@ -683,20 +683,22 @@ function mj_core_profil_create(player: offlineplayer, value: text):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_profil_migration(player: offlineplayer, value: text):
-	set {_profil} to mj_editfiles("userdata", "data.%{_player}'s uuid%.profil")
-	mj_core_location("userdata.%{_player}'s uuid%", "data", "modify", {_player})
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.playtime", "modify", "%{_player}'s time played%")
-	mj_core_inventory_save({_player}, "last")
-	wait 1 second
-	mj_editfiles("userdata", "data.%{_player}'s uuid%.profil", "modify", {_value})
-	mj_core_playerdata({_player})
-	console command "/profil_update %{_player}%"
-	unload yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	mj_core_logger(2, "%{_player}% unloading userdata file..")
-	mj_core_inventory_restore({_player}, "last")
-	set {_tp} to mj_core_location("userdata.%{_player}'s uuid%", "data")
-	teleport {_player} to {_tp}
-	mj_manager_message({_player}, "core", "data.prefix", "core", "data.profil.migration", {_profil}, {_value})
+	set {_list::*} to mj_editfiles_list("userdata", "data.%{_player}'s uuid%.profil_list")
+	if {_list::*} contains {_value}:
+		set {_profil} to mj_editfiles("userdata", "data.%{_player}'s uuid%.profil")
+		mj_core_location("userdata.%{_player}'s uuid%", "data", "modify", {_player})
+		mj_editfiles("userdata", "data.%{_player}'s uuid%.playtime", "modify", "%{_player}'s time played%")
+		mj_core_inventory_save({_player}, "last")
+		wait 1 second
+		mj_editfiles("userdata", "data.%{_player}'s uuid%.profil", "modify", {_value})
+		mj_core_playerdata({_player})
+		console command "/profil_update %{_player}%"
+		unload yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		mj_core_logger(2, "%{_player}% unloading userdata file..")
+		mj_core_inventory_restore({_player}, "last")
+		set {_tp} to mj_core_location("userdata.%{_player}'s uuid%", "data")
+		teleport {_player} to {_tp}
+		mj_manager_message({_player}, "core", "data.prefix", "core", "data.profil.migration", {_profil}, {_value})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Profil
@@ -1463,7 +1465,7 @@ command /recipes:
 function mj_core_menu_recipes(player: player):
 	set {_title} to mj_editfiles_gettext("core", "data.recipes.title", {_player}, "")
 	mj_core_gui_generator({_player}, 6, true, "default", {_title}, "recipes")
-	set {_slot} to 10
+	set {_slot} to 0
 	set {_list::*} to mj_manager_nodes("core.data", "data.recipe")
 	loop {_list::*}:
 		set {_value} to loop-value
@@ -1474,8 +1476,6 @@ function mj_core_menu_recipes(player: player):
 			mj_core_menu_recipes_viewer({_player}, {_value})
 			stop
 		add 1 to {_slot}
-		if {_slot} is 17 or 26 or 35:
-			add 2 to {_slot}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_menu_recipes_viewer(player: player, value: text="none"):

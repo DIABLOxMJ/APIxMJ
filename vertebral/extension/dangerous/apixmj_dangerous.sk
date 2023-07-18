@@ -42,18 +42,19 @@ on command:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_dangerous_playerdata(player: offlineplayer):
 	wait 208 ticks
-	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	set {_check1} to yaml value "data.%{_player}'s uuid%.source.dangerous" from "mj.userdata"
-	if {_check1} isn't set:
-		set yaml value "data.%{_player}'s uuid%.source.dangerous.ban" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.source.dangerous.tempban" from "mj.userdata" to "none"
-		save yaml "mj.userdata"
-		mj_core_logger(1, "%{_player}% dangerous data file was generated..")
-	set {_check2} to yaml value "data.source.dangerous" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	if {_check2} isn't set:
-		set yaml value "data.source.dangerous.death_count" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to 0
-		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-		mj_core_logger(1, "%{_player}% dangerous data was generated..")
+	if {_player} is online:
+		set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+		set {_check1} to yaml value "data.%{_player}'s uuid%.source.dangerous" from "mj.userdata"
+		if {_check1} isn't set:
+			set yaml value "data.%{_player}'s uuid%.source.dangerous.ban" from "mj.userdata" to false
+			set yaml value "data.%{_player}'s uuid%.source.dangerous.tempban" from "mj.userdata" to "none"
+			save yaml "mj.userdata"
+			mj_core_logger(1, "%{_player}% dangerous data file was generated..")
+		set {_check2} to yaml value "data.source.dangerous" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		if {_check2} isn't set:
+			set yaml value "data.source.dangerous.death_count" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to 0
+			save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+			mj_core_logger(1, "%{_player}% dangerous data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Files
@@ -70,7 +71,7 @@ every 1 second:
 						set {_var.1} to true
 						set {_var.2} to false
 						set {_x} to loop-player's x-coordinate
-						set {_y} to loop-player's y-coordinate
+						set {_y} to loop-player's y-coordinate + 0.3
 						set {_z} to loop-player's z-coordinate
 						set {_loc.1} to location({_x}, {_y}, {_z}, ("%loop-player's world%" parsed as world))
 						set {_loc.2} to location({_x}, 319, {_z}, ("%loop-player's world%" parsed as world))
@@ -114,7 +115,7 @@ every 1 second:
 						set {_var.1} to true
 						set {_var.2} to false
 						set {_x} to loop-player's x-coordinate
-						set {_y} to loop-player's y-coordinate
+						set {_y} to loop-player's y-coordinate + 0.3
 						set {_z} to loop-player's z-coordinate
 						set {_loc.1} to location({_x}, {_y}, {_z}, ("%loop-player's world%" parsed as world))
 						set {_loc.2} to location({_x}, 319, {_z}, ("%loop-player's world%" parsed as world))

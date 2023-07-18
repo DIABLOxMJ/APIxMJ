@@ -43,17 +43,18 @@ on command:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_backpack_playerdata(player: offlineplayer):
 	wait 204 ticks
-	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	set {_check1} to yaml value "data.%{_player}'s uuid%.source.backpack" from "mj.userdata"
-	if {_check1} isn't set:
-		set yaml value "data.%{_player}'s uuid%.source.backpack" from "mj.userdata" to "none"
-		save yaml "mj.userdata"
-		mj_core_logger(1, "%{_player}% backpack data file was generated..")
-	set {_check2} to yaml value "data.source.backpack" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	if {_check2} isn't set:
-		set yaml value "data.source.backpack" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
-		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-		mj_core_logger(1, "%{_player}% backpack data was generated..")
+	if {_player} is online:
+		set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+		set {_check1} to yaml value "data.%{_player}'s uuid%.source.backpack" from "mj.userdata"
+		if {_check1} isn't set:
+			set yaml value "data.%{_player}'s uuid%.source.backpack" from "mj.userdata" to "none"
+			save yaml "mj.userdata"
+			mj_core_logger(1, "%{_player}% backpack data file was generated..")
+		set {_check2} to yaml value "data.source.backpack" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		if {_check2} isn't set:
+			set yaml value "data.source.backpack" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+			save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+			mj_core_logger(1, "%{_player}% backpack data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Files
@@ -96,6 +97,8 @@ command /backpack [<text>] [<text>]:
 					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 			else if arg-1 is "upgrade":
 				mj_backpack_upgrade(player)
+			else if arg-1 is "lock":
+				mj_backpack_locker(player)
 			else:
 				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		else:
@@ -103,12 +106,12 @@ command /backpack [<text>] [<text>]:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/backpack" or "/bpack" or "/bp" or "kpack" or "kp":
-	set tab completions for position 1 to "rename" and "upgrade"
+	set tab completions for position 1 to "rename" or "upgrade" and "lock"
 	if tab arg-1 is "rename":
 		set tab completions for position 2 to "&&amy bag"
 	if player has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack.admin":
 		set tab completions for position 1 to "gui" or "size" or "rename" and "upgrade"
-		set tab completions for position 1 to "gui" or "size" or "create" or "rename" and "upgrade"
+		set tab completions for position 1 to "gui" or "size" or "create" or "rename" or "upgrade" and "lock"
 		if tab arg-1 is "gui" or "create":
 			set {_list1::*} to mj_manager_nodes("userdata")
 			loop {_list1::*}:
@@ -138,6 +141,7 @@ function mj_backpack_create(player: player, size: number=6):
 	set yaml value "data.%{_id}%.id" from "mj.backpack.data" to {_id}
 	set yaml value "data.%{_id}%.size" from "mj.backpack.data" to {_size}
 	set yaml value "data.%{_id}%.page" from "mj.backpack.data" to {_page}
+	set yaml value "data.%{_id}%.lock" from "mj.backpack.data" to false
 	set yaml value "data.%{_id}%.owner" from "mj.backpack.data" to {_player}'s uuid
 	set yaml value "data.%{_id}%.date" from "mj.backpack.data" to now
 	set yaml value "data.%{_id}%.storage" from "mj.backpack.data" to "none"
@@ -151,10 +155,10 @@ function mj_backpack_recover(player: player, id: text):
 	set {_item.1} to mj_manager_item_convert("backpack.config", "data.object.item")
 	set {_item.2} to {_item.1} named {_name}
 	set {_size} to mj_editfiles_number("backpack.data", "data.%{_id}%.size")
-	set {_lore.1} to mj_editfiles_gettext("backpack", "data.object.tiers", {_player}, "%{_size}%")
-	set {_lore.2} to mj_editfiles_gettext("backpack", "data.object.uuid", {_player}, "%{_id}%")
-	set line 2 of lore of {_item.2} to "%{_lore.1}%"
-	set line 3 of lore of {_item.2} to "%{_lore.2}%"
+	set {_lore.1} to mj_editfiles("backpack.config", "data.object.lore.1")
+	set {_lore.2} to mj_editfiles("backpack.config", "data.object.lore.2")
+	set line 2 of lore of {_item.2} to "%{_lore.1}%%{_size}%"
+	set line 3 of lore of {_item.2} to "%{_lore.2}%%{_id}%"
 	give {_item.2} to {_player}
 	mj_core_logger(1, "%{_player}% regenerate a new backpack with id (%{_id}%)")
 	stop
@@ -303,6 +307,30 @@ function mj_backpack_upgrade(player: player):
 		mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_item")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
+function mj_backpack_locker(player: player):
+	set {_item} to mj_manager_item_convert("backpack.config", "data.object.item")
+	if type of {_player}'s tool is {_item}:
+		set {_lore.1} to line 3 of lore of {_player}'s tool
+		set {_lore.2} to mj_editfiles("backpack.config", "data.object.lore.2")
+		if "%{_lore.1}%" contains "%{_lore.2}%":
+			set {_id} to mj_backpack_get_id({_player})
+			set {_owner} to mj_editfiles("backpack.data", "data.%{_id}%.owner")
+			if {_player}'s uuid is {_owner}:
+				set {_value} to mj_editfiles_boolean("backpack.data", "data.%{_id}%.lock")
+				set {_view} to mj_editfiles_gettext("manager", "data.type.enable", {_player})
+				mj_editfiles_boolean("backpack.data", "data.%{_id}%.lock", "modify", true)
+				if {_value} is true:
+					set {_view} to mj_editfiles_gettext("manager", "data.type.disable", {_player})
+					mj_editfiles_boolean("backpack.data", "data.%{_id}%.lock", "modify", false)
+				mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.locker", {_view})
+			else:
+				mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_owner")
+		else:
+			mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_item")
+	else:
+		mj_manager_message({_player}, "backpack", "data.prefix", "backpack", "data.no_item")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_backpack_action_open_check(player: player, id: text):
 	set {_ready} to true
 	set {_list::*} to mj_manager_nodes("userdata")
@@ -346,6 +374,7 @@ on load:
 	if {_check.1} isn't set:
 		set yaml value "data.recipe.backpack_1.name" from "mj.core.data" to "&aBackpack"
 		set yaml value "data.recipe.backpack_1.shapeless" from "mj.core.data" to false
+		set yaml value "data.recipe.backpack_1.group" from "mj.core.data" to "backpack"
 		set yaml value "data.recipe.backpack_1.item" from "mj.core.data" to "knowledge book"
 		set yaml value "data.recipe.backpack_1.give" from "mj.core.data" to "air"
 		set yaml value "data.recipe.backpack_1.count" from "mj.core.data" to 1
@@ -364,6 +393,7 @@ on load:
 	if {_check.2} isn't set:
 		set yaml value "data.recipe.backpack_2.name" from "mj.core.data" to "&aRecover Backpack"
 		set yaml value "data.recipe.backpack_2.shapeless" from "mj.core.data" to false
+		set yaml value "data.recipe.backpack_2.group" from "mj.core.data" to "backpack"
 		set yaml value "data.recipe.backpack_2.item" from "mj.core.data" to "knowledge book"
 		set yaml value "data.recipe.backpack_2.give" from "mj.core.data" to "air"
 		set yaml value "data.recipe.backpack_2.count" from "mj.core.data" to 1
@@ -408,8 +438,24 @@ on rightclick:
 		set {_lore.2} to mj_editfiles("backpack.config", "data.object.lore.2")
 		if "%{_lore.1}%" contains "%{_lore.2}%":
 			cancel event
+			set {_lore.3} to line 2 of lore of player's tool
+			set {_lore.4} to mj_editfiles("backpack.config", "data.object.lore.1")
+			replace {_lore.4} with "" in {_lore.3}
+			set {_count} to {_lore.3} parsed as number
 			set {_id} to mj_backpack_get_id(player)
-			mj_backpack_action_open_check(player, {_id})
+			set {_size} to mj_editfiles_number("backpack.data", "data.%{_id}%.size")
+			if {_count} is {_size}:
+				set {_lock} to mj_editfiles_boolean("backpack.data", "data.%{_id}%.lock")
+				set {_owner} to mj_editfiles("backpack.data", "data.%{_id}%.owner")
+				if player's uuid isn't {_owner}:
+					if {_lock} is true:
+						mj_manager_message(player, "backpack", "data.prefix", "backpack", "data.no_owner")
+					else:
+						mj_backpack_action_open_check(player, {_id})
+				else:
+					mj_backpack_action_open_check(player, {_id})
+			else:
+				mj_manager_message(player, "backpack", "data.prefix", "backpack", "data.no_tiers")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on inventory close:

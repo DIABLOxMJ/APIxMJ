@@ -3,6 +3,7 @@ data:
         bundle_1:
             name: "&aBundle"
             shapeless: false
+            group: bundle
             item: bundle
             give: bundle
             count: 1
@@ -19,6 +20,7 @@ data:
         bundle_2:
             name: "&aBundle"
             shapeless: false
+            group: bundle
             item: bundle
             give: bundle
             count: 1

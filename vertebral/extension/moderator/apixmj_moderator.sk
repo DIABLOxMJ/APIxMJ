@@ -37,28 +37,29 @@ on join:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_moderator_playerdata(player: offlineplayer):
 	wait 220 ticks
-	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	set {_check1} to yaml value "data.%{_player}'s uuid%.source.moderator" from "mj.userdata"
-	if {_check1} isn't set:
-		set {_rank.1} to mj_editfiles("moderator.config", "data.rank.player")
-		set {_rank.2} to mj_editfiles("moderator.config", "data.rank.staff")
-		set yaml value "data.%{_player}'s uuid%.source.moderator.condition" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.condition" from "mj.userdata" to true
-		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.operator" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.rank" from "mj.userdata" to {_rank.1}
-		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.profil" from "mj.userdata" to "Default"
-		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.condition" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.operator" from "mj.userdata" to false
-		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.rank" from "mj.userdata" to {_rank.2}
-		set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.profil" from "mj.userdata" to "Staff"
-		save yaml "mj.userdata"
-		mj_core_logger(1, "%{_player}% moderator data file was generated..")
-	set {_check2} to yaml value "data.source.moderator" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	if {_check2} isn't set:
-		set yaml value "data.source.moderator.operator" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
-		set yaml value "data.source.moderator.rank" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
-		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-		mj_core_logger(1, "%{_player}% moderator data was generated..")
+	if {_player} is online:
+		set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+		set {_check1} to yaml value "data.%{_player}'s uuid%.source.moderator" from "mj.userdata"
+		if {_check1} isn't set:
+			set {_rank.1} to mj_editfiles("moderator.config", "data.rank.player")
+			set {_rank.2} to mj_editfiles("moderator.config", "data.rank.staff")
+			set yaml value "data.%{_player}'s uuid%.source.moderator.condition" from "mj.userdata" to false
+			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.condition" from "mj.userdata" to true
+			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.operator" from "mj.userdata" to false
+			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.rank" from "mj.userdata" to {_rank.1}
+			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.profil" from "mj.userdata" to "Default"
+			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.condition" from "mj.userdata" to false
+			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.operator" from "mj.userdata" to false
+			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.rank" from "mj.userdata" to {_rank.2}
+			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.profil" from "mj.userdata" to "Staff"
+			save yaml "mj.userdata"
+			mj_core_logger(1, "%{_player}% moderator data file was generated..")
+		set {_check2} to yaml value "data.source.moderator" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		if {_check2} isn't set:
+			set yaml value "data.source.moderator.operator" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
+			set yaml value "data.source.moderator.rank" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+			save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+			mj_core_logger(1, "%{_player}% moderator data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Files

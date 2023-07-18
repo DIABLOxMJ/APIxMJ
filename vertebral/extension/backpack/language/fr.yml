@@ -8,11 +8,14 @@ data:
         vanilla: "&cVous n'avez pas &a$0 &cpour améliorer le sac à dos."
         essentials: "&cVous n'avez pas &a$0 &cpour améliorer le sac à dos."
     no_essentials: "&cOups &aEssentiels &cn'est pas installé sur le serveur."
+    no_tiers: "&cLa taille du sac à dos ne correspond pas au sac associé."
+    no_owner: "&cCe n'est pas votre sac à dos pour faire cette action."
+    locker: "&7Vous avez &a$0 &7le verouillage de votre sac à dos aux autres joueurs."
     upgrade: "&aFélicitations, vous avez amélioré le sac à dos dans votre main !"
-    already_open: "&cLe sac à dos et déjà ouvert par &a$0&c."
+    already_open: "&cLe sac à dos est déjà ouvert par &a$0&c."
     give: "&aRécupérer ce sac à dos !"
     object:
-        tiers: "&7Taille &6: &a$0"
+        tiers: "&7Tiers &6: &a$0"
         uuid: "&7UUID &6: &a$0"
         owner: "&7Propriétaire &6: &a$0"
     menu:

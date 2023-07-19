@@ -213,35 +213,40 @@ command /bottlexp [<number>] [<text="level">]:
 			set {_name} to mj_editfiles("expbank.config", "data.bottle.name")
 			set {_item} to mj_manager_item_convert("expbank.config", "data.bottle.item")
 			set {_item} to {_item} named {_name}
-			if player's inventory has space for {_item}:
-				if arg-2 is "level":
-					if player's level >= 1:
-						set {_xp} to player's level
-						if {_xp} >= arg-1:
-							set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.level")
-							set line 1 of lore of {_item} to "%{_lore}%%arg-1%"
+			if arg-2 is "level":
+				if player's level >= 1:
+					set {_xp} to player's level
+					if {_xp} >= arg-1:
+						set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.level")
+						set line 1 of lore of {_item} to "%{_lore}%%arg-1%"
+						if player's inventory has space for {_item}:
 							give {_item} to player
-							mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.convert_level", "%arg-1%")
-							remove arg-1 from player's level
 						else:
-							mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+							mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.inv_failed")
+							stop
+						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.convert_level", "%arg-1%")
+						remove arg-1 from player's level
 					else:
 						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
 				else:
-					if player's xp >= 1:
-						set {_xp} to player's xp
-						if {_xp} >= arg-1:
-							set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.point")
-							set line 1 of lore of {_item} to "%{_lore}%%arg-1%"
+					mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+			else:
+				if player's xp >= 1:
+					set {_xp} to player's xp
+					if {_xp} >= arg-1:
+						set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.point")
+						set line 1 of lore of {_item} to "%{_lore}%%arg-1%"
+						if player's inventory has space for {_item}:
 							give {_item} to player
-							mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.convert_point", "%arg-1%")
-							remove arg-1 from player's xp
 						else:
-							mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+							mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.inv_failed")
+							stop
+						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.convert_point", "%arg-1%")
+						remove arg-1 from player's xp
 					else:
 						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
-			else:
-				mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.inv_failed")
+				else:
+					mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
 		else:
 			mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
 		stop

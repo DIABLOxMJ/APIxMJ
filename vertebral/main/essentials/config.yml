@@ -123,6 +123,8 @@ data:
         tablist: "&6[&r$0&6] &r$1"
         # The format of personal messages, default : "&c$0&6: &r$1"
         staffchat: "&c$0&6: &r$1"
+        # The format of warn player, default : "&6(&a$0&6) &a$1 &6: &r$2"
+        warn: "&6(&a$0&6) &a$1 &6: &r$2"
         # The economic ranking display model, default : "&6[&a$0&6] &b$1 &6: &a$2"
         balance: "&6[&a$0&6] &b$1 &6: &a$2"
         # The display format of the message during a kick and ban, default : "$0%nl%%nl%$1%nl%%nl%$0%nl%%nl%$2%nl%$3%nl%%nl%$0%nl%"

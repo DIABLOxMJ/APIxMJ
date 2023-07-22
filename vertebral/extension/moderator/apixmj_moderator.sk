@@ -167,15 +167,16 @@ function mj_moderator_menu_player_list(player: player):
 		set {_name} to mj_editfiles_gettext("moderator", "data.menu.personal.button.player_head.name", {_player}, "%{_value}%")
 		set {_item.1} to mj_moderator_menu_button_player_head({_player}, {_value}, "personal", "extract")
 		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "moderator", "data.menu.button.moderate")
-		set {_item.3} to mj_manager_item_button({_player}, {_item.2}, "right_click", "moderator", "data.menu.button.teleport", true)
 		set {_info} to mj_editfiles_gettext("moderator", "data.menu.information.player.not_connected", {_player})
 		if {_value} is online:
 			set {_info} to mj_editfiles_gettext("moderator", "data.menu.information.player.connected", {_player})
-		make a gui slot {_slot} of {_player} with {_item.3} named "%{_name}% %{_info}%" to run:
+			set {_item.2} to mj_manager_item_button({_player}, {_item.2}, "right_click", "moderator", "data.menu.button.teleport", true)
+		make a gui slot {_slot} of {_player} with {_item.2} named "%{_name}% %{_info}%" to run:
 			if gui-click-type is left mouse button:
 				mj_moderator_menu_personal({_player}, {_value})
-			if gui-click-type is right mouse button:
-				mj_moderator_action_teleport({_player}, {_value})
+			if {_value} is online:
+				if gui-click-type is right mouse button:
+					mj_moderator_action_teleport({_player}, {_value})
 			stop
 		add 1 to {_slot}
 	stop

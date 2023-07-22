@@ -1756,6 +1756,7 @@ command /vanish [<offlineplayer>]:
 on chat:
 	set {_check} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.vanish")
 	if {_check} is true:
+		cancel event
 		mj_timecount("mute_%player%", "backward", 0, 0, 5)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -1776,6 +1777,7 @@ on quit:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 every 2 minutes:
+	mj_essentials_vanish_actualizer()
 	loop all players:
 		set {_check} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.vanish")
 		if {_check} is true:
@@ -1857,8 +1859,7 @@ function mj_essentials_vanish_actualizer():
 function mj_essentials_moderation_check_player(player: player, target: offlineplayer, type: text, reason: text="none", time: text="30d"):
 	if {_reason} is "none":
 		set {_reason} to mj_editfiles_gettext("essentials", "data.no_reason")
-	set {_format_reason} to "&a%{_player}% &6(&a%{_type}%&6) &6: &a%{_reason}%"
-	mj_essentials_warn({_target}, "%{_player}%", {_reason}, {_format_reason})
+	mj_essentials_warn("%{_player}%", {_target}, {_reason}, {_type})
 	set {_list::*} to mj_editfiles_list("core.config", "data.access")
 	if {_list::*} contains "%{_target}%":
 		set {_send} to mj_editfiles_gettext("essentials", "data.kick.protect", {_player})
@@ -1888,8 +1889,7 @@ function mj_essentials_moderation_check_player(player: player, target: offlinepl
 function mj_essentials_moderation_check_console(player: offlineplayer, type: text, reason: text="none", time: text="30d"):
 	if {_reason} is "none":
 		set {_reason} to mj_editfiles_gettext("essentials", "data.no_reason")
-	set {_format_reason} to "&a%{_player}% &6(&a%{_type}%&6) &6: &a%{_reason}%"
-	mj_essentials_warn({_player}, "Console", {_reason}, {_format_reason})
+	mj_essentials_warn("Console", {_target}, {_reason}, {_type})
 	if {_type} is "ban":
 		mj_essentials_ban_console({_player}, {_reason})
 	else if {_type} is "tempban":
@@ -2005,8 +2005,7 @@ function mj_essentials_ban_player(player: player, target: offlineplayer, reason:
 	set {_send} to mj_essentials_kick_format({_target}, "%{_player}%", {_reason}, "ban")
 	ban {_target} due to "%{_reason}%"
 	if {_target} is online:
-		kick {_target} due to "%{_send}%"
-	mj_essentials_warn({_target}, "%{_player}%", {_reason}, "ban")
+		kick {_target} due to formatted "%{_send}%"
 	mj_core_logger(1, "%{_player}% has banned %{_target}% for %{_reason}%")
 	loop all players:
 		mj_manager_message(loop-player, "essentials", "data.ban.prefix", "essentials", "data.ban.broadcast", "%{_target}%", "%{_reason}%")
@@ -2021,8 +2020,7 @@ function mj_essentials_ban_console(player: offlineplayer, reason: text="none"):
 	set {_send} to mj_essentials_kick_format({_player}, "Console", {_reason}, "ban")
 	ban {_player} due to "%{_reason}%"
 	if {_player} is online:
-		kick {_player} due to "%{_send}%"
-	mj_essentials_warn({_player}, "Console", {_reason}, "ban")
+		kick {_player} due to formatted "%{_send}%"
 	mj_core_logger(1, "Console has banned %{_player}% for %{_reason}%")
 	loop all players:
 		mj_manager_message(loop-player, "essentials", "data.ban.prefix", "essentials", "data.ban.broadcast", "%{_player}%", "%{_reason}%")
@@ -2038,8 +2036,7 @@ function mj_essentials_tempban_player(player: player, target: offlineplayer, rea
 	set {_send} to mj_essentials_kick_format({_target}, "%{_player}%", {_reason}, "tempban")
 	unban {_target}
 	if {_target} is online:
-		kick {_target} due to "%{_send}%"
-	mj_essentials_warn({_target}, "%{_player}%", {_reason}, "tempban")
+		kick {_target} due to formatted "%{_send}%"
 	mj_core_logger(1, "%{_player}% temporarily banned %{_target}% during %{_time}% for %{_reason}%")
 	loop all players:
 		mj_manager_message(loop-player, "essentials", "data.ban.prefix", "essentials", "data.ban.broadcast", "%{_target}%", "%{_reason}%")
@@ -2058,8 +2055,7 @@ function mj_essentials_tempban_console(player: offlineplayer, reason: text="none
 	set {_send} to mj_essentials_kick_format({_player}, "Console", {_reason}, "tempban")
 	unban {_player}
 	if {_player} is online:
-		kick {_player} due to "%{_send}%"
-	mj_essentials_warn({_player}, "Console", {_reason}, "tempban")
+		kick {_player} due to formatted "%{_send}%"
 	mj_core_logger(1, "Console temporarily banned %{_player}% during %{_time}% for %{_reason}%")
 	loop all players:
 		mj_manager_message(loop-player, "essentials", "data.ban.prefix", "essentials", "data.ban.broadcast", "%{_player}%", "%{_reason}%")
@@ -2206,7 +2202,6 @@ function mj_essentials_mute_player(player: player, target: offlineplayer, reason
 	mj_editfiles("userdata", "data.%{_target}'s uuid%.source.essentials.tempban", "modify", "none")
 	mj_manager_message({_player}, "essentials", "data.mute.prefix", "essentials", "data.mute.message", "%{_target}%", "%{_reason}%")
 	mj_manager_message({_target}, "essentials", "data.mute.prefix", "essentials", "data.mute.muted", "%{_player}%")
-	mj_essentials_warn({_target}, "%{_player}%", {_reason}, "mute")
 	mj_core_logger(1, "%{_player}% at muted %{_target}% for %{_reason}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2217,7 +2212,6 @@ function mj_essentials_mute_console(player: offlineplayer, reason: text):
 	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.mute", "modify", true)
 	mj_editfiles("userdata", "data.%{_player}'s uuid%.source.essentials.tempban", "modify", "none")
 	mj_manager_message({_player}, "essentials", "data.mute.prefix", "essentials", "data.mute.muted", "Console")
-	mj_essentials_warn({_player}, "Console", {_reason}, "mute")
 	mj_core_logger(1, "Console at muted %{_player}% for %{_reason}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2229,7 +2223,6 @@ function mj_essentials_tempmute_player(player: player, target: offlineplayer, re
 	mj_editfiles_date("userdata.%{_target}'s uuid%", "data.source.essentials.tempmute", "modify", {_date})
 	mj_manager_message({_player}, "essentials", "data.tempmute.prefix", "essentials", "data.tempmute.message", "%{_target}%", "%{_reason}%")
 	mj_manager_message({_target}, "essentials", "data.tempmute.prefix", "essentials", "data.tempmute.muted", "%{_player}%")
-	mj_essentials_warn({_target}, "%{_player}%", {_reason}, "tempmute")
 	mj_core_logger(1, "%{_player}% at temporarily muted %{_target}% for %{_reason}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2243,7 +2236,6 @@ function mj_essentials_tempmute_console(player: offlineplayer, reason: text="non
 	mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.mute", "modify", true)
 	mj_editfiles_date("userdata.%{_player}'s uuid%", "data.source.essentials.tempmute", "modify", {_date})
 	mj_manager_message({_player}, "essentials", "data.tempmute.prefix", "essentials", "data.tempmute.muted", "Console")
-	mj_essentials_warn({_player}, "Console", {_reason}, "tempmute")
 	mj_core_logger(1, "Console at temporarily muted %{_player}% for %{_reason}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2286,7 +2278,6 @@ function mj_essentials_kick_player(player: player, target: offlineplayer, reason
 	set {_send} to mj_essentials_kick_format({_target}, "%{_player}%", {_reason}, "kick")
 	if {_target} is online:
 		kick {_target} due to "%{_send}%"
-	mj_essentials_warn({_target}, "%{_player}%", {_reason}, "kick")
 	mj_core_logger(1, "%{_player}% at expluse %{_target}% for %{_reason}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2297,7 +2288,6 @@ function mj_essentials_kick_console(player: offlineplayer, reason: text="none"):
 	set {_send} to mj_essentials_kick_format({_player}, "Console", {_reason}, "kick")
 	if {_player} is online:
 		kick {_player} due to "%{_send}%"
-	mj_essentials_warn({_player}, "Console", {_reason}, "kick")
 	mj_core_logger(1, "Console at expluse %{_player}% for %{_reason}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2341,7 +2331,7 @@ command /warn [<offlineplayer>] [<text="none">]:
 		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.warn.*" or "mj.essentials.warn":
 			if arg-1 is set:
 				if arg-2 is set:
-					mj_essentials_warn(player, "%arg-1%", arg-2, "warn")
+					mj_essentials_warn("%player%", arg-1, arg-2, "warn")
 					mj_manager_message(player, "essentials", "data.warn.prefix", "essentials", "data.warn.message", "%arg-1%", arg-2)
 				else:
 					mj_manager_message(player, "essentials", "data.warn.prefix", "essentials", "data.warn.reasonindefined")
@@ -2365,16 +2355,18 @@ command /warns [<offlineplayer>]:
 			mj_manager_permission(player, "essentials", "data.warn.prefix", "mj.essentials.warn")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_warn(player: offlineplayer, responsible: text, reason: text="none", type: text="none"):
+function mj_essentials_warn(player: text, target: offlineplayer, reason: text="none", type: text="none"):
+	if {_player} isn't "Console":
+		set {_player} to {_player} parsed as offlineplayer
 	if {_reason} is "none":
 		set {_reason} to mj_editfiles_gettext("essentials", "data.no_reason")
 	set {_format} to mj_editfiles("essentials.config", "data.format.warn")
 	replace "$0" with "%{_player}%" in {_format}
 	replace "$1" with "%{_type}%" in {_format}
 	replace "$2" with "%{_reason}%" in {_format}
-	set {_target} to {_responsible} parsed as offlineplayer
 	mj_core_data_memory("userdata", "data.%{_target}'s uuid%.source.essentials.warn", {_format})
-	mj_manager_message({_player}, "essentials", "data.warn.prefix", "essentials", "data.warn.alert", {_responsible}, {_format})
+	if {_player} isn't "Console":
+		mj_manager_message({_player}, "essentials", "data.warn.prefix", "essentials", "data.warn.alert", "%{_target}%", {_format})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Warn
@@ -2451,7 +2443,6 @@ function mj_essentials_freeze_player(player: player, target: offlineplayer, reas
 	mj_manager_message({_player}, "essentials", "data.freeze.prefix", "essentials", "data.freeze.message_me", "%{_target}%")
 	if {_target} is online:
 		mj_manager_message({_target}, "essentials", "data.freeze.prefix", "essentials", "data.freeze.message_it_player", "%{_player}%")
-	mj_essentials_warn({_target}, "%{_player}%", {_reason}, "freeze")
 	mj_core_logger(1, "%{_player}% at freeze %{_target}% for %{_reason}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -2466,7 +2457,6 @@ function mj_essentials_freeze_console(player: offlineplayer, reason: text="none"
 		set {_send} to mj_editfiles_gettext("essentials", "data.freeze.alert")
 		replace "$0" with {_reason} in {_send}
 		mj_core_logger(1, {_send})
-	mj_essentials_warn({_player}, "Console", {_reason}, "freeze")
 	mj_core_logger(1, "Console at freeze %{_player}% for %{_reason}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

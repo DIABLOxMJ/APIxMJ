@@ -1,5 +1,6 @@
 data:
     prefix: "&6[&b&lDIAMOND CITY&6]&r"
+    discord: "&7Le lien du Discord &6: &b<link:$0>$0<reset>"
     portal_exit: "&aBonne aventure !"
     intro:
         message:

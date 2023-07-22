@@ -97,8 +97,8 @@ command /backpack [<text>] [<text>]:
 					mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 			else if arg-1 is "upgrade":
 				mj_backpack_upgrade(player)
-			else if arg-1 is "lock":
-				mj_backpack_locker(player)
+			#else if arg-1 is "lock":
+			#	mj_backpack_locker(player)
 			else:
 				mj_manager_message(player, "core", "data.prefix", "manager", "data.argument.name")
 		else:
@@ -106,12 +106,13 @@ command /backpack [<text>] [<text>]:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/backpack" or "/bpack" or "/bp" or "kpack" or "kp":
-	set tab completions for position 1 to "rename" or "upgrade" and "lock"
+	set tab completions for position 1 to "rename" and "upgrade"
+	#set tab completions for position 1 to "rename" or "upgrade" and "lock"
 	if tab arg-1 is "rename":
 		set tab completions for position 2 to "&&amy bag"
 	if player has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack.admin":
-		set tab completions for position 1 to "gui" or "size" or "rename" and "upgrade"
-		set tab completions for position 1 to "gui" or "size" or "create" or "rename" or "upgrade" and "lock"
+		#set tab completions for position 1 to "gui" or "size" or "create" or "rename" or "upgrade" and "lock"
+		set tab completions for position 1 to "gui" or "size" or "create" or "rename" and "upgrade"
 		if tab arg-1 is "gui" or "create":
 			set {_list1::*} to mj_manager_nodes("userdata")
 			loop {_list1::*}:
@@ -448,10 +449,15 @@ on rightclick:
 				set {_lock} to mj_editfiles_boolean("backpack.data", "data.%{_id}%.lock")
 				set {_owner} to mj_editfiles("backpack.data", "data.%{_id}%.owner")
 				if player's uuid isn't {_owner}:
-					if {_lock} is true:
-						mj_manager_message(player, "backpack", "data.prefix", "backpack", "data.no_owner")
+					if {_lock} isn't true:
+						set {_name} to mj_timecount_text("backpack_%{_player}%", "name")
+						if {_name} is "none":
+							mj_backpack_action_open_check(player, {_id})
+						else:
+							set {_time} to mj_timecount_viewer("backpack_%{_player}%")
+							mj_manager_message(player, "backpack", "data.prefix", "core", "data.time.wait", {_time})
 					else:
-						mj_backpack_action_open_check(player, {_id})
+						mj_manager_message(player, "backpack", "data.prefix", "backpack", "data.no_owner")
 				else:
 					mj_backpack_action_open_check(player, {_id})
 			else:

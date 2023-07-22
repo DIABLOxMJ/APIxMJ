@@ -411,19 +411,19 @@ function mj_core_logger_id_generator() :: text:
 	return {_code}
 # ---------------------------------------------------------------------------------------------------------------------
 on command:
-	mj_core_logger_save_data("%sender% has execute command /%complete command%")
+	mj_core_logger_save_data("%sender% has execute command (/%complete command%) at %event-location%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
-	mj_core_logger_save_data("%event-entity% has join the server")
+	mj_core_logger_save_data("%event-entity% has join the server at %event-location%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on quit:
-	mj_core_logger_save_data("%event-entity% has quit the server")
+	mj_core_logger_save_data("%event-entity% has quit the server at %event-location%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
-	mj_core_logger_save_data("%player% sended message : %message%")
+	mj_core_logger_save_data("%player% sended message : %message% (%event-location%)")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on pickup:
@@ -439,11 +439,11 @@ on portal:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on craft:
-	mj_core_logger_save_data("%player% has crafted item %event-item%")
+	mj_core_logger_save_data("%player% has crafted item %event-item% at %event-location%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on consume:
-	mj_core_logger_save_data("%event-entity% used item %event-item%")
+	mj_core_logger_save_data("%event-entity% used item %event-item% at %event-location%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on teleport:

@@ -62,10 +62,10 @@ function mj_drawer_playerdata(player: offlineplayer):
 # --------------------------------------------------------------------------------------------------------------------
 on sign change:
 	set {_list::*} to mj_editfiles_list("drawer.config", "data.sign.create")
-	if {_list::*} contains line 1:
+	if {_list::*} contains line 1 of event-block:
 		set {_name} to mj_editfiles("drawer.config", "data.sign.name")
-		set line 1 to {_name}
-		set line 3 to "0"
+		set line 1 of event-block to {_name}
+		set line 3 of event-block to "0"
 		mj_manager_message(player, "drawer", "data.prefix", "drawer", "data.create_success")
 		mj_core_logger(2, "%player% create drawer sign at %event-location%")
 	stop

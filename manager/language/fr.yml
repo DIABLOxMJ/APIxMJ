@@ -479,6 +479,12 @@ data:
                 name_lite: "&bÉvent"
                 lore:
                     '1': "&6- &7Un module générative d'évènement."
+            dc_menu:
+                name: "&dMenu"
+                name_lite: "&dMenu"
+                lore:
+                    '1': "&6- &7Un module interactif pour réunir"
+                    '2': "&0- &7l'ensemble du contenu en une commande."
         editor:
             bedwars_editor:
                 name: "&aÉditeur du Bedwars"

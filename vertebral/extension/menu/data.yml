@@ -1,0 +1,12 @@
+data:
+    example:
+        # Just in case otherwise insignificant, default : "example"
+        name: example
+        # The location in the interface, default : 0
+        slot: 0
+        # The command to execute, default : /none
+        command: /none
+        # Whether or not to close the interface at runtime, default : false
+        close: false
+        # The item that will be represented in the interface, default : stone block
+        item: stone block

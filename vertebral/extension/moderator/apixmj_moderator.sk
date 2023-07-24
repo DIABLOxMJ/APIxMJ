@@ -330,7 +330,7 @@ function mj_moderator_action_profil(player: player):
 		set {_profil.1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.profil")
 		set {_profil.2} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.moderator.profil.staff.profil")
 		if {_profil.1} isn't {_profil.2}:
-			mj_editfiles("userdata", "data.%{_player}'s uuid%.source.moderator.profil.player.profil", "modify", {_profil})
+			mj_editfiles("userdata", "data.%{_player}'s uuid%.source.moderator.profil.player.profil", "modify", {_profil.1})
 			set {_op} to mj_editfiles_boolean("userdata", "data.%{_player}'s uuid%.source.moderator.profil.staff.profil")
 			set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.moderator.profil.staff.rank")
 		else:

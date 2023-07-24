@@ -1,0 +1,8 @@
+data:
+    gui_option:
+        # The type of interface, "default"=full, "border"=middle empty, "toolbar"=last line full, default : "default"
+        type: "default"
+        # Interface size, default : 6
+        size: 6
+        # Item set on background in the interface, default : black stained glass pane
+        item: black stained glass pane

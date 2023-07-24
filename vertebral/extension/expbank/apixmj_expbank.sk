@@ -52,13 +52,13 @@ function mj_expbank_playerdata(player: offlineplayer):
 # APIxMJ - Files
 # =====================================================================================================================
 # APIxMJ - ExpBank Sign (Create)
-# --------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 on sign change:
 	set {_list::*} to mj_editfiles_list("expbank.config", "data.sign.create")
 	if {_list::*} contains line 1 of event-block:
 		mj_expbank_sign_create(player, event-location)
 	stop
-# --------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_expbank_sign_create(player: player, loc: location):
 	wait 1 tick
 	set {_block} to block at {_loc}
@@ -86,11 +86,11 @@ function mj_expbank_sign_create(player: player, loc: location):
 	else:
 		mj_manager_message({_player}, "expbank", "data.prefix", "expbank", "data.create_failed")
 	stop
-# --------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - ExpBank Sign (Create)
 # =====================================================================================================================
 # APIxMJ - ExpBank Sign (Deposit)
-# --------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 on rightclick:
 	if event-block is sign:
 		set {_name} to mj_editfiles("expbank.config", "data.sign.name")
@@ -106,7 +106,7 @@ on rightclick:
 					cancel event
 					mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.no_owner")
 	stop
-# --------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_expbank_sign_deposit(player: player, type: text="level", loc: location):
 	set {_block} to block at {_loc}
 	set {_confirm} to true
@@ -142,7 +142,7 @@ function mj_expbank_sign_deposit(player: player, type: text="level", loc: locati
 # APIxMJ - ExpBank Sign (Deposit)
 # =====================================================================================================================
 # APIxMJ - ExpBank Sign (Withdraw)
-# --------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 on leftclick:
 	if event-block is sign:
 		set {_name} to mj_editfiles("expbank.config", "data.sign.name")
@@ -292,7 +292,7 @@ on break:
 							else:
 								mj_expbank_drop_sign(player, {_loc.6})
 	stop
-# --------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 on explode:
 	set {_name} to mj_editfiles("expbank.config", "data.sign.name")
 	loop exploded blocks:
@@ -300,7 +300,7 @@ on explode:
 			if line 1 of loop-block is {_name}:
 				cancel event
 	stop
-# --------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_expbank_drop_sign(player: offlineplayer, loc: location):
 	set {_block.1} to block at {_loc}
 	set {_value.1} to line 2 of {_block.1} parsed as offlineplayer
@@ -312,7 +312,7 @@ function mj_expbank_drop_sign(player: offlineplayer, loc: location):
 		add {_xp} to {_player}'s xp
 	mj_core_logger(2, "%{_player}% break drawer sign at %{_loc}% with %{_value.2}% of %{_value.1}%")
 	stop
-# --------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - ExpBank Sign (Break)
 # =====================================================================================================================
 # APIxMJ - ExpBank Bottle

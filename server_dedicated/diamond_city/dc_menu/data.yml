@@ -1,0 +1,169 @@
+data:
+    help:
+        name: help
+        condition: true
+        slot: 10
+        close: false
+        left_click: true
+        left_command: /help
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: book
+    spawn:
+        name: spawn
+        condition: true
+        slot: 13
+        close: true
+        left_click: true
+        left_command: /spawn
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: eye of ender
+    recipes:
+        name: recipes
+        condition: true
+        slot: 15
+        close: false
+        left_click: true
+        left_command: /recipes
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: book
+    event:
+        name: event
+        condition: true
+        slot: 16
+        close: false
+        left_click: true
+        left_command: /event
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: beacon
+    rules:
+        name: rules
+        condition: true
+        slot: 19
+        close: false
+        left_click: true
+        left_command: /rules
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: book
+    calendar:
+        name: calendar
+        condition: true
+        slot: 25
+        close: false
+        left_click: true
+        left_command: /calendar
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: gold clock
+    backpack_rename:
+        name: backpack_rename
+        condition: true
+        slot: 32
+        close: false
+        left_click: false
+        left_command: /none
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: lime shulker box
+    backpack_upgrade:
+        name: backpack_upgrade
+        condition: true
+        slot: 33
+        close: false
+        left_click: true
+        left_command: /backpack upgrade
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: yellow shulker box
+    backpack_lock:
+        name: backpack_lock
+        condition: true
+        slot: 34
+        close: false
+        left_click: true
+        left_command: /backpack lock
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: red shulker box
+    disposal:
+        name: disposal
+        condition: true
+        slot: 37
+        close: false
+        left_click: true
+        left_command: /disposal
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: lava bucket
+    discord:
+        name: discord
+        condition: true
+        slot: 39
+        close: true
+        left_click: true
+        left_command: /discord
+        right_click: false
+        right_command: /none
+        middle_click: false
+        middle_command: /none
+        item: flight 0 firework rocket
+    home_1:
+        name: home_1
+        condition: true
+        slot: 41
+        close: true
+        left_click: true
+        left_command: /home home01
+        right_click: false
+        right_command: /none
+        middle_click: true
+        middle_command: /sethome home01
+        item: ender pearl
+    home_2:
+        name: home_2
+        condition: false
+        slot: 42
+        close: true
+        left_click: true
+        left_command: /home home02
+        right_click: false
+        right_command: /none
+        middle_click: true
+        middle_command: /sethome home02
+        item: ender pearl
+    home_3:
+        name: home_3
+        condition: false
+        slot: 43
+        close: true
+        left_click: true
+        left_command: /home home03
+        right_click: false
+        right_command: /none
+        middle_click: true
+        middle_command: /sethome home03
+        item: ender pearl

@@ -1,0 +1,132 @@
+data:
+    title: "&eMenu principal"
+    soon: "&cProchainement…"
+    object:
+        help:
+            name: "&aAide"
+            left_click: "&7Ouvrir le menu"
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&7Vous avez une question ou"
+                '2': "&7vous avez besoin d'aide ?"
+                '3': "&0"
+                '4': "&7Faites une petite recherche"
+                '5': "&7avant de contacter le Staff."
+        spawn:
+            name: "&bRevenir à l'abri &6(&aSpawn&6)"
+            left_click: "&7Se téléporter"
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&7Besoin de revenir au coeur"
+                '2': "&7du serveur utilisé ceci."
+        recipes:
+            name: "&dRecettes personalisées"
+            left_click: "&7Ouvrir le menu"
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&7Voici une liste de recettes"
+                '2': "&7ajoutées par le serveur."
+        event:
+            name: "&eÉvènement"
+            left_click: "&7Voir l'information"
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&7En ce moment un évent en"
+                '2': "&7cours, consulter l'information."
+        rules:
+            name: "&aRèglement"
+            left_click: "&7Ouvrir le menu"
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&cIl est parfois nécessaire"
+                '2': "&cde connaître le règlement."
+        calendar:
+            name: "&eCalendrier journalier"
+            left_click: "&7Ouvrir le menu"
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&7Chaque jour une récompense"
+                '2': "&7sera disponible dans ton"
+                '3': "&7petit calendrier du jour."
+        backpack_rename:
+            name: "&aRenommer un sac à dos"
+            left_click: none
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&7Utiliser la commande &a/bp rename <le nom>"
+                '2': "&7ou &a/backpack rename <le nom> &7pour"
+                '3': "&7renommer le sac à dos."
+                '4': "&0"
+                '5': "&aVous devez tenir le sac à dos en main !"
+        backpack_upgrade:
+            name: "&eAmélioration du sac à dos"
+            left_click: "&7Améliorer le sac à dos"
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&7Votre sac à dos est trop petit ?"
+                '2': "&7Cette commande vous pouvez"
+                '3': "&7agrandir votre sac à dos."
+                '4': "&0"
+                '5': "&aVous devez tenir le sac à dos en main !"
+        backpack_lock:
+            name: "&cVerrouillage du sac à dos"
+            left_click: "&7Verrouiller le sac à dos"
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&7Vous avez peur qu'un joueur touche à"
+                '2': "&7votre sac à dos ?"
+                '3': "&7Pas de panique, j'ai la solution !"
+                '4': "&0"
+                '5': "&aVous devez tenir le sac à dos en main !"
+        disposal:
+            name: "&cCorbeille"
+            left_click: "&7Ouvrir le menu"
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&7Ouvre une interface dans laquelle"
+                '2': "&7vous pouvez jeter vos déchets."
+                '3': "&0"
+                '4': "&cAttention une fois fermé impossible"
+                '5': "&cde revenir en arrière."
+        discord:
+            name: "&9Discord"
+            left_click: "&7Récupérer le lien"
+            right_click: none
+            middle_click: none
+            lore:
+                '1': "&7Vous avez besoin du lien pour"
+                '2': "&7revenir sur Discord clique ici."
+        home_1:
+            name: "&aPoint de téléportation 1"
+            left_click: "&7Se téléporter"
+            right_click: none
+            middle_click: "&7Sauvegarder un nouveau point"
+            lore:
+                '1': "&7Un point de téléportation pour se téléporter"
+                '2': "&7à notre guise."
+        home_2:
+            name: "&aPoint de téléportation 2"
+            left_click: "&7Se téléporter"
+            right_click: none
+            middle_click: "&7Sauvegarder un nouveau point"
+            lore:
+                '1': "&7Un point de téléportation pour se téléporter"
+                '2': "&7à notre guise."
+        home_3:
+            name: "&aPoint de téléportation 3"
+            left_click: "&7Se téléporter"
+            right_click: none
+            middle_click: "&7Sauvegarder un nouveau point"
+            lore:
+                '1': "&7Un point de téléportation pour se téléporter"
+                '2': "&7à notre guise."

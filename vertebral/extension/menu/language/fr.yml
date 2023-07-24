@@ -1,0 +1,9 @@
+data:
+    title: "&eMenu principal"
+    object:
+        example:
+            name: "&aexample"
+            click: "&7Open"
+            lore:
+                '1': "&aExample 1"
+                '2': "&aExample 2"

@@ -1746,11 +1746,12 @@ function mj_core_converter_time(time: text) :: timespan:
 		set {_time} to "%{_time}% year" parsed as timespan
 	return {_time}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_gui_generator(player: player, size: number=1, locked: boolean=true, type: text="default", title: text="No gui name", gui: text="none"):
+function mj_core_gui_generator(player: player, size: number=1, locked: boolean=true, type: text="default", title: text="No gui name", gui: text="none", item: item=air):
 	mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui", "modify", {_gui})
 	if {_locked} is true:
 		mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.temp.gui_protect", "modify", true)
-	set {_item} to mj_manager_item_convert("core.config", "data.gui_background.item")
+	if {_item} is air:
+		set {_item} to mj_manager_item_convert("core.config", "data.gui_background.item")
 	open virtual chest inventory with size {_size} named {_title} to {_player}
 	if {_type} is "default" or "border":
 		set {_time} to 9*{_size}

@@ -1,0 +1,15 @@
+data:
+    sign:
+        name: "&aMenu principal"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aDifficile de retenir toutes les commandes ?"
+            '2': "&0- &aJ'ai la solution !"
+            '3': "&0- &aUne interface qui aide à mieux gérer le jeu."
+        permission:
+        - "none"
+        info:
+            '1': "&6- &a/menu"
+            '2': "&0- &7Il ouvre un menu interactif qui vous"
+            '3': "&0- &7facilite son usage envers le serveur."

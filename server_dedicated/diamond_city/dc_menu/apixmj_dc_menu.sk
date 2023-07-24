@@ -1,0 +1,121 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_dc_menu():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.server_dedicated_diamond_city.dc_menu.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.menu.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.menu.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.menu.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.menu.help.%loop-value%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+		send "[APIxMJ] Loading menu..." to console
+		mj_files_dc_menu()
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		unload script file "apixmj_menu.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_menu.sk" to "-apixmj_menu.sk"
+	send "[APIxMJ] Unloading menu.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Command
+# ---------------------------------------------------------------------------------------------------------------------
+command /menu:
+	executable by: player
+	trigger:
+		mj_diamond_city_menu(player)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Command
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_diamond_city_menu(player: player):
+	set {_title} to mj_editfiles_gettext("menu", "data.title", {_player})
+	set {_type} to mj_editfiles("menu.config", "data.gui_option.type")
+	set {_size} to mj_editfiles_number("menu.config", "data.gui_option.size")
+	set {_item} to mj_manager_item_convert("menu.config", "data.gui_option.item")
+	mj_core_gui_generator({_player}, {_size}, true, {_type}, {_title}, "menu", {_item})
+	wait 2 ticks
+	set {_list::*} to mj_manager_nodes("menu.data")
+	loop {_list::*}:
+		set {_check} to mj_editfiles_boolean("menu.data", "data.%loop-value%.condition")
+		if {_check} is true:
+			mj_diamond_city_menu_item({_player}, loop-value)
+		else:
+			mj_diamond_city_menu_item_hidden({_player}, loop-value)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_diamond_city_menu_item(player: player, value: text):
+	set {_lang} to mj_manager_userdata_language({_player})
+	set {_name} to mj_editfiles_gettext("menu", "data.object.%{_value}%.name", {_player})
+	set {_slot} to mj_editfiles_number("menu.data", "data.%{_value}%.slot")
+	set {_close} to mj_editfiles_boolean("menu.data", "data.%{_value}%.close")
+	set {_item.1} to mj_manager_item_convert("menu.data", "data.%{_value}%.item")
+	set {_count} to 1
+	set {_list::*} to mj_manager_nodes("menu.language.%{_lang}%", "data.object.%{_value}%.lore")
+	loop {_list::*}:
+		set {_view} to mj_editfiles_gettext("menu", "data.object.%{_value}%.lore.%loop-value%", {_player})
+		set line {_count} of lore of {_item.1} to {_view}
+		add 1 to {_count}
+	set {_click.1} to mj_editfiles_boolean("menu.data", "data.%{_value}%.left_click")
+	if {_click.1} is true:
+		set {_item.1} to mj_manager_item_button({_player}, {_item.1}, "left_click", "menu", "data.object.%{_value}%.left_click")
+	set {_click.2} to mj_editfiles_boolean("menu.data", "data.%{_value}%.right_click")
+	if {_click.2} is true:
+		set {_item.1} to mj_manager_item_button({_player}, {_item.1}, "right_click", "menu", "data.object.%{_value}%.right_click", true)
+	set {_click.3} to mj_editfiles_boolean("menu.data", "data.%{_value}%.middle_click")
+	if {_click.3} is true:
+		set {_item.1} to mj_manager_item_button({_player}, {_item.1}, "middle_click", "menu", "data.object.%{_value}%.middle_click", true)
+	if {_close} is true:
+		make a gui slot {_slot} of {_player} with {_item.1} named {_name} to close:
+			if {_click.1} is true:
+				if gui-click-type is left mouse button:
+					set {_command.1} to mj_editfiles("menu.data", "data.%{_value}%.left_command")
+					{_player} command {_command.1}
+			if {_click.2} is true:
+				if gui-click-type is right mouse button:
+					set {_command.2} to mj_editfiles("menu.data", "data.%{_value}%.right_command")
+					{_player} command {_command.2}
+			if {_click.3} is true:
+				if gui-click-type is middle mouse button:
+					set {_command.3} to mj_editfiles("menu.data", "data.%{_value}%.middle_command")
+					{_player} command {_command.3}
+			stop
+	else:
+		make a gui slot {_slot} of {_player} with {_item.1} named {_name} to run:
+			if {_click.1} is true:
+				if gui-click-type is left mouse button:
+					set {_command.1} to mj_editfiles("menu.data", "data.%{_value}%.left_command")
+					{_player} command {_command.1}
+			if {_click.2} is true:
+				if gui-click-type is right mouse button:
+					set {_command.2} to mj_editfiles("menu.data", "data.%{_value}%.left_command")
+					{_player} command {_command.2}
+			if {_click.3} is true:
+				if gui-click-type is middle mouse button:
+					set {_command.3} to mj_editfiles("menu.data", "data.%{_value}%.left_command")
+					{_player} command {_command.3}
+			stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_diamond_city_menu_item_hidden(player: player, value: text):
+	set {_name} to mj_editfiles_gettext("menu", "data.soon", {_player})
+	set {_slot} to mj_editfiles_number("menu.data", "data.%{_value}%.slot")
+	make a gui slot {_slot} of {_player} with barrier block named {_name} to run:
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function
+# =====================================================================================================================

@@ -414,20 +414,22 @@ on craft of knowledge book:
 	set {_name} to mj_editfiles("core.data", "data.recipe.backpack_1.name")
 	set {_item} to mj_manager_item_convert("core.data", "data.recipe.backpack_1.item")
 	if name of event-item is {_name}:
-		wait 1 tick
-		close player's inventory
-		remove 1 of {_item} from player's inventory
-		mj_backpack_create(player, 1)
+		if player's inventory has space for {_item}:
+			wait 1 tick
+			close player's inventory
+			remove 1 of {_item} from player's inventory
+			mj_backpack_create(player, 1)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on craft of knowledge book:
 	set {_name} to mj_editfiles("core.data", "data.recipe.backpack_2.name")
 	set {_item} to mj_manager_item_convert("core.data", "data.recipe.backpack_2.item")
 	if name of event-item is {_name}:
-		wait 1 tick
-		close player's inventory
-		remove 1 of {_item} from player's inventory
-		mj_backpack_listed(player, player, true, "give")
+		if player's inventory has space for {_item}:
+			wait 1 tick
+			close player's inventory
+			remove 1 of {_item} from player's inventory
+			mj_backpack_listed(player, player, true, "give")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:

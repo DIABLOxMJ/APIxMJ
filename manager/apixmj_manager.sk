@@ -1058,21 +1058,24 @@ function mj_manager_help_menu_index_button(player: player):
 			set {_value.2} to loop-value-2
 			set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.installed")
 			if {_check} is true:
-				set {_name.1} to mj_editfiles("manager.data", "data.index.%{_value.1}%.name")
-				set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player})
-				if {_value.1} is "main":
-					set {_title} to mj_editfiles_gettext("manager", "data.help.button.manager", {_player})
-				else:
-					set {_index} to mj_editfiles("manager.data", "data.button.help.index.name")
-					set {_title} to mj_editfiles_gettext("manager", {_index}, {_player}, {_name.2})
-				set {_item} to mj_manager_item_convert("manager.data", "data.button.help.index.item")
-				make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
-					mj_manager_help_menu_addon({_player}, {_value.1})
-					stop
-				add 1 to {_slot}
-				if {_slot} is 17 or 26 or 35:
-					add 2 to {_slot}
-				exit loop
+				set {_lang} to mj_manager_userdata_language({_player})
+				set {_data} to mj_editfiles_stock("%{_value.2}%.help.%{_lang}%")
+				if {_data} is set:
+					set {_name.1} to mj_editfiles("manager.data", "data.index.%{_value.1}%.name")
+					set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player})
+					if {_value.1} is "main":
+						set {_title} to mj_editfiles_gettext("manager", "data.help.button.manager", {_player})
+					else:
+						set {_index} to mj_editfiles("manager.data", "data.button.help.index.name")
+						set {_title} to mj_editfiles_gettext("manager", {_index}, {_player}, {_name.2})
+					set {_item} to mj_manager_item_convert("manager.data", "data.button.help.index.item")
+					make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
+						mj_manager_help_menu_addon({_player}, {_value.1})
+						stop
+					add 1 to {_slot}
+					if {_slot} is 17 or 26 or 35:
+						add 2 to {_slot}
+					exit loop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_addon(player: player, id: text="main"):
@@ -1117,16 +1120,19 @@ function mj_manager_help_menu_addon_button_lite(player: player):
 			set {_value} to loop-value-2
 			set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_id}%.%{_value}%.installed")
 			if {_check} is true:
-				set {_name.1} to mj_editfiles("manager.data", "data.addon.%{_id}%.%{_value}%.name")
-				set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player})
-				set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name.2})
-				set {_item} to mj_manager_item_convert("manager.data", "data.button.help.addon.item")
-				make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
-					mj_manager_help_menu_viewer({_player}, {_id}, {_value})
-					stop
-				add 1 to {_slot}
-				if {_slot} is 17 or 26 or 35:
-					add 2 to {_slot}
+				set {_lang} to mj_manager_userdata_language({_player})
+				set {_data} to mj_editfiles_stock("%{_value}%.help.%{_lang}%")
+				if {_data} is set:
+					set {_name.1} to mj_editfiles("manager.data", "data.addon.%{_id}%.%{_value}%.name")
+					set {_name.2} to mj_editfiles_gettext("manager", {_name.1}, {_player})
+					set {_title} to mj_editfiles_gettext("manager", "data.help.button.addon", {_player}, {_name.2})
+					set {_item} to mj_manager_item_convert("manager.data", "data.button.help.addon.item")
+					make a gui slot {_slot} of {_player} with {_item} named {_title} to run:
+						mj_manager_help_menu_viewer({_player}, {_id}, {_value})
+						stop
+					add 1 to {_slot}
+					if {_slot} is 17 or 26 or 35:
+						add 2 to {_slot}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_viewer(player: player, source: text, id: text, page: number=1, manager: boolean=false):

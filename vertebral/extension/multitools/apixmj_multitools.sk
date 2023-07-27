@@ -262,34 +262,34 @@ function mj_tablist_bar(player: player, title_count: number, separate_count: num
 # =====================================================================================================================
 # APIxMJ - Autolist
 # ---------------------------------------------------------------------------------------------------------------------
-#on load:
-	#set {_list::*} to mj_manager_nodes("multitools.config", "data.tab_list.order")
-	#loop {_list::*}:
-	#	set {_tag} to mj_editfiles("multitools.config", "data.tab_list.order.%loop-value%.tag")
-	#	create nametag "%{_tag}%"
-	#	set prefix of nametag "%{_tag}%" to ""
-	#create nametag "z-default"
-	#set prefix of nametag "z-default" to ""
-	#stop
+on load:
+	set {_list::*} to mj_manager_nodes("multitools.config", "data.tablist.order")
+	loop {_list::*}:
+		set {_tag} to mj_editfiles("multitools.config", "data.tablist.order.%loop-value%.tag")
+		create nametag "%{_tag}%"
+		set prefix of nametag "%{_tag}%" to ""
+	create nametag "z-default"
+	set prefix of nametag "z-default" to ""
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
-#every 2 second:
-	#set {_count} to 0
-	#loop all players:
-	#	add 1 to {_count}
-	#if {_count} >= 1:
-	#	set {_list::*} to mj_manager_nodes("multitools.config", "data.tablist.order")
-	#	loop all players:
-	#		loop {_list::*}:
-	#			set {_tag} to mj_editfiles("multitools.config", "data.tablist.order.%loop-value-2%.tag")
-	#			set {_rank} to mj_editfiles("multitools.config", "data.tablist.order.%loop-value-2%.rank")
-	#			set {_node} to mj_ranker(loop-player, "source")
-	#			if {_node} is "%{_rank}%":
-	#				add loop-player's nametag to "%{_tag}%"
-	#				#remove loop-player from nametag "a-owner"
-	#				exit loop
-	#			else:
-	#				add loop-player's nametag to "z-default"
-	#stop
+on join:
+	set {_count} to 0
+	loop all players:
+		add 1 to {_count}
+	if {_count} >= 1:
+		set {_list::*} to mj_manager_nodes("multitools.config", "data.tablist.order")
+		loop all players:
+			loop {_list::*}:
+				set {_tag} to mj_editfiles("multitools.config", "data.tablist.order.%loop-value-2%.tag")
+				set {_rank} to mj_editfiles("multitools.config", "data.tablist.order.%loop-value-2%.rank")
+				set {_node} to mj_ranker(loop-player, "source")
+				if {_node} is {_rank}:
+					add loop-player to nametag "%{_tag}%"
+					#remove loop-player from nametag "a-owner"
+					exit loop
+				else:
+					add loop-player to nametag "z-default"
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Autolist
 # =====================================================================================================================

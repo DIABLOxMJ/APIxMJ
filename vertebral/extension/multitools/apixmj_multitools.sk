@@ -197,7 +197,7 @@ every 3 seconds:
 				loop {_size.20} times:
 					set {_size.21} to "&r %{_size.21}%"
 			if {_check.2} is false:
-				set {_size.20} to length of {_afk.2} - 4
+				set {_size.20} to length of {_afk.2} - 2
 				loop {_size.20} times:
 					set {_size.21} to "&r %{_size.21}%"
 			replace "<size_1>" with "%{_size.11}%" in {_format}
@@ -273,6 +273,14 @@ on load:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
+	mj_autolist()
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+every 1 minute:
+	mj_autolist()
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_autolist():
 	set {_count} to 0
 	loop all players:
 		add 1 to {_count}

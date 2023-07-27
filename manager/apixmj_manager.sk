@@ -649,14 +649,14 @@ function mj_manager_menu_control_button_condition(player: player, source: text, 
 			set {_item.2} to mj_manager_item_description({_player}, {_item.1}, "data.button.condition.%{_type}%")
 			set {_item.3} to mj_manager_item_button({_player}, {_item.2}, "left_click", "manager", "data.open.condition_%{_type}%")
 			make a gui slot {_slot} of {_player} with {_item.3} named {_name.3} to run:
-				if {_check} is true:
+				if {_check.2} is true:
 					mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", false)
 					unload script file {_skript}
 				else:
 					mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", true)
 					enable script file {_skript}
 				set {_type.view} to mj_editfiles_gettext("manager", "data.type.%{_type}%", {_player})
-				mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.condition", {_type.view}, {_name.2})
+				mj_manager_message({_player}, "manager", "data.prefix", "manager", "data.process.condition", {_type.view}, {_name.1})
 				mj_manager_menu_control_button_condition({_player}, {_source}, {_id}, {_slot})
 				stop
 	stop

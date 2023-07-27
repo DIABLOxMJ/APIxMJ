@@ -31,6 +31,8 @@ data:
     tablist:
         # Whether or not we display a custom tablist, default : false
         condition: false
+        # Player display a custom tablist, default : "&6[&r<rank>&6]&r <color><player><afk> <health> <death>"
+        player_viewer: "&6[&r<rank>&6]&r <color><player><afk> <health> <death>"
         # Header display a custom tablist, default : "<title><new_line><separate><new_line><online_player><new_line><player_ping><new_line><separate>"
         header: "<title><new_line><separate><new_line><online_player><new_line><player_ping><new_line><separate>"
         # Footer display a custom tablist, default : "<separate><new_line><discord><new_line><new_line><website>"

@@ -4,7 +4,9 @@ data:
         '2': "&aYour broadcasting two"
     tablist:
         server_name: "&aServer Name"
-        afk: " &6(AFK)"
+        afk: " &6(AFK)&r"
+        health: "&c$0&c❤&r"
+        death: "&7$0 &7Die&r"
         online_player: "&7Connected players &6: &a$0&6/&a$1&r"
         ping: "&7Your ping &6: &a$0ms&r"
         discord: "&7Discord &6: &b&n$0&r"

@@ -419,6 +419,8 @@ on craft of knowledge book:
 			close player's inventory
 			remove 1 of {_item} from player's inventory
 			mj_backpack_create(player, 1)
+		else:
+			cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on craft of knowledge book:
@@ -430,6 +432,8 @@ on craft of knowledge book:
 			close player's inventory
 			remove 1 of {_item} from player's inventory
 			mj_backpack_listed(player, player, true, "give")
+		else:
+			cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:

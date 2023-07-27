@@ -307,9 +307,9 @@ function mj_expbank_drop_sign(player: offlineplayer, loc: location):
 	set {_value.2} to line 3 of {_block.1} parsed as number
 	set {_type} to mj_editfiles_boolean("expbank.config", "data.sign.type")
 	if {_type} is true:
-		add {_xp} to {_player}'s level
+		add {_value.2} to {_value.1}'s level
 	else:
-		add {_xp} to {_player}'s xp
+		add {_value.2} to {_value.1}'s xp
 	mj_core_logger(2, "%{_player}% break drawer sign at %{_loc}% with %{_value.2}% of %{_value.1}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

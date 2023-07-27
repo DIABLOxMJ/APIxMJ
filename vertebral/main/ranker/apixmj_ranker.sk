@@ -5,6 +5,11 @@ function mj_files_ranker():
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.ranker.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.ranker.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.ranker.data"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.ranker.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.ranker.help.%loop-value%"
 	loop all players:
 		mj_ranker_playerdata(loop-player)
 	stop
@@ -90,15 +95,17 @@ function mj_ranker_config():
 function mj_ranker(player: offlineplayer, type: text="prefix", color: boolean=true) :: text:
 	set {_source} to mj_editfiles("ranker.config", "data.system.use")
 	if {_source} is "groupmanager":
-		set {_rank1} to mj_editfiles("ranker.users", "users.%{_player}'s uuid%.group")
-		set {_rank2} to mj_ranker_convert({_rank1}, {_type}, {_color})
-	return {_rank2}
+		set {_rank.1} to mj_editfiles("ranker.users", "users.%{_player}'s uuid%.group")
+		set {_rank.2} to mj_ranker_convert({_rank.1}, {_type}, {_color})
+	return {_rank.2}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_ranker_convert(id: text, type: text="prefix", color: boolean=true) :: text:
 	if {_type} is "source":
 		set {_rank} to {_id}
 	else:
 		set {_rank} to mj_editfiles("ranker.data", "data.%{_type}%.%{_id}%")
+		if {_id} isn't set:
+			set {_rank} to mj_editfiles("ranker.data", "data.%{_type}%.default")
 	if {_color} isn't true:
 		set {_rank} to uncolored {_rank}
 	if {_rank} isn't set:

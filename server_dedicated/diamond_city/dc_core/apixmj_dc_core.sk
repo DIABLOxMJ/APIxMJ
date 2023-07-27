@@ -10,6 +10,9 @@ function mj_files_diamond_city():
 		loop {_list::*}:
 			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.diamond_city.language.%loop-value%"
 			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.diamond_city.help.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/none.yml" as "mj.dc_core.help.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/none.yml" as "mj.dc_event.help.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/none.yml" as "mj.dc_menu.help.%loop-value%"
 	loop all players:
 		mj_diamond_city_playerdata(loop-player)
 	stop

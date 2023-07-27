@@ -394,11 +394,19 @@ function mj_core_logger(level: number=0, message: text, silent: boolean=false):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_logger_save_data(info: text):
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.core.folder")
-	set {_date} to now formatted with "yyyy-MM-dd-hh"
-	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log" doesn't exist:
-		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
+	set {_date.1} to now formatted with "yyyy-MM-dd"
+	set {_date.2} to now formatted with "hh"
+	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-1.log" doesn't exist:
+		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-1.log"
+	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-2.log" doesn't exist:
+		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-2.log"
 	set {_id} to mj_core_logger_id_generator()
-	write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
+	set {_check} to now formatted with "mm"
+	set {_check} to {_check} parsed as number
+	if {_check} >= 30:
+		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-2.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-2.log"
+	else:
+		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-1.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-1.log"
 	mj_core_logger(5, "%{_id}% : %{_info}%", true)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

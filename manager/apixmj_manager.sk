@@ -1299,23 +1299,25 @@ function mj_manager_rules_menu_viewer_data_lore(player: player, item: item, inde
 # APIxMJ - Backup
 # ---------------------------------------------------------------------------------------------------------------------
 every 1 hour:
-	set {_check} to mj_editfiles_boolean("manager.config", "data.backup")
-	if {_check} is true:
+	set {_check.1} to mj_editfiles_boolean("manager.config", "data.backup")
+	if {_check.1} is true:
 		set {_date} to now formatted with "yyyy-MM-dd"
 		set {_time} to now formatted with "HH-mm"
-		create script "plugins/APIxMJ/backup/%{_date}%/%{_time}%/%{_date}%_%{_time}%.log"
-		wait 1 second
+		create script "plugins/APIxMJ/backup/%{_date}%/%{_time}%/APIxMJ/%{_date}%_%{_time}%.log"
 		copy dir "plugins/Skript/scripts" to "plugins/APIxMJ/backup/%{_date}%/%{_time}%"
-		set {_list1::*} to mj_manager_nodes("manager.data", "data.addon")
-		loop {_list1::*}:
-			set {_value1} to loop-value-1
-			set {_list2::*} to mj_manager_nodes("manager.data", "data.addon.%{_value1}%")
-			loop {_list2::*}:
-				set {_value2} to loop-value-2
-				set {_check} to mj_editfiles_boolean("manager.data", "data.addon.%{_value1}%.%{_value2}%.installed")
-				if {_check} is true:
-					set {_folder} to mj_editfiles("manager.data", "data.addon.%{_value1}%.%{_value2}%.folder")
-					copy dir "plugins/APIxMJ/%{_folder}%" to "plugins/APIxMJ/backup/%{_date}%/%{_time}%"
+		wait 2 ticks
+		set {_list.1::*} to mj_manager_nodes("manager.data", "data.addon")
+		loop {_list.1::*}:
+			set {_value.1} to loop-value-1
+			set {_list.2::*} to mj_manager_nodes("manager.data", "data.addon.%{_value.1}%")
+			loop {_list.2::*}:
+				set {_value.2} to loop-value-2
+				set {_check.2} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.installed")
+				if {_check.2} is true:
+					set {_folder} to mj_editfiles("manager.data", "data.addon.%{_value.1}%.%{_value.2}%.folder")
+					copy dir "plugins/APIxMJ/%{_folder}%" to "plugins/APIxMJ/backup/%{_date}%/%{_time}%/APIxMJ/"
+		#zip file "plugins/APIxMJ/backup/%{_date}%/%{_time}%/*" to zip "plugins/APIxMJ/backup/%{_date}%.zip"
+		#delete dir "plugins/APIxMJ/backup/APIxMJ/%{_date}%/"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Backup

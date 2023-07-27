@@ -2,12 +2,13 @@
 # APIxMJ - Files
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_files_multitools():
-	load yaml "plugins/APIxMJ/extension/multitools/config.yml" as "mj.multitools.config"
-	load yaml "plugins/APIxMJ/extension/multitools/data.yml" as "mj.multitools.data"
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.multitools.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.multitools.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.multitools.data"
 	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
 	if {_list::*} is set:
 		loop {_list::*}:
-			load yaml "plugins/APIxMJ/extension/multitools/language/%loop-value%.yml" as "mj.multitools.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.multitools.language.%loop-value%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
@@ -143,56 +144,71 @@ on damage:
 # =====================================================================================================================
 # APIxMJ - Tablist
 # ---------------------------------------------------------------------------------------------------------------------
-#every 3 seconds:
-	#set {_check} to mj_editfiles_boolean("server.config", "data.tablist.condition")
-	#if {_check} is true:
-	#	loop all players:
-	#		set {_rank} to mj_ranker(loop-player, "tabulation")
-	#		set {_color} to mj_ranker(loop-player, "color")
-	#		set {_tab} to mj_editfiles("essentials.config", "data.format.tablist")
-	#		set {_checkafk} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.afk")
-	#		if {_checkafk} is true:
-	#			set {_afk} to "&6(AFK)"
-	#		else:
-	#			set {_afk} to ""
-	#		replace "$0" with "%{_rank}%" in {_tab}
-	#		replace "$1" with "%{_color}%%loop-player%" in {_tab}
-	#		set the loop-player's tablist name to " %{_tab}% %{_afk}% "
-	#		mj_tablist(loop-player)
-	#stop
+every 3 seconds:
+	set {_check.1} to mj_editfiles_boolean("multitools.config", "data.tablist.condition")
+	if {_check.1} is true:
+		loop all players:
+			set {_rank} to mj_ranker(loop-player, "tabulation")
+			set {_color} to mj_ranker(loop-player, "color")
+			set {_tab} to mj_editfiles("essentials.config", "data.format.tablist")
+			set {_player} to mj_editfiles("userdata", "data.%loop-player's uuid%.pseudo")
+			set {_afk} to mj_editfiles_gettext("multitools", "data.tablist.afk", {_player})
+			set {_check.2} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.afk")
+			if {_check.2} is false:
+				set {_afk} to ""
+			replace "$0" with "%{_rank}%" in {_tab}
+			replace "$1" with "%{_color}%%{_player}%" in {_tab}
+			set the loop-player's tablist name to " %{_tab}%%{_afk}% "
+			set {_lang} to mj_manager_userdata_language(loop-player)
+			set {_title} to mj_editfiles_gettext("multitools", "data.tablist.animation.title.1", {_player}, {_name})
+			set {_count.1} to 1
+			set {_count.2} to mj_manager_nodes_count("multitools.language.%{_lang}%", "data.tablist.animation.title")
+			set {_count.3} to 1
+			set {_count.4} to mj_manager_nodes_count("multitools.language.%{_lang}%", "data.tablist.animation.separate")
+			loop {_count.4} times:
+				add 1 to {_count.1}
+				add 1 to {_count.3}
+				if {_count.1} >= {_count.2} + 1:
+					set {_count.1} to 1
+				if {_count.3} >= {_count.4} + 1:
+					set {_count.3} to 1
+				mj_tablist(loop-player, {_count.1}, {_count.3})
+				wait 3 ticks
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
-#function mj_tablist(player: player):
-	#set {_connected} to 0
-	#loop all players:
-	#	set {_check} to mj_editfiles_boolean("userdata", "data.%loop-player's uuid%.essentials.vanish")
-	#	if {_check} is false:
-	#		add 1 to {_connected}
-	#set {_discord.link} to mj_editfiles("essentials.config", "data.discordlink")
-	#set {_website.link} to mj_editfiles("essentials.config", "data.websitelink")
-	#set {_online} to mj_editfiles_gettext("server", "data.tablist.onlineplayer", {_player}, "%{_connected}%", "%max players count%")
-	#set {_discord} to mj_editfiles_gettext("server", "data.tablist.discord", {_player}, "%{_discord.link}%")
-	#set {_website} to mj_editfiles_gettext("server", "data.tablist.website", {_player}, "%{_website.link}%")
-	#set {_ntitle} to 1
-	#set {_nrod} to 1
-	#set {_lang} to mj_editfiles("core.config", "data.serverlanguage")
-	#set {_ctitle} to mj_manager_nodes_count("server.language.%{_lang}%", "data.tablist.animation.title")
-	#set {_crod} to mj_manager_nodes_count("server.language.%{_lang}%", "data.tablist.animation.rod")
-	#loop {_crod} times:
-	#	set {_title} to mj_editfiles_gettext("server", "data.tablist.animation.title.%{_ntitle}%", {_player})
-	#	set {_rod} to mj_editfiles_gettext("server", "data.tablist.animation.rod.%{_nrod}%", {_player})
-	#	add 1 to {_ntitle}
-	#	add 1 to {_nrod}
-	#	if {_ntitle} >= {_ctitle}+1:
-	#		set {_ntitle} to 1
-	#	if {_nDrod} >= {_crod}+1:
-	#		set {_ntitle} to 1
-	#	loop all players:
-	#		set {_ping} to mj_editfiles_gettext("server", "data.tablist.ping", loop-player, "%loop-player's ping%")
-	#		set {_1} to "%{_title}%%nl%%{_rod}%%nl%%{_online}%%nl%%{_ping}%%nl%%{_rod}%"
-	#		set {_2} to "%{_rod}%%nl%%{_discord}%%nl%%nl%%{_website}%"
-	#		set tab header to "%{_1}%" and footer to "%{_2}%" for loop-player
-	#	wait 3 ticks
-	#stop
+function mj_tablist(player: player, title_count: number, separate_count: number):
+	set {_online.1} to 0
+	loop all players:
+		set {_check} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.vanish")
+		if {_check} is false:
+			add 1 to {_online.1}
+	set {_link.1} to mj_editfiles("essentials.config", "data.link.discord")
+	set {_link.2} to mj_editfiles("essentials.config", "data.link.website")
+	set {_header} to mj_editfiles("multitools.config", "data.tablist.header")
+	set {_footer} to mj_editfiles("multitools.config", "data.tablist.footer")
+	loop all players:
+		set {_online.2} to mj_editfiles_gettext("multitools", "data.tablist.online_player", {_player}, "%{_online.1}%", "%max players count%")
+		replace "<online_player>" with {_online.2} in {_header}
+		replace "<online_player>" with {_online.2} in {_footer}
+		set {_ping} to mj_editfiles_gettext("multitools", "data.tablist.ping", loop-player, "%loop-player's ping%")
+		replace "<player_ping>" with {_ping} in {_header}
+		replace "<player_ping>" with {_ping} in {_footer}
+		set {_discord} to mj_editfiles_gettext("multitools", "data.tablist.discord", {_player}, {_link.1})
+		replace "<discord>" with {_discord} in {_header}
+		replace "<discord>" with {_discord} in {_footer}
+		set {_website} to mj_editfiles_gettext("multitools", "data.tablist.website", {_player}, {_link.2})
+		replace "<website>" with {_website} in {_header}
+		replace "<website>" with {_website} in {_footer}
+		set {_name} to mj_editfiles_gettext("multitools", "data.tablist.server_name", {_player})
+		set {_title} to mj_editfiles_gettext("multitools", "data.tablist.animation.title.%{_title_count}%", {_player}, {_name})
+		set {_separate} to mj_editfiles_gettext("multitools", "data.tablist.animation.separate.%{_separate_count}%", {_player})
+		replace "<title>" with {_title} in {_header}
+		replace all "<new_line>" with nl in {_header}
+		replace all "<new_line>" with nl in {_footer}
+		replace all "<separate>" with {_separate} in {_header}
+		replace all "<separate>" with {_separate} in {_footer}
+		set tab header to {_header} and footer to {_footer} for loop-player
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Tablist
 # =====================================================================================================================
@@ -208,24 +224,24 @@ on damage:
 	#set prefix of nametag "z-default" to ""
 	#stop
 # ---------------------------------------------------------------------------------------------------------------------
-#every 2 second:
-	#set {_count} to 0
-	#loop all players:
-	#	add 1 to {_count}
-	#if {_count} >= 1:
-	#	set {_list::*} to mj_manager_nodes("multitools.config", "data.tab_list.order")
-	#	loop all players:
-	#		loop {_list::*}:
-	#			set {_tag} to mj_editfiles("multitools.config", "data.tab_list.order.%loop-value-2%.tag")
-	#			set {_rank} to mj_editfiles("multitools.config", "data.tab_list.order.%loop-value-2%.rank")
-	#			set {_node} to mj_ranker(loop-player, "source")
-	#			if {_node} is "%{_rank}%":
-	#				add loop-player to nametag "%{_tag}%"
-	#				#remove loop-player from nametag "a-owner"
-	#				exit loop
-	#			else:
-	#				add loop-player to nametag "z-default"
-	#stop
+every 2 second:
+	set {_count} to 0
+	loop all players:
+		add 1 to {_count}
+	if {_count} >= 1:
+		set {_list::*} to mj_manager_nodes("multitools.config", "data.tablist.order")
+		loop all players:
+			loop {_list::*}:
+				set {_tag} to mj_editfiles("multitools.config", "data.tablist.order.%loop-value-2%.tag")
+				set {_rank} to mj_editfiles("multitools.config", "data.tablist.order.%loop-value-2%.rank")
+				set {_node} to mj_ranker(loop-player, "source")
+				if {_node} is "%{_rank}%":
+					set loop-player's nametag to "%{_tag}%"
+					#remove loop-player from nametag "a-owner"
+					exit loop
+				else:
+					set loop-player's nametag to "z-default"
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Autolist
 # =====================================================================================================================

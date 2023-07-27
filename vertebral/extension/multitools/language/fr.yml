@@ -3,16 +3,18 @@ data:
         '1': "&aYour broadcasting one"
         '2': "&aYour broadcasting two"
     tablist:
+        server_name: "&aServer Name"
+        afk: " &6(AFK)"
         online_player: "&7Connected players &6: &a$0&6/&a$1&r"
         ping: "&7Your ping &6: &a$0ms&r"
         discord: "&7Discord &6: &b&n$0&r"
-        web_site: "&7Web Site &6: &b&n$0&r"
+        website: "&7Web Site &6: &b&n$0&r"
         animation:
             title:
-                '1': "&e>&6>> &aServer Name &6<<&e<&r"
-                '2': "&6>&e>&6> &aServer Name &6<&e<&6<&r"
-                '3': "&6>>&e> &aServer Name &e<&6<<&r"
-            rod:
+                '1': "&e>&6>> &r$0 &6<<&e<&r"
+                '2': "&6>&e>&6> &r$0 &6<&e<&6<&r"
+                '3': "&6>>&e> &r$0 &e<&6<<&r"
+            separate:
                 '1': "&e-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&5@&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&e-&r"
                 '2': "&6-&e-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&5@&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&e-&6-&r"
                 '3': "&6-&6-&e-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&5@&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&6-&e-&6-&6-&r"

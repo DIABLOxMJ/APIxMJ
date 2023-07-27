@@ -65,41 +65,42 @@ every 1 second:
 	set {_check} to mj_editfiles_boolean("dangerous.config", "data.heat_wave.condition")
 	if {_check} is true:
 		loop all players:
-			if loop-player's gamemode isn't creative:
-				if time in loop-player's world is between 6:00 and 18:00:
-					if loop-player's biome isn't snowy plains or snowy slopes or snowy beach or cold beach or cold taiga or frozen peaks or frozen river or frozen ocean or ice plains spikes:
-						set {_var.1} to true
-						set {_var.2} to false
-						set {_x} to loop-player's x-coordinate
-						set {_y} to loop-player's y-coordinate + 0.3
-						set {_z} to loop-player's z-coordinate
-						set {_loc.1} to location({_x}, {_y}, {_z}, ("%loop-player's world%" parsed as world))
-						set {_loc.2} to location({_x}, 319, {_z}, ("%loop-player's world%" parsed as world))
-						loop all blocks between {_loc.1} and {_loc.2}:
-							if loop-block isn't air:
-								set {_var.1} to false
-								exit loop
-						if {_var.1} is true:
-							if loop-player's helmet isn't air:
-								if loop-player's helmet isn't netherite helmet:
-									loop enchantments of loop-player's helmet:
-										if "%loop-value-2%" contains "Fire Protection":
-											set {_var.2} to true
-											set {_var.3} to mj_editfiles_number("dangerous.config", "data.heat_wave.chance_of_damage_helmet")
-											if chance of {_var.3}%:
-												add 1 to damage value of loop-player's helmet
-												if durability of loop-player's helmet >= max durability of loop-player's helmet:
-													set loop-player's helmet to air
-										else:
-											set {_var.2} to false
-								else:
-									set {_var.2} to true
-						if {_var.1} is true:
-							if {_var.2} is false:
-								if weather of loop-player's world is clear:
-									set {_var.4} to mj_editfiles_number("dangerous.config", "data.heat_wave.damage_player")
-									damage loop-player by {_var.4}
-									ignite loop-player for 20 ticks
+			if loop-player's world is "world":
+				if loop-player's gamemode isn't creative:
+					if time in loop-player's world is between 6:00 and 18:00:
+						if loop-player's biome isn't snowy plains or snowy slopes or snowy beach or cold beach or cold taiga or frozen peaks or frozen river or frozen ocean or ice plains spikes:
+							set {_var.1} to true
+							set {_var.2} to false
+							set {_x} to loop-player's x-coordinate
+							set {_y} to loop-player's y-coordinate + 0.3
+							set {_z} to loop-player's z-coordinate
+							set {_loc.1} to location({_x}, {_y}, {_z}, ("%loop-player's world%" parsed as world))
+							set {_loc.2} to location({_x}, 319, {_z}, ("%loop-player's world%" parsed as world))
+							loop all blocks between {_loc.1} and {_loc.2}:
+								if loop-block isn't air:
+									set {_var.1} to false
+									exit loop
+							if {_var.1} is true:
+								if loop-player's helmet isn't air:
+									if loop-player's helmet isn't netherite helmet:
+										loop enchantments of loop-player's helmet:
+											if "%loop-value-2%" contains "Fire Protection":
+												set {_var.2} to true
+												set {_var.3} to mj_editfiles_number("dangerous.config", "data.heat_wave.chance_of_damage_helmet")
+												if chance of {_var.3}%:
+													add 1 to damage value of loop-player's helmet
+													if durability of loop-player's helmet >= max durability of loop-player's helmet:
+														set loop-player's helmet to air
+											else:
+												set {_var.2} to false
+									else:
+										set {_var.2} to true
+							if {_var.1} is true:
+								if {_var.2} is false:
+									if weather of loop-player's world is clear:
+										set {_var.4} to mj_editfiles_number("dangerous.config", "data.heat_wave.damage_player")
+										damage loop-player by {_var.4}
+										ignite loop-player for 20 ticks
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Heat wave
@@ -110,40 +111,41 @@ every 1 second:
 	set {_check} to mj_editfiles_boolean("dangerous.config", "data.heat_wave_lite.condition")
 	if {_check} is true:
 		loop all players:
-			if loop-player's gamemode isn't creative:
-				if time in loop-player's world is between 6:00 and 18:00:
-					if loop-player's biome is desert or mesa or savanna or savanna plateau or windswept savanna or eroded badlands:
-						set {_var.1} to true
-						set {_var.2} to false
-						set {_x} to loop-player's x-coordinate
-						set {_y} to loop-player's y-coordinate + 0.3
-						set {_z} to loop-player's z-coordinate
-						set {_loc.1} to location({_x}, {_y}, {_z}, ("%loop-player's world%" parsed as world))
-						set {_loc.2} to location({_x}, 319, {_z}, ("%loop-player's world%" parsed as world))
-						loop all blocks between {_loc.1} and {_loc.2}:
-							if loop-block isn't air:
-								set {_var.1} to false
-								exit loop
-						if {_var.1} is true:
-							if loop-player's helmet isn't air:
-								if loop-player's helmet isn't netherite helmet:
-									loop enchantments of loop-player's helmet:
-										if "%loop-value-2%" contains "Fire Protection":
-											set {_var.2} to true
-											set {_var.3} to mj_editfiles_number("dangerous.config", "data.heat_wave_lite.chance_of_damage_helmet")
-											if chance of {_var.3}%:
-												add 1 to damage value of loop-player's helmet
-												if durability of loop-player's helmet >= max durability of loop-player's helmet:
-													set loop-player's helmet to air
-								else:
-									set {_var.2} to true
-						if {_var.1} is true:
-							if {_var.2} is false:
-								if weather of loop-player's world is clear:
-									set {_var.4} to mj_editfiles_number("dangerous.config", "data.heat_wave_lite.damage_player")
-									damage loop-player by {_var.4}
-									ignite loop-player for 20 ticks
-									broadcast "biome : (%loop-player's biome%)"
+			if loop-player's world is "world":
+				if loop-player's gamemode isn't creative:
+					if time in loop-player's world is between 6:00 and 18:00:
+						if loop-player's biome is desert or mesa or savanna or savanna plateau or windswept savanna or eroded badlands:
+							set {_var.1} to true
+							set {_var.2} to false
+							set {_x} to loop-player's x-coordinate
+							set {_y} to loop-player's y-coordinate + 0.3
+							set {_z} to loop-player's z-coordinate
+							set {_loc.1} to location({_x}, {_y}, {_z}, ("%loop-player's world%" parsed as world))
+							set {_loc.2} to location({_x}, 319, {_z}, ("%loop-player's world%" parsed as world))
+							loop all blocks between {_loc.1} and {_loc.2}:
+								if loop-block isn't air:
+									set {_var.1} to false
+									exit loop
+							if {_var.1} is true:
+								if loop-player's helmet isn't air:
+									if loop-player's helmet isn't netherite helmet:
+										loop enchantments of loop-player's helmet:
+											if "%loop-value-2%" contains "Fire Protection":
+												set {_var.2} to true
+												set {_var.3} to mj_editfiles_number("dangerous.config", "data.heat_wave_lite.chance_of_damage_helmet")
+												if chance of {_var.3}%:
+													add 1 to damage value of loop-player's helmet
+													if durability of loop-player's helmet >= max durability of loop-player's helmet:
+														set loop-player's helmet to air
+									else:
+										set {_var.2} to true
+							if {_var.1} is true:
+								if {_var.2} is false:
+									if weather of loop-player's world is clear:
+										set {_var.4} to mj_editfiles_number("dangerous.config", "data.heat_wave_lite.damage_player")
+										damage loop-player by {_var.4}
+										ignite loop-player for 20 ticks
+										broadcast "biome : (%loop-player's biome%)"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Heat wave Lite

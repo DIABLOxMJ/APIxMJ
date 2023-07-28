@@ -19,6 +19,10 @@ data:
     anvil_region_list:
     - spawn
     - rg_spawn
+    # We indicate the regions where opening doors are prohibited (WorldGuard), default : spawn and rg_spawn
+    no_open_doors_region_list:
+    - spawn
+    - rg_spawn
     # We indicate the regions where fishing rods are prohibited (WorldGuard), default : spawn and rg_spawn
     no_rod_region_list:
     - spawn

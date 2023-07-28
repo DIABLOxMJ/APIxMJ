@@ -144,29 +144,9 @@ on damage:
 # =====================================================================================================================
 # APIxMJ - Tablist
 # ---------------------------------------------------------------------------------------------------------------------
-on load:
-	mj_editfiles_number("temp", "data.tablist.length_player", "modify", 0)
-	mj_editfiles_number("temp", "data.tablist.length_rank", "modify", 0)
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-on join:
-	mj_editfiles_number("temp", "data.tablist.length_player", "modify", 0)
-	mj_editfiles_number("temp", "data.tablist.length_rank", "modify", 0)
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
 every 3 seconds:
 	set {_check.1} to mj_editfiles_boolean("multitools.config", "data.tablist.condition")
 	if {_check.1} is true:
-		set {_list::*} to mj_manager_nodes("ranker.data", "data.prefix")
-		loop {_list::*}:
-			set {_value} to mj_editfiles("ranker.data", "data.prefix.%loop-value%")
-			set {_size.1} to mj_editfiles_number("temp", "data.tablist.length_rank")
-			if length of {_value} >= {_size.1} + 1:
-				mj_editfiles_number("temp", "data.tablist.length_rank", "modify", length of {_value})
-		loop all players:
-			set {_size.2} to mj_editfiles_number("temp", "data.tablist.length_player")
-			if length of name of loop-player >= {_size.2} + 1:
-				mj_editfiles_number("temp", "data.tablist.length_player", "modify", length of name of loop-player)
 		loop all players:
 			set {_format} to mj_editfiles("multitools.config", "data.tablist.player_viewer")
 			set {_rank} to mj_ranker(loop-player, "tabulation")
@@ -186,22 +166,6 @@ every 3 seconds:
 			set {_death.1} to mj_editfiles_number("userdata.%loop-player's uuid%", "data.support.stats.death")
 			set {_death.2} to mj_editfiles_gettext("multitools", "data.tablist.death", loop-player, "%{_death.1}%")
 			replace "<death>" with {_death.2} in {_format}
-			set {_size.11} to ""
-			if length of {_rank} < {_size.1}:
-				set {_size.10} to {_size.1} - length of {_rank} + 1
-				loop {_size.10} times:
-					set {_size.11} to "&r %{_size.11}%"
-			set {_size.21} to ""
-			if length of name of loop-player < {_size.2}:
-				set {_size.20} to {_size.2} - length of name of loop-player + 2
-				loop {_size.20} times:
-					set {_size.21} to "&r %{_size.21}%"
-			if {_check.2} is false:
-				set {_size.20} to length of {_afk.2} - 2
-				loop {_size.20} times:
-					set {_size.21} to "&r %{_size.21}%"
-			replace "<size_1>" with "%{_size.11}%" in {_format}
-			replace "<size_2>" with "%{_size.21}%" in {_format}
 			set the loop-player's tablist name to " %{_format}% "
 			mj_tablist(loop-player)
 	stop

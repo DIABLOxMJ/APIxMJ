@@ -19,11 +19,11 @@ on load:
 		mj_files_dc_menu()
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_dc_core.sk)"
-		unload script file "apixmj_menu.sk"
+		unload script file "apixmj_dc_menu.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on skript stop:
-	rename file "plugins/Skript/scripts/apixmj_menu.sk" to "-apixmj_menu.sk"
+	rename file "plugins/Skript/scripts/apixmj_dc_menu.sk" to "-apixmj_dc_menu.sk"
 	send "[APIxMJ] Unloading menu.."
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

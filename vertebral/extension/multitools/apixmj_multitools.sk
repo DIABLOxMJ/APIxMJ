@@ -156,33 +156,43 @@ on damage:
 # =====================================================================================================================
 # APIxMJ - Tablist
 # ---------------------------------------------------------------------------------------------------------------------
-every 3 seconds:
-	set {_check.1} to mj_editfiles_boolean("multitools.config", "data.tablist.condition")
-	if {_check.1} is true:
-		loop all players:
-			set {_format} to mj_editfiles("multitools.config", "data.tablist.player_viewer")
-			set {_rank} to mj_ranker(loop-player, "tabulation")
-			replace "<rank>" with {_rank} in {_format}
-			set {_color} to mj_ranker(loop-player, "color")
-			replace "<color>" with {_color} in {_format}
-			set {_player} to mj_editfiles("userdata", "data.%loop-player's uuid%.pseudo")
-			replace "<player>" with {_player} in {_format}
-			set {_afk} to mj_editfiles_gettext("multitools", "data.tablist.afk", loop-player)
-			set {_afk.2} to mj_editfiles_gettext("multitools", "data.tablist.afk", loop-player)
-			set {_check.2} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.afk")
-			if {_check.2} is false:
-				set {_afk} to ""
-			replace "<afk>" with {_afk} in {_format}
-			set {_health} to mj_editfiles_gettext("multitools", "data.tablist.health", loop-player, "%loop-player's health%")
-			replace "<health>" with {_health} in {_format}
-			set {_death.1} to mj_editfiles_number("userdata.%loop-player's uuid%", "data.support.stats.death")
-			set {_death.2} to mj_editfiles_gettext("multitools", "data.tablist.death", loop-player, "%{_death.1}%")
-			replace "<death>" with {_death.2} in {_format}
-			set the loop-player's tablist name to " %{_format}% "
-			mj_tablist(loop-player)
+on load:
+	set {_check} to mj_editfiles_boolean("multitools.config", "data.tablist.condition")
+	if {_check} is true:
+		mj_tablist_stage_1()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_tablist(player: player):
+every 3 seconds:
+	set {_check} to mj_editfiles_boolean("multitools.config", "data.tablist.condition")
+	if {_check} is true:
+		mj_tablist_stage_1()
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_tablist_stage_1():
+	loop all players:
+		set {_format} to mj_editfiles("multitools.config", "data.tablist.player_viewer")
+		set {_rank} to mj_ranker(loop-player, "tabulation")
+		replace "<rank>" with {_rank} in {_format}
+		set {_color} to mj_ranker(loop-player, "color")
+		replace "<color>" with {_color} in {_format}
+		set {_player} to mj_editfiles("userdata", "data.%loop-player's uuid%.pseudo")
+		replace "<player>" with {_player} in {_format}
+		set {_afk} to mj_editfiles_gettext("multitools", "data.tablist.afk", loop-player)
+		set {_afk.2} to mj_editfiles_gettext("multitools", "data.tablist.afk", loop-player)
+		set {_check} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.afk")
+		if {_check} is false:
+			set {_afk} to ""
+		replace "<afk>" with {_afk} in {_format}
+		set {_health} to mj_editfiles_gettext("multitools", "data.tablist.health", loop-player, "%loop-player's health%")
+		replace "<health>" with {_health} in {_format}
+		set {_death.1} to mj_editfiles_number("userdata.%loop-player's uuid%", "data.support.stats.death")
+		set {_death.2} to mj_editfiles_gettext("multitools", "data.tablist.death", loop-player, "%{_death.1}%")
+		replace "<death>" with {_death.2} in {_format}
+		set the loop-player's tablist name to " %{_format}% "
+		mj_tablist_stage_2(loop-player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_tablist_stage_2(player: player):
 	set {_lang} to mj_manager_userdata_language({_player})
 	set {_title} to mj_editfiles_gettext("multitools", "data.tablist.animation.title.1", {_player}, {_name})
 	set {_count.1} to 1
@@ -190,17 +200,20 @@ function mj_tablist(player: player):
 	set {_count.3} to 1
 	set {_count.4} to mj_manager_nodes_count("multitools.language.%{_lang}%", "data.tablist.animation.separate")
 	loop {_count.4} times:
-		add 1 to {_count.1}
-		add 1 to {_count.3}
-		if {_count.1} >= {_count.2} + 1:
-			set {_count.1} to 1
-		if {_count.3} >= {_count.4} + 1:
-			set {_count.3} to 1
-		mj_tablist_bar({_player}, {_count.1}, {_count.3})
-		wait 3 ticks
+		if {_player} is online:
+			add 1 to {_count.1}
+			add 1 to {_count.3}
+			if {_count.1} >= {_count.2} + 1:
+				set {_count.1} to 1
+			if {_count.3} >= {_count.4} + 1:
+				set {_count.3} to 1
+			mj_tablist_stage_3({_player}, {_count.1}, {_count.3})
+			wait 3 ticks
+		else:
+			exit loop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_tablist_bar(player: player, title_count: number, separate_count: number):
+function mj_tablist_stage_3(player: player, title_count: number, separate_count: number):
 	set {_online.1} to 0
 	loop all players:
 		set {_check} to mj_editfiles_boolean("userdata.%loop-player's uuid%", "data.source.essentials.vanish")
@@ -246,6 +259,7 @@ on load:
 		set prefix of nametag "%{_tag}%" to ""
 	create nametag "z-default"
 	set prefix of nametag "z-default" to ""
+	mj_autolist()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
@@ -274,6 +288,7 @@ function mj_autolist():
 					exit loop
 				else:
 					add loop-player to nametag "z-default"
+	mj_essentials_vanish_actualizer()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Autolist

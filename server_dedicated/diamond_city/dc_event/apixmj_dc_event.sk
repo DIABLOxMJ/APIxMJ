@@ -59,8 +59,6 @@ on rightclick:
 	if type of event-block is cake:
 		set {_check} to mj_editfiles("diamond_city.config", "data.event")
 		if {_check} is "event_01":
-			#set {_name} to mj_timecount_text("event_%player%", "name")
-			#if {_name} is "none":
 			set {_loc} to event-location
 			wait 2 ticks
 			set {_check} to block at {_loc}
@@ -71,9 +69,6 @@ on rightclick:
 					give 1 of {_item} to player
 					mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.success")
 					mj_timecount("spawn_%player%", "backward", 0, 0, 1)
-			#else:
-			#	set {_time} to mj_timecount_viewer("event_%player%")
-			#	mj_manager_message(player, "diamond_city", "data.prefix", "core", "data.time.wait", {_time})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on place:
@@ -84,4 +79,36 @@ on place:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Event 01
+# =====================================================================================================================
+# APIxMJ - Event 02
+# ---------------------------------------------------------------------------------------------------------------------
+on craft of moss block:
+	set {_check} to mj_editfiles("diamond_city.config", "data.event")
+	if {_check} is "event_02":
+		set {_count} to mj_editfiles_number("temp", "data.event_02.%player's uuid%.craft")
+		add 1 to {_count}
+		mj_editfiles_number("temp", "data.event_02.%player's uuid%.craft", "modify", {_count})
+		mj_editfiles_number("temp", "data.event_02.%player's uuid%.total", "modify", {_stats})
+		mj_diamond_city_event_02_give(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_diamond_city_event_02_give(player: player):
+	set {_count} to mj_editfiles_number("temp", "data.event_02.%{_player}'s uuid%.craft")
+	if {_count} >= 50:
+		set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
+		give 1 of {_item} to {_player}
+		mj_editfiles_number("temp", "data.event_02.%{_player}'s uuid%.craft", "modify", 0)
+		set {_stats} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.stats.craft.moss_block")
+		mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.craft_limit", "%{_stats}%")
+		mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.success")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on place:
+	set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_02")
+	set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
+	if player's tool is {_item}:
+		cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Event 02
 # =====================================================================================================================

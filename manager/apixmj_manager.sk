@@ -699,6 +699,8 @@ function mj_manager_menu_control_button_help(player: player, source: text, id: t
 # APIxMJ - Function
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_nodes(source: text, find: text="data") :: objects:
+	if {_source} contains "userdata.":
+		set {_source} to mj_manager_userdata_profil({_source})
 	loop yaml node keys "%{_find}%" from "mj.%{_source}%":
 		add loop-node to {_list::*}
 	replace all "%{_find}%." with "" in {_list::*}

@@ -435,7 +435,7 @@ on chat:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on pickup:
-	mj_core_logger_save_data("%event-entity% has pickup item at %event-location%")
+	mj_core_logger_save_data("%event-entity% has pickup item %event-item% at %event-location%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on drop:
@@ -1567,53 +1567,53 @@ on place:
 	if event-entity is player:
 		if player's tool isn't item frame or painting:
 			set {_obj} to mj_core_stats_convert_name("%type of event-block%")
-			set {_count} to mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.place.%{_obj}%")
-			add 1 to {_count}
-			mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.place.%{_obj}%", "modify", {_count})
+			mj_core_stats_save(player, "place.%{_obj}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on break:
 	if event-entity is player:
 		if event-block is set:
 			set {_obj} to mj_core_stats_convert_name("%type of event-block%")
-			set {_count} to mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.break.%{_obj}%")
-			add 1 to {_count}
+			set {_count} to 1
 			if "%event-block%" contains "double":
-				add 1 to {_count}
-			mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.break.%{_obj}%", "modify", {_count})
+				set {_count} to 2
+			mj_core_stats_save(player, "break.%{_obj}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on leftclick:
 	if event-entity is player:
 		if player's tool isn't air:
 			set {_obj} to mj_core_stats_convert_name("%type of player's tool%")
-			set {_count} to mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.leftclick.%{_obj}%")
-			add 1 to {_count}
-			mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.leftclick.%{_obj}%", "modify", {_count})
+			mj_core_stats_save(player, "leftclick.%{_obj}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:
 	if event-entity is player:
 		if player's tool isn't air:
 			set {_obj} to mj_core_stats_convert_name("%type of player's tool%")
-			set {_count} to mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.rightclick.%{_obj}%")
-			add 1 to {_count}
-			mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.rightclick.%{_obj}%", "modify", {_count})
+			mj_core_stats_save(player, "rightclick.%{_obj}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on craft:
+	set {_obj} to mj_core_stats_convert_name("%event-item%")
+	mj_core_stats_save(player, "craft.%{_obj}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on death:
 	if "%attacker's type%" is "player":
 		set {_obj} to "%victim's type%"
-		set {_count} to mj_editfiles_number("userdata.%attacker's uuid%", "data.support.stats.kill.%{_obj}%")
-		add 1 to {_count}
-		mj_editfiles_number("userdata.%attacker's uuid%", "data.support.stats.kill.%{_obj}%", "modify", {_count})
+		mj_core_stats_save(player, "kill.%{_obj}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on death:
 	if type of event-entity is player:
-		set {_count} to mj_editfiles_number("userdata.%victim's uuid%", "data.support.stats.death")
-		add 1 to {_count}
-		mj_editfiles_number("userdata.%victim's uuid%", "data.support.stats.death", "modify", {_count})
+		mj_core_stats_save(attacker, "death")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_stats_save(player: player, type: text, value: number=1):
+	set {_count} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.stats.%{_type}%")
+	add {_value} to {_count}
+	mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.stats.%{_type}%", "modify", {_count})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_stats_convert_name(item: text) :: text:

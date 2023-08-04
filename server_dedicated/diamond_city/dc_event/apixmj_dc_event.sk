@@ -85,6 +85,7 @@ on place:
 on craft of moss block:
 	set {_check} to mj_editfiles("diamond_city.config", "data.event")
 	if {_check} is "event_02":
+		set {_stats} to mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.craft.moss_block")
 		set {_count} to mj_editfiles_number("temp", "data.event_02.%player's uuid%.craft")
 		add 1 to {_count}
 		mj_editfiles_number("temp", "data.event_02.%player's uuid%.craft", "modify", {_count})
@@ -93,14 +94,19 @@ on craft of moss block:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_diamond_city_event_02_give(player: player):
-	set {_count} to mj_editfiles_number("temp", "data.event_02.%{_player}'s uuid%.craft")
-	if {_count} >= 50:
-		set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
-		give 1 of {_item} to {_player}
-		mj_editfiles_number("temp", "data.event_02.%{_player}'s uuid%.craft", "modify", 0)
-		set {_stats} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.stats.craft.moss_block")
-		mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.craft_limit", "%{_stats}%")
-		mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.success")
+	loop 5 times:
+		set {_count} to mj_editfiles_number("temp", "data.event_02.%{_player}'s uuid%.craft")
+		if {_count} >= 15:
+			set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_02")
+			set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
+			give 1 of {_item} to {_player}
+			remove 15 from {_count}
+			mj_editfiles_number("temp", "data.event_02.%{_player}'s uuid%.craft", "modify", {_count})
+			set {_stats} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.stats.craft.moss_block")
+			mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.craft_limit", "%{_stats}%")
+			mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.success")
+		else:
+			exit loop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on place:

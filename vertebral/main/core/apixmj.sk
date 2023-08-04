@@ -1602,12 +1602,12 @@ on craft:
 on death:
 	if "%attacker's type%" is "player":
 		set {_obj} to "%victim's type%"
-		mj_core_stats_save(player, "kill.%{_obj}%")
+		mj_core_stats_save(attacker, "kill.%{_obj}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on death:
 	if type of event-entity is player:
-		mj_core_stats_save(attacker, "death")
+		mj_core_stats_save(player, "death")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_stats_save(player: player, type: text, value: number=1):

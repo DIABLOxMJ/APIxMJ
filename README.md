@@ -23,4 +23,5 @@ recopier ou même modifier les fichiers.
 
 ## Authorization list (Liste d'autorisation)
 
+- Diamond City (https://discord.gg/dVFyB8zaxQ)
 - Enderium (https://enderium.eu/)

@@ -236,16 +236,16 @@ function mj_calendar_define(player: player, type: text, value: number, money: nu
 		mj_manager_message({_player}, "calendar", "data.prefix", "calendar", "data.define.hide", "%{_value}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-every 30 minutes:
-	set {_check} to mj_editfiles_boolean("calendar.config", "data.condition")
-	if {_check} is true:
-		set {_month.1} to mj_editfiles_number("calendar.data", "data.last_month")
-		set {_date} to now formatted with "mm"
-		set {_month.2} to {_date} parsed as number
-		if {_month.2} isn't {_month.1}:
-			mj_calendar_reset()
-			mj_editfiles_number("calendar.data", "data.last_month", "modify", {_day.2})
-	stop
+#every 30 minutes:
+	#set {_check} to mj_editfiles_boolean("calendar.config", "data.condition")
+	#if {_check} is true:
+	#	set {_month.1} to mj_editfiles_number("calendar.data", "data.last_month")
+	#	set {_date} to now formatted with "mm"
+	#	set {_month.2} to {_date} parsed as number
+	#	if {_month.2} isn't {_month.1}:
+	#		mj_calendar_reset()
+	#		mj_editfiles_number("calendar.data", "data.last_month", "modify", {_day.2})
+	#stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_calendar_reset():
 	set {_list.1::*} to mj_manager_nodes("calendar.data", "data.next_calendar")

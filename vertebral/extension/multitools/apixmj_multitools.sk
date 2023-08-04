@@ -9,6 +9,7 @@ function mj_files_multitools():
 	if {_list::*} is set:
 		loop {_list::*}:
 			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.multitools.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.multitools.help.%loop-value%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
@@ -175,7 +176,7 @@ function mj_tablist_stage_1():
 		replace "<rank>" with {_rank} in {_format}
 		set {_color} to mj_ranker(loop-player, "color")
 		replace "<color>" with {_color} in {_format}
-		set {_player} to mj_editfiles("userdata", "data.%loop-player's uuid%.pseudo")
+		set {_player} to mj_editfiles("userdata.%loop-player's uuid%", "data.pseudo")
 		replace "<player>" with {_player} in {_format}
 		set {_afk} to mj_editfiles_gettext("multitools", "data.tablist.afk", loop-player)
 		set {_afk.2} to mj_editfiles_gettext("multitools", "data.tablist.afk", loop-player)
@@ -223,28 +224,27 @@ function mj_tablist_stage_3(player: player, title_count: number, separate_count:
 	set {_link.2} to mj_editfiles("essentials.config", "data.link.website")
 	set {_header} to mj_editfiles("multitools.config", "data.tablist.header")
 	set {_footer} to mj_editfiles("multitools.config", "data.tablist.footer")
-	loop all players:
-		set {_online.2} to mj_editfiles_gettext("multitools", "data.tablist.online_player", {_player}, "%{_online.1}%", "%max players count%")
-		replace "<online_player>" with {_online.2} in {_header}
-		replace "<online_player>" with {_online.2} in {_footer}
-		set {_ping} to mj_editfiles_gettext("multitools", "data.tablist.ping", loop-player, "%loop-player's ping%")
-		replace "<player_ping>" with {_ping} in {_header}
-		replace "<player_ping>" with {_ping} in {_footer}
-		set {_discord} to mj_editfiles_gettext("multitools", "data.tablist.discord", {_player}, {_link.1})
-		replace "<discord>" with {_discord} in {_header}
-		replace "<discord>" with {_discord} in {_footer}
-		set {_website} to mj_editfiles_gettext("multitools", "data.tablist.website", {_player}, {_link.2})
-		replace "<website>" with {_website} in {_header}
-		replace "<website>" with {_website} in {_footer}
-		set {_name} to mj_editfiles_gettext("multitools", "data.tablist.server_name", {_player})
-		set {_title} to mj_editfiles_gettext("multitools", "data.tablist.animation.title.%{_title_count}%", {_player}, {_name})
-		set {_separate} to mj_editfiles_gettext("multitools", "data.tablist.animation.separate.%{_separate_count}%", {_player})
-		replace "<title>" with {_title} in {_header}
-		replace all "<new_line>" with nl in {_header}
-		replace all "<new_line>" with nl in {_footer}
-		replace all "<separate>" with {_separate} in {_header}
-		replace all "<separate>" with {_separate} in {_footer}
-		set tab header to {_header} and footer to {_footer} for loop-player
+	set {_online.2} to mj_editfiles_gettext("multitools", "data.tablist.online_player", {_player}, "%{_online.1}%", "%max players count%")
+	replace "<online_player>" with {_online.2} in {_header}
+	replace "<online_player>" with {_online.2} in {_footer}
+	set {_ping} to mj_editfiles_gettext("multitools", "data.tablist.ping", {_player}, "%{_player}'s ping%")
+	replace "<player_ping>" with {_ping} in {_header}
+	replace "<player_ping>" with {_ping} in {_footer}
+	set {_discord} to mj_editfiles_gettext("multitools", "data.tablist.discord", {_player}, {_link.1})
+	replace "<discord>" with {_discord} in {_header}
+	replace "<discord>" with {_discord} in {_footer}
+	set {_website} to mj_editfiles_gettext("multitools", "data.tablist.website", {_player}, {_link.2})
+	replace "<website>" with {_website} in {_header}
+	replace "<website>" with {_website} in {_footer}
+	set {_name} to mj_editfiles_gettext("multitools", "data.tablist.server_name", {_player})
+	set {_title} to mj_editfiles_gettext("multitools", "data.tablist.animation.title.%{_title_count}%", {_player}, {_name})
+	set {_separate} to mj_editfiles_gettext("multitools", "data.tablist.animation.separate.%{_separate_count}%", {_player})
+	replace "<title>" with {_title} in {_header}
+	replace all "<new_line>" with nl in {_header}
+	replace all "<new_line>" with nl in {_footer}
+	replace all "<separate>" with {_separate} in {_header}
+	replace all "<separate>" with {_separate} in {_footer}
+	set tab header to {_header} and footer to {_footer} for {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Tablist

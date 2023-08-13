@@ -80,7 +80,7 @@ on rightclick:
 		if type of event-block is sign:
 			set {_name} to mj_editfiles("drawer.config", "data.sign.name")
 			if line 1 of event-block is {_name}:
-				if type of player's tool isn't nametag:
+				if type of player's tool isn't nametag or firework rocket or writable book:
 					cancel event
 					set {_owner} to line 4 of event-block
 					if {_owner} isn't empty:

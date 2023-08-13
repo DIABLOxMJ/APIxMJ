@@ -42,8 +42,11 @@ data:
         reset: "&7Vous avez enlevé le surnom de &a$0"
         not_found: "&cAucun joueur utilise de surnoms"
     recipes:
-        title: "&eRecette &6: &a$0"
+        title:
+            group: "&eListe &6: &a$0"
+            viewer: "&eRecette &6: &a$0"
         open: "&eVoir la recette"
+        group: "&eOuvrir la liste"
     storage:
         name: "&7Stockage de &a$0"
         create: "&7Vous avez créé un nouveau stockage &a$0"

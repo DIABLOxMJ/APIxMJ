@@ -1,6 +1,7 @@
 data:
     prefix: "&6[&b&lDIAMOND CITY&6]&r"
     discord: "&7Le lien du Discord &6: &b<link:$0>$0<reset>"
+    worldmap: "&7Ouvrir la carte du monde &6: &b<link:$0>&6[&bCARTE DU MONDE&6]<reset>"
     portal_exit: "&aBonne aventure !"
     intro:
         message:
@@ -79,7 +80,7 @@ data:
             '7': " &0- &7si vous avez fabriqué plus de blocs que les autres joueurs, vous"
             '8': " &0- &7remporterez une récompense supplémentaire pour votre survie !"
             '9': "&0"
-            '10': " &6- &7Durée de l'évent &6: &a01 Juillet &7jusqu'au &a15 Juillet"
+            '10': " &6- &7Durée de l'évent &6: &a01 Août &7jusqu'au &a15 Août"
             '11': "&0"
     event_01:
         eat: "&aChaque gâteau mangé donnera potentiellement une clé à gagner !"
@@ -87,4 +88,5 @@ data:
         success: "&aVous avez obtenu une clé de boîte mystère, retournez dans la cantine de l'abri pour l'utiliser !"
     event_02:
         craft_limit: "&7Vous avez atteint les 50 recettes, votre compteur est relancer &6(&7Actuellement &6: &a$0&6)"
+        board: "&a$0 &7à fabriquer &a$1 &7fois."
         success: "&aVous avez obtenu une clé de boîte mystère !"

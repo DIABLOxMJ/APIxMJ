@@ -1,4 +1,8 @@
 data:
+    recipe_group:
+        bundle:
+            name: "&aBundle"
+            item: bundle
     recipe:
         bundle_1:
             name: "&aBundle"

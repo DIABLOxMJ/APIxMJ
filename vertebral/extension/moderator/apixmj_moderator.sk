@@ -47,7 +47,7 @@ function mj_moderator_playerdata(player: offlineplayer):
 			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.condition" from "mj.userdata" to true
 			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.operator" from "mj.userdata" to false
 			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.rank" from "mj.userdata" to {_rank.1}
-			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.profil" from "mj.userdata" to "Default"
+			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.player.profil" from "mj.userdata" to "default"
 			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.condition" from "mj.userdata" to false
 			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.operator" from "mj.userdata" to false
 			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.rank" from "mj.userdata" to {_rank.2}

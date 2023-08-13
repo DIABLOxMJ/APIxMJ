@@ -369,8 +369,14 @@ function mj_backpack_action_open(player: player, id: text):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
-	set {_check.1} to yaml value "data.recipe.backpack_1" from "mj.core.data"
+	set {_check.1} to yaml value "data.recipe_group.backpack" from "mj.core.data"
 	if {_check.1} isn't set:
+		set yaml value "data.recipe_group.backpack.name" from "mj.core.data" to "&aBackpack"
+		set yaml value "data.recipe_group.backpack.item" from "mj.core.data" to "knowledge book"
+		save yaml "mj.core.data"
+		mj_core_logger(1, "group backpack added..")
+	set {_check.2} to yaml value "data.recipe.backpack_1" from "mj.core.data"
+	if {_check.2} isn't set:
 		set yaml value "data.recipe.backpack_1.name" from "mj.core.data" to "&aBackpack"
 		set yaml value "data.recipe.backpack_1.shapeless" from "mj.core.data" to false
 		set yaml value "data.recipe.backpack_1.group" from "mj.core.data" to "backpack"
@@ -388,8 +394,8 @@ on load:
 		set yaml value "data.recipe.backpack_1.method.slot_9" from "mj.core.data" to "leather"
 		save yaml "mj.core.data"
 		mj_core_logger(1, "recipe backpack_1 added..")
-	set {_check.2} to yaml value "data.recipe.backpack_2" from "mj.core.data"
-	if {_check.2} isn't set:
+	set {_check.3} to yaml value "data.recipe.backpack_2" from "mj.core.data"
+	if {_check.3} isn't set:
 		set yaml value "data.recipe.backpack_2.name" from "mj.core.data" to "&aRecover Backpack"
 		set yaml value "data.recipe.backpack_2.shapeless" from "mj.core.data" to false
 		set yaml value "data.recipe.backpack_2.group" from "mj.core.data" to "backpack"

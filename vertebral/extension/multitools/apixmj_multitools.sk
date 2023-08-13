@@ -39,7 +39,7 @@ every 15 minutes:
 		set {_random} to a random integer from 1 to {_count}
 		loop all players:
 			set {_send} to mj_editfiles_gettext("multitools", "data.auto_broadcast.%{_random}%", loop-player)
-			send formatted "%{_send}%" to loop-player
+			send formatted "%nl%%{_send}%%nl%" to loop-player
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Auto Broadcasting
@@ -125,7 +125,15 @@ on rightclick:
 	set {_list::*} to mj_editfiles_list("multitools.config", "data.no_open_doors_region_list")
 	loop {_list::*}:
 		if "%region at player%" contains loop-value:
-			if "%type of event-block%" contains "door":
+			if "%type of event-block%" contains "door" or "gate":
+				cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on rightclick:
+	set {_list::*} to mj_editfiles_list("multitools.config", "data.no_open_doors_region_list")
+	loop {_list::*}:
+		if "%region at player%" contains loop-value:
+			if "%type of event-block%" contains "light":
 				cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -184,7 +192,14 @@ function mj_tablist_stage_1():
 		if {_check} is false:
 			set {_afk} to ""
 		replace "<afk>" with {_afk} in {_format}
-		set {_health} to mj_editfiles_gettext("multitools", "data.tablist.health", loop-player, "%loop-player's health%")
+		set {_health.1} to "%loop-player's health%"
+		set {_health.2::*} to {_health.1} split at "."
+		set {_health.3} to {_health.2::2} parsed as number
+		if {_health.3} >= 50:
+			set {_health.4} to "%{_health.2::1}%.5"
+		else:
+			set {_health.4} to "%{_health.2::1}%.0"
+		set {_health} to mj_editfiles_gettext("multitools", "data.tablist.health", loop-player, "%{_health.4}%")
 		replace "<health>" with {_health} in {_format}
 		set {_death.1} to mj_editfiles_number("userdata.%loop-player's uuid%", "data.support.stats.death")
 		set {_death.2} to mj_editfiles_gettext("multitools", "data.tablist.death", loop-player, "%{_death.1}%")

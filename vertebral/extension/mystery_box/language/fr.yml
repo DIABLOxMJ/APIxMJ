@@ -5,6 +5,7 @@ data:
     amount: "&7Quantité &6: &ax$0"
     pourcent: "&7Pourcentage &6: &a$0%"
     winner: "&7Félicitations, tu as reçu &a$0 &ex$1"
+    cancelled: "&cVous n'avez plus de place dans votre inventaire, votre clé est revenue."
     title: "&7Boîte &6: &a$0"
     close: "&eFermer"
     key: "&7Vous avez défini l'item de votre main comme clé d'ouverture pour la boîte &a$0"

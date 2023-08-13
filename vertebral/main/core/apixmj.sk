@@ -50,6 +50,7 @@ command /apixmj [<text>] [<text>] [<text>]:
 			if arg-2 is set:
 				if arg-2 is "files":
 					mj_files_core()
+					mj_core_recipes_loader()
 					send "[APIxMJ] Data reloaded"
 				else:
 					#reload script arg-2
@@ -395,19 +396,30 @@ function mj_core_logger(level: number=0, message: text, silent: boolean=false):
 function mj_core_logger_save_data(info: text):
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.core.folder")
 	set {_date.1} to now formatted with "yyyy-MM-dd"
-	set {_date.2} to now formatted with "hh"
-	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-1.log" doesn't exist:
+	set {_date.2} to now formatted with "HH"
+	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-0.log" doesn't exist:
+		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-0.log"
 		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-1.log"
-	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-2.log" doesn't exist:
 		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-2.log"
+		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-3.log"
+		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-4.log"
+		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-5.log"
 	set {_id} to mj_core_logger_id_generator()
 	set {_check} to now formatted with "mm"
 	set {_check} to {_check} parsed as number
-	if {_check} >= 30:
+	if {_check} >= 50:
+		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-5.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-5.log"
+	else if {_check} >= 40:
+		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-4.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-4.log"
+	else if {_check} >= 30:
+		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-3.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-3.log"
+	else if {_check} >= 20:
 		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-2.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-2.log"
-	else:
+	else if {_check} >= 10:
 		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-1.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-1.log"
-	mj_core_logger(5, "%{_id}% : %{_info}%", true)
+	else:
+		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-0.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date.1}%/%{_date.2}%-0.log"
+	mj_core_logger(5, "%{_info}%", true)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_logger_id_generator() :: text:
@@ -436,6 +448,10 @@ on chat:
 # ---------------------------------------------------------------------------------------------------------------------
 on pickup:
 	mj_core_logger_save_data("%event-entity% has pickup item %event-item% at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory click:
+	mj_core_logger_save_data("%player% has click item %event-item% at %event-location%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on drop:
@@ -1471,24 +1487,47 @@ command /recipes:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_menu_recipes(player: player):
-	set {_title} to mj_editfiles_gettext("core", "data.recipes.title", {_player}, "")
+	set {_title} to mj_editfiles_gettext("core", "data.recipes.title.viewer", {_player}, "")
 	mj_core_gui_generator({_player}, 6, true, "default", {_title}, "recipes")
 	set {_slot} to 0
-	set {_list::*} to mj_manager_nodes("core.data", "data.recipe")
+	set {_list::*} to mj_manager_nodes("core.data", "data.recipe_group")
 	loop {_list::*}:
 		set {_value} to loop-value
-		set {_name} to mj_editfiles("core.data", "data.recipe.%{_value}%.name")
-		set {_item.1} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.item")
-		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "core", "data.recipes.open")
+		set {_name} to mj_editfiles("core.data", "data.recipe_group.%{_value}%.name")
+		set {_item.1} to mj_manager_item_convert("core.data", "data.recipe_group.%{_value}%.item", true)
+		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "core", "data.recipes.group")
 		make a gui slot {_slot} of {_player} with {_item.2} named {_name} to run:
-			mj_core_menu_recipes_viewer({_player}, {_value})
+			mj_core_menu_recipes_group_viewer({_player}, {_value})
 			stop
 		add 1 to {_slot}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_menu_recipes_viewer(player: player, value: text="none"):
+function mj_core_menu_recipes_group_viewer(player: player, value: text="none"):
+	set {_name} to mj_editfiles("core.data", "data.recipe_group.%{_value}%.name")
+	set {_title} to mj_editfiles_gettext("core", "data.recipes.title.group", {_player}, {_name})
+	mj_core_gui_generator({_player}, 6, true, "default", {_title}, "recipes")
+	set {_slot} to 0
+	set {_list::*} to mj_manager_nodes("core.data", "data.recipe")
+	loop {_list::*}:
+		set {_value.2} to loop-value
+		set {_group} to mj_editfiles("core.data", "data.recipe.%{_value.2}%.group")
+		if {_value} is {_group}:
+			set {_name} to mj_editfiles("core.data", "data.recipe.%{_value.2}%.name")
+			set {_item.1} to mj_manager_item_convert("core.data", "data.recipe.%{_value.2}%.item", true)
+			set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "core", "data.recipes.open")
+			make a gui slot {_slot} of {_player} with {_item.2} named {_name} to run:
+				mj_core_menu_recipes_viewer({_player}, {_value.2}, {_value})
+				stop
+			add 1 to {_slot}
+	set {_return} to mj_editfiles_gettext("manager", "data.button.return", {_player})
+	make a gui slot 53 of {_player} with barrier block named {_return} to run:
+		mj_core_menu_recipes({_player})
+		stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_menu_recipes_viewer(player: player, value: text="none", value.2: text="none"):
 	set {_name} to mj_editfiles("core.data", "data.recipe.%{_value}%.name")
-	set {_title} to mj_editfiles_gettext("core", "data.recipes.title", {_player}, {_name})
+	set {_title} to mj_editfiles_gettext("core", "data.recipes.title.viewer", {_player}, {_name})
 	mj_core_gui_generator({_player}, 5, true, "default", {_title}, "recipes")
 	set {_item} to mj_manager_item_convert("core.data", "data.recipe.%{_value}%.item")
 	set {_count} to mj_editfiles_number("core.data", "data.recipe.%{_value}%.count")
@@ -1505,7 +1544,7 @@ function mj_core_menu_recipes_viewer(player: player, value: text="none"):
 		stop
 	set {_return} to mj_editfiles_gettext("manager", "data.button.return", {_player})
 	make a gui slot 8 of {_player} with barrier block named {_return} to run:
-		mj_core_menu_recipes({_player})
+		mj_core_menu_recipes_group_viewer({_player}, {_value.2})
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -1647,17 +1686,19 @@ on dispense:
 # APIxMJ - Function
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
-	set {_check1} to mj_editfiles_boolean("core.config", "data.custom_chat")
-	if {_check1} is true:
+	set {_check.1} to mj_editfiles_boolean("core.config", "data.custom_chat")
+	if {_check.1} is true:
 		cancel event
-		set {_check2} to mj_editfiles("core.config", "data.chat_priority")
-		if {_check2} is "core":
-			set {_check3} to mj_editfiles_boolean("userdata.%player's uuid%", "data.temp.mute")
-			if {_check3} is false:
-				set {_send} to mj_editfiles("core.config", "data.format.chat")
-				replace "$0" with "%player%" in {_send}
-				replace "$1" with message in {_send}
-				mj_core_chat(player, {_send})
+		set {_check.2} to mj_editfiles("core.config", "data.chat_priority")
+		if {_check.2} is "core":
+			set {_check.3} to mj_editfiles_boolean("userdata.%player's uuid%", "data.temp.mute")
+			if {_check.3} is false:
+				set {_check.4} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.mute")
+				if {_check.4} isn't true:
+					set {_send} to mj_editfiles("core.config", "data.format.chat")
+					replace "$0" with "%player%" in {_send}
+					replace "$1" with message in {_send}
+					mj_core_chat(player, {_send})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_chat(player: player, message: text):

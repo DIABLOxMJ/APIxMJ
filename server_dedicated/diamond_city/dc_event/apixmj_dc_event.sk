@@ -30,6 +30,14 @@ command /event:
 			send {_value}
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
+command /score:
+	executable by: player
+	trigger:
+		set {_check} to mj_editfiles("diamond_city.config", "data.event")
+		if {_check} is "event_02":
+			mj_diamond_city_event_02_board(player)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Command
 # =====================================================================================================================
 # APIxMJ - Event 01
@@ -107,6 +115,14 @@ function mj_diamond_city_event_02_give(player: player):
 			mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.success")
 		else:
 			exit loop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_diamond_city_event_02_board(player: player):
+	set {_list::*} to mj_manager_nodes("temp", "data.event_02")
+	loop {_list::*}:
+		set {_value.1} to loop-value parsed as offlineplayer
+		set {_value.2} to mj_editfiles_number("temp", "data.event_02.%{_value.1}'s uuid%.total")
+		mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.board", "%{_value.1}%", "%{_value.2}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on place:

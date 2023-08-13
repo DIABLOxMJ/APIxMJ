@@ -168,11 +168,11 @@ on leftclick:
 	set {_region} to mj_editfiles("mystery_box.config", "data.region")
 	if "%region at event-block%" contains {_region}:
 		if type of event-block is chest or ender chest or any shulker box:
+			mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box", "modify", event-location)
+			set {_loc.1} to mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box")
 			set {_list::*} to mj_manager_nodes("mystery_box.data")
 			loop {_list::*}:
 				set {_id} to loop-value
-				mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box", "modify", event-location)
-				set {_loc.1} to mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box")
 				set {_loc.2} to mj_core_location_block("mystery_box.data", "data.%{_id}%")
 				if {_loc.1} is {_loc.2}:
 					if player's gamemode isn't creative:
@@ -225,11 +225,11 @@ on rightclick:
 	set {_region} to mj_editfiles("mystery_box.config", "data.region")
 	if "%region at event-block%" contains {_region}:
 		if type of event-block is chest or ender chest or any shulker box:
+			mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box", "modify", event-location)
+			set {_loc.1} to mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box")
 			set {_list::*} to mj_manager_nodes("mystery_box.data")
 			loop {_list::*}:
 				set {_id} to loop-value
-				mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box", "modify", event-location)
-				set {_loc.1} to mj_core_location_block("temp", "data.%player's uuid%.mystery_box.last_box")
 				set {_loc.2} to mj_core_location_block("mystery_box.data", "data.%{_id}%")
 				if {_loc.1} is {_loc.2}:
 					cancel event
@@ -269,6 +269,7 @@ function mj_mystery_box_result(id: text) :: number:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_mystery_box_give(player: player, id: text, value: number):
 	set {_type} to mj_editfiles("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.type")
+	set {_key} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
 	set {_count} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.count")
 	if {_type} is "money":
 		set {_gift} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.money")
@@ -283,13 +284,17 @@ function mj_mystery_box_give(player: player, id: text, value: number):
 		mj_core_storage_gift("%{_player}%", {_gift})
 	else:
 		set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.item")
-		loop {_count} times:
-			give {_item} to {_player}
+		if {_player}'s inventory has space for {_count} of {_item}:
+			give {_count} of {_item} to {_player}
+		else:
+			give {_key} to {_player}
+			mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.cancelled")
+			stop
 	set {_name.1} to mj_editfiles_gettext("mystery_box", "data.product.%{_id}%.catalog.%{_value}%.name", {_player})
 	set {_name.2} to mj_editfiles_gettext("mystery_box", "data.product.%{_id}%.name", {_player})
 	set {_pourcent} to mj_editfiles_number("mystery_box.data", "data.%{_id}%.catalog.%{_value}%.pourcent")
 	mj_manager_message({_player}, "mystery_box", "data.prefix", "mystery_box", "data.winner", {_name.1}, "%{_count}%")
-	mj_core_logger(1, "%{_player}% receive %{_name.1}% in the box %{_name.2}%")
+	mj_core_logger(1, "%{_player}% receive %{_name.1}%&r in the box %{_name.2}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Function

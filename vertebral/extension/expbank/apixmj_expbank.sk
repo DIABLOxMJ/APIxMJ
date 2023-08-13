@@ -317,54 +317,73 @@ function mj_expbank_drop_sign(player: offlineplayer, loc: location):
 # =====================================================================================================================
 # APIxMJ - ExpBank Bottle
 # ---------------------------------------------------------------------------------------------------------------------
-command /bottlexp [<number>] [<text="level">]:
+command /bottlexp [<text>] [<text="level">]:
 	aliases: xpb, bottle, expbottle
 	trigger:
-		if arg-1 >= 1:
-			set {_name} to mj_editfiles("expbank.config", "data.bottle.name")
-			set {_item} to mj_manager_item_convert("expbank.config", "data.bottle.item")
-			set {_item} to {_item} named {_name}
-			if arg-2 is "level":
-				if player's level >= 1:
-					set {_xp} to player's level
-					if {_xp} >= arg-1:
-						set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.level")
-						set line 1 of lore of {_item} to "%{_lore}%%arg-1%"
-						if player's inventory has space for {_item}:
-							give {_item} to player
-						else:
-							mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.inv_failed")
-							stop
-						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.convert_level", "%arg-1%")
-						remove arg-1 from player's level
-					else:
-						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
-				else:
-					mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+		if arg-1 is set:
+			if arg-1 contains "x":
+				set {_list::*} to arg-1 split at "x"
+				set {_value.1} to {_list::1} parsed as number
+				set {_value.2} to {_list::2} parsed as number
 			else:
-				if player's xp >= 1:
-					set {_xp} to player's xp
-					if {_xp} >= arg-1:
-						set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.point")
-						set line 1 of lore of {_item} to "%{_lore}%%arg-1%"
-						if player's inventory has space for {_item}:
-							give {_item} to player
-						else:
-							mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.inv_failed")
-							stop
-						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.convert_point", "%arg-1%")
-						remove arg-1 from player's xp
-					else:
-						mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+				set {_value.1} to arg-1 parsed as number
+				set {_value.2} to 1
+			if arg-2 is set:
+				if arg-2 is "level":
+					set {_value.3} to "level"
 				else:
-					mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
+					set {_value.3} to "point"
+			else:
+				set {_value.3} to "level"
+			if {_value.1} is set:
+				mj_expbank_bottle_extract(player, {_value.1}, {_value.2}, {_value.3})
+			else:
+				mj_manager_message(player, "essentials", "data.home.prefix", "manager", "data.argument.number")
 		else:
 			mj_manager_message(player, "expbank", "data.prefix", "expbank", "data.exp_failed")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "bottlexp" or "xpb" or "bottle" and "/expbottle":
-	set tab completions for position 1 to "%player's level% level(s) / %player's xp% point(s)"
+	set tab completions for position 1 to "%player's level%x1 level(s) / %player's xp%x1 point(s)"
 	set tab completions for position 2 to "level" and "point"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_expbank_bottle_extract(player: player, value.1: number=1, value.2: number=1, type: text="level"):
+	set {_success.1} to true
+	set {_success.2} to false
+	set {_error} to 1
+	loop {_value.2} times:
+		set {_name} to mj_editfiles("expbank.config", "data.bottle.name")
+		set {_item} to mj_manager_item_convert("expbank.config", "data.bottle.item")
+		set {_item} to {_item} named {_name}
+		if {_type} is "level":
+			set {_value.3} to {_player}'s level
+		else:
+			set {_value.3} to {_player}'s xp
+		if {_value.3} >= {_value.1}:
+			set {_lore} to mj_editfiles("expbank.config", "data.bottle.lore.%{_type}%")
+			set line 1 of lore of {_item} to "%{_lore}%%{_value.1}%"
+			if {_player}'s inventory has space for {_item}:
+				set {_success.2} to true
+				give {_item} to {_player}
+			else:
+				set {_success.1} to false
+				set {_error} to 2
+				exit loop
+			if {_type} is "level":
+				remove {_value.1} from {_player}'s level
+			else:
+				remove {_value.1} from {_player}'s xp
+		else:
+			set {_success.1} to false
+			set {_error} to 1
+	if {_success.1} isn't true:
+		if {_error} is 2:
+			mj_manager_message({_player}, "expbank", "data.prefix", "expbank", "data.inv_failed")
+		else:
+			mj_manager_message({_player}, "expbank", "data.prefix", "expbank", "data.exp_failed")
+	if {_success.2} is true:
+		mj_manager_message({_player}, "expbank", "data.prefix", "expbank", "data.convert_%{_type}%", "%{_value.2}%x%{_value.1}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:

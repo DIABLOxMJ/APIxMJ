@@ -52,7 +52,7 @@ on rightclick:
 				open workbench view to player
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-on crafting of cake:
+on craft of cake:
 	set {_check} to mj_editfiles("diamond_city.config", "data.event")
 	if {_check} is "event_01":
 		set {_region} to mj_editfiles("diamond_city.data", "data.event_01.region")
@@ -133,4 +133,46 @@ on place:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Event 02
+# =====================================================================================================================
+# APIxMJ - Event 03
+# ---------------------------------------------------------------------------------------------------------------------
+on craft of cookie:
+	set {_check} to mj_editfiles("diamond_city.config", "data.event")
+	if {_check} is "event_03":
+		set {_region} to mj_editfiles("diamond_city.data", "data.event_01.region")
+		if "%region at player%" contains {_region}:
+			set {_stats} to mj_editfiles_number("userdata.%player's uuid%", "data.support.stats.craft.8_cookies")
+			set {_count} to mj_editfiles_number("temp", "data.event_03.%player's uuid%.craft")
+			add 1 to {_count}
+			mj_editfiles_number("temp", "data.event_03.%player's uuid%.craft", "modify", {_count})
+			mj_editfiles_number("temp", "data.event_03.%player's uuid%.total", "modify", {_stats})
+			mj_diamond_city_event_03_give(player)
+		else:
+			cancel event
+			mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.no_craft")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_diamond_city_event_03_give(player: player):
+	loop 5 times:
+		set {_count} to mj_editfiles_number("temp", "data.event_03.%{_player}'s uuid%.craft")
+		if {_count} >= 16:
+			set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_03")
+			set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
+			give 1 of {_item} to {_player}
+			remove 16 from {_count}
+			mj_editfiles_number("temp", "data.event_03.%{_player}'s uuid%.craft", "modify", {_count})
+			set {_stats} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.stats.craft.8_cookies")
+			mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.success")
+		else:
+			exit loop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on place:
+	set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_03")
+	set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
+	if player's tool is {_item}:
+		cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Event 03
 # =====================================================================================================================

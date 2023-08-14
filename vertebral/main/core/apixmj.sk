@@ -687,7 +687,7 @@ function mj_core_profil_create(player: offlineplayer, value: text):
 	mj_editfiles("userdata", "data.%{_player}'s uuid%.profil", "modify", {_value})
 	set {_list.1::*} to mj_editfiles_list("userdata", "data.%{_player}'s uuid%.profil_list")
 	add {_value} to {_list.1::*}
-	mj_editfiles_list("userdata", "data.%{_player}'s uuid%.profil_list", "modify", {_list1::*})
+	mj_editfiles_list("userdata", "data.%{_player}'s uuid%.profil_list", "modify", {_list.1::*})
 	mj_core_playerdata({_player})
 	console command "/profil_update %{_player}%"
 	wait 1 second
@@ -1689,16 +1689,19 @@ on chat:
 	set {_check.1} to mj_editfiles_boolean("core.config", "data.custom_chat")
 	if {_check.1} is true:
 		cancel event
+		wait 1 tick
 		set {_check.2} to mj_editfiles("core.config", "data.chat_priority")
 		if {_check.2} is "core":
 			set {_check.3} to mj_editfiles_boolean("userdata.%player's uuid%", "data.temp.mute")
 			if {_check.3} is false:
 				set {_check.4} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.mute")
 				if {_check.4} isn't true:
-					set {_send} to mj_editfiles("core.config", "data.format.chat")
-					replace "$0" with "%player%" in {_send}
-					replace "$1" with message in {_send}
-					mj_core_chat(player, {_send})
+					set {_check.5} to mj_timecount_text("mute_%player%", "name")
+					if {_check.5} is "none":
+						set {_send} to mj_editfiles("core.config", "data.format.chat")
+						replace "$0" with "%player%" in {_send}
+						replace "$1" with message in {_send}
+						mj_core_chat(player, {_send})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_chat(player: player, message: text):

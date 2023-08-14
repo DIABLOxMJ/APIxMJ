@@ -718,6 +718,8 @@ function mj_manager_item_convert(source: text, find: text, nbt: boolean=false) :
 		set {_item} to {_item} parsed as item
 	if {_nbt} is true:
 		set {_item} to {_item} with no nbt
+	if {_item} isn't set:
+		set {_item} to air
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_item_name(player: player, source: text, find: text, variante: text="", int.0: text="", int.1: text="") :: text:

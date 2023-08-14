@@ -108,22 +108,26 @@ on tab complete of "/essentials":
 # APIxMJ - Chat
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
-	set {_check1} to mj_editfiles_boolean("core.config", "data.custom_chat")
-	if {_check1} is true:
-		set {_check2} to mj_editfiles("core.config", "data.chat_priority")
-		if {_check2} is "essentials":
-			set {_check3} to mj_editfiles_boolean("userdata", "data.%player's uuid%.temp.mute")
-			if {_check3} isn't true:
-				set {_check4} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.mute")
-				if {_check4} isn't true:
-					mj_editfiles_boolean("userdata", "data.%player's uuid%.temp.mute", "modify", true)
-					set {_send} to mj_editfiles("essentials.config", "data.format.chat")
-					set {_rank} to mj_ranker(player)
-					set {_message} to mj_essentials_notification(message)
-					replace "$0" with "%{_rank}%" in {_send}
-					replace "$1" with "%player%" in {_send}
-					replace "$2" with "%{_message}%" in {_send}
-					mj_core_chat(player, {_send})
+	set {_check.1} to mj_editfiles_boolean("core.config", "data.custom_chat")
+	if {_check.1} is true:
+		cancel event
+		wait 1 tick
+		set {_check.2} to mj_editfiles("core.config", "data.chat_priority")
+		if {_check.2} is "essentials":
+			set {_check.3} to mj_editfiles_boolean("userdata", "data.%player's uuid%.temp.mute")
+			if {_check.3} isn't true:
+				set {_check.4} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.mute")
+				if {_check.4} isn't true:
+					set {_check.5} to mj_timecount_text("mute_%player%", "name")
+					if {_check.5} is "none":
+						mj_editfiles_boolean("userdata", "data.%player's uuid%.temp.mute", "modify", true)
+						set {_send} to mj_editfiles("essentials.config", "data.format.chat")
+						set {_rank} to mj_ranker(player)
+						set {_message} to mj_essentials_notification(message)
+						replace "$0" with "%{_rank}%" in {_send}
+						replace "$1" with "%player%" in {_send}
+						replace "$2" with "%{_message}%" in {_send}
+						mj_core_chat(player, {_send})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_notification(message: text) :: text:

@@ -1,4 +1,6 @@
 data:
+    admin_storage: ""
+    report: ""
     recipe_group:
         bundle:
             name: "&aBundle"

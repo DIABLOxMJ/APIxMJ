@@ -1698,8 +1698,9 @@ on chat:
 				if {_check.4} isn't true:
 					set {_check.5} to mj_timecount_text("mute_%player%", "name")
 					if {_check.5} is "none":
+						set {_player} to mj_editfiles("userdata.%player's uuid%", "data.pseudo")
 						set {_send} to mj_editfiles("core.config", "data.format.chat")
-						replace "$0" with "%player%" in {_send}
+						replace "$0" with "%{_player}%" in {_send}
 						replace "$1" with message in {_send}
 						mj_core_chat(player, {_send})
 	stop

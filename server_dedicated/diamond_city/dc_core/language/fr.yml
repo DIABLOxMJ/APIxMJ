@@ -88,7 +88,7 @@ data:
             '3': " &6- &7Le but consiste à récolter des ressources afin de fabriquer des"
             '4': " &6- &7cookies seulement réalisable dans la cuisine de l'abri. &6(&aSpawn&6)"
             '5': "&0"
-            '6': " &6- &7Tous les 16 cookies réalisés, une clé pour obtenir une récompense"
+            '6': " &6- &7Tous les &a16 cookies &7mangés, une clé pour obtenir une récompense"
             '7': " &6- &7dans la boîte mystère qui se trouve dans la cantine de l'abri. &6(&aSpawn&6)"
             '8': "&0"
             '9': "&c&l/!\ ATTENTION : Seul les clics gauche sont validés, l'usage du bouton SHIFT ne compte pas !"

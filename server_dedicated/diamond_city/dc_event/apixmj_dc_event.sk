@@ -44,7 +44,7 @@ command /score:
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:
 	set {_check} to mj_editfiles("diamond_city.config", "data.event")
-	if {_check} is "event_01":
+	if {_check} is "event_01" or "event_03":
 		set {_region} to mj_editfiles("diamond_city.data", "data.event_01.region")
 		if "%region at player%" contains {_region}:
 			if player's gamemode isn't creative:
@@ -152,19 +152,26 @@ on craft of cookie:
 			mj_manager_message(player, "diamond_city", "data.prefix", "diamond_city", "data.event_01.no_craft")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
+on consume:
+	set {_check} to mj_editfiles("diamond_city.config", "data.event")
+	if {_check} is "event_03":
+		if player's tool is cookie:
+			set {_count} to mj_editfiles_number("temp", "data.event_03.%player's uuid%.consume")
+			add 1 to {_count}
+			mj_editfiles_number("temp", "data.event_03.%player's uuid%.consume", "modify", {_count})
+			mj_diamond_city_event_03_give(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_diamond_city_event_03_give(player: player):
-	loop 5 times:
-		set {_count} to mj_editfiles_number("temp", "data.event_03.%{_player}'s uuid%.craft")
-		if {_count} >= 16:
-			set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_03")
-			set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
-			give 1 of {_item} to {_player}
-			remove 16 from {_count}
-			mj_editfiles_number("temp", "data.event_03.%{_player}'s uuid%.craft", "modify", {_count})
-			set {_stats} to mj_editfiles_number("userdata.%{_player}'s uuid%", "data.support.stats.craft.8_cookies")
-			mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.success")
-		else:
-			exit loop
+	set {_count} to mj_editfiles_number("temp", "data.event_03.%{_player}'s uuid%.consume")
+	if {_count} >= 16:
+		set {_id} to mj_core_id_checker("mystery_box.data", "data", "box_03")
+		set {_item} to mj_manager_item_convert("mystery_box.data", "data.%{_id}%.key")
+		give 1 of {_item} to {_player}
+		remove 1 of {_player}'s tool from {_player}'s tool
+		remove 16 from {_count}
+		mj_editfiles_number("temp", "data.event_03.%{_player}'s uuid%.consume", "modify", {_count})
+		mj_manager_message({_player}, "diamond_city", "data.prefix", "diamond_city", "data.event_02.success")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on place:

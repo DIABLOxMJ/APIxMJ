@@ -263,7 +263,7 @@ data:
                 folder: main/core
                 slot: 10
                 skript:
-                    '1': apixmj
+                    '1': apixmj_core
                 yml:
                     '1': config
                     '2': data

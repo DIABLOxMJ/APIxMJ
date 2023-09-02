@@ -16,11 +16,11 @@ function mj_files_backpack():
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_essentials.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading backpack..." to console
 		mj_files_backpack()
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_essentials.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj_core.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_backpack.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

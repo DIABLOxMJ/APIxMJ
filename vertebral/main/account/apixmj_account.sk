@@ -16,11 +16,11 @@ function mj_files_account():
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading account..." to console
 		mj_files_account()
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj_core.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_account.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

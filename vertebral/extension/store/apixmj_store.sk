@@ -16,11 +16,11 @@ function mj_files_store():
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk" and "apixmj_essentials.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk" and "apixmj_ranker.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading store..." to console
 		mj_files_store()
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk, apixmj_ranker.sk and apixmj_essentials.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj_core.sk, apixmj_ranker.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_store.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

@@ -14,11 +14,11 @@ function mj_files_dc_menu():
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_dc_core.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk" and "apixmj_dc_core.sk":
 		send "[APIxMJ] Loading dc_menu..." to console
 		mj_files_dc_menu()
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_dc_core.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj_core.sk and apixmj_dc_core.sk)"
 		unload script file "apixmj_dc_menu.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

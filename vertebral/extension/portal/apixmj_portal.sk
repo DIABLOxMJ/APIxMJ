@@ -14,12 +14,12 @@ function mj_files_portal():
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk":
 		send "[APIxMJ] Loading portal..." to console
 		mj_files_portal()
 		mj_editfiles("temp", "data.manager.addon.vertebral_extension.portal.version", "modify", "2023.05.05.0001")
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj_core.sk)"
 		unload script file "apixmj_portal.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

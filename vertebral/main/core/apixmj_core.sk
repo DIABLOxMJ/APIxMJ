@@ -26,11 +26,11 @@ on load:
 		mj_files_core()
 	else:
 		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk)"
-		unload script file "apixmj.sk"
+		unload script file "apixmj_core.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on skript stop:
-	rename file "plugins/Skript/scripts/apixmj.sk" to "-apixmj.sk"
+	rename file "plugins/Skript/scripts/apixmj_core.sk" to "-apixmj_core.sk"
 	send "[APIxMJ] Unloading core.."
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -1973,13 +1973,6 @@ function mj_core_format_money(type: boolean=false, value: number, limit: number=
 		else:
 			set {_result} to "&a%{_view1}%%{_icon}%"
 	return {_result}
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_core_item_lore(player: player, item: item, slot: number=1, source: text="core", find: text="data", replace1: text="none", replace2: text="none") :: item:
-	set {_text} to mj_editfiles_gettext({_source}, {_find}, {_player})
-	replace "$0" with "%{_replace1}%" in {_text}
-	replace "$1" with "%{_replace2}%" in {_text}
-	set line {_slot} of lore of {_item} to {_text}
-	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_bossbar(player: player, mode: text, info: text="none", count: number=30):
 	if {_mode} isn't "delete":

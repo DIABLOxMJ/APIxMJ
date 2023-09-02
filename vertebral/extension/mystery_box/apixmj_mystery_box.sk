@@ -16,11 +16,11 @@ function mj_files_mystery_box():
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk":
 		send "[APIxMJ] Loading mystery_box..." to console
 		mj_files_mystery_box()
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj_core.sk)"
 		unload script file "apixmj_mystery_box.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

@@ -15,11 +15,11 @@ function mj_files_drawer():
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk":
 		send "[APIxMJ] Loading drawer..." to console
 		mj_files_drawer()
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj_core.sk)"
 		unload script file "apixmj_drawer.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

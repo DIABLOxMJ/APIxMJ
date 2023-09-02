@@ -16,11 +16,11 @@ function mj_files_essentials():
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj.sk" and "apixmj_ranker.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk" and "apixmj_ranker.sk":
 		send "[APIxMJ] Loading essentials..." to console
 		mj_files_essentials()
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj.sk and apixmj_ranker.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj_core.sk and apixmj_ranker.sk)"
 		unload script file "apixmj_essentials.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -936,14 +936,14 @@ function mj_essentials_kits_viewer(player: player, id: text):
 	if {_check} is set:
 		mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.temp.gui_protect", "modify", true)
 		set {_name} to mj_editfiles_gettext("core", {_check}, {_player})
-		set {_item1} to mj_core_item_lore({_player}, paper, 2, "essentials", "data.kits.view_name", {_name})
+		set {_item1} to mj_manager_item_lore({_player}, paper, 2, "essentials", "data.kits.view_name", {_name})
 		set {_money1} to mj_editfiles_number("core.data", "data.storage.%{_id}%.money")
 		set {_money2} to mj_core_format_money(false, {_money1})
-		set {_item2} to mj_core_item_lore({_player}, {_item1}, 3, "essentials", "data.kits.view_money", {_money2})
+		set {_item2} to mj_manager_item_lore({_player}, {_item1}, 3, "essentials", "data.kits.view_money", {_money2})
 		set {_time} to mj_editfiles_number("core.data", "data.storage.%{_id}%.time")
-		set {_item3} to mj_core_item_lore({_player}, {_item2}, 4, "essentials", "data.kits.view_time", "%{_time}%h")
+		set {_item3} to mj_manager_item_lore({_player}, {_item2}, 4, "essentials", "data.kits.view_time", "%{_time}%h")
 		set {_perm} to mj_editfiles_boolean("core.data", "data.storage.%{_id}%.permission")
-		set {_item4} to mj_core_item_lore({_player}, {_item3}, 5, "essentials", "data.kits.view_permission", "%{_perm}%")
+		set {_item4} to mj_manager_item_lore({_player}, {_item3}, 5, "essentials", "data.kits.view_permission", "%{_perm}%")
 		set {_title} to mj_editfiles_gettext("essentials", "data.kits.view_title", {_player}, {_name})
 		set {_info} to mj_editfiles_gettext("essentials", "data.kits.information", {_player})
 		open virtual chest inventory with size 5 named "%{_title}%" to {_player}

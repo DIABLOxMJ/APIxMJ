@@ -762,7 +762,7 @@ function mj_manager_item_give(player: player, item: item):
 	if {_player}'s inventory has space for {_item}:
 		give {_item} to {_player}
 	else:
-		drop {_item} to {_player}
+		drop {_item} at {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_item_button(player: player, item: item, type: text, source: text, find: text, space: boolean=false) :: item:

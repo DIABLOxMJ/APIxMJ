@@ -206,14 +206,24 @@ function mj_backpack_listed(player: player, target: offlineplayer, filter: boole
 			set {_owner} to mj_editfiles("backpack.data", "data.%{_id}%.owner")
 			if {_target}'s uuid is {_owner}:
 				set {_item} to mj_backpack_listed_item({_player}, {_id})
-				if {_type} is "give":
+				if {_player} has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack":
+					set {_item} to mj_manager_item_button({_player}, {_item}, "left_click", "backpack", "data.open")
+					set {_item} to mj_manager_item_button({_player}, {_item}, "right_click", "backpack", "data.give", true)
+				else if {_type} is "give":
 					set {_item} to mj_manager_item_button({_player}, {_item}, "left_click", "backpack", "data.give")
 				make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
-					if {_type} is "give":
-						close {_player}'s inventory
-						mj_backpack_recover({_player}, {_id})
+					if {_player} has permission "*" or "mj.*" or "mj.backpack.*" or "mj.backpack":
+						if gui-click-type is left mouse button:
+							mj_backpack_action_open_check({_player}, {_id})
+						else:
+							close {_player}'s inventory
+							mj_backpack_recover({_player}, {_id})
 					else:
-						mj_backpack_action_open_check({_player}, {_id})
+						if {_type} is "give":
+							close {_player}'s inventory
+							mj_backpack_recover({_player}, {_id})
+						else:
+							mj_backpack_action_open_check({_player}, {_id})
 					stop
 				add 1 to {_slot}
 		else:

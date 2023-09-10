@@ -13,6 +13,7 @@ data:
     locker: "&7Vous avez &a$0 &7le verouillage de votre sac à dos aux autres joueurs."
     upgrade: "&aFélicitations, vous avez amélioré le sac à dos dans votre main !"
     already_open: "&cLe sac à dos est déjà ouvert par &a$0&c."
+    open: "&aOuvrir ce sac à dos !"
     give: "&aRécupérer ce sac à dos !"
     object:
         tiers: "&7Tiers &6: &a$0"

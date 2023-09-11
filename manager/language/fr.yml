@@ -241,7 +241,12 @@ data:
             name: "&bDiamond City"
             name_lite: "&bDiamond City"
             lore:
-                '1': "&6- &7Le serveur de &eDIABLOxMJ&7."
+                '1': "&6- &7Le serveur survie de &eDIABLOxMJ&7."
+        server_dedicated_tactical:
+            name: "&bEscape From Fallout"
+            name_lite: "&bEFF"
+            lore:
+                '1': "&6- &7Le serveur tactique de &eDIABLOxMJ&7."
         editor:
             name: "&aÉditeur"
             name_lite: "&aÉditeur"
@@ -485,6 +490,12 @@ data:
                 lore:
                     '1': "&6- &7Un module interactif pour réunir"
                     '2': "&0- &7l'ensemble du contenu en une commande."
+        server_dedicated_tactical:
+            ttc_core:
+                name: "&bCœur"
+                name_lite: "&bCœur"
+                lore:
+                    '1': "&6- &7Un module centrale pour le serveur."
         editor:
             bedwars_editor:
                 name: "&aÉditeur du Bedwars"

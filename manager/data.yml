@@ -156,6 +156,15 @@ data:
             item: chest
             gui_background:
                 item: light blue stained glass pane
+        server_dedicated_tactical:
+            name: data.index.server_dedicated_tactical.name
+            visible: true
+            menu_back: server_dedicated
+            menu_next: server_dedicated_tactical
+            slot: 11
+            item: chest
+            gui_background:
+                item: dark green stained glass pane
         editor:
             name: data.index.editor.name
             visible: true
@@ -1468,6 +1477,43 @@ data:
                 item: paper
                 gui_background:
                     item: lime stained glass pane
+        server_dedicated_tactical:
+            ttc_core:
+                name: data.addon.server_dedicated_tactical.ttc_core.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: server_dedicated/tactical/ttc_core
+                folder: server_dedicated/tactical/ttc_core
+                slot: 10
+                skript:
+                    '1': apixmj_ttc_core
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.ttc_core.config
+                    '2': mj.ttc_core.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.ttc_core.data
+                        data: data
+                item: command block
+                gui_background:
+                    item: dark green stained glass pane
         editor:
             bedwars_editor:
                 name: data.addon.editor.bedwars_editor.name

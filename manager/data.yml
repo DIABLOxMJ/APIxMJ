@@ -1578,7 +1578,7 @@ data:
                 source: bedwars
                 github_folder: editor/bedwars_editor
                 folder: editor/bedwars_editor
-                slot: 12
+                slot: 10
                 skript:
                     '1': apixmj_bedwars_editor
                 yml:
@@ -1615,7 +1615,7 @@ data:
                 source: faction
                 github_folder: editor/faction_editor
                 folder: editor/faction_editor
-                slot: 13
+                slot: 11
                 skript:
                     '1': apixmj_faction_editor
                 yml:

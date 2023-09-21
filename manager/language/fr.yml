@@ -243,13 +243,13 @@ data:
             lore:
                 '1': "&6- &7Le serveur survie de &eDIABLOxMJ&7."
         server_dedicated_tactical:
-            name: "&bEscape From Fallout"
-            name_lite: "&bEFF"
+            name: "&2Escape From Fallout"
+            name_lite: "&2EFF"
             lore:
                 '1': "&6- &7Le serveur tactique de &eDIABLOxMJ&7."
         server_dedicated_enderium:
-            name: "&bEnderium"
-            name_lite: "&bEnderium"
+            name: "&9Enderium"
+            name_lite: "&9Enderium"
             lore:
                 '1': "&6- &7Le serveur PVP-Faction."
         editor:
@@ -514,3 +514,8 @@ data:
                 lore:
                     '1': "&6- &7Un éditeur conçu pour créer des cartes de jeu,"
                     '2': "&0- &7pour le bedwars."
+            faction_editor:
+                name: "&aÉditeur du faction"
+                name_lite: "&aFaction Edit.."
+                lore:
+                    '1': "&6- &7Un éditeur conçu pour gérer un serveur faction."

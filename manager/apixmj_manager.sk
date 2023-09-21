@@ -41,7 +41,7 @@ function mj_editfiles(source: text, find: text="data", mode: text="extract", dat
 		else:
 			set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
 			save yaml "mj.%{_source}%"
-	if {_source} is "unicode":
+	else if {_source} is "unicode":
 		if {_find} is "space":
 			set {_result} to "‌"
 	else:

@@ -165,6 +165,15 @@ data:
             item: chest
             gui_background:
                 item: dark green stained glass pane
+        server_dedicated_enderium:
+            name: data.index.server_dedicated_enderium.name
+            visible: true
+            menu_back: server_dedicated
+            menu_next: server_dedicated_enderium
+            slot: 12
+            item: chest
+            gui_background:
+                item: cyan stained glass pane
         editor:
             name: data.index.editor.name
             visible: true
@@ -1514,6 +1523,43 @@ data:
                 item: command block
                 gui_background:
                     item: dark green stained glass pane
+        server_dedicated_enderium:
+            edr_core:
+                name: data.addon.server_dedicated_enderium.edr_core.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: server_dedicated/enderium/edr_core
+                folder: server_dedicated/enderium/edr_core
+                slot: 10
+                skript:
+                    '1': apixmj_edr_core
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.edr_core.config
+                    '2': mj.edr_core.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.edr_core.data
+                        data: data
+                item: command block
+                gui_background:
+                    item: cyan stained glass pane
         editor:
             bedwars_editor:
                 name: data.addon.editor.bedwars_editor.name

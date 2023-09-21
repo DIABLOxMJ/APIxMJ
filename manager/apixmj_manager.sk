@@ -25,7 +25,7 @@ on load:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles(source: text, find: text="data", mode: text="extract", data: text="") :: text:
-	if {_source} isn't "github":
+	if {_source} isn't "github" or "unicode":
 		if {_source} contains "userdata.":
 			set {_source} to mj_manager_userdata_profil({_source})
 		if {_mode} is "extract":
@@ -41,6 +41,9 @@ function mj_editfiles(source: text, find: text="data", mode: text="extract", dat
 		else:
 			set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
 			save yaml "mj.%{_source}%"
+	if {_source} is "unicode":
+		if {_find} is "space":
+			set {_result} to "‌"
 	else:
 		set {_result} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ"
 	return {_result}
@@ -712,7 +715,7 @@ function mj_manager_nodes_count(source: text, find: text="data") :: number:
 		add 1 to {_count}
 	return {_count}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_item_convert(source: text, find: text, nbt: boolean=false) :: item:
+function mj_manager_item_convert(source: text, find: text, nbt: boolean=false, model: number=-1) :: item:
 	set {_item} to yaml value "%{_find}%" from "mj.%{_source}%"
 	if {_item} isn't a item:
 		set {_item} to {_item} parsed as item
@@ -720,6 +723,8 @@ function mj_manager_item_convert(source: text, find: text, nbt: boolean=false) :
 		set {_item} to {_item} with no nbt
 	if {_item} isn't set:
 		set {_item} to air
+	if {_model} >= -1:
+		add "{CustomDataModel:%{_model}%}" to nbt of {_item}
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_item_name(player: player, source: text, find: text, variante: text="", int.0: text="", int.1: text="") :: text:

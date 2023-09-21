@@ -247,6 +247,11 @@ data:
             name_lite: "&bEFF"
             lore:
                 '1': "&6- &7Le serveur tactique de &eDIABLOxMJ&7."
+        server_dedicated_enderium:
+            name: "&bEnderium"
+            name_lite: "&bEnderium"
+            lore:
+                '1': "&6- &7Le serveur PVP-Faction."
         editor:
             name: "&aÉditeur"
             name_lite: "&aÉditeur"
@@ -492,6 +497,12 @@ data:
                     '2': "&0- &7l'ensemble du contenu en une commande."
         server_dedicated_tactical:
             ttc_core:
+                name: "&bCœur"
+                name_lite: "&bCœur"
+                lore:
+                    '1': "&6- &7Un module centrale pour le serveur."
+        server_dedicated_enderium:
+            edr_core:
                 name: "&bCœur"
                 name_lite: "&bCœur"
                 lore:

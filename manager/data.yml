@@ -812,7 +812,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/lobby
                 folder: main/extension/lobby
-                slot: 20
+                slot: 22
                 skript:
                     '1': apixmj_lobby
                 yml:
@@ -846,7 +846,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/menu
                 folder: main/extension/menu
-                slot: 21
+                slot: 23
                 skript:
                     '1': apixmj_menu
                 yml:
@@ -881,7 +881,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/missions
                 folder: main/extension/missions
-                slot: 22
+                slot: 24
                 skript:
                     '1': apixmj_missions
                 yml:
@@ -918,7 +918,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/moderator
                 folder: main/extension/moderator
-                slot: 23
+                slot: 25
                 skript:
                     '1': apixmj_moderator
                 yml:
@@ -953,7 +953,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/multitools
                 folder: main/extension/multitools
-                slot: 24
+                slot: 28
                 skript:
                     '1': apixmj_multitools
                 yml:
@@ -987,7 +987,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/mystery_box
                 folder: main/extension/mystery_box
-                slot: 25
+                slot: 29
                 skript:
                     '1': apixmj_mystery_box
                 yml:
@@ -1021,7 +1021,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/ore_generator
                 folder: main/extension/ore_generator
-                slot: 28
+                slot: 30
                 skript:
                     '1': apixmj_ore_generator
                 yml:
@@ -1056,7 +1056,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/portal
                 folder: main/extension/portal
-                slot: 29
+                slot: 31
                 skript:
                     '1': apixmj_portal
                 yml:
@@ -1090,7 +1090,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/quest
                 folder: main/extension/quest
-                slot: 30
+                slot: 32
                 skript:
                     '1': apixmj_quest
                 yml:
@@ -1125,7 +1125,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/rankup
                 folder: main/extension/rankup
-                slot: 31
+                slot: 33
                 skript:
                     '1': apixmj_rankup
                 yml:
@@ -1160,7 +1160,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/shop
                 folder: main/extension/shop
-                slot: 32
+                slot: 34
                 skript:
                     '1': apixmj_shop
                 yml:
@@ -1195,7 +1195,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/spawner
                 folder: main/extension/spawner
-                slot: 33
+                slot: 37
                 skript:
                     '1': apixmj_spawner
                 yml:
@@ -1231,7 +1231,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/store
                 folder: main/extension/store
-                slot: 34
+                slot: 38
                 skript:
                     '1': apixmj_store
                 yml:
@@ -1268,7 +1268,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/waystone
                 folder: main/extension/waystone
-                slot: 37
+                slot: 39
                 skript:
                     '1': apixmj_waystone
                 yml:

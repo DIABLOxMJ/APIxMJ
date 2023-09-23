@@ -106,10 +106,10 @@ command /workbench:
 	aliases: wb, craft
 	executable by: player
 	trigger:
-		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.workbench.*" or "mj.essentials.workbench":
+		if player has permission "*" or "mj.*" or "mj.workbench.*" or "mj.workbench":
 			open workbench view to player
 		else:
-			mj_manager_permission(player, "essentials", "data.prefix", "mj.essentials.workbench")
+			mj_manager_permission(player, "multitools", "data.prefix", "mj.workbench")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Workbench
@@ -120,11 +120,11 @@ command /disposal:
 	aliases: trash, corbeille, poubelle
 	executable by: player
 	trigger:
-		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.disposal.*" or "mj.essentials.disposal":
-			set {_send} to mj_editfiles_gettext("essentials", "data.disposal", player)
+		if player has permission "*" or "mj.*" or "mj.disposal.*" or "mj.disposal":
+			set {_send} to mj_editfiles_gettext("multitools", "data.disposal", player)
 			open virtual chest inventory with size 3 named "%{_send}%" to player
 		else:
-			mj_manager_permission(player, "essentials", "data.prefix", "mj.essentials.disposal")
+			mj_manager_permission(player, "multitools", "data.prefix", "mj.disposal")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Disposal
@@ -135,14 +135,14 @@ command /skull [<offlineplayer>]:
 	aliases: head
 	executable by: player
 	trigger:
-		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.skull.*" or "mj.essentials.skull":
+		if player has permission "*" or "mj.*" or "mj.skull.*" or "mj.skull":
 			if arg-1 is set:
 				give skull of arg-1 to player
-				mj_manager_message(player, "essentials", "data.skull.prefix", "essentials", "data.skull.message", "%arg-1%")
+				mj_manager_message(player, "multitools", "data.skull.prefix", "multitools", "data.skull.message", "%arg-1%")
 			else:
-				mj_manager_message(player, "essentials", "data.skull.prefix", "manager", "data.argument.player")
+				mj_manager_message(player, "multitools", "data.skull.prefix", "manager", "data.argument.player")
 		else:
-			mj_manager_permission(player, "essentials", "data.skull.prefix", "mj.essentials.skull")
+			mj_manager_permission(player, "multitools", "data.skull.prefix", "mj.skull")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Skull

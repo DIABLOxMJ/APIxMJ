@@ -1,7 +1,11 @@
 data:
+    prefix: "&6[&c&lTools&6]&r"
     auto_broadcast:
         '1': "&aYour broadcasting one"
         '2': "&aYour broadcasting two"
+    skull:
+        prefix: "&6[&c&lSkull&6]&r"
+        message: "&7Vous avez récupéré la tête de &a$0&7."
     tablist:
         server_name: "&aServer Name"
         afk: " &6(AFK)&r"

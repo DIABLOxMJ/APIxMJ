@@ -136,13 +136,6 @@ data:
         error: "&cVeuillez préciser &aday &coù &anight"
         day: Jour
         night: Nuit
-    skull:
-        prefix: "&6[&c&lSkull&6]&r"
-        message: "&7Vous avez récupéré la tête de &a$0&7."
-    editsign:
-        prefix: "&6[&c&lEditsign&6]&r"
-        message: "&7Vous avez défini à la ligne &a$0 &6: &a$1&7."
-        no_target: "&cVous devez fixer un panneau pour faire ceci"
     afk:
         prefix: "&6[&c&lAfk&6]&r"
         enable: "&7Tu es maintenant absent."

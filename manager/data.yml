@@ -758,7 +758,7 @@ data:
                     '1':
                         file: none
                         data: data
-                item: netherite ingot
+                item: workbench
                 gui_background:
                     item: lime stained glass pane
             levels:
@@ -794,7 +794,7 @@ data:
                     '1':
                         file: none
                         data: data
-                item: netherite ingot
+                item: bottle 'o enchanting
                 gui_background:
                     item: lime stained glass pane
             lobby:
@@ -898,7 +898,7 @@ data:
                     '1':
                         file: none
                         data: data
-                item: netherite ingot
+                item: book
                 gui_background:
                     item: lime stained glass pane
             moderator:
@@ -1038,7 +1038,7 @@ data:
                     '1':
                         file: none
                         data: data
-                item: netherite ingot
+                item: coal ore
                 gui_background:
                     item: lime stained glass pane
             portal:
@@ -1107,7 +1107,7 @@ data:
                     '1':
                         file: none
                         data: data
-                item: netherite ingot
+                item: writable book
                 gui_background:
                     item: lime stained glass pane
             rankup:

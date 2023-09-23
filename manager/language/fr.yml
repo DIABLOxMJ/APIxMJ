@@ -372,8 +372,8 @@ data:
                 name: "&aSystème de niveaux"
                 name_lite: "&aSys… niveaux"
                 lore:
-                    '1': "&6- &7"
-                    '2': "&0- &7."
+                    '1': "&6- &7Envie de faire grimper vos niveaux ?"
+                    '2': "&0- &7Ceci est exactement ce qu'il vous faut."
             lobby:
                 name: "&aLobby"
                 name_lite: "&aLobby"
@@ -389,8 +389,8 @@ data:
                 name: "&aSystème de missions"
                 name_lite: "&aSys… missions"
                 lore:
-                    '1': "&6- &7"
-                    '2': "&0- &7."
+                    '1': "&6- &7Ta mission sera la suivante…"
+                    '2': "&0- &7Tu as lu ceci, ta mission a échoué."
             moderator:
                 name: "&aModération"
                 name_lite: "&aModération"

@@ -794,7 +794,7 @@ data:
                     '1':
                         file: none
                         data: data
-                item: bottle 'o enchanting
+                item: bottle o' enchanting
                 gui_background:
                     item: lime stained glass pane
             lobby:

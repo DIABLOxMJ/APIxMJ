@@ -100,6 +100,59 @@ command /hat:
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Hat
 # =====================================================================================================================
+
+
+
+
+
+# APIxMJ - Workbench
+# ---------------------------------------------------------------------------------------------------------------------
+command /workbench:
+	aliases: wb, craft
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.workbench.*" or "mj.essentials.workbench":
+			open workbench view to player
+		else:
+			mj_manager_permission(player, "essentials", "data.prefix", "mj.essentials.workbench")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Workbench
+# =====================================================================================================================
+# APIxMJ - Disposal
+# ---------------------------------------------------------------------------------------------------------------------
+command /disposal:
+	aliases: trash, corbeille, poubelle
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.disposal.*" or "mj.essentials.disposal":
+			set {_send} to mj_editfiles_gettext("essentials", "data.disposal", player)
+			open virtual chest inventory with size 3 named "%{_send}%" to player
+		else:
+			mj_manager_permission(player, "essentials", "data.prefix", "mj.essentials.disposal")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Disposal
+# =====================================================================================================================
+# APIxMJ - Skull
+# ---------------------------------------------------------------------------------------------------------------------
+command /skull [<offlineplayer>]:
+	aliases: head
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.essentials.*" or "mj.essentials.skull.*" or "mj.essentials.skull":
+			if arg-1 is set:
+				give skull of arg-1 to player
+				mj_manager_message(player, "essentials", "data.skull.prefix", "essentials", "data.skull.message", "%arg-1%")
+			else:
+				mj_manager_message(player, "essentials", "data.skull.prefix", "manager", "data.argument.player")
+		else:
+			mj_manager_permission(player, "essentials", "data.skull.prefix", "mj.essentials.skull")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Skull
+# =====================================================================================================================
+
 # APIxMJ - Anvil
 # ---------------------------------------------------------------------------------------------------------------------
 on rightclick:

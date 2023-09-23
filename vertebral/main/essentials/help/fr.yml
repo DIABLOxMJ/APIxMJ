@@ -303,26 +303,6 @@ data:
             '1': "&6- &a/tps"
             '2': "&0- &7Il permet de voir le temps de"
             '3': "&0- &7réaction du serveur."
-    craft:
-        name: "&aÉtabli virtuel"
-        type: command
-        page: 1
-        description:
-            '1': "&0- &aEnvie de fabriquer, mais pas de bois"
-            '2': "&0- &apour se faire un établi ?"
-            '3': "&0- &aNous avons la solution."
-        permission:
-        - "*"
-        - "mj.*"
-        - "mj.essentials.*"
-        - "mj.essentials.workbench.*"
-        - "mj.essentials.workbench"
-        info:
-            '1': "&6- &a/workbench"
-            '2': "&0- &a/wb"
-            '3': "&0- &a/craft"
-            '4': "&0- &7Il permet d'ouvrir un établi de"
-            '5': "&0- &7fabrication virtuel."
     quiet:
         name: "&aMode Ne Pas Déranger"
         type: command
@@ -491,26 +471,6 @@ data:
         info:
             '1': "&6- &a/suicide"
             '2': "&0- &cDéclenche votre mort IN-GAME !"
-    disposal:
-        name: "&adisposal"
-        type: command
-        page: 1
-        description:
-            '1': "&0- &aBesoin de supprimer des objets, ceci devrait"
-            '2': "&0- &avous aider."
-        permission:
-        - "*"
-        - "mj.*"
-        - "mj.essentials.*"
-        - "mj.essentials.disposal.*"
-        - "mj.essentials.disposal"
-        info:
-            '1': "&6- &a/disposal"
-            '2': "&0- &a/trash"
-            '3': "&0- &a/corbeille"
-            '4': "&0- &a/poubelle"
-            '5': "&0- &7Ouvre un menu pour déposer des déchets, une"
-            '6': "&0- &7fois le menu fermé, impossible de récupérer."
     time:
         name: "&aManipulateur temporel"
         type: command
@@ -534,39 +494,6 @@ data:
             '10': "&0- &a21 heures &7et &a30 minutes &7utile pour être"
             '11': "&0- &7précis, la valeur &aday &7signifie &a07:00&7,"
             '12': "&0- &7et &anight &7donne &a21:00&7."
-    skull:
-        name: "&aTête de joueur"
-        type: command
-        page: 1
-        description:
-            '1': "&0- &aTu aimerais décorer ta maison avec des têtes ?"
-        permission:
-        - "*"
-        - "mj.*"
-        - "mj.essentials.*"
-        - "mj.essentials.skull.*"
-        - "mj.essentials.skull"
-        info:
-            '1': "&6- &a/skull [<player>]"
-            '2': "&0- &a/head [<player>]"
-            '3': "&0- &7Il permet de récupérer la tête d'un joueur."
-    editsign:
-        name: "&aÉditeur de panneau"
-        type: command
-        page: 1
-        description:
-            '1': "&0- &aTu souhaites modifier un panneau ?"
-        permission:
-        - "*"
-        - "mj.*"
-        - "mj.essentials.*"
-        - "mj.essentials.editsign.*"
-        - "mj.essentials.editsign"
-        info:
-            '1': "&6- &a/editsign <number> <text>"
-            '2': "&0- &7Il faut mettre un chiffre entre &a1 &7et &a4"
-            '3': "&0- &7et écrire un petit texte avec la"
-            '4': "&0- &7possibilité de colorier si on le désire."
     afk:
         name: "&aMode absent"
         type: command

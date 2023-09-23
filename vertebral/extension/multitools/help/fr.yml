@@ -53,6 +53,59 @@ data:
         info:
             '1': "&6- &a/hat"
             '2': "&0- &7Votre objet en main prendra la place du casque."
+    craft:
+        name: "&aÉtabli virtuel"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aEnvie de fabriquer, mais pas de bois"
+            '2': "&0- &apour se faire un établi ?"
+            '3': "&0- &aNous avons la solution."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.workbench.*"
+        - "mj.workbench"
+        info:
+            '1': "&6- &a/workbench"
+            '2': "&0- &a/wb"
+            '3': "&0- &a/craft"
+            '4': "&0- &7Il permet d'ouvrir un établi de"
+            '5': "&0- &7fabrication virtuel."
+    disposal:
+        name: "&adisposal"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aBesoin de supprimer des objets, ceci devrait"
+            '2': "&0- &avous aider."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.disposal.*"
+        - "mj.disposal"
+        info:
+            '1': "&6- &a/disposal"
+            '2': "&0- &a/trash"
+            '3': "&0- &a/corbeille"
+            '4': "&0- &a/poubelle"
+            '5': "&0- &7Ouvre un menu pour déposer des déchets, une"
+            '6': "&0- &7fois le menu fermé, impossible de récupérer."
+    skull:
+        name: "&aTête de joueur"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aTu aimerais décorer ta maison avec des têtes ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.skull.*"
+        - "mj.skull"
+        info:
+            '1': "&6- &a/skull [<player>]"
+            '2': "&0- &a/head [<player>]"
+            '3': "&0- &7Il permet de récupérer la tête d'un joueur."
     anvil:
         name: "&aEnclume incassable"
         type: function

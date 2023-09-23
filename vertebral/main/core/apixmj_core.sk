@@ -57,7 +57,7 @@ command /apixmj [<text>] [<text>] [<text>]:
 					player command "sk reload %arg-2%"
 			else:
 				#reload script "apixmj"
-				player command "sk reload apixmj"
+				player command "sk reload apixmj_core"
 		else if arg-1 is "debug":
 			if arg-2 is "uuid":
 				set {_player} to player
@@ -289,10 +289,10 @@ on tab complete of "/dataeditor" or "/dae":
 		add {_list3::*} to {_list1::*}
 		add {_list4::*} to {_list1::*}
 		set tab completions for position 2 to {_list1::*}
-		set tab completions for position 3 to 1, 2, 3, 4, 5 and 255
-		set tab completions for position 4 to 1, 2, 3, 4, 5 and 255
+		set tab completions for position 3 to "1", "2", "3", "4", "5" and "255"
+		set tab completions for position 4 to "1", "2", "3", "4", "5" and "255"
 	if tab arg-1 is "sign":
-		set tab completions for position 2 to 1, 2, 3 and 4
+		set tab completions for position 2 to "1", "2", "3" and "4"
 		set {_line} to tab arg-2 parsed as number
 		set {_sign} to line {_line} of targeted block
 		if {_sign} isn't empty:

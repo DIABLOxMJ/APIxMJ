@@ -362,6 +362,18 @@ data:
                 lore:
                     '1': "&6- &7Un système de stockage est de gestion de point"
                     '2': "&0- &7d'expérience."
+            jobs:
+                name: "&aSystème de métier"
+                name_lite: "&aSys… métier"
+                lore:
+                    '1': "&6- &7Envie de remplir vos poches d'argent ?"
+                    '2': "&0- &7Travailler dur et vous serez récompensé."
+            levels:
+                name: "&aSystème de niveaux"
+                name_lite: "&aSys… niveaux"
+                lore:
+                    '1': "&6- &7"
+                    '2': "&0- &7."
             lobby:
                 name: "&aLobby"
                 name_lite: "&aLobby"
@@ -373,6 +385,12 @@ data:
                 lore:
                     '1': "&6- &7Un menu permettent de tout réunir dans un seul"
                     '2': "&0- &7et même endroit idéal pour s'y retrouver en jeu."
+            missions:
+                name: "&aSystème de missions"
+                name_lite: "&aSys… missions"
+                lore:
+                    '1': "&6- &7"
+                    '2': "&0- &7."
             moderator:
                 name: "&aModération"
                 name_lite: "&aModération"
@@ -391,12 +409,24 @@ data:
                 lore:
                     '1': "&6- &7Avez-vous des clés? Jouez à la boîte mystère et"
                     '2': "&0- &7obtenez des récompenses diverses et variées."
+            ore_generator:
+                name: "&aGénérateur à minerais"
+                name_lite: "&aMinerais Gén…"
+                lore:
+                    '1': "&6- &7Besoin d'un générateur à minerais ?"
+                    '2': "&0- &7Ceci devrait vous satisfaire."
             portal:
                 name: "&aPortail"
                 name_lite: "&aPortail"
                 lore:
                     '1': "&6- &7Créer des portails à travers l'univers le moyen"
                     '2': "&0- &7de transport le plus rapide qui existe."
+            quest:
+                name: "&aSystème de quête"
+                name_lite: "&aSys… quête"
+                lore:
+                    '1': "&6- &7Envie d'aventure ? de résoudre des quêtes."
+                    '2': "&0- &7Le monde du RPG s'ouvre à vous."
             rankup:
                 name: "&aRankUP"
                 name_lite: "&aRankUP"

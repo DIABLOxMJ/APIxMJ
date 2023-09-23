@@ -725,6 +725,78 @@ data:
                 item: bottle o' enchanting
                 gui_background:
                     item: lime stained glass pane
+            jobs:
+                name: data.addon.vertebral_extension.jobs.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/jobs
+                folder: main/extension/jobs
+                slot: 20
+                skript:
+                    '1': apixmj_jobs
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.jobs.config
+                    '2': mj.jobs.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: netherite ingot
+                gui_background:
+                    item: lime stained glass pane
+            levels:
+                name: data.addon.vertebral_extension.levels.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/levels
+                folder: main/extension/levels
+                slot: 21
+                skript:
+                    '1': apixmj_levels
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.levels.config
+                    '2': mj.levels.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: netherite ingot
+                gui_background:
+                    item: lime stained glass pane
             lobby:
                 name: data.addon.vertebral_extension.lobby.name
                 experimental: true
@@ -794,6 +866,41 @@ data:
                 item: paper
                 gui_background:
                     item: black stained glass pane
+            missions:
+                name: data.addon.vertebral_extension.missions.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/missions
+                folder: main/extension/missions
+                slot: 22
+                skript:
+                    '1': apixmj_missions
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.missions.config
+                    '2': mj.missions.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: netherite ingot
+                gui_background:
+                    item: lime stained glass pane
             moderator:
                 name: data.addon.vertebral_extension.moderator.name
                 experimental: false
@@ -811,7 +918,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/moderator
                 folder: main/extension/moderator
-                slot: 22
+                slot: 23
                 skript:
                     '1': apixmj_moderator
                 yml:
@@ -846,7 +953,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/multitools
                 folder: main/extension/multitools
-                slot: 23
+                slot: 24
                 skript:
                     '1': apixmj_multitools
                 yml:
@@ -880,7 +987,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/mystery_box
                 folder: main/extension/mystery_box
-                slot: 24
+                slot: 25
                 skript:
                     '1': apixmj_mystery_box
                 yml:
@@ -899,6 +1006,41 @@ data:
                 item: leather
                 gui_background:
                     item: light blue stained glass pane
+            ore_generator:
+                name: data.addon.vertebral_extension.ore_generator.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/ore_generator
+                folder: main/extension/ore_generator
+                slot: 28
+                skript:
+                    '1': apixmj_ore_generator
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.ore_generator.config
+                    '2': mj.ore_generator.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: netherite ingot
+                gui_background:
+                    item: lime stained glass pane
             portal:
                 name: data.addon.vertebral_extension.portal.name
                 experimental: true
@@ -914,7 +1056,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/portal
                 folder: main/extension/portal
-                slot: 25
+                slot: 29
                 skript:
                     '1': apixmj_portal
                 yml:
@@ -933,6 +1075,41 @@ data:
                 item: obsidian
                 gui_background:
                     item: purple stained glass pane
+            quest:
+                name: data.addon.vertebral_extension.quest.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/quest
+                folder: main/extension/quest
+                slot: 30
+                skript:
+                    '1': apixmj_quest
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.quest.config
+                    '2': mj.quest.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: netherite ingot
+                gui_background:
+                    item: lime stained glass pane
             rankup:
                 name: data.addon.vertebral_extension.rankup.name
                 experimental: true
@@ -948,7 +1125,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/rankup
                 folder: main/extension/rankup
-                slot: 28
+                slot: 31
                 skript:
                     '1': apixmj_rankup
                 yml:
@@ -983,7 +1160,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/shop
                 folder: main/extension/shop
-                slot: 29
+                slot: 32
                 skript:
                     '1': apixmj_shop
                 yml:
@@ -1018,7 +1195,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/spawner
                 folder: main/extension/spawner
-                slot: 30
+                slot: 33
                 skript:
                     '1': apixmj_spawner
                 yml:
@@ -1054,7 +1231,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/store
                 folder: main/extension/store
-                slot: 31
+                slot: 34
                 skript:
                     '1': apixmj_store
                 yml:
@@ -1091,7 +1268,7 @@ data:
                     '1': none
                 github_folder: vertebral/extension/waystone
                 folder: main/extension/waystone
-                slot: 31
+                slot: 37
                 skript:
                     '1': apixmj_waystone
                 yml:

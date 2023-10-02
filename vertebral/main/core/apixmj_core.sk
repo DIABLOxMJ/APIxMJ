@@ -1994,7 +1994,8 @@ function mj_core_money(source: text, find: text, type: text="default") :: text:
 		set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.discount")
 		set {_value.3} to ({_value.1}*{_value.2}/100)
 		set {_value.4} to {_value.1}-{_value.3}
-		replace "<money>" with "%{_view.1}%" in {_result}
+		set {_view.2} to mj_core_money_viewer({_value.4})
+		replace "<money>" with "%{_view.2}%" in {_result}
 		replace "<pourcent>" with "%{_value.2}%" in {_result}
 
 	return {_result}

@@ -29,8 +29,15 @@ data:
     format:
         # This is the display format for the "core" custom chat, default : &r<&a$0&r> &r$1
         chat: "&r<&a$0&r> &r$1"
-        # The server money symbol, default : $
-        money: $
+        money:
+            # The server money symbol, default : $
+            symbol: $
+            # The server price pourcent model, default : "&a<money>&6/&a<limit> &6(&a<pourcent>%&6)"
+            pourcent: "&a<money>&6/&a<limit> &6(&a<pourcent>%&6)"
+            # The server price taxe model, default : "&a<money> &6(&7taxe of &a<pourcent>%&6)"
+            taxe: "&a<money> &6(&7taxe of &a<pourcent>%&6)"
+            # The server price discount model, default : "&a<money> &6(&7discount of &a<pourcent>%&6)"
+            discount: "&a<money> &6(&7discount of &a<pourcent>%&6)"
     # This is the server formatting system it takes the files is the folder in this directory 
     reset:
         file:

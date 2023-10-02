@@ -468,7 +468,7 @@ command /money [<text>] [<offlineplayer>] [<number>]:
 						if arg-2 is set:
 							if arg-3 is set:
 								mj_essentials_money_edit(arg-2, arg-1, arg-3, "edit /money")
-								set {_money} to mj_core_format_money(false, arg-3)
+								set {_money} to mj_core_money_viewer(arg-3)
 								mj_manager_message(player, "essentials", "data.money.prefix", "essentials", "data.money.%arg-1%", {_money}, "%arg-2%")
 							else:
 								mj_manager_message(player, "essentials", "data.money.prefix", "manager", "data.argument.number")
@@ -501,7 +501,7 @@ command /pay [<player>] [<number>]:
 					if arg-2 >= 0.1:
 						set {_money} to mj_essentials_money_modify(player, "all")
 						if {_money} >= arg-2+0.01:
-							set {_view} to mj_core_format_money(false, arg-2)
+							set {_view} to mj_core_money_viewer(arg-2)
 							mj_essentials_money_system(player, arg-2)
 							mj_essentials_money_system(arg-1, arg-2, true)
 							mj_manager_message(player, "essentials", "data.money.prefix", "essentials", "data.money.pay_me", {_view}, "%arg-1%")
@@ -562,7 +562,7 @@ command /bank [<text>] [<offlineplayer>] [<number>]:
 							if arg-2 is set:
 								if arg-3 is set:
 									mj_essentials_bank_edit(arg-2, arg-1, arg-3, "edit /bank")
-									set {_money} to mj_core_format_money(false, arg-3)
+									set {_money} to mj_core_money_viewer(arg-3)
 									mj_manager_message(player, "essentials", "data.bank.prefix", "essentials", "data.money.%arg-1%", {_money}, "%arg-2%")
 								else:
 									mj_manager_message(player, "essentials", "data.bank.prefix", "manager", "data.argument.number")
@@ -573,7 +573,7 @@ command /bank [<text>] [<offlineplayer>] [<number>]:
 					else if arg-1 is "deposit" or "withdraw":
 						set {_list::*} to regex replace all "[^0-9-.]" with "" in "%arg-2%"
 						set {_value} to "%{_list::*}%" parsed as number
-						set {_view} to mj_core_format_money(false, {_value})
+						set {_view} to mj_core_money_viewer({_value})
 						if arg-1 is "deposit":
 							set {_money} to mj_essentials_money_modify(player)
 							if {_money} >= {_value}:
@@ -637,13 +637,13 @@ function mj_essentials_money_logger(info: text, context: text="none"):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_money(player: offlineplayer, extract: boolean=false, context: text="none") :: text:
 	set {_value} to mj_essentials_money_modify({_player})
-	set {_result} to mj_core_format_money(false, {_value})
+	set {_result} to mj_core_money_viewer({_value})
 	set {_check1} to mj_editfiles_boolean("essentials.config", "data.money.limit")
 	if {_check1} is true:
 		set {_check2} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.money.bypass")
 		if {_check2} is false:
 			set {_limit} to mj_essentials_money_limit({_player}, "money")
-			set {_result} to mj_core_format_money(true, {_value}, {_limit})
+			#set {_result} to mj_core_format_money(true, {_value}, {_limit})
 			mj_essentials_money_logger("%{_player}% has in this amount of money : %{_result}%", {_context})
 	if {_extract} is false:
 		mj_manager_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.view_money", {_result})
@@ -680,7 +680,7 @@ function mj_essentials_money_edit(player: offlineplayer, type: text="add", value
 			set {_limit} to mj_essentials_money_limit({_player}, "money")
 			if {_result} >= {_limit} + 1:
 				set {_lost} to {_result} - {_limit}
-				set {_view} to mj_core_format_money(false, {_lost})
+				set {_view} to mj_core_money_viewer({_lost})
 				set {_result} to {_limit}
 				wait 1 tick
 				set {_check} to mj_editfiles_boolean("essentials.config", "data.bank.condition")
@@ -704,7 +704,7 @@ function mj_essentials_money_system(player: offlineplayer, value: number=0, sell
 			set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_add", {_player})
 			set {_cache} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.money")
 			add {_cache} to {_value}
-			set {_view} to mj_core_format_money(false, {_value})
+			set {_view} to mj_core_money_viewer({_value})
 			mj_essentials_money_edit({_player}, "add", {_value}, {_context})
 			mj_essentials_money_logger("%{_player}% add money : %{_value}%", {_context})
 		else:
@@ -713,8 +713,8 @@ function mj_essentials_money_system(player: offlineplayer, value: number=0, sell
 			mj_editfiles_number("temp", "data.%{_player}'s uuid%.money", "modify", {_cache})
 	else: # remove system (buy)
 		set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_remove", {_player})
-		set {_value1} to "-%{_value}%" parsed as number
-		set {_view} to mj_core_format_money(false, {_value1})
+		set {_value.1} to "-%{_value}%" parsed as number
+		set {_view} to mj_core_money_viewer({_value.1})
 		set {_money} to mj_essentials_money_modify({_player})
 		if {_money} >= {_value} + 1:
 			mj_essentials_money_edit({_player}, "remove", {_value}, {_context})
@@ -745,7 +745,7 @@ function mj_essentials_money_upgrade(player: offlineplayer, type: text):
 			mj_manager_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.money.upgrade")
 		else:
 			set {_result} to {_price} - {_money}
-			set {_view} to mj_core_format_money(false, {_result})
+			set {_view} to mj_core_money_viewer({_result})
 			mj_manager_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.money.error_upgrade", {_view})
 	else:
 		mj_manager_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.money.no_upgrade")
@@ -759,7 +759,7 @@ function mj_essentials_money_balance(player: player):
 		set {_id} to mj_editfiles("temp", "data.sorterboard.essentials_balancetop.%loop-value%.id")
 		set {_target} to {_id} parsed as offlineplayer
 		set {_value} to mj_editfiles_number("temp", "data.sorterboard.essentials_balancetop.%loop-value%.value")
-		set {_money} to mj_core_format_money(false, {_value})
+		set {_money} to mj_core_money_viewer({_value})
 		set {_send} to mj_editfiles("essentials.config", "data.format.balance")
 		replace "$0" with "%{_count}%" in {_send}
 		replace "$1" with "%{_target}%" in {_send}
@@ -769,13 +769,13 @@ function mj_essentials_money_balance(player: player):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_essentials_bank(player: offlineplayer, extract: boolean=false) :: text:
 	set {_value} to mj_essentials_bank_modify({_player})
-	set {_result} to mj_core_format_money(false, {_value})
+	set {_result} to mj_core_money_viewer({_value})
 	set {_check1} to mj_editfiles_boolean("essentials.config", "data.bank.limit")
 	if {_check1} is true:
 		set {_check2} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.bank.bypass")
 		if {_check2} is false:
 			set {_limit} to mj_essentials_money_limit({_player}, "bank")
-			set {_result} to mj_core_format_money(true, {_value}, {_limit})
+			#set {_result} to mj_core_format_money(true, {_value}, {_limit})
 	if {_extract} is false:
 		mj_manager_message({_player}, "essentials", "data.bank.prefix", "essentials", "data.money.view_bank", {_result})
 		stop
@@ -810,7 +810,7 @@ function mj_essentials_bank_edit(player: offlineplayer, type: text="add", value:
 				set {_result} to {_limit}
 				set {_money2} to mj_essentials_money_modify({_player})
 				set {_limit2} to mj_essentials_money_limit({_player}, "money")
-				set {_view} to mj_core_format_money(false, {_lost})
+				set {_view} to mj_core_money_viewer({_lost})
 				if {_money2} >= {_limit2}:
 					mj_manager_message({_player}, "essentials", "data.bank.prefix", "essentials", "data.money.losted", {_view})
 					mj_essentials_money_logger("%{_player}% lost money bank : %{_view}%", {_context})
@@ -936,18 +936,18 @@ function mj_essentials_kits_viewer(player: player, id: text):
 	if {_check} is set:
 		mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.temp.gui_protect", "modify", true)
 		set {_name} to mj_editfiles_gettext("core", {_check}, {_player})
-		set {_item1} to mj_manager_item_lore({_player}, paper, 2, "essentials", "data.kits.view_name", {_name})
-		set {_money1} to mj_editfiles_number("core.data", "data.storage.%{_id}%.money")
-		set {_money2} to mj_core_format_money(false, {_money1})
-		set {_item2} to mj_manager_item_lore({_player}, {_item1}, 3, "essentials", "data.kits.view_money", {_money2})
+		set {_item.1} to mj_manager_item_lore({_player}, paper, 2, "essentials", "data.kits.view_name", {_name})
+		set {_money.1} to mj_editfiles_number("core.data", "data.storage.%{_id}%.money")
+		set {_money.2} to mj_core_money_viewer({_money.1})
+		set {_item.2} to mj_manager_item_lore({_player}, {_item.1}, 3, "essentials", "data.kits.view_money", {_money.2})
 		set {_time} to mj_editfiles_number("core.data", "data.storage.%{_id}%.time")
-		set {_item3} to mj_manager_item_lore({_player}, {_item2}, 4, "essentials", "data.kits.view_time", "%{_time}%h")
+		set {_item.3} to mj_manager_item_lore({_player}, {_item.2}, 4, "essentials", "data.kits.view_time", "%{_time}%h")
 		set {_perm} to mj_editfiles_boolean("core.data", "data.storage.%{_id}%.permission")
-		set {_item4} to mj_manager_item_lore({_player}, {_item3}, 5, "essentials", "data.kits.view_permission", "%{_perm}%")
+		set {_item.4} to mj_manager_item_lore({_player}, {_item.3}, 5, "essentials", "data.kits.view_permission", "%{_perm}%")
 		set {_title} to mj_editfiles_gettext("essentials", "data.kits.view_title", {_player}, {_name})
 		set {_info} to mj_editfiles_gettext("essentials", "data.kits.information", {_player})
 		open virtual chest inventory with size 5 named "%{_title}%" to {_player}
-		make a gui slot 8 of {_player} with {_item4} named "%{_info}%" to run:
+		make a gui slot 8 of {_player} with {_item.4} named "%{_info}%" to run:
 			stop
 		make a gui slot 0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16 and 17 of {_player} with black stained glass pane named " " to run:
 			stop
@@ -1105,7 +1105,7 @@ function mj_essentials_recovery(player: player, target: player, type: text):
 				mj_essentials_money_system({_player}, {_price})
 		else:
 			set {_request} to {_price} - {_money}
-			set {_view} to mj_core_format_money(false, {_request})
+			set {_view} to mj_core_money_viewer({_request})
 			mj_manager_message({_player}, "essentials", "data.%{_type}%.prefix", "essentials", "data.money.no_enough", "%{_view}%")
 	else:
 		set {_time} to mj_timecount_viewer("%{_type}%_%{_player}%")
@@ -1161,7 +1161,7 @@ function mj_essentials_repair(player: player, mode: text="hand"):
 					add 1 to {_count}
 		set {_price} to {_price}*{_count}
 		if {_money} >= {_price}:
-			set {_view} to mj_core_format_money(false, {_price})
+			set {_view} to mj_core_money_viewer({_price})
 			mj_manager_message({_player}, "essentials", "data.repair.prefix", "essentials", "data.repair.all", "%{_count}%", {_view})
 			mj_essentials_money_system({_player}, {_price})
 			loop all items in {_player}'s inventory:
@@ -1170,7 +1170,7 @@ function mj_essentials_repair(player: player, mode: text="hand"):
 			mj_manager_message({_player}, "essentials", "data.repair.prefix", "essentials", "data.repair.no_enough_money")
 	else:
 		if {_money} >= {_price}:
-			set {_view} to mj_core_format_money(false, {_price})
+			set {_view} to mj_core_money_viewer({_price})
 			mj_manager_message({_player}, "essentials", "data.repair.prefix", "essentials", "data.repair.tool", {_view})
 			mj_essentials_money_system({_player}, {_price})
 			repair tool of {_player}

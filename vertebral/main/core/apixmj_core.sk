@@ -1966,7 +1966,7 @@ function mj_core_money(source: text, find: text, type: text="default", lite: boo
 		set {_pourcent::*} to {_pourcent} split at "."
 		replace "<money>" with "%{_view.1}%" in {_result}
 		replace "<limit>" with "%{_view.2}%" in {_result}
-		replace "<pourcent>" with "%{_pourcent::*}%" in {_result}
+		replace "<pourcent>" with "%{_pourcent::1}%" in {_result}
 	if {_type} is "discount" or "discount_lite":
 		set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.discount")
 		set {_value.3} to ({_value.1}*{_value.2}/100)

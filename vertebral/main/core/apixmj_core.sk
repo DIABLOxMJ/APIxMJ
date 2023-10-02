@@ -1954,32 +1954,10 @@ function mj_core_number_convert(value: number) :: text:
 		set {_result} to "%{_number}%,%{_unit}%"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_format_money(type: boolean=false, value: number, limit: number=0) :: text:
-	set {_icon} to mj_editfiles("core.config", "data.format.money.symbol")
-	set {_view.1} to mj_core_number_convert({_value})
-	if {_type} is true:
-		set {_pourcent} to 100*{_value}/{_limit}
-		set {_pourcent} to "%{_pourcent}%"
-		set {_pourcent::*} to {_pourcent} split at "."
-		set {_view.2} to mj_core_number_convert({_limit})
-		if "%{_value}%" contains "-":
-			set {_view.1} to "&c-%{_view.1}%%{_icon}%"
-		else:
-			set {_view.1} to "&a%{_view.1}%%{_icon}%"
-		set {_result} to "&a%{_view.1}%&6/&a%{_view.2}%%{_icon}% &6(&a%{_pourcent::1}%%%&6)"
-	else:
-		if "%{_value}%" contains "-":
-			set {_result} to "&c-%{_view.1}%%{_icon}%"
-		else:
-			set {_result} to "&a%{_view.1}%%{_icon}%"
-	return {_result}
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_core_money(source: text, find: text, type: text="default") :: text:
+function mj_core_money(source: text, find: text, type: text="default", lite: boolean=false) :: text:
 	set {_result} to mj_editfiles("core.config", "data.format.money.%{_type}%")
-
 	set {_value.1} to mj_editfiles_number({_source}, "%{_find}%.price")
 	set {_view.1} to mj_core_money_viewer({_value.1})
-
 	if {_type} is "pourcent":
 		set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.limit")
 		set {_view.2} to mj_core_money_viewer({_value.2})
@@ -1989,15 +1967,15 @@ function mj_core_money(source: text, find: text, type: text="default") :: text:
 		replace "<money>" with "%{_view.1}%" in {_result}
 		replace "<limit>" with "%{_view.2}%" in {_result}
 		replace "<pourcent>" with "%{_pourcent::*}%" in {_result}
-
-	if {_type} is "discount":
+	if {_type} is "discount" or "discount_lite":
 		set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.discount")
 		set {_value.3} to ({_value.1}*{_value.2}/100)
 		set {_value.4} to {_value.1}-{_value.3}
 		set {_view.2} to mj_core_money_viewer({_value.4})
 		replace "<money>" with "%{_view.2}%" in {_result}
 		replace "<pourcent>" with "%{_value.2}%" in {_result}
-
+		if {_lite} is true:
+			set {_result} to {_view.2}
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_money_viewer(value: number) :: text:
@@ -2007,6 +1985,14 @@ function mj_core_money_viewer(value: number) :: text:
 		set {_result} to "&c-%{_view.1}%%{_icon}%"
 	else:
 		set {_result} to "&a%{_view.1}%%{_icon}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_price(source: text, find: text, type: text="default") :: number:
+	set {_value.1} to mj_editfiles_number({_source}, "%{_find}%.price")
+	if {_type} is "discount":
+		set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.discount")
+		set {_value.3} to ({_value.1}*{_value.2}/100)
+		set {_result} to {_value.1}-{_value.3}
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_bossbar(player: player, mode: text, info: text="none", count: number=30):

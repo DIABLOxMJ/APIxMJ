@@ -1,0 +1,199 @@
+data:
+    preset_01:
+        world: world_preset_01
+        difficulty: easy
+        biome: plains
+        slot: 10
+        price: 4200
+        discount: 0
+        free: true
+        item: grass block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_02:
+        world: world_preset_02
+        difficulty: normal
+        biome: plains
+        slot: 19
+        price: 4200
+        discount: 5
+        free: true
+        item: grass block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_03:
+        world: world_preset_03
+        difficulty: hard
+        biome: plains
+        slot: 28
+        price: 4200
+        discount: 15
+        free: true
+        item: grass block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_04:
+        world: world_preset_04
+        difficulty: easy
+        biome: desert
+        slot: 11
+        price: 12500
+        discount: 0
+        item: sand block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_05:
+        world: world_preset_05
+        difficulty: normal
+        biome: desert
+        slot: 20
+        price: 12500
+        discount: 5
+        item: sand block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_06:
+        world: world_preset_06
+        difficulty: hard
+        biome: desert
+        slot: 29
+        price: 12500
+        discount: 15
+        item: sand block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_07:
+        world: world_preset_07
+        difficulty: easy
+        biome: snowny plains
+        slot: 12
+        price: 14500
+        discount: 0
+        item: snow block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_08:
+        world: world_preset_08
+        difficulty: normal
+        biome: snowny plains
+        slot: 21
+        price: 14500
+        discount: 5
+        item: snow block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_09:
+        world: world_preset_09
+        difficulty: hard
+        biome: snowny plains
+        slot: 30
+        price: 14500
+        discount: 15
+        item: snow block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_64:
+        world: world_preset_64
+        difficulty: normal
+        biome: nether wastes
+        slot: 13
+        price: 27500
+        discount: 0
+        item: netherrack block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_65:
+        world: world_preset_65
+        difficulty: hard
+        biome: nether wastes
+        slot: 22
+        price: 27500
+        discount: 5
+        item: netherrack block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_66:
+        world: world_preset_66
+        difficulty: hardcore
+        biome: nether wastes
+        slot: 31
+        price: 27500
+        discount: 10
+        item: netherrack block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_67:
+        world: world_preset_67
+        difficulty: normal
+        biome: the end
+        slot: 14
+        price: 24500
+        discount: 0
+        item: end stone block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_68:
+        world: world_preset_68
+        difficulty: hard
+        biome: the end
+        slot: 23
+        price: 24500
+        discount: 5
+        item: end stone block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180
+    preset_69:
+        world: world_preset_69
+        difficulty: hardcore
+        biome: the end
+        slot: 32
+        price: 24500
+        discount: 10
+        item: end stone block
+        location:
+            x: 0.5
+            y: 67.0
+            z: 0.5
+            r: 180

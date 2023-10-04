@@ -1,0 +1,43 @@
+data:
+    create:
+        button:
+            new_island:
+                slot: 13
+                item: minecart with chest
+    main:
+        button:
+            home:
+                slot: 13
+                island: true
+                bypass: true
+                next_gui: none
+                item: ender pearl
+            upgrade:
+                slot: 24
+                island: true
+                next_gui: main_upgrade
+                item: bottle o' enchanting
+            settings:
+                slot: 20
+                island: true
+                next_gui: main_settings
+                item: stone block
+            board:
+                slot: 22
+                island: true
+                next_gui: main_board
+                item: stone block
+    main_upgrade:
+        button:
+            worldborder:
+                item: barrier block
+    main_settings:
+        button:
+            test:
+                slot: 10
+                item: stone block
+    main_board:
+        button:
+            test:
+                slot: 10
+                item: stone block

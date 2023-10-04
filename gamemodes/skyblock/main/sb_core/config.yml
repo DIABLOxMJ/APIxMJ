@@ -1,0 +1,6 @@
+data:
+    free:
+        price: 0
+        discount: 100
+    format:
+        player_world: world_sb

@@ -1,0 +1,177 @@
+data:
+    prefix: "&6[&b&lSkyblock&6]&r"
+    return_island: "&7Téléportation vers votre île."
+    menu:
+        option:
+            difficulty: "&7Difficulté &6: &r$0"
+        create:
+            title: "&bSkyblock &6: &2Créer une île"
+            button:
+                choice:
+                    name: "&eGénérer mon île"
+                    lore:
+                        '1': "&6- &7C'est votre première île ?"
+                        '2': "&0- &7Commencez votre aventure seule et"
+                        '3': "&0- &7invitez vos amis à rejoindre votre île."
+                    price: "&ePrix &6: &r$0"
+                    option: "&aAcheter l'île pour $0"
+                    confirm: "&aChoisir une île"
+                    success: "&aCréation de votre île patienter un instant."
+        main:
+            title: "&bSB &6: &2Menu principal"
+            button:
+                home:
+                    name: "&eRevenir sur mon île"
+                    button: "&aSe téléporter"
+                    lore:
+                        '1': "&6- &7Se téléporter vers son île."
+                    success: "&aTéléportation réussie."
+                upgrade:
+                    name: "&eAméliorer mon île"
+                    button: "&aOuvrir le menu &c&l[Prochainement]"
+                    lore:
+                        '1': "&6- &7Besoin d'amélioration pour votre île ?"
+                        '2': "&0- &7Agrandir les limites de votre île où"
+                        '3': "&0- &7autre système en tout genre, ça passe par ici."
+                    success: "&aTéléportation réussie."
+                settings:
+                    name: "&eParamètre de mon île"
+                    button: "&aOuvrir le menu &c&l[Prochainement]"
+                    lore:
+                        '1': "&6- &7Envie de modifier certain paramètre ?"
+                    success: "&aTéléportation réussie."
+                board:
+                    name: "&eTableau de suivi de mon île"
+                    button: "&aOuvrir le menu &c&l[Prochainement]"
+                    lore:
+                        '1': "&6- &7Suivre la progression de votre île"
+                        '2': "&0- &7pour être toujours plus avancé en jeu."
+                    success: "&aTéléportation réussie."
+        main_upgrade:
+            title: "&bSB &6: &2Améliorations"
+            button:
+                worldborder:
+                    name: "&eAméliorer la taille de l'île"
+                    lore:
+                        '1': "&eDescription &6:&r"
+                        '2': "&0"
+                        '3': "&6- &7Envie de voir les choses en grands ?"
+                        '4': "&0"
+                        '5': "&eNécessite &6:&r"
+                        '6': "&0"
+                    size: "&eTaille d'île &6: &a$0 &6(&7Actuel &6: &a$1&6)"
+                    level: "&eNiveau d'île requis &6: &a$0 &6(&7Actuel &6: &a$1&6)"
+                    price: "&ePrix &6: &a$0"
+                    unlocked: "&aAcheter l'amélioration."
+                    locked: "&cAmélioration indisponible…"
+                    buyed: "&bVous avez déjà acheté cette amélioration."
+                    success: "&aFélicitation, vous avez aggrandi votre île de &a$0 à &a$1"
+        main_settings:
+            title: "&bSB &6: &2Paramètres"
+            button:
+                test:
+                    name: "&eRevenir sur mon île"
+                    button: "&aSe téléporter"
+                    lore:
+                        '1': "&6- &7Se téléporter vers son île."
+                    success: "&aTéléportation réussie."
+        main_board:
+            title: "&bSB &6: &2Tableau d'évolutions"
+            button:
+                test:
+                    name: "&eRevenir sur mon île"
+                    button: "&aSe téléporter"
+                    lore:
+                        '1': "&6- &7Se téléporter vers son île."
+                    success: "&aTéléportation réussie."
+    difficulty:
+        easy: "&d[Facile]"
+        normal: "&a[Normal]"
+        hard: "&c[Difficile]"
+        hardcore: "&e[Extrême]"
+    preset:
+        preset_01:
+            name: "&aÎle de débutant"
+            lore:
+                '1': "&6- &7Une île pour les non-initiés, aux joueurs"
+                '2': "&0- &7qui ne connaissent pas ce mode de jeu."
+        preset_02:
+            name: "&aÎle standard"
+            lore:
+                '1': "&6- &7Une île traditionnelle que même les"
+                '2': "&0- &7plus anciens joueurs connaissent"
+                '3': "&0- &7comme leur poche."
+        preset_03:
+            name: "&aÎle réduit"
+            lore:
+                '1': "&6- &7Un peu de challenge ?"
+                '2': "&0- &7Ceci vous tentera sûrement."
+        preset_04:
+            name: "&eÎle désertique"
+            lore:
+                '1': "&6- &7Une île avec le thème le désert, difficile"
+                '2': "&0- &7de survivre avec le strict nécessité."
+        preset_05:
+            name: "&eÎle désertique"
+            lore:
+                '1': "&6- &7Une île avec le thème le désert, difficile"
+                '2': "&0- &7de survivre avec le strict nécessité."
+        preset_06:
+            name: "&eÎle désertique"
+            lore:
+                '1': "&6- &7Une île avec le thème le désert, difficile"
+                '2': "&0- &7de survivre avec le strict nécessité."
+        preset_07:
+            name: "&fÎle enneigé"
+            lore:
+                '1': "&6- &7Une île avec le thème de la neige,"
+                '2': "&0- &7agréable de vivre avec le père Noël"
+                '3': "&0- &7pour un maximum de cookies."
+        preset_08:
+            name: "&fÎle enneigé"
+            lore:
+                '1': "&6- &7Une île avec le thème de la neige,"
+                '2': "&0- &7agréable de vivre avec le père Noël"
+                '3': "&0- &7pour un maximum de cookies."
+        preset_09:
+            name: "&fÎle enneigé"
+            lore:
+                '1': "&6- &7Une île avec le thème de la neige,"
+                '2': "&0- &7agréable de vivre avec le père Noël"
+                '3': "&0- &7pour un maximum de cookies."
+        preset_64:
+            name: "&cÎle de l'enfer"
+            lore:
+                '1': "&6- &7Un niveau plus extrême en s'installant"
+                '2': "&0- &7avec le Diable en personne,"
+                '3': "&0- &7il ne faudrait avoir trop chaud."
+        preset_65:
+            name: "&cÎle de l'enfer"
+            lore:
+                '1': "&6- &7Un niveau plus extrême en s'installant"
+                '2': "&0- &7avec le Diable en personne,"
+                '3': "&0- &7il ne faudrait avoir trop chaud."
+        preset_66:
+            name: "&cÎle de l'enfer"
+            lore:
+                '1': "&6- &7Un niveau plus extrême en s'installant"
+                '2': "&0- &7avec le Diable en personne,"
+                '3': "&0- &7il ne faudrait avoir trop chaud."
+        preset_67:
+            name: "&eÎle du néant"
+            lore:
+                '1': "&6- &7Après avoir trop voyagé dans les"
+                '2': "&0- &7dimensions, on se retrouve parfois"
+                '3': "&0- &7bloqué dans un monde fait de vide."
+        preset_68:
+            name: "&eÎle du néant"
+            lore:
+                '1': "&6- &7Après avoir trop voyagé dans les"
+                '2': "&0- &7dimensions, on se retrouve parfois"
+                '3': "&0- &7bloqué dans un monde fait de vide."
+        preset_69:
+            name: "&eÎle du néant"
+            lore:
+                '1': "&6- &7Après avoir trop voyagé dans les"
+                '2': "&0- &7dimensions, on se retrouve parfois"
+                '3': "&0- &7bloqué dans un monde fait de vide."

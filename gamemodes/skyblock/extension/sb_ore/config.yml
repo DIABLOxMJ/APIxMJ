@@ -1,0 +1,133 @@
+data:
+    default:
+        '01':
+            block: cobblestone block
+            pourcent: 70
+            request:
+                level: 0
+        '02':
+            block: coal ore
+            pourcent: 30
+            request:
+                level: 5
+        '03':
+            block: deepslate coal ore
+            pourcent: 29.5
+            request:
+                level: 5
+        '04':
+            block: iron ore
+            pourcent: 25
+            request:
+                level: 5
+        '05':
+            block: deepslate iron ore
+            pourcent: 24.5
+            request:
+                level: 5
+        '06':
+            block: lapis ore
+            pourcent: 17.5
+            request:
+                level: 6
+        '07':
+            block: deepslate lapis ore
+            pourcent: 17
+            request:
+                level: 6
+        '08':
+            block: gold ore
+            pourcent: 15
+            request:
+                level: 12
+        '09':
+            block: deepslate gold ore
+            pourcent: 14.5
+            request:
+                level: 12
+        '10':
+            block: redstone ore
+            pourcent: 12.5
+            request:
+                level: 15
+        '11':
+            block: deepslate redstone ore
+            pourcent: 12
+            request:
+                level: 15
+        '12':
+            block: diamond ore
+            pourcent: 10
+            request:
+                level: 15
+        '13':
+            block: deepslate diamond ore
+            pourcent: 9.5
+            request:
+                level: 15
+        '14':
+            block: emerald ore
+            pourcent: 5
+            request:
+                level: 20
+        '15':
+            block: deepslate emerald ore
+            pourcent: 4.5
+            request:
+                level: 20
+    nether:
+        '01':
+            block: basalt
+            pourcent: 70
+            request:
+                level: 0
+        '02':
+            block: deepslate coal ore
+            pourcent: 30
+            request:
+                level: 5
+        '03':
+            block: deepslate iron ore
+            pourcent: 25
+            request:
+                level: 10
+        '04':
+            block: nether quartz ore
+            pourcent: 22.5
+            request:
+                level: 10
+        '05':
+            block: deepslate gold ore
+            pourcent: 20
+            request:
+                level: 15
+        '06':
+            block: nether gold ore
+            pourcent: 19.5
+            request:
+                level: 15
+        '07':
+            block: deepslate lapis ore
+            pourcent: 18
+            request:
+                level: 15
+        '08':
+            block: deepslate redstone ore
+            pourcent: 17.5
+            request:
+                level: 15
+        '09':
+            block: deepslate diamond ore
+            pourcent: 15
+            request:
+                level: 20
+        '10':
+            block: deepslate emerald ore
+            pourcent: 12.5
+            request:
+                level: 20
+        '11':
+            block: ancient_debris
+            pourcent: 10
+            request:
+                level: 25

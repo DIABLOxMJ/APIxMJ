@@ -1,0 +1,87 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_ore_generator():
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_extension.ore_generator.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.ore_generator.config"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.ore_generator.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.ore_generator.help.%loop-value%"
+	loop all players:
+		mj_ore_generator_playerdata(loop-player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk":
+		send "[APIxMJ] Loading ore_generator..." to console
+		mj_files_ore_generator()
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj_core.sk)"
+		unload script file "apixmj_ore_generator.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_ore_generator.sk" to "-apixmj_ore_generator.sk"
+	send "[APIxMJ] Unloading ore_generator.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Command
+# ---------------------------------------------------------------------------------------------------------------------
+command /ore [<text>] [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.ore.*" or "mj.ore.admin":
+			if arg-1 is "reload":
+				if arg-2 is "files":
+					mj_files_ore_generator()
+					send "APIxMJ : ore_generator files reloaded"
+				else:
+					reload script "apixmj_ore_generator"
+		else:
+			mj_manager_permission(player, "core", "data.prefix", "mj.ore.admin")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/ore":
+	if player has permission "*" or "mj.*" or "mj.ore.*" or "mj.ore.admin":
+		set tab completions for position 1 to "reload"
+		if tab arg-1 is "reload":
+			set tab completions for position 2 to "files"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Command
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+on form:
+	if type of event-block is cobblestone block:
+		set {_list::*} to mj_manager_nodes("ore_generator.config", "data.default")
+		loop {_list::*}:
+			set {_pourcent} to mj_editfiles_number("ore_generator.config", "data.default.%loop-value%.pourcent")
+			if chance of {_pourcent}%:
+				set {_block} to mj_manager_item_convert("ore_generator.config", "data.default.%loop-value%.block")
+				wait 1 tick
+				set block at event-location to {_block}
+				stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on form:
+	if type of event-block is basalt:
+		set {_list::*} to mj_manager_nodes("ore_generator.config", "data.nether")
+		loop {_list::*}:
+			set {_pourcent} to mj_editfiles_number("ore_generator.config", "data.nether.%loop-value%.pourcent")
+			if chance of {_pourcent}%:
+				set {_block} to mj_manager_item_convert("ore_generator.config", "data.nether.%loop-value%.block")
+				wait 1 tick
+				set block at event-location to {_block}
+				stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function
+# =====================================================================================================================
+
+

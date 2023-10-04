@@ -1,0 +1,81 @@
+data:
+    default:
+        '01':
+            block: cobblestone block
+            pourcent: 70
+        '02':
+            block: coal ore
+            pourcent: 30
+        '03':
+            block: deepslate coal ore
+            pourcent: 29.5
+        '04':
+            block: iron ore
+            pourcent: 25
+        '05':
+            block: deepslate iron ore
+            pourcent: 24.5
+        '06':
+            block: gold ore
+            pourcent: 17.5
+        '07':
+            block: deepslate gold ore
+            pourcent: 17
+        '08':
+            block: lapis ore
+            pourcent: 15
+        '09':
+            block: deepslate lapis ore
+            pourcent: 14.5
+        '10':
+            block: redstone ore
+            pourcent: 12.5
+        '11':
+            block: deepslate redstone ore
+            pourcent: 12
+        '12':
+            block: diamond ore
+            pourcent: 10
+        '13':
+            block: deepslate diamond ore
+            pourcent: 9.5
+        '14':
+            block: emerald ore
+            pourcent: 5
+        '15':
+            block: deepslate emerald ore
+            pourcent: 4.5
+    nether:
+        '01':
+            block: basalt
+            pourcent: 70
+        '02':
+            block: deepslate coal ore
+            pourcent: 30
+        '03':
+            block: deepslate iron ore
+            pourcent: 25
+        '04':
+            block: nether quartz ore
+            pourcent: 22.5
+        '05':
+            block: deepslate gold ore
+            pourcent: 20
+        '06':
+            block: nether gold ore
+            pourcent: 19.5
+        '07':
+            block: deepslate lapis ore
+            pourcent: 18
+        '08':
+            block: deepslate redstone ore
+            pourcent: 17.5
+        '09':
+            block: deepslate diamond ore
+            pourcent: 15
+        '10':
+            block: deepslate emerald ore
+            pourcent: 12.5
+        '11':
+            block: ancient_debris
+            pourcent: 10

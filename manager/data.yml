@@ -102,6 +102,15 @@ data:
             item: chest
             gui_background:
                 item: light blue stained glass pane
+        gamemodes_skyblock_extension:
+            name: data.index.gamemodes_skyblock_extension.name
+            visible: true
+            menu_back: gamemodes_skyblock_main
+            menu_next: gamemodes_skyblock_extension
+            slot: 16
+            item: chest
+            gui_background:
+                item: light blue stained glass pane
         gamemodes_faction_main:
             name: data.index.gamemodes_faction_main.name
             visible: true
@@ -1026,10 +1035,8 @@ data:
                     '1': apixmj_ore_generator
                 yml:
                     '1': config
-                    '2': data
                 file:
                     '1': mj.ore_generator.config
-                    '2': mj.ore_generator.data
                 preset:
                     '1': none
                 datapack:
@@ -1040,7 +1047,7 @@ data:
                         data: data
                 item: coal ore
                 gui_background:
-                    item: lime stained glass pane
+                    item: black stained glass pane
             portal:
                 name: data.addon.vertebral_extension.portal.name
                 experimental: true
@@ -1427,9 +1434,14 @@ data:
                     '1': apixmj_sb_core
                 yml:
                     '1': config
+                    '2': menu
+                    '3': upgrade
                 file:
                     '1': mj.sb_core.config
                     '2': mj.sb_core.data
+                    '3': mj.sb_core.temp
+                    '4': mj.sb_core.menu
+                    '5': mj.sb_core.upgrade
                 preset:
                     '1': none
                 datapack:
@@ -1441,6 +1453,40 @@ data:
                 item: command block
                 gui_background:
                     item: red stained glass pane
+        gamemodes_skyblock_extension:
+            sb_ore:
+                name: data.addon.gamemodes_skyblock_extension.sb_ore.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': gamemodes_skyblock_main.sb_core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: gamemodes/skyblock/extension/sb_ore
+                folder: gamemodes/skyblock/extension/sb_ore
+                slot: 30
+                skript:
+                    '1': apixmj_sb_ore
+                yml:
+                    '1': config
+                file:
+                    '1': mj.sb_ore.config
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: coal ore
+                gui_background:
+                    item: black stained glass pane
         gamemodes_faction_main:
             faction:
                 name: data.addon.gamemodes_faction_main.faction.name

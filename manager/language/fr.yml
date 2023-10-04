@@ -209,6 +209,12 @@ data:
             lore:
                 '1': "&6- &7Une survie pour les joueurs expérimentés en"
                 '2': "&0- &7monde céleste, un défi séduisante !"
+        gamemodes_skyblock_extension:
+            name: "&aExtension"
+            name_lite: "&aExtension"
+            lore:
+                '1': "&6- &7Des Skripts sous-dépendant des principaux"
+                '2': "&0- &7remplis de fonctionnalités très attirants !"
         gamemodes_faction_main:
             name: "&4PVP-Faction"
             name_lite: "&4PVP-Faction"
@@ -486,6 +492,13 @@ data:
                     '1': "&6- &7Le centre de contrôle qui fournira les"
                     '2': "&0- &7fondation du skyblock, pour offrir une"
                     '3': "&0- &7expérience sans limite."
+        gamemodes_skyblock_extension:
+            sb_ore:
+                name: "&aGénérateur à minerais"
+                name_lite: "&aMinerais Gén…"
+                lore:
+                    '1': "&6- &7Besoin d'un générateur à minerais ?"
+                    '2': "&0- &7Ceci devrait vous satisfaire."
         gamemodes_faction_main:
             faction:
                 name: "&cFaction"

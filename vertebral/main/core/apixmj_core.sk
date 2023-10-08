@@ -1954,6 +1954,16 @@ function mj_core_number_convert(value: number) :: text:
 		set {_result} to "%{_number}%,%{_unit}%"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
+function mj_core_progress_bar_viewer(value.1: number) :: text:
+	set {_list::*} to mj_manager_nodes("core.config", "data.format.progress_bar")
+	loop {_list::*}:
+		set {_value.2} to loop-value parsed as number
+		if {_value.1} >= {_value.2}:
+			set {_result} to mj_editfiles("core.config", "data.format.progress_bar.%{_value.2}%")
+		else:
+			exit loop
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_core_money(source: text, find: text, lite: boolean=false) :: text:
 	set {_value.1} to mj_editfiles_number({_source}, "%{_find}%.price")
 	set {_view.1} to mj_core_money_viewer({_value.1})

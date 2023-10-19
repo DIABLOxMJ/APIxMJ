@@ -698,7 +698,7 @@ function mj_essentials_money_limit(player: offlineplayer, type: text) :: number:
 	set {_result} to mj_editfiles_number("essentials.data", "data.upgrade.%{_type}%.%{_value}%.value")
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_essentials_money_system(player: offlineplayer, value: number=0, sell: boolean=false, context: text="none"):
+function mj_essentials_money_system(player: offlineplayer, value: number=0, sell: boolean=false, context: text="none", discount: number=0):
 	if {_sell} is true: # add system (sell)
 		if {_player} is online:
 			set {_send} to mj_editfiles_gettext("essentials", "data.money.actionbar_add", {_player})
@@ -716,6 +716,9 @@ function mj_essentials_money_system(player: offlineplayer, value: number=0, sell
 		set {_value.1} to "-%{_value}%" parsed as number
 		set {_view} to mj_core_money_viewer({_value.1})
 		set {_money} to mj_essentials_money_modify({_player})
+		if {_discount} isn't 0:
+			set {_value.2} to ({_value}*{_discount}/100)
+			set {_value} to {_value}-{_value.2}
 		if {_money} >= {_value} + 1:
 			mj_essentials_money_edit({_player}, "remove", {_value}, {_context})
 			mj_essentials_money_logger("%{_player}% remove money : %{_value}%")

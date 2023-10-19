@@ -1,0 +1,28 @@
+data:
+    break:
+        stone block: 5
+        cobblestone block: 5
+        basalt: 5
+        coal ore: 10
+        iron ore: 20
+        gold ore: 20
+        lapis lazuli ore: 15
+        redstone ore: 30
+        diamond ore: 80
+        emerald ore: 80
+        deepslate coal ore: 10
+        deepslate iron ore: 20
+        deepslate gold ore: 20
+        deepslate lapis lazuli ore: 15
+        deepslate redstone ore: 30
+        deepslate diamond ore: 80
+        deepslate emerald ore: 80
+        nether gold ore: 20
+        nether quartz ore: 40
+        ancient debris: 80
+        oak log: 5
+        ripe wheat plant: 20
+        ripe carrot plant: 20
+        ripe potato plant: 20
+        ripe beetroot plant: 20
+        ripe nether wart plant: 20

@@ -6,11 +6,10 @@ data:
                 item: minecart with chest
     main:
         button:
-            home:
+            teleport:
                 slot: 13
                 island: true
-                bypass: true
-                next_gui: none
+                next_gui: main_teleport
                 item: ender pearl
             upgrade:
                 slot: 24
@@ -26,11 +25,66 @@ data:
                 slot: 22
                 island: true
                 next_gui: main_board
-                item: stone block
-    main_upgrade:
+                item: painting
+    main_teleport:
         button:
-            worldborder:
-                item: barrier block
+            purchase:
+                item: phantom membrane
+                custom_data_model: 97003
+            island_1:
+                slot: 11
+                item: phantom membrane
+                custom_data_model: 97004
+            island_2:
+                slot: 13
+                item: phantom membrane
+                custom_data_model: 97005
+            island_3:
+                slot: 15
+                item: phantom membrane
+                custom_data_model: 97006
+            spawn:
+                slot: 31
+                item: phantom membrane
+                custom_data_model: 97001
+            unknown_01:
+                slot: 19
+                item: phantom membrane
+                custom_data_model: 97002
+            unknown_02:
+                slot: 20
+            unknown_03:
+                slot: 21
+            unknown_04:
+                slot: 22
+            unknown_05:
+                slot: 23
+            unknown_06:
+                slot: 24
+            unknown_07:
+                slot: 25
+            unknown_08:
+                slot: 28
+            unknown_09:
+                slot: 29
+            unknown_10:
+                slot: 30
+            unknown_11:
+                slot: 32
+            unknown_12:
+                slot: 33
+            unknown_13:
+                slot: 34
+            unknown_14:
+                slot: 38
+            unknown_15:
+                slot: 39
+            unknown_16:
+                slot: 40
+            unknown_17:
+                slot: 41
+            unknown_18:
+                slot: 42
     main_settings:
         button:
             test:
@@ -40,4 +94,4 @@ data:
         button:
             test:
                 slot: 10
-                item: stone block
+                item: stone blockt

@@ -715,7 +715,7 @@ function mj_manager_nodes_count(source: text, find: text="data") :: number:
 		add 1 to {_count}
 	return {_count}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_item_convert(source: text, find: text, nbt: boolean=false, model: number=-1) :: item:
+function mj_manager_item_convert(source: text, find: text, nbt: boolean=false) :: item:
 	set {_item} to yaml value "%{_find}%" from "mj.%{_source}%"
 	if {_item} isn't a item:
 		set {_item} to {_item} parsed as item
@@ -723,8 +723,11 @@ function mj_manager_item_convert(source: text, find: text, nbt: boolean=false, m
 		set {_item} to {_item} with no nbt
 	if {_item} isn't set:
 		set {_item} to air
-	if {_model} >= -1:
-		add "{CustomDataModel:%{_model}%}" to nbt of {_item}
+	set {_find.2} to {_find}
+	replace ".item" with "" in {_find.2}
+	set {_model} to mj_editfiles_number({_source}, "%{_find.2}%.custom_data_model")
+	if {_model} >= 1:
+		add "{CustomModelData:%{_model}%}" to nbt of {_item}
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_item_name(player: player, source: text, find: text, variante: text="", int.0: text="", int.1: text="") :: text:

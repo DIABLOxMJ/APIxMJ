@@ -74,11 +74,12 @@ on form:
 	if type of event-block is basalt:
 		set {_list::*} to mj_manager_nodes("sb_ore.config", "data.nether")
 		loop {_list::*}:
-			set {_pourcent} to mj_editfiles_number("sb_ore.config", "data.nether.%loop-value%.pourcent")
+			set {_value} to loop-value
+			set {_pourcent} to mj_editfiles_number("sb_ore.config", "data.nether.%{_value}%.pourcent")
 			if chance of {_pourcent}%:
-				set {_block} to mj_manager_item_convert("sb_ore.config", "data.nether.%loop-value%.block")
+				set {_block} to mj_manager_item_convert("sb_ore.config", "data.nether.%{_value}%.block")
 				set {_check.1} to mj_editfiles_number("sb_core.data", "data.world.%event-world%.rate.level")
-				set {_check.2} to mj_editfiles_number("sb_ore.config", "data.default.%loop-value%.request.level")
+				set {_check.2} to mj_editfiles_number("sb_ore.config", "data.nether.%{_value}%.request.level")
 				if {_check.1} >= {_check.2}:
 					wait 1 tick
 					set block at event-location to {_block}

@@ -1990,6 +1990,16 @@ function mj_core_money(source: text, find: text, lite: boolean=false) :: text:
 			set {_result} to {_view.2}
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
+function mj_core_money_converter(source: text, find: text) :: number:
+	set {_value.1} to mj_editfiles_number({_source}, "%{_find}%.price")
+	set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.discount")
+	if {_value.2} isn't 0:
+		set {_value.3} to ({_value.1}*{_value.2}/100)
+		set {_result} to {_value.1}-{_value.3}
+	else:
+		set {_result} to {_value.1}
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_core_money_viewer(value: number) :: text:
 	set {_icon} to mj_editfiles("core.config", "data.format.money.symbol")
 	set {_view.1} to mj_core_number_convert({_value})

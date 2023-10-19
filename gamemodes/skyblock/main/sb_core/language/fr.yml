@@ -14,17 +14,19 @@ data:
                         '2': "&0- &7Commencez votre aventure seule et"
                         '3': "&0- &7invitez vos amis à rejoindre votre île."
                     price: "&ePrix &6: &r$0"
-                    option: "&aAcheter l'île pour $0"
+                    option:
+                        '1': "&aAcheter l'île pour $0"
+                        '2': "&cFonds insuffisant…"
                     confirm: "&aChoisir une île"
                     success: "&aCréation de votre île patienter un instant."
         main:
             title: "&bSB &6: &2Menu principal"
             button:
-                home:
-                    name: "&eRevenir sur mon île"
-                    button: "&aSe téléporter"
+                teleport:
+                    name: "&eVoyager vers…"
+                    button: "&aOuvrir le menu"
                     lore:
-                        '1': "&6- &7Se téléporter vers son île."
+                        '1': "&6- &7Besoin d'explorer une île ?"
                     success: "&aTéléportation réussie."
                 upgrade:
                     name: "&eAméliorer mon île"
@@ -47,18 +49,52 @@ data:
                         '1': "&6- &7Suivre la progression de votre île"
                         '2': "&0- &7pour être toujours plus avancé en jeu."
                     success: "&aTéléportation réussie."
+        main_teleport:
+            title: "&bSB &6: &9Menu Téléportation"
+            button:
+                purchase:
+                    name: "&eEmplacement d'île disponible"
+                    button: "&aAcheter une île"
+                    lore:
+                        '1': "&6- &7Besoin d'étendre votre empire ?"
+                    success: "&aTéléportation réussie."
+                island_1:
+                    name: "&eRetourner sur l'île &a01"
+                    button: "&aSe téléporter"
+                    lore:
+                        '1': "&6- &7Se téléporter vers son île."
+                    success: "&aTéléportation réussie."
+                island_2:
+                    name: "&eRetourner sur l'île &a02"
+                    button: "&aSe téléporter"
+                    lore:
+                        '1': "&6- &7Se téléporter vers son île."
+                    success: "&aTéléportation réussie."
+                island_3:
+                    name: "&eRetourner sur l'île &a03"
+                    button: "&aSe téléporter"
+                    lore:
+                        '1': "&6- &7Se téléporter vers son île."
+                    success: "&aTéléportation réussie."
+                spawn:
+                    name: "&eRetourner au Spawn"
+                    button: "&aSe téléporter"
+                    lore:
+                        '1': "&6- &7L'île centrale du serveur."
+                    success: "&c[Prochainement…]"
+                unknown:
+                    name: "&7Inconnu…"
+                    button: "&c[Prochainement…]"
+                    lore:
+                        '1': "&6- &7Une île inconnu."
+                    success: "&c[Prochainement…]"
         main_upgrade:
             title: "&bSB &6: &2Améliorations"
             button:
                 worldborder:
                     name: "&eAméliorer la taille de l'île"
                     lore:
-                        '1': "&eDescription &6:&r"
-                        '2': "&0"
-                        '3': "&6- &7Envie de voir les choses en grands ?"
-                        '4': "&0"
-                        '5': "&eNécessite &6:&r"
-                        '6': "&0"
+                        '1': "&6- &7Envie de voir les choses en grands ?"
                     size: "&eTaille d'île &6: &a$0 &6(&7Actuel &6: &a$1&6)"
                     level: "&eNiveau d'île requis &6: &a$0 &6(&7Actuel &6: &a$1&6)"
                     price: "&ePrix &6: &a$0"

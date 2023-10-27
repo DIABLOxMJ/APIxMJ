@@ -1926,26 +1926,26 @@ function mj_core_infobar(player: player, time: number, send: text, info: text=""
 		wait 1 second
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_number_convert(value: number) :: text:
+function mj_core_number_convert(value: number, type: text=" ") :: text:
 	set {_value} to "%{_value}%"
 	if {_value} contain ".":
-		set {_value1::*} to {_value} split at "."
-		set {_unit} to "%{_value1::2}%"
-		set {_value} to "%{_value1::1}%"
-	set {_value2::*} to {_value} split at ""
+		set {_value.1::*} to {_value} split at "."
+		set {_unit} to "%{_value.1::2}%"
+		set {_value} to "%{_value.1::1}%"
+	set {_value.2::*} to {_value} split at ""
 	set {_number} to ""
 	set {_count} to 0
-	loop {_value2::*}:
+	loop {_value.2::*}:
 		add 1 to {_count}
-	loop {_value2::*}:
+	loop {_value.2::*}:
 		if "%loop-value%" is "0" or "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8" or "9":
-			set {_value3::%{_count}%} to loop-value
+			set {_value.3::%{_count}%} to loop-value
 			remove 1 from {_count}
 	set {_count} to 0
-	loop {_value3::*}:
+	loop {_value.3::*}:
 		if {_count} >= 3:
 			set {_count} to 1
-			set {_number} to "%loop-value% %{_number}%"
+			set {_number} to "%loop-value%%{_type}%%{_number}%"
 		else: 
 			add 1 to {_count}
 			set {_number} to "%loop-value%%{_number}%"
@@ -1954,12 +1954,15 @@ function mj_core_number_convert(value: number) :: text:
 		set {_result} to "%{_number}%,%{_unit}%"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_progress_bar_viewer(value.1: number) :: text:
-	set {_list::*} to mj_manager_nodes("core.config", "data.format.progress_bar")
-	loop {_list::*}:
+function mj_core_progress_bar_viewer(value.1: number, pourcent: boolean=false) :: text:
+	set {_list.1::*} to mj_manager_nodes("core.config", "data.format.progress_bar")
+	loop {_list.1::*}:
 		set {_value.2} to loop-value parsed as number
 		if {_value.1} >= {_value.2}:
 			set {_result} to mj_editfiles("core.config", "data.format.progress_bar.%{_value.2}%")
+			if {_pourcent} is true:
+				set {_list.2::*} to "%{_value.1}%" split at "."
+				set {_result} to "%{_result}% &a%{_list.2::1}%%%"
 		else:
 			exit loop
 	return {_result}

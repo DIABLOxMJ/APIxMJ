@@ -1,6 +1,12 @@
 data:
     prefix: "&6[&b&lSkyblock&6]&r"
     return_island: "&7Téléportation vers votre île."
+    level_up: "&eNiveau supérieur ! Vous êtes désormais au niveau &a$0"
+    difficulty:
+        easy: "&d[Facile]"
+        normal: "&a[Normal]"
+        hard: "&c[Difficile]"
+        hardcore: "&e[Extrême]"
     menu:
         option:
             difficulty: "&7Difficulté &6: &r$0"
@@ -22,6 +28,9 @@ data:
         main:
             title: "&bSB &6: &2Menu principal"
             button:
+                return:
+                    name: "&eRetour"
+                    button: "&aRetourner au menu précédent"
                 teleport:
                     name: "&eVoyager vers…"
                     button: "&aOuvrir le menu"
@@ -59,22 +68,10 @@ data:
                         '1': "&6- &7Besoin d'étendre votre empire ?"
                     success: "&aTéléportation réussie."
                 island_1:
-                    name: "&eRetourner sur l'île &a01"
+                    name: "&eRetourner sur l'île"
                     button: "&aSe téléporter"
                     lore:
-                        '1': "&6- &7Se téléporter vers son île."
-                    success: "&aTéléportation réussie."
-                island_2:
-                    name: "&eRetourner sur l'île &a02"
-                    button: "&aSe téléporter"
-                    lore:
-                        '1': "&6- &7Se téléporter vers son île."
-                    success: "&aTéléportation réussie."
-                island_3:
-                    name: "&eRetourner sur l'île &a03"
-                    button: "&aSe téléporter"
-                    lore:
-                        '1': "&6- &7Se téléporter vers son île."
+                        '1': "&6- &7Se téléporter vers mon île."
                     success: "&aTéléportation réussie."
                 spawn:
                     name: "&eRetourner au Spawn"
@@ -90,18 +87,40 @@ data:
                     success: "&c[Prochainement…]"
         main_upgrade:
             title: "&bSB &6: &2Améliorations"
+            unlocked: "&aAcheter l'amélioration."
+            locked: "&cAmélioration indisponible…"
+            buyed: "&bVous avez déjà acheté cette amélioration."
             button:
                 worldborder:
                     name: "&eAméliorer la taille de l'île"
                     lore:
                         '1': "&6- &7Envie de voir les choses en grands ?"
-                    size: "&eTaille d'île &6: &a$0 &6(&7Actuel &6: &a$1&6)"
-                    level: "&eNiveau d'île requis &6: &a$0 &6(&7Actuel &6: &a$1&6)"
-                    price: "&ePrix &6: &a$0"
-                    unlocked: "&aAcheter l'amélioration."
-                    locked: "&cAmélioration indisponible…"
-                    buyed: "&bVous avez déjà acheté cette amélioration."
+                        '2': "&0"
+                        '3': "&ePrérequis &6:&r"
+                        '4': "&0"
                     success: "&aFélicitation, vous avez aggrandi votre île de &a$0 à &a$1"
+                member:
+                    name: "&eAméliorer le nombre de membre sur l'île"
+                    lore:
+                        '1': "&6- &7Envie de voir les choses en grands ?"
+                        '2': "&0"
+                        '3': "&ePrérequis &6:&r"
+                        '4': "&0"
+                    success: "&aFélicitation, vous avez aggrandi votre de membre de &a$0 à &a$1"
+                warp:
+                    name: "&eAméliorer le nombre de point de téléportation sur l'île"
+                    lore:
+                        '1': "&6- &7Envie de voir les choses en grands ?"
+                        '2': "&0"
+                        '3': "&ePrérequis &6:&r"
+                        '4': "&0"
+                    success: "&aFélicitation, vous avez aggrandi votre nombre de warp de &a$0 à &a$1"
+            request:
+                level: " &eNiveau d'île requis &6: &a$0 &6(&7Actuel &6: &a$1&6)"
+                price: " &ePrix &6: &a$0"
+                border_size: " &eTaille d'île &6: &a$0 &6(&7Actuel &6: &a$1&6)"
+                member_size: " &eNombre de membre &6: &a$0 &6(&7Actuel &6: &a$1&6)"
+                warp_size: " &eNombre de warp &6: &a$0 &6(&7Actuel &6: &a$1&6)"
         main_settings:
             title: "&bSB &6: &2Paramètres"
             button:
@@ -113,18 +132,84 @@ data:
                     success: "&aTéléportation réussie."
         main_board:
             title: "&bSB &6: &2Tableau d'évolutions"
+            progress_bar: "&eNiveau &a$0 &6: &r$1 &6(&a$2&6/&a$3&axp&6)"
             button:
-                test:
-                    name: "&eRevenir sur mon île"
+                island_level:
+                    name: "&eProgression de votre niveau d'île"
                     button: "&aSe téléporter"
                     lore:
-                        '1': "&6- &7Se téléporter vers son île."
+                        '1': "&6-----------------------------------"
+                        '2': "&6- &7Pour augmenter votre niveau d'île vous"
+                        '3': "&0- &7devez casser des blocs, réaliser des activités"
+                        '4': "&0- &7pour débloquer des nouveaux objectifs."
+                        '5': "&6-----------------------------------"
+                        '6': "$0"
+                        '7': "&6-----------------------------------"
                     success: "&aTéléportation réussie."
-    difficulty:
-        easy: "&d[Facile]"
-        normal: "&a[Normal]"
-        hard: "&c[Difficile]"
-        hardcore: "&e[Extrême]"
+    guest:
+        no_owner: "&cVous n'êtes pas le propriétaire de l'île.."
+        no_free: "&cVous faites déjà partie d'une autre île.."
+        no_free_other: "&cCe joueur fait déjà partie d'une autre île.."
+        no_request: "&cVous n'avez aucune demande d'invitation en cours.."
+        limite: "&cVous avez déjà atteint la limite de personnes sur votre île.."
+        request: "&7Vous avez envoyé une demande d'invitation à &a$0&7."
+        invitation: "&7Vous avez reçu une demande d'invitation pour rejoindre l'île de &a$0&7."
+        bossbar: "&7Invitation à rejoindre &a$0"
+        join: "&7Vous avez accepté de rejoindre l'île de &a$0&7."
+        join_broadcast: "&a$0 &7à accepté de rejoindre votre île."
+        refuse: "&cVous avez refusé la demande d'invitation.."
+        refuse_broadcast: "&cLa demande d'invitation a été refusée.."
+    reward:
+        '1': "&7Vous avez reçu &ax10 Minerais de charbon&7, &ax3 Minerais de fer &7et &a$0"
+        '2': "&7Vous avez reçu &ax64 Steaks &7et &a$0"
+        '3': "&7Vous avez reçu &aUne pioche en fer enchanté Efficacité 5 et Solidité 2&7, &aUn générateur à charbon &7et &a$0"
+        '4': "&7Vous avez reçu &ax10 Minerais de fer &7et &a$0"
+        '5': "&7Vous avez reçu &aUne amélioration d'île &6(&aTaille&6)&7, &aUn générateur à fer &7et &a$0"
+        '6': "&7Vous avez reçu &aUn générateur à lapis lazuli &7et &a$0"
+        '7': "&7Vous avez reçu &a$0"
+        '8': "&7Vous avez reçu &a$0"
+        '9': "&7Vous avez reçu &a$0"
+        '10': "&7Vous avez reçu &a$0"
+        '11': "&7Vous avez reçu &a$0"
+        '12': "&7Vous avez reçu &aUn générateur à or &7et &a$0"
+        '13': "&7Vous avez reçu &a$0"
+        '14': "&7Vous avez reçu &a$0"
+        '15': "&7Vous avez reçu &aUn bonus d'expérience de 25%&7, &aUn générateur à diamant &7et &a$0"
+        '16': "&7Vous avez reçu &a$0"
+        '17': "&7Vous avez reçu &a$0"
+        '18': "&7Vous avez reçu &a$0"
+        '19': "&7Vous avez reçu &a$0"
+        '20': "&7Vous avez reçu &aUn générateur à émeraude &a$0"
+        '21': "&7Vous avez reçu &a$0"
+        '22': "&7Vous avez reçu &a$0"
+        '23': "&7Vous avez reçu &a$0"
+        '24': "&7Vous avez reçu &a$0"
+        '25': "&7Vous avez reçu &a$0"
+        '26': "&7Vous avez reçu &a$0"
+        '27': "&7Vous avez reçu &a$0"
+        '28': "&7Vous avez reçu &a$0"
+        '29': "&7Vous avez reçu &a$0"
+        '30': "&7Vous avez reçu &a$0"
+        '31': "&7Vous avez reçu &a$0"
+        '32': "&7Vous avez reçu &a$0"
+        '33': "&7Vous avez reçu &a$0"
+        '34': "&7Vous avez reçu &a$0"
+        '35': "&7Vous avez reçu &a$0"
+        '36': "&7Vous avez reçu &a$0"
+        '37': "&7Vous avez reçu &a$0"
+        '38': "&7Vous avez reçu &a$0"
+        '39': "&7Vous avez reçu &a$0"
+        '40': "&7Vous avez reçu &a$0"
+        '41': "&7Vous avez reçu &a$0"
+        '42': "&7Vous avez reçu &a$0"
+        '43': "&7Vous avez reçu &a$0"
+        '44': "&7Vous avez reçu &a$0"
+        '45': "&7Vous avez reçu &a$0"
+        '46': "&7Vous avez reçu &a$0"
+        '47': "&7Vous avez reçu &a$0"
+        '48': "&7Vous avez reçu &a$0"
+        '49': "&7Vous avez reçu &a$0"
+        '50': "&7Vous avez reçu &a$0"
     preset:
         preset_01:
             name: "&aÎle de débutant"

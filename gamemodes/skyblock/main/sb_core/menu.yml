@@ -6,25 +6,23 @@ data:
                 item: minecart with chest
     main:
         button:
+            return:
+                item: barrier
             teleport:
                 slot: 13
                 island: true
-                next_gui: main_teleport
                 item: ender pearl
             upgrade:
                 slot: 24
                 island: true
-                next_gui: main_upgrade
                 item: bottle o' enchanting
             settings:
                 slot: 20
                 island: true
-                next_gui: main_settings
                 item: stone block
             board:
                 slot: 22
                 island: true
-                next_gui: main_board
                 item: painting
     main_teleport:
         button:
@@ -32,17 +30,9 @@ data:
                 item: phantom membrane
                 custom_data_model: 97003
             island_1:
-                slot: 11
-                item: phantom membrane
-                custom_data_model: 97004
-            island_2:
                 slot: 13
                 item: phantom membrane
-                custom_data_model: 97005
-            island_3:
-                slot: 15
-                item: phantom membrane
-                custom_data_model: 97006
+                custom_data_model: 97004
             spawn:
                 slot: 31
                 item: phantom membrane
@@ -92,6 +82,6 @@ data:
                 item: stone block
     main_board:
         button:
-            test:
+            island_level:
                 slot: 10
-                item: stone blockt
+                item: bottle o' enchanting

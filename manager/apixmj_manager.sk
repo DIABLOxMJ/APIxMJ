@@ -126,15 +126,15 @@ function mj_editfiles_date(source: text, find: text="data", mode: text="extract"
 		save yaml "mj.%{_source}%"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_editfiles_gettext(source: text, find: text="data", player: player="none", info1: text="none", info2: text="none", info3: text="none") :: text:
+function mj_editfiles_gettext(source: text, find: text="data", player: player="none", info.1: text="none", info.2: text="none", info.3: text="none") :: text:
 	set {_lang} to mj_manager_userdata_language({_player})
 	set {_result} to yaml value "%{_find}%" from "mj.%{_source}%.language.%{_lang}%"
-	if {_info1} isn't "none":
-		replace "$0" with {_info1} in {_result}
-	if {_info2} isn't "none":
-		replace "$1" with {_info2} in {_result}
-	if {_info3} isn't "none":
-		replace "$2" with {_info3} in {_result}
+	if {_info.1} isn't "none":
+		replace "$0" with {_info.1} in {_result}
+	if {_info.2} isn't "none":
+		replace "$1" with {_info.2} in {_result}
+	if {_info.3} isn't "none":
+		replace "$2" with {_info.3} in {_result}
 	if {_result} isn't set:
 		set {_result} to {_find}
 	return {_result}

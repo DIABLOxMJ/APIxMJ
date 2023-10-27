@@ -47,36 +47,30 @@ data:
             count: 2
             slot: 19
             price: 0
-            level: 0
             item: book
         '2':
             count: 3
             slot: 20
             price: 15000
-            level: 0
             item: book
         '3':
             count: 4
             slot: 21
             price: 24750
-            level: 0
             item: book
     warp:
         '1':
             count: 1
             slot: 28
             price: 0
-            level: 0
             item: ender pearl
         '2':
             count: 2
             slot: 29
             price: 25000
-            level: 0
             item: ender pearl
         '3':
             count: 3
             slot: 30
             price: 47500
-            level: 0
             item: ender pearl

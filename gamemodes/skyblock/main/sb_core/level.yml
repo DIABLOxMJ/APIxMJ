@@ -1,28 +1,154 @@
 data:
-    break:
-        stone block: 5
-        cobblestone block: 5
-        basalt: 5
-        coal ore: 10
-        iron ore: 20
-        gold ore: 20
-        lapis lazuli ore: 15
-        redstone ore: 30
-        diamond ore: 80
-        emerald ore: 80
-        deepslate coal ore: 10
-        deepslate iron ore: 20
-        deepslate gold ore: 20
-        deepslate lapis lazuli ore: 15
-        deepslate redstone ore: 30
-        deepslate diamond ore: 80
-        deepslate emerald ore: 80
-        nether gold ore: 20
-        nether quartz ore: 40
-        ancient debris: 80
-        oak log: 5
-        ripe wheat plant: 20
-        ripe carrot plant: 20
-        ripe potato plant: 20
-        ripe beetroot plant: 20
-        ripe nether wart plant: 20
+    experience:
+        break:
+            stone block: 5
+            cobblestone block: 5
+            basalt: 5
+            coal ore: 10
+            iron ore: 20
+            gold ore: 20
+            lapis lazuli ore: 15
+            redstone ore: 30
+            diamond ore: 80
+            emerald ore: 80
+            deepslate coal ore: 10
+            deepslate iron ore: 20
+            deepslate gold ore: 20
+            deepslate lapis lazuli ore: 15
+            deepslate redstone ore: 30
+            deepslate diamond ore: 80
+            deepslate emerald ore: 80
+            nether gold ore: 20
+            nether quartz ore: 40
+            ancient debris: 80
+            oak log: 5
+            ripe wheat plant: 20
+            ripe carrot plant: 20
+            ripe potato plant: 20
+            ripe beetroot plant: 20
+            ripe nether wart plant: 20
+    reward:
+        '1':
+            money: 25
+            give:
+                '1':
+                    item: 10 coal ores
+                '2':
+                    item: 3 iron ores
+        '2':
+            money: 50
+            give:
+                '1':
+                    item: 64 steaks
+        '3':
+            money: 100
+            give:
+                '1':
+                    item:
+                        ==: org.bukkit.inventory.ItemStack
+                        v: 2975
+                        type: IRON_PICKAXE
+                        meta:
+                            ==: ItemMeta
+                            meta-type: UNSPECIFIC
+                            enchants:
+                                DIG_SPEED: 5
+                                DURABILITY: 2
+        '4':
+            money: 200
+            give:
+                '1':
+                    item: 10 iron ores
+        '5':
+            money: 400
+        '6':
+            money: 800
+        '7':
+            money: 1600
+        '8':
+            money: 2500
+        '9':
+            money: 4000
+        '10':
+            money: 5000
+        '11':
+            money: 11000
+        '12':
+            money: 12000
+        '13':
+            money: 13000
+        '14':
+            money: 14000
+        '15':
+            money: 15000
+            experience: 25
+        '16':
+            money: 16000
+        '17':
+            money: 17000
+        '18':
+            money: 18000
+        '19':
+            money: 19000
+        '20':
+            money: 20000
+        '21':
+            money: 21000
+        '22':
+            money: 22000
+        '23':
+            money: 23000
+        '24':
+            money: 24000
+        '25':
+            money: 25000
+        '26':
+            money: 26000
+        '27':
+            money: 27000
+        '28':
+            money: 28000
+        '29':
+            money: 29000
+        '30':
+            money: 30000
+        '31':
+            money: 31000
+        '32':
+            money: 32000
+        '33':
+            money: 33000
+        '34':
+            money: 34000
+        '35':
+            money: 35000
+        '36':
+            money: 36000
+        '37':
+            money: 37000
+        '38':
+            money: 38000
+        '39':
+            money: 39000
+        '40':
+            money: 40000
+        '41':
+            money: 41000
+        '42':
+            money: 42000
+        '43':
+            money: 43000
+        '44':
+            money: 44000
+        '45':
+            money: 45000
+        '46':
+            money: 46000
+        '47':
+            money: 47000
+        '48':
+            money: 48000
+        '49':
+            money: 49000
+        '50':
+            money: 50000

@@ -1,4 +1,10 @@
 data:
+    calc:
+        island_level:
+            '1': 16
+            '2': 240
+            '3': 777
+            '4': 6
     free:
         price: 0
         discount: 100

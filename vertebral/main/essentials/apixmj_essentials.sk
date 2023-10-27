@@ -1527,7 +1527,6 @@ function mj_essentials_afk(player: player):
 		mj_editfiles_number("temp", "data.%{_player}'s uuid%.afk", "modify", 0)
 	set {_check} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.afk")
 	if {_check} is true:
-		wait 2 ticks
 		mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.afk", "modify", false)
 		mj_manager_message({_player}, "essentials", "data.afk.prefix", "essentials", "data.afk.disable")
 		mj_editfiles_number("temp", "data.%{_player}'s uuid%.afk", "modify", 0)

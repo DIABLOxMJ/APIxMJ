@@ -45,6 +45,7 @@ function mj_sb_core_playerdata(player: offlineplayer):
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
 	set {_check.1} to yaml value "data.%{_player}'s uuid%.source.skyblock" from "mj.userdata"
 	if {_check.1} isn't set:
+		set yaml value "data.%{_player}'s uuid%.source.skyblock.island.last" from "mj.userdata" to 1
 		set yaml value "data.%{_player}'s uuid%.source.skyblock.island.1" from "mj.userdata" to "none"
 		set yaml value "data.%{_player}'s uuid%.source.skyblock.island.2" from "mj.userdata" to "none"
 		set yaml value "data.%{_player}'s uuid%.source.skyblock.island.3" from "mj.userdata" to "none"
@@ -101,7 +102,7 @@ on tab complete of "/skyblock" or "/sb" or "/island" or "/is":
 # APIxMJ - Menu
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_skyblock_menu(player: player):
-	set {_check} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.1")
+	set {_check} to mj_skyblock_player_world({_player})
 	if {_check} isn't "none":
 		mj_skyblock_menu_main({_player})
 	else:
@@ -194,6 +195,7 @@ function mj_skyblock_create(player: player, preset: text="none", slot: number=1)
 	set {_id} to "%{_format}%_%{_player}%_%{_slot}%"
 	console command "/mv clone %{_world}% %{_id}%"
 	wait 5 seconds
+	mj_skyblock_player_reset({_player})
 	set {_x} to mj_editfiles_number("sb_core.preset", "data.%{_preset}%.location.x")
 	set {_y} to mj_editfiles_number("sb_core.preset", "data.%{_preset}%.location.y")
 	set {_z} to mj_editfiles_number("sb_core.preset", "data.%{_preset}%.location.z")
@@ -225,6 +227,7 @@ function mj_skyblock_create_data(player: player, preset: text="none", slot: numb
 	set yaml value "data.world.%{_id}%.bonus.experience" from "mj.sb_core.data" to 0
 	save yaml "mj.sb_core.data"
 	mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.%{_slot}%", "modify", {_id})
+	mj_editfiles_number("userdata", "data.%{_player}'s uuid%.source.skyblock.island.last", "modify", {_slot})
 	mj_core_location("sb_core.data", "data.world.%{_id}%.spawn", "modify", {_player})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -233,17 +236,14 @@ function mj_skyblock_create_data(player: player, preset: text="none", slot: numb
 # APIxMJ - Menu (Delete)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_skyblock_delete(player: player):
-	set {_count} to 0
-	loop 3 times:
-		add 1 to {_count}
-		set {_world} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.%{_count}%")
-		if "%{_world}%" is "%{_player}'s world%":
-			console command "/mv delete %{_world}%"
-			wait 10 ticks
-			console command "/mv confirm"
-			mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.%{_count}%", "modify", "none")
-			mj_editfiles("sb_core.data", "data.world.%{_world}%", "delete")
-			send "DEBUG : World Deleted (%{_world}%)" to {_player}
+	set {_world} to mj_skyblock_player_world({_player})
+	if {_world} is "%{_player}'s world%":
+		console command "/mv delete %{_world}%"
+		wait 10 ticks
+		console command "/mv confirm"
+		mj_skyblock_player_world({_player}, "modify", "none")
+		mj_editfiles("sb_core.data", "data.world.%{_world}%", "delete")
+		send "DEBUG : World Deleted (%{_world}%)" to {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Menu (Delete)
@@ -255,17 +255,13 @@ function mj_skyblock_menu_main(player: player):
 	mj_core_gui_generator({_player}, 6, true, "default", {_name}, "sb_menu_main")
 	set {_list.1::*} to mj_manager_nodes("sb_core.menu", "data.main.button")
 	loop {_list.1::*}:
-		set {_value} to loop-value-1
+		set {_value} to loop-value
 		if {_value} isn't "return":
-			set {_list.2::*} to mj_manager_nodes("userdata", "data.%{_player}'s uuid%.source.skyblock.island")
-			loop {_list.2::*}:
-				set {_world} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.%loop-value-2%")
-				if "%{_player}'s world%" is {_world}:
-					mj_skyblock_menu_main_button_generator({_player}, {_value}, true)
-					exit loop
-				else:
-					mj_skyblock_menu_main_button_generator({_player}, {_value})
-					exit loop
+			set {_world} to mj_skyblock_player_world({_player})
+			if "%{_player}'s world%" is {_world}:
+				mj_skyblock_menu_main_button_generator({_player}, {_value}, true)
+			else:
+				mj_skyblock_menu_main_button_generator({_player}, {_value})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_skyblock_menu_main_button_generator(player: player, source: text, check.1: boolean=false):
@@ -333,8 +329,7 @@ function mj_skyblock_menu_teleport_button_island(player: player):
 				set {_item.3} to mj_manager_item_button({_player}, {_item.2}, "left_click", "sb_core", "data.menu.main_teleport.button.island_%{_count}%.button")
 				make a gui slot {_slot} of {_player} with {_item.3} named {_name} to run:
 					close {_player}'s inventory
-					set {_loc} to mj_core_location("sb_core.data", "data.world.%{_world}%.spawn")
-					teleport {_player} to {_loc}
+					mj_skyblock_player_home_teleport({_player})
 					stop
 			else:
 				mj_skyblock_menu_teleport_button_island_buy({_player}, {_count})
@@ -384,11 +379,7 @@ function mj_skyblock_menu_teleport_button_unknown(player: player):
 function mj_skyblock_menu_upgrade(player: player):
 	set {_name} to mj_editfiles_gettext("sb_core", "data.menu.main_upgrade.title", {_player})
 	mj_core_gui_generator({_player}, 6, true, "default", {_name}, "sb_menu_upgrade")
-	set {_list::*} to mj_manager_nodes("userdata", "data.%{_player}'s uuid%.source.skyblock.island")
-	loop {_list::*}:
-		set {_world} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.%loop-value%")
-		if "%{_player}'s world%" is {_world}:
-			mj_skyblock_menu_upgrade_button_generator({_player})
+	mj_skyblock_menu_upgrade_button_generator({_player})
 	mj_skyblock_menu_return({_player}, 49)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -399,12 +390,7 @@ function mj_skyblock_menu_upgrade_button_generator(player: player):
 		set {_list.2::*} to mj_manager_nodes("sb_core.upgrade", "data.%{_source.1}%")
 		loop {_list.2::*}:
 			set {_source.2} to loop-value-2 parsed as number
-			if {_source.1} is "worldborder":
-				mj_skyblock_menu_upgrade_worldborder({_player}, {_source.2})
-			else if {_source.1} is "member":
-				mj_skyblock_menu_upgrade_member({_player}, {_source.2})
-			else if {_source.1} is "warp":
-				mj_skyblock_menu_upgrade_warp({_player}, {_source.2})
+			mj_skyblock_menu_upgrade_button_process({_player}, {_source.1}, {_source.2})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_skyblock_menu_upgrade_item_description(player: player, item: item, type: text) :: item:
@@ -424,21 +410,23 @@ function mj_skyblock_menu_upgrade_item_request(player: player, item: item, type:
 	set line {_count} of lore of {_item} to {_option}
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Menu (Main Upgrade = worldborder)
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_skyblock_menu_upgrade_worldborder(player: player, id.1: number):
-	set {_name} to mj_editfiles_gettext("sb_core", "data.menu.main_upgrade.button.worldborder.name")
-	set {_slot} to mj_editfiles_number("sb_core.upgrade", "data.worldborder.%{_id.1}%.slot")
-	set {_world} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.1") # revoir
-	set {_id.2} to mj_editfiles_number("sb_core.data", "data.world.%{_world}%.upgrade.worldborder")
-	set {_value.1} to mj_editfiles_number("sb_core.upgrade", "data.worldborder.%{_id.1}%.size")
-	set {_size.1} to mj_editfiles("sb_core.upgrade", "data.worldborder.%{_id.1}%.viewer")
-	set {_size.2} to mj_editfiles("sb_core.upgrade", "data.worldborder.%{_id.2}%.viewer")
-	set {_level.1} to mj_editfiles_number("sb_core.upgrade", "data.worldborder.%{_id.1}%.level")
+function mj_skyblock_menu_upgrade_button_process(player: player, type: text, id.1: number):
+	set {_name} to mj_editfiles_gettext("sb_core", "data.menu.main_upgrade.button.%{_type}%.name")
+	set {_slot} to mj_editfiles_number("sb_core.upgrade", "data.%{_type}%.%{_id.1}%.slot")
+	set {_world} to mj_skyblock_player_world({_player})
+	set {_id.2} to mj_editfiles_number("sb_core.data", "data.world.%{_world}%.upgrade.%{_type}%")
+	set {_value.1} to mj_editfiles_number("sb_core.upgrade", "data.%{_type}%.%{_id.1}%.size")
+	set {_type.2} to mj_editfiles("sb_core.upgrade", "data.%{_type}%.%{_id.1}%.type")
+	set {_size.1} to mj_editfiles_number("sb_core.upgrade", "data.%{_type}%.%{_id.1}%.count")
+	set {_size.2} to mj_editfiles_number("sb_core.upgrade", "data.%{_type}%.%{_id.2}%.count")
+	if {_type} is "worldborder":
+		set {_size.1} to mj_editfiles("sb_core.upgrade", "data.%{_type}%.%{_id.1}%.viewer")
+		set {_size.2} to mj_editfiles("sb_core.upgrade", "data.%{_type}%.%{_id.2}%.viewer")
+	set {_level.1} to mj_editfiles_number("sb_core.upgrade", "data.%{_type}%.%{_id.1}%.level")
 	set {_level.2} to mj_editfiles_number("sb_core.data", "data.world.%{_world}%.rate.level")
-	set {_price.1} to mj_core_money_converter("sb_core.upgrade", "data.worldborder.%{_id.1}%")
-	set {_price.2} to mj_core_money("sb_core.upgrade", "data.worldborder.%{_id.1}%")
-	set {_item.1} to mj_skyblock_menu_upgrade_worldborder_item_generator({_player}, {_id.1}, {_size.1}, {_size.2}, {_level.1}, {_level.2}, {_price.2})
+	set {_price.1} to mj_core_money_converter("sb_core.upgrade", "data.%{_type}%.%{_id.1}%")
+	set {_price.2} to mj_core_money("sb_core.upgrade", "data.%{_type}%.%{_id.1}%")
+	set {_item.1} to mj_skyblock_menu_upgrade_item_generator({_player}, {_type}, {_type.2}, {_id.1}, "%{_size.1}%", "%{_size.2}%", {_level.1}, {_level.2}, {_price.2})
 	set {_confirm} to false
 	if {_id.1} > {_id.2}:
 		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "sb_core", "data.menu.main_upgrade.locked")
@@ -452,103 +440,25 @@ function mj_skyblock_menu_upgrade_worldborder(player: player, id.1: number):
 		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "sb_core", "data.menu.main_upgrade.buyed")
 	make a gui slot {_slot} of {_player} with {_item.2} named {_name} to run:
 		if {_confirm} is true:
-			{_player} command "/worldborder set %{_value.1}%" with permission "*"
-			mj_editfiles_number("sb_core.data", "data.world.%{_world}%.upgrade.worldborder", "modify", {_id.1})
-			mj_essentials_money_system({_player}, {_price.1}, false, "upgrade island (worldborder)")
-			mj_manager_message({_player}, "sb_core", "data.prefix", "sb_core", "data.menu.main_upgrade.button.worldborder.success", {_size.2}, {_size.1})
+			{_player} command "/%{_type}% set %{_value.1}%" with permission "*"
+			mj_editfiles_number("sb_core.data", "data.world.%{_world}%.upgrade.%{_type}%", "modify", {_id.1})
+			mj_essentials_money_system({_player}, {_price.1}, false, "upgrade island (%{_type}%)")
+			mj_manager_message({_player}, "sb_core", "data.prefix", "sb_core", "data.menu.main_upgrade.button.%{_type}%.success", {_size.2}, {_size.1})
 			mj_skyblock_menu_upgrade({_player})
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_skyblock_menu_upgrade_worldborder_item_generator(player: player, id.1: number, size.1: text, size.2: text, level.1: number, level.2: number, price.1: text) :: item:
-	set {_item.1} to mj_manager_item_convert("sb_core.upgrade", "data.worldborder.%{_id.1}%.item")
-	set {_item.2} to mj_skyblock_menu_upgrade_item_description({_player}, {_item.1}, "worldborder")
-	set {_item.3} to mj_skyblock_menu_upgrade_item_request({_player}, {_item.2}, "border_size", {_size.1}, {_size.2})
-	set {_item.4} to mj_skyblock_menu_upgrade_item_request({_player}, {_item.3}, "level", "%{_level.1}%", "%{_level.2}%")
-	set {_item.5} to mj_skyblock_menu_upgrade_item_request({_player}, {_item.4}, "price", {_price.1})
+function mj_skyblock_menu_upgrade_item_generator(player: player, type: text, type.2: text, id.1: number, size.1: text, size.2: text, level.1: number, level.2: number, price.1: text) :: item:
+	set {_item.1} to mj_manager_item_convert("sb_core.upgrade", "data.%{_type}%.%{_id.1}%.item")
+	set {_item.2} to mj_skyblock_menu_upgrade_item_description({_player}, {_item.1}, "%{_type}%")
+	set {_item.3} to mj_skyblock_menu_upgrade_item_request({_player}, {_item.2}, {_type.2}, {_size.1}, {_size.2})
+	set {_item.4} to {_item.3}
+	set {_item.5} to {_item.3}
+	if {_level.1} isn't 0:
+		set {_item.4} to mj_skyblock_menu_upgrade_item_request({_player}, {_item.3}, "level", "%{_level.1}%", "%{_level.2}%")
+	if {_price.1} isn't "&a0$":
+		set {_item.5} to mj_skyblock_menu_upgrade_item_request({_player}, {_item.4}, "price", {_price.1})
 	return {_item.5}
-# ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Menu (Main Upgrade = worldborder)
-# ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Menu (Main Upgrade = member)
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_skyblock_menu_upgrade_member(player: player, id.1: number):
-	set {_name} to mj_editfiles_gettext("sb_core", "data.menu.main_upgrade.button.member.name")
-	set {_slot} to mj_editfiles_number("sb_core.upgrade", "data.member.%{_id.1}%.slot")
-	set {_world} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.1") # revoir
-	set {_id.2} to mj_editfiles_number("sb_core.data", "data.world.%{_world}%.upgrade.member")
-	set {_size.1} to mj_editfiles_number("sb_core.upgrade", "data.member.%{_id.1}%.count")
-	set {_size.2} to mj_editfiles_number("sb_core.upgrade", "data.member.%{_id.2}%.count")
-	set {_price.1} to mj_core_money_converter("sb_core.upgrade", "data.member.%{_id.1}%")
-	set {_price.2} to mj_core_money("sb_core.upgrade", "data.member.%{_id.1}%")
-	set {_item.1} to mj_skyblock_menu_upgrade_member_item_generator({_player}, {_id.1}, {_size.1}, {_size.2}, {_price.2})
-	set {_confirm} to false
-	if {_id.1} > {_id.2}:
-		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "sb_core", "data.menu.main_upgrade.locked")
-		set {_money} to mj_essentials_money_modify({_player})
-		if {_money} >= {_price.1}:
-			if {_id.2} is {_id.1}-1:
-				set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "sb_core", "data.menu.main_upgrade.unlocked")
-				set {_confirm} to true
-	else:
-		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "sb_core", "data.menu.main_upgrade.buyed")
-	make a gui slot {_slot} of {_player} with {_item.2} named {_name} to run:
-		if {_confirm} is true:
-			mj_editfiles_number("sb_core.data", "data.world.%{_world}%.upgrade.member", "modify", {_id.1})
-			mj_essentials_money_system({_player}, {_price.1}, false, "upgrade island (member)")
-			mj_manager_message({_player}, "sb_core", "data.prefix", "sb_core", "data.menu.main_upgrade.button.member.success", {_size.2}, {_size.1})
-			mj_skyblock_menu_upgrade({_player})
-		stop
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_skyblock_menu_upgrade_member_item_generator(player: player, id.1: number, size.1: number, size.2: number, price.1: text) :: item:
-	set {_item.1} to mj_manager_item_convert("sb_core.upgrade", "data.member.%{_id.1}%.item")
-	set {_item.2} to mj_skyblock_menu_upgrade_item_description({_player}, {_item.1}, "member")
-	set {_item.3} to mj_skyblock_menu_upgrade_item_request({_player}, {_item.2}, "member_size", "%{_size.1}%", "%{_size.2}%")
-	set {_item.4} to mj_skyblock_menu_upgrade_item_request({_player}, {_item.3}, "price", {_price.1})
-	return {_item.4}
-# ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Menu (Main Upgrade = member)
-# ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Menu (Main Upgrade = warp)
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_skyblock_menu_upgrade_warp(player: player, id.1: number):
-	set {_name} to mj_editfiles_gettext("sb_core", "data.menu.main_upgrade.button.warp.name")
-	set {_slot} to mj_editfiles_number("sb_core.upgrade", "data.warp.%{_id.1}%.slot")
-	set {_world} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.1") # revoir
-	set {_id.2} to mj_editfiles_number("sb_core.data", "data.world.%{_world}%.upgrade.warp")
-	set {_size.1} to mj_editfiles_number("sb_core.upgrade", "data.warp.%{_id.1}%.count")
-	set {_size.2} to mj_editfiles_number("sb_core.upgrade", "data.warp.%{_id.2}%.count")
-	set {_price.1} to mj_core_money_converter("sb_core.upgrade", "data.warp.%{_id.1}%")
-	set {_price.2} to mj_core_money("sb_core.upgrade", "data.warp.%{_id.1}%")
-	set {_item.1} to mj_skyblock_menu_upgrade_warp_item_generator({_player}, {_id.1}, {_size.1}, {_size.2}, {_price.2})
-	set {_confirm} to false
-	if {_id.1} > {_id.2}:
-		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "sb_core", "data.menu.main_upgrade.locked")
-		set {_money} to mj_essentials_money_modify({_player})
-		if {_money} >= {_price.1}:
-			if {_id.2} is {_id.1}-1:
-				set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "sb_core", "data.menu.main_upgrade.unlocked")
-				set {_confirm} to true
-	else:
-		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "sb_core", "data.menu.main_upgrade.buyed")
-	make a gui slot {_slot} of {_player} with {_item.2} named {_name} to run:
-		if {_confirm} is true:
-			mj_editfiles_number("sb_core.data", "data.world.%{_world}%.upgrade.warp", "modify", {_id.1})
-			mj_essentials_money_system({_player}, {_price.1}, false, "upgrade island (warp)")
-			mj_manager_message({_player}, "sb_core", "data.prefix", "sb_core", "data.menu.main_upgrade.button.warp.success", {_size.2}, {_size.1})
-			mj_skyblock_menu_upgrade({_player})
-		stop
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_skyblock_menu_upgrade_warp_item_generator(player: player, id.1: number, size.1: number, size.2: number, price.1: text) :: item:
-	set {_item.1} to mj_manager_item_convert("sb_core.upgrade", "data.warp.%{_id.1}%.item")
-	set {_item.2} to mj_skyblock_menu_upgrade_item_description({_player}, {_item.1}, "warp")
-	set {_item.3} to mj_skyblock_menu_upgrade_item_request({_player}, {_item.2}, "warp_size", "%{_size.1}%", "%{_size.2}%")
-	set {_item.4} to mj_skyblock_menu_upgrade_item_request({_player}, {_item.3}, "price", {_price.1})
-	return {_item.4}
-# ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Menu (Main Upgrade = warp)
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Menu (Main Upgrade)
 # =====================================================================================================================
@@ -567,11 +477,7 @@ function mj_skyblock_menu_settings(player: player):
 function mj_skyblock_menu_board(player: player):
 	set {_name} to mj_editfiles_gettext("sb_core", "data.menu.main_board.title", {_player})
 	mj_core_gui_generator({_player}, 6, true, "default", {_name}, "sb_menu_board")
-	set {_list::*} to mj_manager_nodes("userdata", "data.%{_player}'s uuid%.source.skyblock.island")
-	loop {_list::*}:
-		set {_world} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.%loop-value%")
-		if "%{_player}'s world%" is {_world}:
-			mj_skyblock_menu_board_button_generator({_player})
+	mj_skyblock_menu_board_button_generator({_player})
 	mj_skyblock_menu_return({_player}, 49)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -596,7 +502,7 @@ function mj_skyblock_menu_board_island_level(player: player):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_skyblock_menu_board_island_level_progress_viewer(player: player) :: text:
-	set {_world} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.1")
+	set {_world} to mj_skyblock_player_world({_player})
 	set {_level} to mj_editfiles_number("sb_core.data", "data.world.%{_world}%.rate.level")
 	set {_point.1} to mj_editfiles_number("sb_core.data", "data.world.%{_world}%.rate.point")
 	set {_max.1} to mj_skyblock_menu_board_island_level_calc({_player})
@@ -626,18 +532,18 @@ function mj_skyblock_menu_board_island_level_calc(player: player) :: number:
 # APIxMJ - Invitation
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_skyblock_guest_invite(player: player, target: offlineplayer):
-	set {_world.1} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.1")
+	set {_world.1} to mj_skyblock_player_world({_player})
 	if "%{_player}'s world%" is {_world.1}:
 		set {_owner} to mj_editfiles("sb_core.data", "data.world.%{_world.1}%.owner")
 		set {_owner} to {_owner} parsed as offlineplayer
 		if {_player} is {_owner}:
-			set {_world.2} to mj_editfiles("userdata", "data.%{_target}'s uuid%.source.skyblock.island.1")
+			set {_world.2} to mj_skyblock_player_world({_target})
 			if {_world.2} is "none":
 				set {_count} to 0
 				set {_list::*} to mj_manager_nodes("userdata")
 				loop {_list::*}:
 					set {_value} to loop-value
-					set {_world.3} to mj_editfiles("userdata", "data.%{_value}%.source.skyblock.island.1")
+					set {_world.3} to mj_skyblock_player_world({_value})
 					if {_world.1} is {_world.3}:
 						add 1 to {_count}
 				set {_limit.1} to mj_editfiles_number("sb_core.data", "data.world.%{_world}%.upgrade.member")
@@ -665,7 +571,7 @@ function mj_skyblock_guest_invite(player: player, target: offlineplayer):
 function mj_skyblock_guest_join(player: player):
 	set {_world.1} to mj_editfiles("temp", "data.%{_player}'s uuid%.skyblock.guest_request")
 	if {_world.1} is set:
-		set {_world.2} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.1")
+		set {_world.2} to mj_skyblock_player_world({_player})
 		if {_world.2} is "none":
 			mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.1", "modify", {_world.1})
 			set {_owner} to mj_editfiles("sb_core.data", "data.world.%{_world.1}%.owner")
@@ -675,12 +581,7 @@ function mj_skyblock_guest_join(player: player):
 				mj_manager_message({_owner}, "sb_core", "data.prefix", "sb_core", "data.guest.join_broadcast", "%{_player}%")
 			mj_core_bossbar({_player}, "delete")
 			mj_editfiles("temp", "data.%{_player}'s uuid%.skyblock.guest_request", "delete")
-			clear {_player}'s inventory
-			set {_player}'s level to 0
-			set {_player}'s xp to 0
-			heal {_player}
-			set {_player}'s food level to 10
-			apply saturation 50 to {_player} for 1 seconds
+			mj_skyblock_player_reset({_player})
 			set {_preset} to mj_editfiles("sb_core.data", "data.world.%{_world.1}%.preset")
 			set {_x} to mj_editfiles_number("sb_core.preset", "data.%{_preset}%.location.x")
 			set {_y} to mj_editfiles_number("sb_core.preset", "data.%{_preset}%.location.y")
@@ -726,31 +627,63 @@ function mj_skyblock_island_count(player: player) :: number:
 			add 1 to {_result}
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_skyblock_check_island(player: player) :: boolean: # revoir
-	set {_result} to false
-	set {_world} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.1")
-	if "%{_player}'s world%" is {_world}:
-		set {_result} to true
+function mj_skyblock_player_world(player: offlineplayer, mode: text="extract", value: text="none") :: text:
+	set {_last} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.source.skyblock.island.last")
+	if {_mode} is "extract":
+		set {_result} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.%{_last}%")
+	else:
+		mj_editfiles("userdata", "data.%{_player}'s uuid%.source.skyblock.island.%{_last}%", "modify", {_value})
+		stop
+	broadcast "debug : %{_last}% = data.%{_player}'s uuid%.source.skyblock.island.last"
+	broadcast "debug : %{_result}% = data.%{_player}'s uuid%.source.skyblock.island.%{_last}%"
+	broadcast "debug : world %{_result}%"
 	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_skyblock_player_reset(player: player):
+	set {_player}'s gamemode to survival
+	clear {_player}'s inventory
+	set {_player}'s level to 0
+	set {_player}'s xp to 0
+	heal {_player}
+	set {_player}'s food level to 10
+	apply saturation 50 to {_player} for 1 seconds
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_skyblock_player_home_define(player: player):
+	set {_world} to mj_skyblock_player_world({_player})
+	mj_core_location("sb_core.data", "data.world.%{_world}%.spawn", "modify", {_player})
+	mj_manager_message({_player}, "sb_core", "data.prefix", "sb_core", "data.home.define")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_skyblock_player_home_teleport(player: player, slot: number=0):
+	set {_world} to mj_skyblock_player_world({_player})
+	if {_slot} is 0:
+		set {_slot} to mj_editfiles_number("userdata", "data.%{_player}'s uuid%.source.skyblock.island.last")
+	mj_editfiles_number("userdata", "data.%{_player}'s uuid%.source.skyblock.island.last", "modify", {_slot})
+	set {_loc} to mj_core_location("sb_core.data", "data.world.%{_world}%.spawn")
+	teleport {_player} to {_loc}
+	mj_manager_message({_player}, "sb_core", "data.prefix", "sb_core", "data.home.teleport")
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
 	wait 3 seconds
 	if player is online:
-		set {_world} to mj_editfiles("userdata", "data.%player's uuid%.source.skyblock.island.1")
+		set {_world} to mj_skyblock_player_world(player)
 		if {_world} isn't "none":
 			set {_loaded} to mj_editfiles("sb_core.data", "data.world.%{_world}%.loaded")
 			if {_loaded} isn't true:
 				console command "/mv load %{_world}%"
+				broadcast "debug : load %{_world}%"
 				mj_editfiles_boolean("sb_core.data", "data.world.%{_world}%.loaded", "modify", true)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
-	wait 5 seconds
-	set {_world} to mj_editfiles("userdata", "data.%player's uuid%.source.skyblock.island.1")
+	wait 3 seconds
+	set {_world} to mj_skyblock_player_world(player)
 	if {_world} isn't "none":
 		set {_loaded} to mj_editfiles_boolean("sb_core.data", "data.world.%{_world}%.loaded")
 		if {_loaded} is true:
-			set {_loc} to mj_core_location("sb_core.data", "data.world.%{_world}%.spawn")
+			set {_loc} to mj_core_location("userdata.%player's uuid%", "data")
 			teleport player to {_loc}
 		else:
 			set {_loc} to mj_core_location("essentials.data", "data.spawn")
@@ -761,20 +694,25 @@ on join:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on quit:
+	wait 2 ticks
+	set {_loc} to mj_core_location("essentials.data", "data.spawn")
+	teleport player to {_loc}
 	wait 5 seconds
 	if player is offline:
-		set {_world} to mj_editfiles("userdata", "data.%player's uuid%.source.skyblock.island.1")
-		if {_world} isn't "none":
-			console command "/mv unload %{_world}%"
-			mj_editfiles_boolean("sb_core.data", "data.world.%{_world}%.loaded", "modify", false)
-	#if player is offline:
-	#	set {_world.1} to mj_editfiles("userdata", "data.%player's uuid%.source.skyblock.current_map")
-	#	set {_list::*} to mj_manager_nodes("userdata")
-	#	loop {_list::*}:
-	#		set {_value} to loop-value parsed as offlineplayer
-	#		if {_value} is offline:
-	#			set {_world.2} to mj_editfiles("userdata", "data.%{_value}'s uuid%.source.skyblock.current_map")
-	#
+		set {_confirm} to true
+		set {_world.1} to mj_skyblock_player_world(player)
+		if {_world.1} isn't "none":
+			set {_list::*} to mj_manager_nodes("userdata")
+			loop {_list::*}:
+				set {_player} to loop-value parsed as offlineplayer
+				set {_world.2} to mj_skyblock_player_world({_player})
+				if {_world.1} is {_world.2}:
+					if {_player} is online:
+						set {_confirm} to false
+			if {_confirm} is true:
+				console command "/mv unload %{_world.1}%"
+				broadcast "debug : unload %{_world.1}%"
+				mj_editfiles_boolean("sb_core.data", "data.world.%{_world.1}%.loaded", "modify", false)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 #on load:
@@ -786,7 +724,7 @@ on quit:
 	#	loop {_list::*}:
 	#		set {_value} to loop-value parsed as offlineplayer
 	#		if {_value} is offline:
-	#			set {_world} to mj_editfiles("userdata", "data.%{_value}'s uuid%.source.skyblock.island.1")
+	#			set {_world} to mj_skyblock_player_world({_value})
 	#			if {_world} isn't "none" or "<none>":
 	#				console command "/mv unload %{_world}%"
 	#				mj_editfiles_boolean("sb_core.data", "data.world.%{_world}%.loaded", "modify", false)

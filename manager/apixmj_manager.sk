@@ -859,6 +859,9 @@ function mj_manager_skript_start():
 						set {_skript} to mj_editfiles("manager.data", "data.addon.%{_value.1}%.%{_value.2}%.skript.%{_value.3}%")
 						enable script file {_skript}
 						wait 4 seconds
+	set {_prefix} to mj_editfiles_gettext("manager", "data.prefix")
+	set {_send} to mj_editfiles_gettext("manager", "data.reload.success")
+	broadcast "%{_prefix}% %{_send}%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_file_reset(folder: text, file: text, language: boolean=false):
@@ -941,10 +944,7 @@ command /reload:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on skript start:
-	wait 5 seconds
-	set {_prefix} to mj_editfiles_gettext("manager", "data.prefix")
-	set {_send} to mj_editfiles_gettext("manager", "data.reload.success")
-	broadcast "%{_prefix}% %{_send}%"
+	wait 1 second
 	mj_manager_skript_start()
 	set {_check} to mj_editfiles_boolean("manager.config", "data.auto_whitelist")
 	if {_check} is true:

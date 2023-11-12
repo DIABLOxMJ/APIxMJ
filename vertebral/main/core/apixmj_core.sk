@@ -578,7 +578,7 @@ on quit:
 		set {_profil} to mj_editfiles("userdata", "data.%player's uuid%.profil")
 		mj_core_location("userdata.%player's uuid%", "data", "modify", player)
 		mj_editfiles("userdata", "data.%player's uuid%.playtime", "modify", "%player's time played%")
-		wait 2 seconds
+		wait 5 seconds
 		if player is offline:
 			unload yaml "mj.userdata.%player's uuid%.%{_profil}%"
 			mj_core_logger(2, "%player% unloading userdata file..")
@@ -1619,19 +1619,19 @@ on break:
 			mj_core_stats_save(player, "break.%{_obj}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-on leftclick:
-	if event-entity is player:
-		if player's tool isn't air:
-			set {_obj} to mj_core_stats_convert_name("%type of player's tool%")
-			mj_core_stats_save(player, "leftclick.%{_obj}%")
-	stop
+#on leftclick:
+	#if event-entity is player:
+	#	if player's tool isn't air:
+	#		set {_obj} to mj_core_stats_convert_name("%type of player's tool%")
+	#		mj_core_stats_save(player, "leftclick.%{_obj}%")
+	#stop
 # ---------------------------------------------------------------------------------------------------------------------
-on rightclick:
-	if event-entity is player:
-		if player's tool isn't air:
-			set {_obj} to mj_core_stats_convert_name("%type of player's tool%")
-			mj_core_stats_save(player, "rightclick.%{_obj}%")
-	stop
+#on rightclick:
+	#if event-entity is player:
+	#	if player's tool isn't air:
+	#		set {_obj} to mj_core_stats_convert_name("%type of player's tool%")
+	#		mj_core_stats_save(player, "rightclick.%{_obj}%")
+	#stop
 # ---------------------------------------------------------------------------------------------------------------------
 on craft:
 	set {_obj} to mj_core_stats_convert_name("%event-item%")

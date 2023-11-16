@@ -1,29 +1,32 @@
 data:
     prefix: "&6[&2&lShop&6]&r"
     return: "&6Retour"
-    title:
-        category: "&aMagasin &6(&aCatégorie&6)"
-        page: "&aMagasin &6(&7Page &6: &a$0&6)"
-        named: "&aMagasin &6(&a$0&6)"
-        offer: "&aMagasin &6(&aProposition&6)"
+    money: "&eVotre argent &6: $0"
+    admin_info:
+        title: "&eInformation caché &6:&r"
+        total: "&6- &7Quantité total &6:&r"
+        visible: "&6- &7Visibilité &6:&r $0"
+    category:
+        title: "&aMagasin &6(&aCatégorie&6)"
+        click: "&7Ouvrir le menu d'achat"
+    product:
+        title: "&aMagasin &6(&a$0&6)"
+        click: "&7Ouvrir le menu du produit"
     buy:
+        name: "&7Acheter &ax$0 &7de &a$1 &7pour &a$2"
         price: "&7Prix d'achat &6: $0 &6(&aunité&6)"
-        interact_total: "&7Quantité achetée au total &6: &a$0"
-        interact_last: "&7Quantité achetée &6: &a$0"
-        title: "&7Acheter du &a$0 &7pour &a$1"
+        click: "&eAcheter"
+        interact: "&6- &7Quantité achetée &6: &a$0"
+        success: "&7Vous avez acheté &a$0 &7pour &a$1"
     sell:
+        name: "&7Vendre &ax$0 &7de &a$1 &7pour &a$2"
         price: "&7Prix de vente &6: $0 &6(&aunité&6)"
-        interact_total: "&7Quantité vendue au total &6: &a$0"
-        interact_last: "&7Quantité vendue &6: &a$0"
-        title: "&7Vendre &ax$0 &7de &a$1 &7pour &a$2"
+        click: "&eVendre"
+        interact: "&6- &7Quantité vendue &6: &a$0"
         success: "&7Vous avez vendu &a$0 &7pour &a+$1"
-    click:
-        product: "&7Ouvrir le menu du produit"
-        trade: "&7Ouvrir le menu d'achat"
-        buy: "&7Acheter"
-        sell: "&7Vendre"
-    info:
-        staff_data: "&eInformation de modération &6:&r"
+    title:
+        page: "&aMagasin &6(&7Page &6: &a$0&6)"
+        offer: "&aMagasin &6(&aProposition&6)"
     failed:
         no_offer: "&cOffre indisponible."
         no_enough: "&c(Vous n'avez pas $0&c)"
@@ -31,12 +34,11 @@ data:
         no_selling: "&cVous n'avez rien vendu."
         inventory_full: "&c(inventaire plein)"
     index:
-        category: 
-            default: 
+        category:
+            default:
                 name: "&aDéfaut"
                 lore:
                     '1': "&aYour description one"
                     '2': "&aYour description two"
-        product: 
-            stone_block: 
-                name: "&aRocher"
+        cobblestone:
+            name: "&acobblestone"

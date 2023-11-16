@@ -12,15 +12,19 @@ function mj_files_shop():
 			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.shop.help.%loop-value%"
 	loop all players:
 		mj_shop_playerdata(loop-player)
+	wait 2 ticks
+	set {_list::*} to mj_manager_nodes("shop.data")
+	loop {_list::*}:
+		load yaml "plugins/APIxMJ/%{_folder}%/data/%loop-value%.yml" as "mj.shop.data_%loop-value%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk":
+	if {_list::*} contains "apixmj_manager.sk" and "apixmj_core.sk" and "apixmj_essentials.sk":
 		send "[APIxMJ] Loading shop..." to console
 		mj_files_shop()
 	else:
-		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk and apixmj_core.sk)"
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_manager.sk, apixmj_core.sk and apixmj_essentials.sk)"
 		unload script file "apixmj_shop.sk"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -60,42 +64,65 @@ function mj_shop_playerdata(player: offlineplayer):
 # =====================================================================================================================
 # APIxMJ - Shop
 # ---------------------------------------------------------------------------------------------------------------------
-command /shop [<text>] [<text>] [<text>]:
+command /shop [<text>] [<text>] [<text>] [<text>]:
 	executable by: player
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.shop.*" or "mj.shop":
 			if arg-1 is set:
 				if player has permission "*" or "mj.*" or "mj.shop.*" or "mj.shop" or "mj.shop.admin":
-					if arg-1 is "add":
+					if arg-1 is "new_category":
+						if arg-2 is set:
+							mj_shop_data_new_category(player, arg-2, player's tool)
+						else:
+							mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
+					else if arg-1 is "new_product":
 						if arg-2 is set:
 							if arg-3 is set:
-								mj_shop_data(player, arg-2, arg-3, player's tool)
+								mj_shop_data_new_product(player, arg-2, arg-3, player's tool)
 							else:
 								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
 						else:
 							mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
-					else if arg-1 is "slot":
+					else if arg-1 is "slot_category" or "slot_product":
+						if arg-1 is "slot_category":
+							if arg-2 is set:
+								mj_shop_data_slot(player, "category", arg-2, "none", (arg-3 parsed as number))
+							else:
+								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
+						else:
+							if arg-2 is set:
+								if arg-3 is set:
+									mj_shop_data_slot(player, "product", arg-2, arg-3, (arg-4 parsed as number))
+								else:
+									mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.number")
+							else:
+								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
+					else if arg-1 is "edit_money_buy" or "edit_money_sell":
 						if arg-2 is set:
 							if arg-3 is set:
-								mj_shop_data_slot(player, arg-2, arg-3)
+								if arg-4 is set:
+									if arg-1 is "edit_money_buy":
+										mj_shop_data_edit_money(player, "buy", arg-2, arg-3, (arg-4 parsed as number))
+									else:
+										mj_shop_data_edit_money(player, "sell", arg-2, arg-3, (arg-4 parsed as number))
+								else:
+									mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.number")
 							else:
-								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.number")
+								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
 						else:
 							mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
-					else if arg-1 is "edit_money_buy":
+					if arg-1 is "edit_discount_buy" or "edit_discount_sell":
 						if arg-2 is set:
 							if arg-3 is set:
-								mj_shop_data_money(player, arg-2, arg-3, "buy")
+								if arg-4 is set:
+									if arg-1 is "edit_discount_buy":
+										mj_shop_data_edit_discount(player, "buy", arg-2, arg-3, (arg-4 parsed as number))
+									else:
+										mj_shop_data_edit_discount(player, "sell", arg-2, arg-3, (arg-4 parsed as number))
+								else:
+									mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.number")
 							else:
-								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.number")
-						else:
-							mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
-					else if arg-1 is "edit_money_sell":
-						if arg-2 is set:
-							if arg-3 is set:
-								mj_shop_data_money(player, arg-2, arg-3, "sell")
-							else:
-								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.number")
+								mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
 						else:
 							mj_manager_message(player, "shop", "data.prefix", "manager", "data.argument.name")
 					else if arg-1 is "reload":
@@ -113,65 +140,127 @@ command /shop [<text>] [<text>] [<text>]:
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/shop":
 	if player has permission "*" or "mj.*" or "mj.shop.*" or "mj.shop" or "mj.shop.admin":
-		set {_list1::*} to mj_manager_nodes("shop.data", "data.category")
-		set {_list2::*} to mj_manager_nodes("shop.data", "data.product")
-		loop {_list1::*}:
-			add loop-value to {_list::*}
-		set tab completions for position 1 to "add", "slot", "edit_money_buy", "edit_money_sell" and "reload"
-		if tab arg-1 is "add":
-			set tab completions for position 2 to "enter_the_ID"
-			set tab completions for position 3 to {_list::*}
-		if tab arg-1 is "slot" or "edit_money_buy" or "edit_money_sell":
-			set tab completions for position 2 to {_list2::*}
-			set tab completions for position 3 to 0
+		set {_list.1::*} to "new_category", "new_product", "slot_category", "slot_product", "edit_money_buy", "edit_money_sell", "edit_discount_buy", "edit_discount_sell" and "reload"
+		set tab completions for position 1 to {_list.1::*}
+		set {_list.2::*} to mj_manager_nodes("shop.data")
+		if tab arg-1 is "new_category" or "new_product":
+			if tab arg-1 is "new_category":
+				set tab completions for position 2 to "enter_the_ID" and {_list.2::*}
+			else:
+				set tab completions for position 2 to {_list.2::*}
+				set tab completions for position 3 to "enter_the_ID"
+		if tab arg-1 is "slot_category" or "slot_product":
+			set tab completions for position 2 to {_list.2::*}
+			if tab arg-1 is "slot_category":
+				if tab arg-2 is set:
+					set {_value} to mj_editfiles_number("shop.data", "data.%tab arg-2%.slot")
+					set tab completions for position 3 to "%{_value}%"
+			else:
+				if tab arg-2 is set:
+					set {_list.3::*} to mj_manager_nodes("shop.data_%tab arg-2%")
+					set tab completions for position 3 to {_list.3::*}
+					if tab arg-3 is set:
+						set {_value} to mj_editfiles_number("shop.data_%tab arg-2%", "data.%tab arg-3%.slot")
+						set tab completions for position 4 to "%{_value}%"
+		if tab arg-1 is "edit_money_buy" or "edit_money_sell":
+			set tab completions for position 2 to {_list.2::*}
+			if tab arg-2 is set:
+				set {_list.3::*} to mj_manager_nodes("shop.data_%tab arg-2%")
+				set tab completions for position 3 to {_list.3::*}
+				if tab arg-3 is set:
+					if tab arg-1 is "edit_money_buy":
+						set {_value} to mj_editfiles_number("shop.data_%tab arg-2%", "data.%tab arg-3%.buy.price")
+						set tab completions for position 4 to "%{_value}%"
+					else:
+						set {_value} to mj_editfiles_number("shop.data_%tab arg-2%", "data.%tab arg-3%.sell.price")
+						set tab completions for position 4 to "%{_value}%"
+		if tab arg-1 is "edit_discount_buy" or "edit_discount_sell":
+			set tab completions for position 2 to {_list.2::*}
+			if tab arg-2 is set:
+				set {_list.3::*} to mj_manager_nodes("shop.data_%tab arg-2%")
+				set tab completions for position 3 to {_list.3::*}
+				if tab arg-3 is set:
+					if tab arg-1 is "edit_discount_buy":
+						set {_value} to mj_editfiles_number("shop.data_%tab arg-2%", "data.%tab arg-3%.buy.discount")
+						set tab completions for position 4 to "%{_value}%"
+					else:
+						set {_value} to mj_editfiles_number("shop.data_%tab arg-2%", "data.%tab arg-3%.sell.discount")
+						set tab completions for position 4 to "%{_value}%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_data(player: player, id: text, category: text, item: item):
+function mj_shop_data_new_category(player: player, id: text, item: item):
 	set {_id} to mj_core_converter_name({_id})
-	set yaml value "data.product.%{_id}%.name" from "mj.shop.data" to "none"
-	set yaml value "data.product.%{_id}%.visible" from "mj.shop.data" to true
-	set yaml value "data.product.%{_id}%.slot" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.category" from "mj.shop.data" to {_category}
-	set yaml value "data.product.%{_id}%.quantity" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.base_value.buy.price" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.base_value.buy.choice" from "mj.shop.data" to true
-	set yaml value "data.product.%{_id}%.base_value.buy.interact" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.base_value.sell.price" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.base_value.sell.choice" from "mj.shop.data" to true
-	set yaml value "data.product.%{_id}%.base_value.sell.interact" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.dynamic_value.buy.price" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.dynamic_value.buy.multiple" from "mj.shop.data" to 1
-	set yaml value "data.product.%{_id}%.dynamic_value.buy.interact" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.dynamic_value.buy.last_interact" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.dynamic_value.sell.price" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.dynamic_value.sell.multiple" from "mj.shop.data" to 1
-	set yaml value "data.product.%{_id}%.dynamic_value.sell.interact" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.dynamic_value.sell.last_interact" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.dynamic_value.sell.last_interact" from "mj.shop.data" to 0
-	set yaml value "data.product.%{_id}%.item" from "mj.shop.data" to {_item}
-	save yaml "mj.shop.data"
+	set yaml value "data.%{_id}%.name" from "mj.shop.data_%{_source}%" to "none"
+	set yaml value "data.%{_id}%.visible" from "mj.shop.data_%{_source}%" to true
+	set yaml value "data.%{_id}%.slot" from "mj.shop.data_%{_source}%" to 0
+	set yaml value "data.%{_id}%.page" from "mj.shop.data_%{_source}%" to 1
+	set yaml value "data.%{_id}%.npc_id" from "mj.shop.data_%{_source}%" to 0
+	set yaml value "data.%{_id}%.item" from "mj.shop.data_%{_source}%" to {_item}
+	save yaml "mj.shop.data_%{_source}%"
+	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			set yaml value "data.index.category.%{_id}%.name" from "mj.shop.language.%loop-value%" to "&a%{_id}%"
+			save yaml "mj.shop.language.%loop-value%"
+	send "[APIxMJ] SHOP : data %{_source}% is added in index" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_shop_data_new_product(player: player, source: text, id: text, item: item):
+	set {_id} to mj_core_converter_name({_id})
+	set yaml value "data.%{_id}%.name" from "mj.shop.data_%{_source}%" to "none"
+	set yaml value "data.%{_id}%.visible" from "mj.shop.data_%{_source}%" to true
+	set yaml value "data.%{_id}%.slot" from "mj.shop.data_%{_source}%" to 0
+	set yaml value "data.%{_id}%.quantity" from "mj.shop.data_%{_source}%" to 1000000
+	set yaml value "data.%{_id}%.infinite" from "mj.shop.data_%{_source}%" to true
+	set yaml value "data.%{_id}%.buy.price" from "mj.shop.data_%{_source}%" to 0
+	set yaml value "data.%{_id}%.buy.discount" from "mj.shop.data_%{_source}%" to 0
+	set yaml value "data.%{_id}%.buy.available" from "mj.shop.data_%{_source}%" to true
+	set yaml value "data.%{_id}%.buy.interact" from "mj.shop.data_%{_source}%" to 0
+	set yaml value "data.%{_id}%.sell.price" from "mj.shop.data_%{_source}%" to 0
+	set yaml value "data.%{_id}%.sell.discount" from "mj.shop.data_%{_source}%" to 0
+	set yaml value "data.%{_id}%.sell.available" from "mj.shop.data_%{_source}%" to true
+	set yaml value "data.%{_id}%.sell.interact" from "mj.shop.data_%{_source}%" to 0
+	set yaml value "data.%{_id}%.item" from "mj.shop.data_%{_source}%" to {_item}
+	save yaml "mj.shop.data_%{_source}%"
 	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
 	if {_list::*} is set:
 		loop {_list::*}:
 			set yaml value "data.index.product.%{_id}%.name" from "mj.shop.language.%loop-value%" to "&a%{_id}%"
 			save yaml "mj.shop.language.%loop-value%"
-	send "[APIxMJ] SHOP : data for %{_item}% is added in %{_id}%" to {_player}
+	send "[APIxMJ] SHOP : data %{_id}% is added in %{_source}%" to {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_data_money(player: player, id: text, value: text, type: text):
-	set {_id} to mj_core_converter_name({_id})
-	set {_value} to {_value} parsed as number
-	set yaml value "data.product.%{_id}%.base_value.%{_type}%.price" from "mj.shop.data" to {_value}
-	set yaml value "data.product.%{_id}%.dynamic_value.%{_type}%.price" from "mj.shop.data" to {_value}
-	save yaml "mj.shop.data"
-	send "[APIxMJ] SHOP : set money %{_value}% for %{_id}%" to {_player}
+function mj_shop_data_slot(player: player, type: text, source: text, id: text="none", value: number=0):
+	if {_type} is "category":
+		set yaml value "data.%{_source}%.slot" from "mj.shop.data" to {_value}
+		save yaml "mj.shop.data"
+		send "[APIxMJ] SHOP : set slot %{_value}% for %{_source}%" to {_player}
+	else:
+		set yaml value "data.%{_id}%.slot" from "mj.shop.data_%{_source}%" to {_value}
+		save yaml "mj.shop.data_%{_source}%"
+		send "[APIxMJ] SHOP : set slot %{_value}% for %{_id}% in %{_source}%" to {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_data_slot(player: player, id: text, value: text):
-	set {_value} to {_value} parsed as number
-	set yaml value "data.product.%{_id}%.slot" from "mj.shop.data" to {_value}
-	save yaml "mj.shop.data"
-	send "[APIxMJ] SHOP : set slot %{_value}% for %{_id}%" to {_player}
+function mj_shop_data_edit_money(player: player, type: text, source: text, id: text="none", value: number=0):
+	if {_type} is "buy":
+		set yaml value "data.%{_id}%.buy.price" from "mj.shop.data_%{_source}%" to {_value}
+		save yaml "mj.shop.data_%{_source}%"
+		send "[APIxMJ] SHOP : set buy price %{_value}% for %{_id}% in %{_source}%" to {_player}
+	else:
+		set yaml value "data.%{_id}%.sell.price" from "mj.shop.data_%{_source}%" to {_value}
+		save yaml "mj.shop.data_%{_source}%"
+		send "[APIxMJ] SHOP : set sell price %{_value}% for %{_id}% in %{_source}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_shop_data_edit_discount(player: player, type: text, source: text, id: text="none", value: number=0):
+	if {_type} is "buy":
+		set yaml value "data.%{_id}%.buy.discount" from "mj.shop.data_%{_source}%" to {_value}
+		save yaml "mj.shop.data_%{_source}%"
+		send "[APIxMJ] SHOP : set buy discount %{_value}% for %{_id}% in %{_source}%" to {_player}
+	else:
+		set yaml value "data.%{_id}%.sell.discount" from "mj.shop.data_%{_source}%" to {_value}
+		save yaml "mj.shop.data_%{_source}%"
+		send "[APIxMJ] SHOP : set sell discount %{_value}% for %{_id}% in %{_source}%" to {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Shop
@@ -183,204 +272,240 @@ function mj_shop_menu(player: player):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_menu_main(player: player):
-	set {_title} to mj_editfiles_gettext("shop", "data.title.category", {_player})
+	set {_title} to mj_editfiles_gettext("shop", "data.category.title", {_player})
 	mj_core_gui_generator({_player}, 5, true, "default", {_title}, "shop")
-	set {_list::*} to mj_manager_nodes("shop.data", "data.category")
+	set {_list::*} to mj_manager_nodes("shop.data")
 	loop {_list::*}:
 		set {_value} to loop-value
-		set {_check} to mj_editfiles_boolean("shop.data", "data.category.%{_value}%.visible")
+		set {_check} to mj_editfiles_boolean("shop.data", "data.%{_value}%.visible")
 		if {_check} is true:
+			mj_shop_menu_main_button_category({_player}, {_value})
+		else if {_player} has permission "*" or "mj.*" or "mj.shop.*" or "mj.shop.admin":
 			mj_shop_menu_main_button_category({_player}, {_value})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_menu_main_button_category(player: player, value: text):
 	set {_name} to mj_editfiles_gettext("shop", "data.index.category.%{_value}%.name", {_player})
-	set {_slot} to mj_editfiles_number("shop.data", "data.category.%{_value}%.slot")
-	set {_item1} to mj_manager_item_convert("shop.data", "data.category.%{_value}%.item")
-	set {_item2} to mj_shop_menu_main_button_category_description({_player}, {_value}, {_item1})
-	set {_item3} to mj_manager_item_button({_player}, {_item2}, "left_click", "shop", "data.click.product")
-	make a gui slot {_slot} of {_player} with {_item3} named {_name} to run:
+	set {_slot} to mj_editfiles_number("shop.data", "data.%{_value}%.slot")
+	set {_item.1} to mj_manager_item_convert("shop.data", "data.%{_value}%.item")
+	set {_item.2} to mj_manager_item_description({_player}, {_item.1}, "data.index.category.%{_value}%", "shop")
+	set {_item.3} to mj_shop_menu_main_button_category_admin({_player}, {_value}, {_item.2})
+	set {_item.3} to mj_manager_item_button({_player}, {_item.3}, "left_click", "shop", "data.category.click")
+	make a gui slot {_slot} of {_player} with {_item.3} named {_name} to run:
 		mj_shop_menu_product({_player}, {_value}, 1, true)
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_menu_main_button_category_description(player: player, value: text, item: item) :: item:
-	set {_lang} to mj_editfiles("manager.config", "data.language.use")
-	set {_count} to mj_manager_item_lore_count({_player}, {_item})
-	set {_data1} to mj_editfiles_gettext("manager", "data.category.description")
-	set line {_count} of lore of {_item} to "%{_data1}%"
-	add 2 to {_count}
-	set {_list::*} to mj_manager_nodes("shop.language.%{_lang}%", "data.index.category.%{_value}%.lore")
-	loop {_list::*}:
-		set {_data2} to mj_editfiles_gettext("shop", "data.index.category.%{_value}%.lore.%loop-value%")
-		set line {_count} of lore of {_item} to {_data2}
+function mj_shop_menu_main_button_category_admin(player: player, value: text, item: item) :: item:
+	if {_player} has permission "*" or "mj.*" or "mj.shop.*" or "mj.shop.admin":
+		set {_count} to mj_manager_item_lore_count({_item})
+		set {_data} to mj_editfiles_gettext("shop", "data.admin_info.title", {_player})
+		set line {_count} of lore of {_item} to {_data}
 		add 1 to {_count}
+		set {_value.1} to mj_editfiles_boolean("shop.data", "data.%{_value}%.visible")
+		set {_value.2} to mj_editfiles_gettext("manager", "data.type.hide", {_player})
+		if {_value.1} is true:
+			set {_value.2} to mj_editfiles_gettext("manager", "data.type.show", {_player})
+		set {_lore} to mj_editfiles_gettext("shop", "data.admin_info.visible", {_player}, {_value.2})
+		set line {_count} of lore of {_item} to {_lore}
 	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_shop_menu_return(player: player, type: text="main", slot: number=0, source: text="none", page: number=1, return: boolean=true):
+	set {_name} to mj_editfiles_gettext("shop", "data.return", {_player})
+	make a gui slot {_slot} of {_player} with barrier named {_name} to run:
+		if {_type} is "main":
+			mj_shop_menu({_player})
+		else if {_type} is "product":
+			mj_shop_menu_product({_player}, {_source}, {_page}, {_return})
+		stop
+	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Menu Main
 # =====================================================================================================================
 # APIxMJ - Menu Product
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_menu_product(player: player, value: text, page: number=1, return: boolean=false):
+function mj_shop_menu_product(player: player, source: text, page: number=1, return: boolean=false):
 	if {_page} >= 2:
-		set {_title} to mj_editfiles_gettext("shop", "data.title.page", {_player}, "%{_page}%")
+		set {_title} to mj_editfiles_gettext("shop", "data.other.page", {_player}, "%{_page}%")
 	else:
-		set {_name} to mj_editfiles_gettext("shop", "data.index.category.%{_value}%.name", {_player})
-		set {_title} to mj_editfiles_gettext("shop", "data.title.named", {_player}, {_name})
+		set {_name} to mj_editfiles_gettext("shop", "data.index.category.%{_source}%.name", {_player})
+		set {_title} to mj_editfiles_gettext("shop", "data.product.title", {_player}, {_name})
 	mj_core_gui_generator({_player}, 6, true, "default", {_title}, "shop")
-	set {_list::*} to mj_manager_nodes("shop.data", "data.product")
+	set {_list::*} to mj_manager_nodes("shop.data_%{_source}%")
 	loop {_list::*}:
-		set {_value2} to loop-value
-		set {_check1} to mj_editfiles("shop.data", "data.product.%{_value2}%.category")
-		if {_check1} is {_value}:
-			set {_check2} to mj_editfiles_boolean("shop.data", "data.product.%{_value2}%.visible")
-			if {_check2} is true:
-				mj_shop_menu_product_button({_player}, {_value2}, {_page}, {_return})
+		set {_value} to loop-value
+		set {_check} to mj_editfiles_boolean("shop.data_%{_source}%", "data.%{_value}%.visible")
+		if {_check} is true:
+			mj_shop_menu_product_button({_player}, {_source}, {_value}, {_page}, {_return})
+		else if {_player} has permission "*" or "mj.*" or "mj.shop.*" or "mj.shop.admin":
+			mj_shop_menu_product_button({_player}, {_source}, {_value}, {_page}, {_return})
 	if {_return} is true:
-		set {_name} to mj_editfiles_gettext("shop", "data.return", {_player})
-		make a gui slot 49 of {_player} with barrier named {_name} to run:
-			mj_shop_menu({_player})
+		mj_shop_menu_return({_player}, "main", 49)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_shop_menu_product_button(player: player, source: text, id: text, page: number=1, return: boolean=true, mode: boolean=false, slot: number=0, click: boolean=true):
+	set {_name} to mj_editfiles_gettext("shop", "data.index.product.%{_id}%.name", {_player})
+	if {_mode} is false:
+		set {_slot} to mj_editfiles_number("shop.data_%{_source}%", "data.%{_id}%.slot")
+	set {_item.1} to mj_manager_item_convert("shop.data_%{_source}%", "data.%{_id}%.item")
+	set {_item.2} to mj_shop_menu_product_button_price({_player}, {_source}, {_id}, "buy", {_item.1})
+	set {_item.3} to mj_shop_menu_product_button_price({_player}, {_source}, {_id}, "sell", {_item.2})
+	set {_item.4} to mj_shop_menu_product_button_admin({_player}, {_source}, {_id}, {_item.3})
+	if {_click} is true:
+		set {_item.4} to mj_manager_item_button({_player}, {_item.4}, "left_click", "shop", "data.product.click")
+		make a gui slot {_slot} of {_player} with {_item.4} named {_name} to run:
+			mj_shop_menu_trade({_player}, {_source}, {_id}, {_page}, {_return})
+			stop
+	else:
+		make a gui slot {_slot} of {_player} with {_item.4} named {_name} to run:
 			stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_menu_product_button(player: player, value: text, page: number, return: boolean=true, mode: boolean=false, slot: number=0, click: boolean=true):
-	set {_name} to mj_editfiles_gettext("shop", "data.index.product.%{_value}%.name", {_player})
-	if {_mode} is false:
-		set {_slot} to mj_editfiles_number("shop.data", "data.product.%{_value}%.slot")
-	set {_item} to mj_manager_item_convert("shop.data", "data.product.%{_value}%.item")
-	set {_lore::*} to lore of {_item}
-	loop {_lore::*}:
-		add 1 to {_count}
-	add 1 to {_count}
-	set {_buy} to mj_editfiles_number("shop.data", "data.product.%{_value}%.base_value.buy.price")
-	if {_buy} isn't 0:
-		set {_buy_view} to mj_core_format_money(false, {_buy})
-		set {_lore} to mj_editfiles_gettext("shop", "data.buy.price", {_player}, {_buy_view})
-		add 1 to {_count}
+function mj_shop_menu_product_button_price(player: player, source: text, id: text, type: text, item: item) :: item:
+	set {_count} to mj_manager_item_lore_count({_item})
+	if {_type} is "sell":
+		remove 1 from {_count}
+	set {_value.1} to mj_editfiles_number("shop.data_%{_source}%", "data.%{_id}%.%{_type}%.price")
+	if {_value.1} isn't 0:
+		set {_value.2} to mj_core_money_viewer({_value.1})
+		set {_lore} to mj_editfiles_gettext("shop", "data.%{_type}%.price", {_player}, {_value.2})
 		set line {_count} of lore of {_item} to {_lore}
-	set {_sell} to mj_editfiles_number("shop.data", "data.product.%{_value}%.base_value.sell.price")
-	if {_sell} isn't 0:
-		set {_sell_view} to mj_core_format_money(false, {_sell})
-		set {_lore} to mj_editfiles_gettext("shop", "data.sell.price", {_player}, {_sell_view})
-		add 1 to {_count}
-		set line {_count} of lore of {_item} to {_lore}
-	set {_item} to mj_shop_menu_product_button_admin({_player}, {_value}, {_item})
-	if {_click} is true:
-		set {_item} to mj_manager_item_button({_player}, {_item}, "left_click", "shop", "data.click.trade")
-	make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
-		if {_click} is true:
-			mj_shop_menu_trade({_player}, {_value}, {_page}, {_return})
-		stop
-	stop
+	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_menu_product_button_admin(player: player, value: text, item: item) :: item:
+function mj_shop_menu_product_button_admin(player: player, source: text, id: text, item: item) :: item:
 	if {_player} has permission "*" or "mj.*" or "mj.shop.*" or "mj.shop.admin":
-		set {_count} to mj_manager_item_lore_count({_player}, {_item})
-		set {_data1} to mj_editfiles_gettext("shop", "data.info.staff_data")
-		set line {_count} of lore of {_item} to "%{_data1}%"
-		add 2 to {_count}
-		set {_qnt} to mj_editfiles_number("shop.data", "data.product.%{_value}%.base_value.buy.interact")
-		set {_lore} to mj_editfiles_gettext("shop", "data.buy.interact_total", {_player}, "%{_qnt}%")
-		set line {_count} of lore of {_item} to "%{_lore}%"
-		set {_qnt} to mj_editfiles_number("shop.data", "data.product.%{_value}%.base_value.sell.interact")
-		set {_lore} to mj_editfiles_gettext("shop", "data.sell.interact_total", {_player}, "%{_qnt}%")
+		set {_count} to mj_manager_item_lore_count({_item})
+		set {_data} to mj_editfiles_gettext("shop", "data.admin_info.title", {_player})
+		set line {_count} of lore of {_item} to {_data}
 		add 1 to {_count}
-		set line {_count} of lore of {_item} to "%{_lore}%"
+		set {_value.1} to mj_editfiles_boolean("shop.data_%{_source}%", "data.%{_id}%.visible")
+		set {_value.2} to mj_editfiles_gettext("manager", "data.type.hide", {_player})
+		if {_value.1} is true:
+			set {_value.2} to mj_editfiles_gettext("manager", "data.type.show", {_player})
+		set {_lore} to mj_editfiles_gettext("shop", "data.admin_info.visible", {_player}, "%{_value.2}%")
+		set line {_count} of lore of {_item} to {_lore}
+		set {_qnt} to mj_editfiles_number("shop.data_%{_source}%", "data.%{_id}%.buy.interact")
+		set {_lore} to mj_editfiles_gettext("shop", "data.buy.interact", {_player}, "%{_qnt}%")
+		add 1 to {_count}
+		set line {_count} of lore of {_item} to {_lore}
+		set {_qnt} to mj_editfiles_number("shop.data_%{_source}%", "data.%{_id}%.sell.interact")
+		set {_lore} to mj_editfiles_gettext("shop", "data.sell.interact", {_player}, "%{_qnt}%")
+		add 1 to {_count}
+		set line {_count} of lore of {_item} to {_lore}
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Menu Product
 # =====================================================================================================================
 # APIxMJ - Menu Trade
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_menu_trade(player: player, value: text, page: number=1, return: boolean=true):
+function mj_shop_menu_trade(player: player, source: text, id: text, page: number=1, return: boolean=true):
 	set {_title} to mj_editfiles_gettext("shop", "data.title.offer")
-	mj_core_gui_generator({_player}, 5, true, "default", {_title}, "shop")
-	set {_category} to mj_editfiles("shop.data", "data.product.%{_value}%.category")
-	set {_buy_price} to mj_editfiles_number("shop.data", "data.product.%{_value}%.dynamic_value.buy.price")
-	set {_sell_price} to mj_editfiles_number("shop.data", "data.product.%{_value}%.dynamic_value.sell.price")
-	mj_shop_menu_product_button({_player}, {_value}, {_page}, false, true, 13, false)
-	if {_buy_price} isn't 0:
-		mj_shop_menu_trade_button_buy({_player}, {_value}, {_page}, 21, {_buy_price}, 1)
-		set {_check1} to mj_editfiles_boolean("shop.data", "data.product.%{_value}%.base_value.buy.choice")
-		if {_check1} is true:
-			mj_shop_menu_trade_button_buy({_player}, {_value}, {_page}, 18, {_buy_price}, 64)
-			mj_shop_menu_trade_button_buy({_player}, {_value}, {_page}, 19, {_buy_price}, 32)
-			mj_shop_menu_trade_button_buy({_player}, {_value}, {_page}, 20, {_buy_price}, 16)
-	if {_sell_price} isn't 0:
-		mj_shop_menu_trade_button_sell({_player}, {_value}, {_page}, 23, {_sell_price}, 1)
-		set {_check2} to mj_editfiles_boolean("shop.data", "data.product.%{_value}%.base_value.sell.choice")
-		if {_check2} is true:
-			mj_shop_menu_trade_button_sell({_player}, {_value}, {_page}, 24, {_sell_price}, 16)
-			mj_shop_menu_trade_button_sell({_player}, {_value}, {_page}, 25, {_sell_price}, 32)
-			mj_shop_menu_trade_button_sell({_player}, {_value}, {_page}, 26, {_sell_price}, 64)
-	set {_name} to mj_editfiles_gettext("shop", "data.return", {_player})
-	make a gui slot 40 of {_player} with barrier named {_name} to run:
-		mj_shop_menu_product({_player}, {_category}, {_page}, {_return})
-		stop
+	mj_core_gui_generator({_player}, 6, true, "default", {_title}, "shop")
+	mj_shop_menu_product_button({_player}, {_source}, {_id}, {_page}, false, true, 13, false)
+	set {_price.1} to mj_editfiles_number("shop.data_%{_source}%", "data.%{_id}%.buy.price")
+	if {_price.1} isn't 0:
+		mj_shop_menu_trade_button_buy({_player}, {_source}, {_id}, {_page}, 10, {_price.1}, 1)
+		set {_check.1} to mj_editfiles_boolean("shop.data_%{_source}%", "data.%{_id}%.buy.available")
+		if {_check.1} is true:
+			mj_shop_menu_trade_button_buy({_player}, {_source}, {_id}, {_page}, 11, {_price.1}, 8)
+			mj_shop_menu_trade_button_buy({_player}, {_source}, {_id}, {_page}, 19, {_price.1}, 12)
+			mj_shop_menu_trade_button_buy({_player}, {_source}, {_id}, {_page}, 20, {_price.1}, 16)
+			mj_shop_menu_trade_button_buy({_player}, {_source}, {_id}, {_page}, 28, {_price.1}, 24)
+			mj_shop_menu_trade_button_buy({_player}, {_source}, {_id}, {_page}, 29, {_price.1}, 32)
+			mj_shop_menu_trade_button_buy({_player}, {_source}, {_id}, {_page}, 37, {_price.1}, 48)
+			mj_shop_menu_trade_button_buy({_player}, {_source}, {_id}, {_page}, 38, {_price.1}, 64)
+	set {_price.2} to mj_editfiles_number("shop.data_%{_source}%", "data.%{_id}%.sell.price")
+	if {_price.2} isn't 0:
+		mj_shop_menu_trade_button_sell({_player}, {_source}, {_id}, {_page}, 15, {_price.2}, 1)
+		set {_check.2} to mj_editfiles_boolean("shop.data_%{_source}%", "data.%{_id}%.sell.available")
+		if {_check.2} is true:
+			mj_shop_menu_trade_button_sell({_player}, {_source}, {_id}, {_page}, 16, {_price.2}, 8)
+			mj_shop_menu_trade_button_sell({_player}, {_source}, {_id}, {_page}, 24, {_price.2}, 12)
+			mj_shop_menu_trade_button_sell({_player}, {_source}, {_id}, {_page}, 25, {_price.2}, 16)
+			mj_shop_menu_trade_button_sell({_player}, {_source}, {_id}, {_page}, 33, {_price.2}, 24)
+			mj_shop_menu_trade_button_sell({_player}, {_source}, {_id}, {_page}, 34, {_price.2}, 32)
+			mj_shop_menu_trade_button_sell({_player}, {_source}, {_id}, {_page}, 42, {_price.2}, 48)
+			mj_shop_menu_trade_button_sell({_player}, {_source}, {_id}, {_page}, 43, {_price.2}, 64)
+	if {_return} is true:
+		mj_shop_menu_return({_player}, "product", 49, {_source}, {_page}, {_return})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_menu_trade_button_buy(player: player, value: text, page: number, slot: number, price: number, multiply: number=1):
-	set {_name} to mj_editfiles_gettext("shop", "data.index.product.%{_value}%.name", {_player})
-	set {_item} to mj_manager_item_convert("shop.data", "data.product.%{_value}%.item")
-	set {_price1} to {_price}*{_multiply}
-	set {_price2} to "-%{_price1}%" parsed as number
-	set {_price_view1} to mj_core_format_money(false, {_price1})
-	set {_price_view2} to mj_core_format_money(false, {_price2})
+function mj_shop_menu_trade_button_buy(player: player, source: text, id: text, page: number, slot: number, price: number, multiply: number=1):
+	set {_item.1} to mj_manager_item_convert("shop.data_%{_source}%", "data.%{_id}%.item")
+	set {_price.1} to {_price}*{_multiply}
+	set {_view.1} to mj_core_money_viewer({_price.1})
 	set {_money} to mj_essentials_money_modify({_player}, "all")
-	if {_money} >= {_price1}:
-		if {_player}'s inventory has space for {_multiply} of {_item}:
-			set {_title} to mj_editfiles_gettext("shop", "data.buy.title", {_player}, {_name}, {_price_view2})
-			set {_item1} to mj_manager_item_button({_player}, {_item}, "left_click", "shop", "data.click.buy")
-			make a gui slot {_slot} of {_player} with {_multiply} of {_item1} named {_title} to run:
-				mj_essentials_money_system({_player}, {_price1}, false, "buyed x%{_multiply}% of %{_item}%")
-				mj_shop_menu_trade_button_interact({_value}, "buy", {_multiply})
-				if {_player}'s inventory has space for {_multiply} of {_item}:
-					give {_multiply} of {_item} to {_player}
-				mj_shop_menu_trade({_player}, {_value}, {_page})
+	if {_money} >= {_price.1}:
+		if {_player}'s inventory has space for {_multiply} of {_item.1}:
+			set {_item.2} to mj_shop_menu_trade_button_item_offer_generator({_player}, {_source}, {_id}, "buy", {_price}, {_multiply})
+			make a gui slot {_slot} of {_player} with {_multiply} of {_item.2} to run:
+				mj_essentials_money_system({_player}, {_price.1}, false, "buyed x%{_multiply}% of %{_item}%")
+				mj_shop_menu_trade_button_interact({_source}, {_id}, "buy", {_multiply})
+				give {_multiply} of {_item.1} to {_player}
+				mj_shop_menu_trade({_player}, {_source}, {_id}, {_page})
 				stop
 		else:
 			mj_shop_menu_trade_button_failed({_player}, {_slot}, "inventory_full", "none", {_multiply})
 	else:
-		mj_shop_menu_trade_button_failed({_player}, {_slot}, "no_enough", {_price_view1}, {_multiply})
+		mj_shop_menu_trade_button_failed({_player}, {_slot}, "no_enough", {_view.1}, {_multiply})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_menu_trade_button_sell(player: player, value: text, page: number, slot: number, price: number, multiply: number=1):
-	set {_name} to mj_editfiles_gettext("shop", "data.index.product.%{_value}%.name", {_player})
-	set {_item} to mj_manager_item_convert("shop.data", "data.product.%{_value}%.item")
-	set {_price1} to {_price}*{_multiply}
-	set {_price_view} to mj_core_format_money(false, {_price1})
-	set {_count} to amount of {_item} in {_player}'s inventory
+function mj_shop_menu_trade_button_sell(player: player, source: text, id: text, page: number, slot: number, price: number, multiply: number=1):
+	set {_name} to mj_editfiles_gettext("shop", "data.index.product.%{_id}%.name", {_player})
+	set {_item.1} to mj_manager_item_convert("shop.data_%{_source}%", "data.%{_id}%.item")
+	set {_price.1} to {_price}*{_multiply}
+	set {_view} to mj_core_money_viewer({_price.1})
+	set {_count} to amount of {_item.1} in {_player}'s inventory
 	if {_count} >= {_multiply}:
-		set {_name} to mj_editfiles_gettext("shop", "data.sell.title", {_player}, "%{_multiply}%", {_name}, {_price_view})
-		set {_item1} to mj_manager_item_button({_player}, {_item}, "left_click", "shop", "data.click.sell")
-		make a gui slot {_slot} of {_player} with {_multiply} of {_item1} named {_name} to run:
-			mj_shop_menu_trade_button_interact({_value}, "sell", {_multiply})
-			mj_essentials_money_system({_player}, {_price1}, true, "selled in shop x%{_multiply}% of %{_item}%")
-			remove {_multiply} of {_item} from {_player}
-			mj_shop_menu_trade({_player}, {_value}, {_page})
+		set {_item.2} to mj_shop_menu_trade_button_item_offer_generator({_player}, {_source}, {_id}, "sell", {_price}, {_multiply})
+		make a gui slot {_slot} of {_player} with {_multiply} of {_item.2} to run:
+			mj_shop_menu_trade_button_interact({_source}, {_id}, "sell", {_multiply})
+			mj_essentials_money_system({_player}, {_price.1}, true, "selled in shop x%{_multiply}% of %{_item.1}%")
+			remove {_multiply} of {_item.1} from {_player}
+			mj_shop_menu_trade({_player}, {_source}, {_id}, {_page})
 			stop
 	else:
-		mj_shop_menu_trade_button_failed({_player}, {_slot}, "no_item", {_price_view}, {_multiply})
+		mj_shop_menu_trade_button_failed({_player}, {_slot}, "no_item", {_view}, {_multiply})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_menu_trade_button_interact(value: text, type: text, quantity: number=1):
-	set {_count1} to mj_editfiles_number("shop.data", "data.product.%{_value}%.base_value.%{_type}%.interact")
-	set {_new_count1} to {_count1}+{_quantity}
-	mj_editfiles_number("shop.data", "data.product.%{_value}%.base_value.%{_type}%.interact", "modify", {_new_count1})
-	set {_count2} to mj_editfiles_number("shop.data", "data.product.%{_value}%.dynamic_value.%{_type}%.interact")
-	set {_new_count2} to {_count2}+{_quantity}
-	mj_editfiles_number("shop.data", "data.product.%{_value}%.dynamic_value.%{_type}%.interact", "modify", {_new_count2})
+function mj_shop_menu_trade_button_interact(source: text, id: text, type: text, quantity: number=1):
+	set {_count.1} to mj_editfiles_number("shop.data_%{_source}%", "data.%{_id}%.%{_type}%.interact")
+	set {_count.2} to {_count.1}+{_quantity}
+	mj_editfiles_number("shop.data_%{_source}%", "data.%{_id}%.%{_type}%.interact", "modify", {_count.2})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_shop_menu_trade_button_failed(player: player, slot: number, lore: text, value: text, multiply: number=1):
+function mj_shop_menu_trade_button_item_offer_generator(player: player, source: text, id: text, type: text="buy", price: number, multiply: number=1) :: item:
+	set {_name} to mj_editfiles_gettext("shop", "data.index.product.%{_id}%.name", {_player})
+	set {_item.1} to mj_manager_item_convert("shop.data_%{_source}%", "data.%{_id}%.item")
+	set {_item.2} to mj_shop_menu_trade_button_money({_player}, {_item.1})
+	set {_item.3} to mj_manager_item_button({_player}, {_item.2}, "left_click", "shop", "data.%{_type}%.click")
+	set {_price.1} to {_price}*{_multiply}
+	set {_view} to mj_core_money_viewer({_price.1})
+	if {_type} is "buy":
+		set {_price.2} to "-%{_price.1}%" parsed as number
+		set {_view} to mj_core_money_viewer({_price.2})
+	set {_title} to mj_editfiles_gettext("shop", "data.%{_type}%.name", {_player}, "%{_multiply}%", {_name}, {_view})
+	set {_item.4} to {_item.3} named {_title}
+	return {_item.4}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_shop_menu_trade_button_failed(player: player, slot: number, lore.1: text, value: text, multiply: number=1):
 	set {_name} to mj_editfiles_gettext("shop", "data.failed.no_offer", {_player})
-	if {_value} is "none":
-		set {_lore} to mj_editfiles_gettext("shop", "data.failed.%{_lore}%", {_player})
-	else:
-		set {_lore} to mj_editfiles_gettext("shop", "data.failed.%{_lore}%", {_player}, {_value})
-	make a gui slot {_slot} of {_player} with {_multiply} of barrier named {_name} with lore "%{_lore}%" to run:
+	set {_lore.2} to mj_editfiles_gettext("shop", "data.failed.%{_lore.1}%", {_player})
+	if {_value} isn't "none":
+		set {_lore.2} to mj_editfiles_gettext("shop", "data.failed.%{_lore.1}%", {_player}, {_value})
+	set {_item} to barrier named {_name}
+	set line 2 of lore of {_item} to {_lore.2}
+	make a gui slot {_slot} of {_player} with {_multiply} of {_item} to run:
 		stop
 	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_shop_menu_trade_button_money(player: player, item: item) :: item:
+	set {_money.1} to mj_essentials_money_modify({_player}, "all")
+	set {_money.2} to mj_core_money_viewer({_money.1})
+	set {_count} to mj_manager_item_lore_count({_item})
+	set {_data} to mj_editfiles_gettext("shop", "data.money", {_player}, {_money.2})
+	set line {_count} of lore of {_item} to {_data}
+	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Menu Trade
 # =====================================================================================================================
@@ -407,61 +532,67 @@ on leftclick:
 		set {_item} to mj_manager_item_convert("shop.config", "data.sell_item")
 		if player's tool is {_item}:
 			set {_list::*} to "chest", "eastward chest", "southward chest", "westward chest", "trapped chest", "eastward trapped chest", "southward trapped chest" and "westward trapped chest"
-			if {_list::*} contains "%event-block%":
+			if {_list::*} contains "%type of event-block%":
 				mj_shop_sell_all(player, event-block)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_sell(player: player):
 	set {_value} to {_player}'s tool
-	set {_list::*} to mj_manager_nodes("shop.data", "data.product")
-	loop {_list::*}:
-		set {_item} to mj_manager_item_convert("shop.data", "data.product.%loop-value%.item")
-		if "%{_value}%" contains "%{_item}%":
-			set {_count} to item amount of {_player}'s tool
-			set {_cat} to mj_editfiles("shop.data", "data.product.%loop-value%.category")
-			set {_check} to mj_editfiles_boolean("shop.data", "data.category.%{_cat}%.visible")
-			if {_check} is true:
-				set {_sell} to mj_editfiles_number("shop.data", "data.product.%loop-value%.dynamic_value.sell.price")
-				if {_sell} >= 0.01:
-					mj_shop_menu_trade_button_interact({_value}, "sell", {_multiply})
-					set {_price} to {_sell}*{_count}
-					clear {_player}'s tool
-					mj_essentials_money_system({_player}, {_price}, true, "selled out shop x%{_multiply}% of %{_item}%")
-					set {_name} to mj_editfiles_gettext("shop", "data.product.%loop-value%.name", {_player})
-					set {_view} to mj_core_format_money(false, {_price})
-					mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.sell.success", {_name}, "%{_view}%")
-					exit loop
-			else:
-				mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.failed.no_selling")
-				exit loop
+	set {_list.1::*} to mj_manager_nodes("shop.data")
+	loop {_list.1::*}:
+		set {_source} to loop-value-1
+		set {_check} to mj_editfiles_boolean("shop.data", "data.%{_source}%.visible")
+		if {_check} is true:
+			set {_list.2::*} to mj_manager_nodes("shop.data_%{_source}%")
+			loop {_list.2::*}:
+				set {_id} to loop-value-2
+				set {_item} to mj_manager_item_convert("shop.data_%{_source}%", "data.%{_id}%.item")
+				if type of {_player}'s tool contains type of {_item}:
+					set {_count} to item amount of {_player}'s tool
+					set {_sell} to mj_editfiles_number("shop.data_%{_source}%", "data.%{_id}%.sell.price")
+					if {_sell} >= 0.01:
+						mj_shop_menu_trade_button_interact({_source}, {_value}, "sell", {_multiply})
+						set {_price} to {_sell}*{_count}
+						clear {_player}'s tool
+						mj_essentials_money_system({_player}, {_price}, true, "selled out shop x%{_multiply}% of %{_item}%")
+						set {_name} to mj_editfiles_gettext("shop.data_%{_source}%", "data.%{_id}%.name", {_player})
+						set {_view} to mj_core_money_viewer({_price})
+						mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.sell.success", {_name}, "%{_view}%")
+						exit loop
+					else:
+						mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.failed.no_selling")
+						exit loop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_sell_all(player: player, block: object="none"):
 	set {_nosell} to true
-	set {_list::*} to mj_manager_nodes("shop.data", "data.product")
-	loop {_list::*}:
-		set {_item} to mj_manager_item_convert("shop.data", "data.product.%loop-value%.item")
-		if "%{_block}%" is "none":
-			set {_count} to amount of {_item} in {_player}'s inventory
-		else:
-			set {_count} to amount of {_item} in {_block}'s inventory
-		if {_count} >= 1:
-			set {_cat} to mj_editfiles("shop.data", "data.product.%loop-value%.category")
-			set {_check} to mj_editfiles_boolean("shop.data", "data.category.%{_cat}%.visible")
+	set {_list.1::*} to mj_manager_nodes("shop.data")
+	loop {_list.1::*}:
+		set {_source} to loop-value-1
+		set {_list.2::*} to mj_manager_nodes("shop.data_%{_source}%")
+		loop {_list.2::*}:
+			set {_id} to loop-value-2
+			set {_check} to mj_editfiles_boolean("shop.data_%{_source}%", "data.%{_id}%.visible")
 			if {_check} is true:
-				set {_sell} to mj_editfiles_number("shop.data", "data.product.%loop-value%.dynamic_value.sell.price")
-				if {_sell} >= 0.01:
-					mj_shop_menu_trade_button_interact({_value}, "sell", {_multiply})
-					set {_price} to {_sell}*{_count}
-					if "%{_block}%" is "none":
-						remove {_count} of {_item} from {_player}
-					else:
-						remove {_count} of {_item} from {_block}'s inventory
-					mj_essentials_money_system({_player}, {_price}, true, "selled out shop x%{_multiply}% of %{_item}%")
-					set {_name} to mj_editfiles_gettext("shop", "data.product.%loop-value%.name", {_player})
-					set {_view} to mj_core_format_money(false, {_price})
-					mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.sell.success", {_name}, "%{_view}%")
-					set {_nosell} to false
+				set {_item} to mj_manager_item_convert("shop.data_%{_source}%", "data.%{_id}%.item")
+				if "%{_block}%" is "none":
+					set {_count} to amount of {_item} in {_player}'s inventory
+				else:
+					set {_count} to amount of {_item} in {_block}'s inventory
+				if {_count} >= 1:
+					set {_sell} to mj_editfiles_number("shop.data_%{_source}%", "data.%{_id}%.sell.price")
+					if {_sell} >= 0.01:
+						mj_shop_menu_trade_button_interact({_source}, {_id}, "sell", {_multiply})
+						set {_price} to {_sell}*{_count}
+						if "%{_block}%" is "none":
+							remove {_count} of {_item} from {_player}
+						else:
+							remove {_count} of {_item} from {_block}'s inventory
+						mj_essentials_money_system({_player}, {_price}, true, "selled out shop x%{_multiply}% of %{_item}%")
+						set {_name} to mj_editfiles_gettext("shop", "data.index.product.%{_id}%.name", {_player})
+						set {_view} to mj_core_money_viewer({_price})
+						mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.sell.success", {_name}, "%{_view}%")
+						set {_nosell} to false
 	if {_nosell} is true:
 		mj_manager_message({_player}, "shop", "data.prefix", "shop", "data.failed.no_selling")
 	stop

@@ -15,6 +15,34 @@ data:
         info:
             '1': "&6- &a/shop"
             '2': "&0- &7Ouvre un menu interactif."
+    shop_admin:
+        name: "&aÉditeur du magasin"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aBesoin de modifier le magasin facilement ?"
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.shop.*"
+        - "mj.shop.admin"
+        info:
+            '1': "&6- &a/shop new_category <new_id>"
+            '2': "&0- &7Il permet de créer une nouvelle catégorie."
+            '3': "&6- &a/shop new_product <category_name> <new_id>"
+            '4': "&0- &7Il permet de créer un nouveau produit."
+            '5': "&6- &a/shop slot_category <category_name> <number>"
+            '6': "&0- &7Il permet de changer l'emplacement du bouton."
+            '7': "&6- &a/shop slot_product <category_name> <product_name> <number>"
+            '8': "&0- &7Il permet de changer l'emplacement du bouton."
+            '9': "&6- &a/shop edit_money_buy <category_name> <product_name> <number>"
+            '10': "&0- &7Il permet de changer la somme d'argent à l'achat."
+            '11': "&6- &a/shop edit_money_sell <category_name> <product_name> <number>"
+            '12': "&0- &7Il permet de changer la somme d'argent à vente."
+            '13': "&6- &a/shop edit_discount_buy <category_name> <product_name> <number>"
+            '14': "&0- &7Il permet de changer la remise sur un prix."
+            '15': "&6- &a/shop edit_discount_sell <category_name> <product_name> <number>"
+            '16': "&0- &7Il permet de changer la remise sur un prix."
     sell:
         name: "&aVendeur"
         type: command

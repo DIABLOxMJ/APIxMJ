@@ -38,8 +38,8 @@ function mj_moderator_playerdata(player: offlineplayer):
 	wait 220 ticks
 	if {_player} is online:
 		set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-		set {_check1} to yaml value "data.%{_player}'s uuid%.source.moderator" from "mj.userdata"
-		if {_check1} isn't set:
+		set {_check.1} to yaml value "data.%{_player}'s uuid%.source.moderator" from "mj.userdata"
+		if {_check.1} isn't set:
 			set {_rank.1} to mj_editfiles("moderator.config", "data.rank.player")
 			set {_rank.2} to mj_editfiles("moderator.config", "data.rank.staff")
 			set yaml value "data.%{_player}'s uuid%.source.moderator.condition" from "mj.userdata" to false
@@ -53,8 +53,8 @@ function mj_moderator_playerdata(player: offlineplayer):
 			set yaml value "data.%{_player}'s uuid%.source.moderator.profil.staff.profil" from "mj.userdata" to "Staff"
 			save yaml "mj.userdata"
 			mj_core_logger(1, "%{_player}% moderator data file was generated..")
-		set {_check2} to yaml value "data.source.moderator" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-		if {_check2} isn't set:
+		set {_check.2} to yaml value "data.source.moderator" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		if {_check.2} isn't set:
 			set yaml value "data.source.moderator.operator" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to false
 			set yaml value "data.source.moderator.rank" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
 			save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
@@ -82,11 +82,11 @@ command /moderator [<offlineplayer>]:
 on tab complete of "/moderator" or "/moderation" or "/modo" or "/mod" or "/advancedstaff" or "/as":
 	set {_check} to mj_editfiles_boolean("userdata", "data.%player's uuid%.source.moderator.condition")
 	if {_check} is true:
-		set {_list::*} to mj_manager_nodes("userdata")
-		loop {_list::*}:
+		set {_list.1::*} to mj_manager_nodes("userdata")
+		loop {_list.1::*}:
 			set {_player} to loop-value parsed as offlineplayer
-			add {_player} to {_list2::*}
-		set tab completions for position 1 to {_list2::*}
+			add {_player} to {_list.2::*}
+		set tab completions for position 1 to {_list.2::*}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /mod_access [<offlineplayer>]:
@@ -94,8 +94,8 @@ command /mod_access [<offlineplayer>]:
 	trigger:
 		if player is op:
 			if arg-1 is set:
-				set {_check} to mj_editfiles_boolean("userdata", "data.%arg-1's uuid%.source.moderator.condition")
 				mj_editfiles_boolean("userdata", "data.%arg-1's uuid%.source.moderator.condition", "modify", false)
+				set {_check} to mj_editfiles_boolean("userdata", "data.%arg-1's uuid%.source.moderator.condition")
 				if {_check} isn't true:
 					mj_editfiles_boolean("userdata", "data.%arg-1's uuid%.source.moderator.condition", "modify", true)
 			else:
@@ -106,11 +106,11 @@ command /mod_access [<offlineplayer>]:
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/mod_access":
 	if player is op:
-		set {_list::*} to mj_manager_nodes("userdata")
-		loop {_list::*}:
+		set {_list.1::*} to mj_manager_nodes("userdata")
+		loop {_list.1::*}:
 			set {_player} to loop-value parsed as offlineplayer
-			add {_player} to {_list2::*}
-		set tab completions for position 1 to {_list2::*}
+			add {_player} to {_list.2::*}
+		set tab completions for position 1 to {_list.2::*}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Command

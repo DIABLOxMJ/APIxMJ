@@ -43,17 +43,18 @@ on command:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_rankup_playerdata(player: offlineplayer):
 	wait 228 ticks
-	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	set {_check1} to yaml value "data.%{_player}'s uuid%.source.rankup" from "mj.userdata"
-	if {_check1} isn't set:
-		set yaml value "data.%{_player}'s uuid%.source.rankup" from "mj.userdata" to "none"
-		save yaml "mj.userdata"
-		mj_core_logger(1, "%{_player}% rankup data file was generated..")
-	set {_check2} to yaml value "data.source.rankup" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	if {_check2} isn't set:
-		set yaml value "data.source.rankup" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
-		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-		mj_core_logger(1, "%{_player}% rankup data was generated..")
+	if {_player} is online:
+		set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+		set {_check.1} to yaml value "data.%{_player}'s uuid%.source.rankup" from "mj.userdata"
+		if {_check.1} isn't set:
+			set yaml value "data.%{_player}'s uuid%.source.rankup" from "mj.userdata" to "none"
+			save yaml "mj.userdata"
+			mj_core_logger(1, "%{_player}% rankup data file was generated..")
+		set {_check.2} to yaml value "data.source.rankup" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		if {_check.2} isn't set:
+			set yaml value "data.source.rankup" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+			save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+			mj_core_logger(1, "%{_player}% rankup data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Files
@@ -87,28 +88,28 @@ function mj_rankup_menu_main(player: player):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_rankup_menu_main_button_choice(player: player, id: text):
 	set {_lang} to mj_editfiles("manager.config", "data.language.use")
-	set {_find_name} to mj_editfiles("rankup.data", "data.%{_id}%.name")
-	set {_name} to mj_editfiles_gettext("rankup", {_find_name}, {_player})
-	#set {_title} to mj_editfiles_gettext("rankup", "data.item_name", {_player}, {_name})
+	set {_name.1} to mj_editfiles("rankup.data", "data.%{_id}%.name")
+	set {_name.2} to mj_editfiles_gettext("rankup", {_name.1}, {_player})
+	#set {_title} to mj_editfiles_gettext("rankup", "data.item_name", {_player}, {_name.2})
 	set {_slot} to mj_editfiles_number("rankup.data", "data.%{_id}%.slot")
-	set {_item1} to mj_rankup_menu_main_button_choice_info({_player}, {_id})
+	set {_item.1} to mj_rankup_menu_main_button_choice_info({_player}, {_id})
 	set {_price} to mj_editfiles_number("rankup.data", "data.%{_id}%.price")
 	set {_money} to mj_essentials_money_modify({_player}, "all")
-	set {_rank} to mj_ranker({_player}, "source")
+	set {_rank.1} to mj_ranker({_player}, "source")
 	set {_request} to mj_editfiles("rankup.data", "data.%{_id}%.request")
-	set {_new_rank} to mj_editfiles("rankup.data", "data.%{_id}%.rank")
+	set {_rank.2} to mj_editfiles("rankup.data", "data.%{_id}%.rank")
 	set {_buy} to false
-	if {_rank} is {_new_rank}:
-		set {_item2} to mj_manager_item_button({_player}, {_item1}, "left_click", "rankup", "data.click_rank_acquired")
-	else if {_rank} is {_request}:
+	if {_rank.1} is {_rank.2}:
+		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "rankup", "data.click_rank_acquired")
+	else if {_rank.1} is {_request}:
 		if {_money} >= {_price}:
-			set {_item2} to mj_manager_item_button({_player}, {_item1}, "left_click", "rankup", "data.click_buy")
+			set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "rankup", "data.click_buy")
 			set {_buy} to true
 		else:
-			set {_item2} to mj_manager_item_button({_player}, {_item1}, "left_click", "rankup", "data.click_money_request")
+			set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "rankup", "data.click_money_request")
 	else:
-		set {_item2} to mj_manager_item_button({_player}, {_item1}, "left_click", "rankup", "data.click_rank_request")
-	make a gui slot {_slot} of {_player} with {_item2} named {_name} to run:
+		set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "rankup", "data.click_rank_request")
+	make a gui slot {_slot} of {_player} with {_item.2} named {_name.2} to run:
 		if {_buy} is true:
 			mj_rankup_menu_confirm({_player}, {_id})
 		stop
@@ -120,22 +121,22 @@ function mj_rankup_menu_main_button_choice_info(player: player, id: text) :: ite
 	set {_rank} to mj_editfiles("rankup.data", "data.%{_id}%.rank")
 	set {_price} to mj_editfiles_number("rankup.data", "data.%{_id}%.price")
 	set {_item} to mj_manager_item_convert("rankup.data", "data.%{_id}%.item")
-	set {_view1} to mj_ranker_convert({_request})
-	set {_view2} to mj_ranker_convert({_rank})
-	set {_view3} to mj_core_format_money(false, {_price})
-	set {_view4} to mj_editfiles("rankup.data", "data.%{_id}%.web_price")
-	set {_item1} to mj_core_item_lore({_player}, {_item}, 2, "rankup", "data.item_request", {_view1})
-	set {_item2} to mj_core_item_lore({_player}, {_item1}, 3, "rankup", "data.item_rank", {_view2})
-	set {_item3} to mj_core_item_lore({_player}, {_item2}, 5, "rankup", "data.item_price", {_view3})
-	set {_item4} to mj_core_item_lore({_player}, {_item3}, 6, "rankup", "data.item_web_price", {_view4})
-	set {_item5} to mj_core_item_lore({_player}, {_item4}, 8, "rankup", "data.functionality")
-	set {_count} to mj_manager_item_lore_count({_player}, {_item5})
+	set {_view.1} to mj_ranker_convert({_request})
+	set {_view.2} to mj_ranker_convert({_rank})
+	set {_view.3} to mj_core_format_money(false, {_price})
+	set {_view.4} to mj_editfiles("rankup.data", "data.%{_id}%.web_price")
+	set {_item.1} to mj_core_item_lore({_player}, {_item}, 2, "rankup", "data.item_request", {_view.1})
+	set {_item.2} to mj_core_item_lore({_player}, {_item.1}, 3, "rankup", "data.item_rank", {_view.2})
+	set {_item.3} to mj_core_item_lore({_player}, {_item.2}, 5, "rankup", "data.item_price", {_view.3})
+	set {_item.4} to mj_core_item_lore({_player}, {_item.3}, 6, "rankup", "data.item_web_price", {_view.4})
+	set {_item.5} to mj_core_item_lore({_player}, {_item.4}, 8, "rankup", "data.functionality")
+	set {_count} to mj_manager_item_lore_count({_player}, {_item.5})
 	set {_list::*} to mj_manager_nodes("rankup.language.%{_lang}%", "data.product.%{_id}%.info")
 	loop {_list::*}:
 		set {_info} to mj_editfiles_gettext("rankup", "data.product.%{_id}%.info.%loop-value%")
-		set line {_count} of lore of {_item5} to colored {_info}
+		set line {_count} of lore of {_item.5} to colored {_info}
 		add 1 to {_count}
-	return {_item5}
+	return {_item.5}
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Main
 # =====================================================================================================================
@@ -149,19 +150,19 @@ function mj_rankup_menu_confirm(player: player, id: text):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_rankup_menu_confirm_button_buy(player: player, id: text, slot: number):
-	set {_rank1} to mj_editfiles("rankup.data", "data.%{_id}%.rank")
-	set {_rank2} to mj_ranker_convert({_rank1})
-	set {_web_price} to mj_editfiles("rankup.data", "data.%{_id}%.web_price")
-	set {_price1} to mj_editfiles_number("rankup.data", "data.%{_id}%.price")
-	set {_price2} to mj_core_format_money(false, {_price1})
-	set {_item} to mj_core_item_lore({_player}, lime stained glass pane, 2, "rankup", "data.item_price", {_price2})
-	set {_title} to mj_editfiles_gettext("rankup", "data.buy_confirm", {_player}, {_rank2})
-	set {_item1} to mj_manager_item_button({_player}, {_item}, "left_click", "rankup", "data.click_buy_confirm")
-	make a gui slot {_slot} of {_player} with {_item1} named {_title} to close:
-		mj_essentials_money_system({_player}, {_price1})
-		mj_ranker_modify({_player}, {_rank1})
+	set {_rank.1} to mj_editfiles("rankup.data", "data.%{_id}%.rank")
+	set {_rank.2} to mj_ranker_convert({_rank.1})
+	#set {_web_price} to mj_editfiles("rankup.data", "data.%{_id}%.web_price")
+	set {_price.1} to mj_editfiles_number("rankup.data", "data.%{_id}%.price")
+	set {_price.2} to mj_core_format_money(false, {_price.1})
+	set {_item.1} to mj_core_item_lore({_player}, lime stained glass pane, 2, "rankup", "data.item_price", {_price.2})
+	set {_title} to mj_editfiles_gettext("rankup", "data.buy_confirm", {_player}, {_rank.2})
+	set {_item.2} to mj_manager_item_button({_player}, {_item.1}, "left_click", "rankup", "data.click_buy_confirm")
+	make a gui slot {_slot} of {_player} with {_item.2} named {_title} to close:
+		mj_essentials_money_system({_player}, {_price.1})
+		mj_ranker_modify({_player}, {_rank.1})
 		loop all players:
-			mj_manager_message(loop-player, "rankup", "data.prefix", "rankup", "data.success", "%{_player}%", {_rank2})
+			mj_manager_message(loop-player, "rankup", "data.prefix", "rankup", "data.success", "%{_player}%", {_rank.2})
 		stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -170,8 +171,8 @@ function mj_rankup_menu_confirm_button_store(player: player, id: text, slot: num
 	set {_link} to mj_editfiles("rankup.config", "data.website_store")
 	set {_item} to mj_core_item_lore({_player}, green stained glass pane, 2, "rankup", "data.item_web_price", {_price})
 	set {_text} to mj_editfiles_gettext("rankup", "data.store")
-	set {_item1} to mj_manager_item_button({_player}, {_item}, "left_click", "rankup", "data.click_open_store")
-	make a gui slot {_slot} of {_player} with {_item1} named {_text} to close:
+	set {_item.1} to mj_manager_item_button({_player}, {_item}, "left_click", "rankup", "data.click_open_store")
+	make a gui slot {_slot} of {_player} with {_item.1} named {_text} to close:
 		mj_manager_message({_player}, "rankup", "data.prefix", "rankup", "data.link_website_store", {_link})
 		stop
 	stop

@@ -43,33 +43,6 @@ function mj_check_spawner_data():
 		save yaml "mj.spawner.data"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-on join:
-	if event-entity is player:
-		mj_spawner_playerdata(player)
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-on command:
-	if complete command contains "profil_update":
-		set {_list::*} to complete command split at " "
-		set {_player} to {_list::2} parsed as offlineplayer
-		mj_store_playerdata({_player})
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_spawner_playerdata(player: offlineplayer):
-	wait 232 ticks
-	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	set {_check1} to yaml value "data.%{_player}'s uuid%.source.spawner" from "mj.userdata"
-	if {_check1} isn't set:
-		set yaml value "data.%{_player}'s uuid%.source.spawner" from "mj.userdata" to "none"
-		save yaml "mj.userdata"
-		mj_core_logger(1, "%{_player}% spawner data file was generated..")
-	set {_check2} to yaml value "data.source.spawner" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	if {_check2} isn't set:
-		set yaml value "data.source.spawner" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
-		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-		mj_core_logger(1, "%{_player}% spawner data was generated..")
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Files
 # =====================================================================================================================
 # APIxMJ - Command
@@ -121,10 +94,9 @@ on break:
 			if {_check} is true:
 				if player's tool is enchanted with silk touch:
 					set {_nbt} to nbt compound of event-block
-					set {_newnbt} to "%{_nbt}%"
 					set {_list::*} to mj_editfiles_list("spawner.data")
 					loop {_list::*}:
-						if {_newnbt} contains loop-value:
+						if "%{_nbt}%" contains loop-value:
 							set {_name} to mj_editfiles("spawner.config", "data.format.spawner_name")
 							set {_type} to mj_editfiles("spawner.config", "data.format.spawner_type")
 							set {_item} to mob spawner named {_name}
@@ -138,22 +110,21 @@ on break:
 on break:
 	if event-block is mob spawner:
 		if player has permission "*" or "mj.*" or "mj.spawner.*" or "mj.spawner":
-			set {_check1} to mj_editfiles_boolean("spawner.config", "data.pickaxe")
-			if {_check1} is true:
+			set {_check.1} to mj_editfiles_boolean("spawner.config", "data.pickaxe")
+			if {_check.1} is true:
 				set {_pickaxe} to mj_editfiles("spawner.config", "data.format.pickaxe")
 				if name of player's tool is {_pickaxe}:
 					set {_nbt} to nbt compound of event-block
-					set {_newnbt} to "%{_nbt}%"
 					set {_list::*} to mj_editfiles_list("spawner.data")
 					loop {_list::*}:
-						if {_newnbt} contains loop-value:
+						if "%{_nbt}%" contains loop-value:
 							set {_name} to mj_editfiles("spawner.config", "data.format.spawner_name")
 							set {_type} to mj_editfiles("spawner.config", "data.format.spawner_type")
 							set {_item} to mob spawner named {_name}
 							set line 1 of lore of {_item} to "%{_type}%%loop-value%"
 							drop {_item}
-							set {_check2} to mj_editfiles_number("spawner.config", "data.break_limit")
-							if {_check2} isn't -1:
+							set {_check.2} to mj_editfiles_number("spawner.config", "data.break_limit")
+							if {_check.2} isn't -1:
 								set {_lore} to line 2 of lore of player's tool
 								set {_limit} to mj_editfiles("spawner.config", "data.format.break_limit")
 								replace {_limit} with "" in {_lore}
@@ -183,16 +154,16 @@ on place of mob spawner:
 	set {_check} to mj_editfiles_boolean("spawner.config", "data.chunk.condition")
 	if {_check} is true:
 		cancel event
-		set {_check1} to false
+		set {_check.1} to false
 		set {_count} to 0
 		wait 1 tick
 		loop blocks within chunk at location of block:
 			if loop-block is mob spawner:
 				add 1 to {_count}
-				set {_check2} to mj_editfiles_number("spawner.config", "data.chunk_limit")
-				if {_count} >= {_check2}:
+				set {_check.2} to mj_editfiles_number("spawner.config", "data.chunk_limit")
+				if {_count} >= {_check.2}:
 					set {_check1} to true
-		if {_check1} is true:
+		if {_check.1} is true:
 			mj_manager_message(player, "spawner", "data.prefix", "spawner", "data.chunk_limit", "%{_count}%")
 		else:
 			set block at event-location to mob spawner

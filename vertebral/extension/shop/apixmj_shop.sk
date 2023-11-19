@@ -48,13 +48,13 @@ on command:
 function mj_shop_playerdata(player: offlineplayer):
 	wait 230 ticks
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	set {_check1} to yaml value "data.%{_player}'s uuid%.source.shop" from "mj.userdata"
-	if {_check1} isn't set:
+	set {_check.1} to yaml value "data.%{_player}'s uuid%.source.shop" from "mj.userdata"
+	if {_check.1} isn't set:
 		set yaml value "data.%{_player}'s uuid%.source.shop" from "mj.userdata" to "none"
 		save yaml "mj.userdata"
 		mj_core_logger(1, "%{_player}% shop data file was generated..")
-	set {_check2} to yaml value "data.source.shop" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	if {_check2} isn't set:
+	set {_check.2} to yaml value "data.source.shop" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_check.2} isn't set:
 		set yaml value "data.source.shop" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
 		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
 		mj_core_logger(1, "%{_player}% shop data was generated..")

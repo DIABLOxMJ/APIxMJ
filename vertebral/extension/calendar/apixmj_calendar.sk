@@ -45,13 +45,13 @@ function mj_calendar_playerdata(player: offlineplayer):
 	wait 206 ticks
 	if {_player} is online:
 		set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-		set {_check1} to yaml value "data.%{_player}'s uuid%.source.calendar" from "mj.userdata"
-		if {_check1} isn't set:
+		set {_check.1} to yaml value "data.%{_player}'s uuid%.source.calendar" from "mj.userdata"
+		if {_check.1} isn't set:
 			set yaml value "data.%{_player}'s uuid%.source.calendar" from "mj.userdata" to "none"
 			save yaml "mj.userdata"
 			mj_core_logger(1, "%{_player}% calendar data file was generated..")
-		set {_check2} to yaml value "data.source.calendar" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-		if {_check2} isn't set:
+		set {_check.2} to yaml value "data.source.calendar" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		if {_check.2} isn't set:
 			set yaml value "data.source.calendar" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
 			save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
 			mj_core_logger(1, "%{_player}% calendar data was generated..")
@@ -170,7 +170,7 @@ function mj_calendar_menu_button(player: player, value: number, slot: number, pr
 				set {_item.3} to mj_manager_item_button({_player}, {_item.1}, "refuse", "calendar", "data.button.next_day")
 	make a gui slot {_slot} of {_player} with {_value} of {_item.3} named {_name} to run:
 		if {_preview} is false:
-			if {_day} = {_value}:
+			if {_day} is {_value}:
 				mj_calendar_menu_gift({_player}, {_value}, {_slot})
 		stop
 	stop

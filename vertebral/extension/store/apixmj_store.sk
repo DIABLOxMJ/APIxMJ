@@ -43,17 +43,18 @@ on command:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_store_playerdata(player: offlineplayer):
 	wait 234 ticks
-	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
-	set {_check1} to yaml value "data.%{_player}'s uuid%.source.store" from "mj.userdata"
-	if {_check1} isn't set:
-		set yaml value "data.%{_player}'s uuid%.source.store" from "mj.userdata" to "none"
-		save yaml "mj.userdata"
-		mj_core_logger(1, "%{_player}% store data file was generated..")
-	set {_check2} to yaml value "data.source.store" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-	if {_check2} isn't set:
-		set yaml value "data.source.store" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
-		save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
-		mj_core_logger(1, "%{_player}% store data was generated..")
+	if {_player} is online:
+		set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata"
+		set {_check.1} to yaml value "data.%{_player}'s uuid%.source.store" from "mj.userdata"
+		if {_check.1} isn't set:
+			set yaml value "data.%{_player}'s uuid%.source.store" from "mj.userdata" to "none"
+			save yaml "mj.userdata"
+			mj_core_logger(1, "%{_player}% store data file was generated..")
+		set {_check.2} to yaml value "data.source.store" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+		if {_check.2} isn't set:
+			set yaml value "data.source.store" from "mj.userdata.%{_player}'s uuid%.%{_profil}%" to "none"
+			save yaml "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+			mj_core_logger(1, "%{_player}% store data was generated..")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Files
@@ -132,23 +133,23 @@ function mj_store_button_product(player: player, id: text):
 	set {_price} to mj_editfiles_number("store.data", "data.%{_id}%.price")
 	set {_view} to mj_core_format_money(false, {_price})
 	set {_webprice} to mj_editfiles("store.data", "data.%{_id}%.web_price")
-	set {_item1} to mj_manager_item_convert("store.data", "data.%{_id}%.item")
-	clear lore of {_item1}
-	set {_item} to mj_core_item_lore({_player}, {_item1}, 2, "store", "data.web_price", {_webprice})
+	set {_item.1} to mj_manager_item_convert("store.data", "data.%{_id}%.item")
+	clear lore of {_item.1}
+	set {_item} to mj_core_item_lore({_player}, {_item.1}, 2, "store", "data.web_price", {_webprice})
 	set {_lc} to mj_editfiles_gettext("manager", "data.type.leftclick", {_player})
 	set {_money} to mj_essentials_money_modify({_player}, "all")
 	if {_price} isn't 0:
-		set {_item2} to mj_core_item_lore({_player}, {_item1}, 2, "store", "data.price", {_view})
-		set {_item3} to mj_core_item_lore({_player}, {_item2}, 3, "store", "data.web_price", {_webprice})
+		set {_item.2} to mj_core_item_lore({_player}, {_item.1}, 2, "store", "data.price", {_view})
+		set {_item.3} to mj_core_item_lore({_player}, {_item.2}, 3, "store", "data.web_price", {_webprice})
 		if {_money} >= {_price}:
-			set {_item} to mj_core_item_lore({_player}, {_item3}, 5, "store", "data.buy_option", {_lc}, {_view})
+			set {_item} to mj_core_item_lore({_player}, {_item.3}, 5, "store", "data.buy_option", {_lc}, {_view})
 			make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
 				mj_core_storage_gift("%{_player}%", {_store})
 				mj_essentials_money_system({_player}, {_price})
 				mj_manager_message({_player}, "store", "data.prefix", "store", "data.buy_store", {_name})
 				stop
 		else:
-			set {_item} to mj_core_item_lore({_player}, {_item3}, 5, "store", "data.no_buy_option")
+			set {_item} to mj_core_item_lore({_player}, {_item.3}, 5, "store", "data.no_buy_option")
 			make a gui slot {_slot} of {_player} with {_item} named {_name} to run:
 				mj_manager_message({_player}, "store", "data.prefix", "store", "data.no_buy_store")
 				stop

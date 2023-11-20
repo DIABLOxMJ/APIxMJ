@@ -190,19 +190,19 @@ on tab complete of "/shop":
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_data_new_category(player: player, id: text, item: item):
 	set {_id} to mj_core_converter_name({_id})
-	set yaml value "data.%{_id}%.name" from "mj.shop.data_%{_source}%" to "none"
-	set yaml value "data.%{_id}%.visible" from "mj.shop.data_%{_source}%" to true
-	set yaml value "data.%{_id}%.slot" from "mj.shop.data_%{_source}%" to 0
-	set yaml value "data.%{_id}%.page" from "mj.shop.data_%{_source}%" to 1
-	set yaml value "data.%{_id}%.npc_id" from "mj.shop.data_%{_source}%" to 0
-	set yaml value "data.%{_id}%.item" from "mj.shop.data_%{_source}%" to {_item}
-	save yaml "mj.shop.data_%{_source}%"
+	set yaml value "data.%{_id}%.name" from "mj.shop.data" to "none"
+	set yaml value "data.%{_id}%.visible" from "mj.shop.data" to true
+	set yaml value "data.%{_id}%.slot" from "mj.shop.data" to 0
+	set yaml value "data.%{_id}%.page" from "mj.shop.data" to 1
+	set yaml value "data.%{_id}%.npc_id" from "mj.shop.data" to 0
+	set yaml value "data.%{_id}%.item" from "mj.shop.data" to {_item}
+	save yaml "mj.shop.data"
 	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
 	if {_list::*} is set:
 		loop {_list::*}:
 			set yaml value "data.index.category.%{_id}%.name" from "mj.shop.language.%loop-value%" to "&a%{_id}%"
 			save yaml "mj.shop.language.%loop-value%"
-	send "[APIxMJ] SHOP : data %{_source}% is added in index" to {_player}
+	send "[APIxMJ] SHOP : data %{_id}% is added in index" to {_player}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_data_new_product(player: player, source: text, id: text, item: item):

@@ -5,6 +5,7 @@ function mj_files_core():
 	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.core.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.core.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.core.data"
+	load yaml "plugins/APIxMJ/%{_folder}%/index.yml" as "mj.core.index"
 	load yaml "plugins/APIxMJ/%{_folder}%/userdata.yml" as "mj.userdata"
 	set {_list::*} to mj_editfiles_list("manager.config", "data.language.list")
 	if {_list::*} is set:
@@ -1679,6 +1680,67 @@ on dispense:
 		wait 2 ticks
 		remove all event-item from event-block's inventory
 		mj_core_logger(1, "attempt to make a forbidden block appear by %event-block's location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Security
+# =====================================================================================================================
+# APIxMJ - Security
+# ---------------------------------------------------------------------------------------------------------------------
+command /ibl [<text>]:
+	trigger:
+		if player is op:
+			if arg-1 is "give_item":
+				set {_list::*} to mj_manager_nodes("core.index")
+				loop {_list::*}:
+					set {_check} to mj_editfiles("core.index", "data.%loop-value%.type")
+					if {_check} is "item":
+						set {_item} to mj_manager_item_convert("core.index", "data.%loop-value%.item")
+						drop {_item} at player
+						broadcast "debug : &f(&a%loop-value%&f)"
+						wait 1 tick
+			if arg-1 is "give_block":
+				set {_list::*} to mj_manager_nodes("core.index")
+				loop {_list::*}:
+					set {_check} to mj_editfiles("core.index", "data.%loop-value%.type")
+					if {_check} is "block":
+						set {_item} to mj_manager_item_convert("core.index", "data.%loop-value%.item")
+						drop {_item} at player
+						broadcast "debug : &f(&a%loop-value%&f)"
+						wait 1 tick
+			else if arg-1 is "regen":
+				set {_count} to 0
+				loop all items:
+					set {_value.1} to loop-value-1
+					set {_value.2} to raw name of loop-value-1
+					replace "minecraft:" with "" in {_value.2}
+					broadcast "debug : &f(&a%{_value.2}% &r: &a%{_value.1}%&f)"
+					set yaml value "data.%{_value.2}%.item" from "mj.core.index" to "%{_value.1}%"
+					set {_loc} to location(0, 130, 0, player's world)
+					set block at {_loc} to {_value.1}
+					if block at {_loc} is {_value.1}:
+						set yaml value "data.%{_value.2}%.type" from "mj.core.index" to "block"
+					else:
+						set yaml value "data.%{_value.2}%.type" from "mj.core.index" to "item"
+					if "%{_value.1}%" contains "ore":
+						set yaml value "data.%{_value.2}%.category" from "mj.core.index" to "ore"
+					else if "%{_value.1}%" contains "wool" or "hardened clay" or "carpet" or "stained glass" or "glazed terracotta" or "concrete":
+						set yaml value "data.%{_value.2}%.category" from "mj.core.index" to "colored"
+					else if "%{_value.1}%" contains "chest" or "shulker" or "barrel":
+						set yaml value "data.%{_value.2}%.category" from "mj.core.index" to "container"
+					else:
+						set yaml value "data.%{_value.2}%.category" from "mj.core.index" to "stone"
+					add 1 to {_count}
+					wait 1 tick
+				#	if {_count} >= 70:
+				#		stop
+				save yaml "mj.core.index"
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/ibl":
+	set tab completions for position 1 to "give_item", "give_block" and "regen"
+	if tab arg-1 is "regen":
+		set {_list::*} to mj_manager_nodes("core.index")
+		set tab completions for position 1 to {_list::*}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Security

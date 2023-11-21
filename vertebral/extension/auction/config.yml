@@ -1,0 +1,9 @@
+data:
+    # The Expbank panel identification text, default : 0
+    npc_id: 0
+    # The Expbank panel identification text, default : 1
+    taxe_pourcent: 1
+    # The Expbank panel identification text, default : 30
+    expiry_time: 30
+    # The Expbank panel identification text, default : 8
+    limit_per_player: 8

@@ -168,7 +168,7 @@ function mj_auction_actualizer(max: number=1):
 	loop {_list::*}:
 		set {_player} to loop-value parsed as offlineplayer
 		set {_check} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.temp.gui")
-		if {_check} is "auction":
+		if {_check} contains "auction":
 			set {_page} to mj_editfiles_number("temp", "data.auction.%{_player}'s uuid%.page")
 			if {_page} >= {_max}+1:
 				mj_auction_menu({_player})

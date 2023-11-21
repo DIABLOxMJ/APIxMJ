@@ -164,16 +164,14 @@ function mj_auction_page_count(page: number=1) :: number:
 	return {_count}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_auction_actualizer(max: number=1):
-	set {_list::*} to mj_manager_nodes("temp", "data.auction")
-	loop {_list::*}:
-		set {_player} to loop-value parsed as offlineplayer
-		set {_check} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.temp.gui")
+	loop all players:
+		set {_check} to mj_editfiles("userdata.%loop-player's uuid%", "data.temp.gui")
 		if {_check} contains "auction":
-			set {_page} to mj_editfiles_number("temp", "data.auction.%{_player}'s uuid%.page")
+			set {_page} to mj_editfiles_number("temp", "data.auction.%loop-player's uuid%.page")
 			if {_page} >= {_max}+1:
-				mj_auction_menu({_player})
+				mj_auction_menu(loop-player)
 			else:
-				mj_auction_menu({_player})
+				mj_auction_menu(loop-player)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_auction_data_sorter():
@@ -220,13 +218,10 @@ function mj_auction_menu_main(player: player, page: number=1):
 	if {_page} is 1:
 		set {_title} to mj_editfiles_gettext("auction", "data.title.main.default", {_player})
 	mj_core_gui_generator({_player}, 6, true, "toolbar", {_title}, "auction")
-
-	#mj_editfiles("temp", "data.auction.%{_player}'s uuid%.confirm", "modify", "none")
-	#mj_editfiles_number("temp", "data.auction.%{_player}'s uuid%.page", "modify", {_page})
-
+	mj_editfiles("temp", "data.auction.%{_player}'s uuid%.confirm", "modify", "none")
+	mj_editfiles_number("temp", "data.auction.%{_player}'s uuid%.page", "modify", {_page})
 	mj_auction_button_page({_player}, {_page})
 	mj_auction_menu_main_button_personal({_player}, {_page}, 49)
-
 	set {_slot} to 0
 	set {_list::*} to mj_manager_nodes("auction.data")
 	loop {_list::*}:
@@ -303,32 +298,25 @@ function mj_auction_menu_personal_button(player: player, id: text, slot: number)
 # APIxMJ - Menu Confirm
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_auction_menu_confirm(player: player, id: text):
-	#mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui", "modify", "auction")
-
-	#mj_editfiles("temp", "data.auction.%{_player}'s uuid%.confirm", "modify", {_id})
-
+	mj_editfiles("temp", "data.auction.%{_player}'s uuid%.confirm", "modify", {_id})
 	set {_title} to mj_editfiles_gettext("auction", "data.title.confirm", {_player})
 	mj_core_gui_generator({_player}, 3, true, "default", {_title}, "auction_confirm")
-	#set {_item} to mj_manager_item_convert("auction.data", "data.%{_id}%.storage")
-	#make a gui slot 11 of {_player} with {_item} to run:
-	#	stop
-
-	#set {_item.buy} to emerald
-	#set {_owner} to mj_editfiles("auction.data", "data.%{_id}%.owner")
-	#set {_owner} to {_owner} parsed as offlineplayer
-	#set {_price} to mj_editfiles_number("auction.data", "data.%{_id}%.price")
-	#set {_price.viewer} to mj_core_format_money(false, {_price})
-	#set {_click} to mj_editfiles_gettext("manager", "data.type.left_click", {_player})
-	#set line 2 of lore of {_item.buy} to mj_editfiles_gettext("auction", "data.viewer.owner", {_player}, "%{_owner}%")
-	#set line 3 of lore of {_item.buy} to mj_editfiles_gettext("auction", "data.viewer.price", {_player}, "%{_price.viewer}%")
-	#set line 5 of lore of {_item.buy} to mj_editfiles_gettext("auction", "data.buy.button", {_player}, {_click})
-
-	#set {_title} to mj_editfiles_gettext("auction", "data.buy.confirm", {_player})
-	#make a gui slot 13 of {_player} with {_item.buy} named {_title} to run:
-	#	mj_auction_menu_confirm_button({_player}, {_id}, true)
-	#	mj_auction_menu({_player})
-	#	stop
-
+	set {_item.1} to mj_manager_item_convert("auction.data", "data.%{_id}%.storage")
+	make a gui slot 11 of {_player} with {_item.1} to run:
+		stop
+	set {_item.2} to emerald
+	set {_owner} to mj_editfiles("auction.data", "data.%{_id}%.owner")
+	set {_owner} to {_owner} parsed as offlineplayer
+	set {_price.1} to mj_editfiles_number("auction.data", "data.%{_id}%.price")
+	set {_price.2} to mj_core_money_viewer({_price.1})
+	set line 2 of lore of {_item.2} to mj_editfiles_gettext("auction", "data.viewer.owner", {_player}, "%{_owner}%")
+	set line 3 of lore of {_item.2} to mj_editfiles_gettext("auction", "data.viewer.price", {_player}, "%{_price.2}%")
+	set {_item.2} to mj_manager_item_button({_player}, {_item.2}, "left_click", "auction", "data.button.buy", false, {_price.2})
+	set {_title} to mj_editfiles_gettext("auction", "data.button.confirm", {_player})
+	make a gui slot 13 of {_player} with {_item.2} named {_title} to run:
+		mj_auction_menu_confirm_button({_player}, {_id}, true)
+		mj_auction_menu({_player})
+		stop
 	mj_auction_button_return({_player}, 1, 15)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -355,14 +343,12 @@ function mj_auction_menu_confirm_button(player: player, id: text, type: boolean=
 						mj_auction_menu_personal({_owner})
 			else:
 				mj_manager_message({_player}, "auction", "data.prefix", "essentials", "data.money.enough", "%{_price.2}%")
-		else if {_player} has permission "*" or "mj.*" or "mj.auction.*" or "mj.auction.edit":
+		else:
 			mj_manager_item_give({_player}, {_item}) 
 			mj_editfiles("auction.data", "data.%{_id}%", "delete")
 			mj_auction_data_sorter()
-		else:
-			mj_manager_message({_player}, "auction", "data.prefix", "auction", "data.no_product")
 	else:
-		mj_manager_message({_player}, "auction", "data.prefix", "auction", "data.no_product")
+		mj_manager_message({_player}, "auction", "data.prefix", "auction", "data.sender.no_product")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Menu Confirm

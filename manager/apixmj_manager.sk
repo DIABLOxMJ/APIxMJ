@@ -229,13 +229,17 @@ function mj_manager_menu_request_button(player: player, source: text, id: text, 
 	set {_slot} to mj_editfiles_number("manager.data", "data.button.request.%{_type}%.slot")
 	set {_item.1} to mj_manager_item_convert("manager.data", "data.button.request.%{_type}%.item")
 	set {_item.2} to mj_manager_item_description({_player}, {_item.1}, "data.button.request.%{_type}%")
-	make a gui slot {_slot} of {_player} with {_item.2} named {_name} to close:
-		if {_option} is "install" or "update":
-			mj_manager_menu_control_installer({_player}, {_source}, {_id}, {_option})
-		else if {_option} is "reinstall":
-			mj_manager_menu_control_reinstaller({_player}, {_source}, {_id})
-		else if {_option} is "uninstall":
-			mj_manager_menu_control_uninstaller({_player}, {_source}, {_id})
+	set {_item.3} to mj_manager_item_button({_player}, {_item.2}, "left_click", "manager", "data.open.choice")
+	make a gui slot {_slot} of {_player} with {_item.3} named {_name} to close:
+		if {_type} is "confirm":
+			if {_option} is "install" or "update":
+				mj_manager_menu_control_installer({_player}, {_source}, {_id}, {_option})
+			else if {_option} is "reinstall":
+				mj_manager_menu_control_reinstaller({_player}, {_source}, {_id})
+			else if {_option} is "uninstall":
+				mj_manager_menu_control_uninstaller({_player}, {_source}, {_id})
+			else:
+				mj_manager_menu_control({_player}, {_source}, {_id})
 		else:
 			mj_manager_menu_control({_player}, {_source}, {_id})
 		stop

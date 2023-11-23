@@ -107,6 +107,7 @@ data:
         condition_enable: "&7Activer le Skript"
         condition_disable: "&7Désactiver le Skript"
         helper: "&7Ouvrir la documentation"
+        choice: "&aConfirmer ce choix"
         gui_panel: "&7Ouvrir le panneau de configuration"
         gui_folder: "&7Ouvrir le répertoire"
     reload:

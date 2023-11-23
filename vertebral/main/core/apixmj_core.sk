@@ -1007,16 +1007,26 @@ command /report [<text>]:
 			mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.error")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
-command /reports:
+command /reports [<text>] [<text>]:
 	executable by: player
 	trigger:
 		if player has permission "*" or "mj.*" or "mj.report.*" or "mj.report.admin":
-			set {_count} to mj_manager_nodes_count("core.data", "data.report")
-			if {_count} is set:
-				mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.read", "%{_count}%")
-				mj_core_data_read(player, "core.data", "data.report")
+			if arg-1 is set:
+				if arg-1 is "remove":
+					if arg-2 is set:
+						mj_editfiles("core.data", "data.report.%arg-2%", "delete")
+						mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.remove", arg-2)
+					else:
+						mj_manager_message(player, "core", "data.report.prefix", "manager", "data.argument.name")
+				else:
+					mj_manager_message(player, "core", "data.report.prefix", "manager", "data.argument.name")
 			else:
-				mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.empty")
+				set {_count} to mj_manager_nodes_count("core.data", "data.report")
+				if {_count} is set:
+					mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.read", "%{_count}%")
+					mj_core_reports(player)
+				else:
+					mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.empty")
 		else:
 			mj_manager_permission(player, "core", "data.report.prefix", "mj.manager.report.admin")
 		stop
@@ -1025,8 +1035,8 @@ on join:
 	wait 5 seconds
 	if player has permission "*" or "mj.*" or "mj.report.*" or "mj.report.admin":
 		set {_count} to mj_manager_nodes_count("manager.data", "data.report")
-		if {_count} isn't 0:
-			mj_manager_message(player, "manager", "data.report.prefix", "manager", "data.report.news")
+		if {_count} is set:
+			mj_manager_message(player, "core", "data.report.prefix", "core", "data.report.news")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_report(player: player, info: text):
@@ -1035,6 +1045,16 @@ function mj_core_report(player: player, info: text):
 	loop all players:
 		if loop-player has permission "*" or "mj.*" or "mj.report.*" or "mj.report.admin":
 			mj_manager_message(loop-player, "core", "data.report.prefix", "core", "data.report.alert", "%{_player}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_reports(player: player):
+	set {_list::*} to mj_manager_nodes("core.data", "data.report")
+	if {_list::*} is set:
+		loop {_list::*}:
+			set {_info} to mj_editfiles("core.data", "data.report.%loop-value%")
+			send formatted "&6- <cmd:/reports remove %loop-value%>&c✗<reset> &f%{_info}%" to {_player}
+	else:
+		mj_manager_message_simple({_player}, "core", "data.empty")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Report
@@ -1105,10 +1125,10 @@ function mj_core_nick_change(player: player, value: text):
 function mj_core_nick_reveal(player: player):
 	set {_count} to 0
 	loop all players:
-		set {_name1} to mj_editfiles("userdata", "data.%loop-player's uuid%.pseudo")
-		set {_name2} to mj_editfiles("userdata.%loop-player's uuid%", "data.pseudo")
-		if {_name1} isn't {_name2}:
-			mj_manager_message({_player}, "core", "data.nick.prefix", "core", "data.nick.reveal", {_name1}, {_name2})
+		set {_name.1} to mj_editfiles("userdata", "data.%loop-player's uuid%.pseudo")
+		set {_name.2} to mj_editfiles("userdata.%loop-player's uuid%", "data.pseudo")
+		if {_name.1} isn't {_name.2}:
+			mj_manager_message({_player}, "core", "data.nick.prefix", "core", "data.nick.reveal", {_name.1}, {_name.2})
 			add 1 to {_count}
 	if {_count} is 0:
 		mj_manager_message({_player}, "core", "data.nick.prefix", "core", "data.nick.not_found")
@@ -1296,26 +1316,26 @@ function mj_core_storage_gift(player: text, id: text, broadcast: boolean=false):
 	set {_find} to mj_editfiles("core.data", "data.storage.%{_id}%.name")
 	set {_name} to mj_editfiles_gettext("core", "%{_find}%", {_player})
 	if {_name} is set:
-		set {_cmd1} to mj_editfiles("core.data", "data.storage.%{_id}%.command.1")
-		if {_cmd1} isn't "/none":
+		set {_cmd.1} to mj_editfiles("core.data", "data.storage.%{_id}%.command.1")
+		if {_cmd.1} isn't "/none":
 			set {_count} to mj_manager_nodes_count("core.data", "data.storage.%{_id}%.command")
 			loop {_count} times:
-				set {_cmd2} to mj_editfiles("core.data", "data.storage.%{_id}%.command.%loop-value%")
+				set {_cmd.2} to mj_editfiles("core.data", "data.storage.%{_id}%.command.%loop-value%")
 				replace "$0" with "%{_player}%" in {_cmd}
-				console command "%{_cmd2}%"
-		set {_money1} to mj_editfiles_number("core.data", "data.storage.%{_id}%.money")
-		if {_money1} isn't 0:
-			set {_money2} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.storage.money")
-			add {_money1} to {_money2}
-			mj_editfiles_number("temp", "data.%{_player}'s uuid%.storage.money", "modify", {_money2})
+				console command "%{_cmd.2}%"
+		set {_money.1} to mj_editfiles_number("core.data", "data.storage.%{_id}%.money")
+		if {_money.1} isn't 0:
+			set {_money.2} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.storage.money")
+			add {_money.1} to {_money.2}
+			mj_editfiles_number("temp", "data.%{_player}'s uuid%.storage.money", "modify", {_money.2})
 		set {_rank} to mj_editfiles("core.data", "data.storage.%{_id}%.rank")
 		if {_rank} isn't "none":
 			mj_editfiles("temp", "data.%{_player}'s uuid%.storage.rank", "modify", {_rank})
-		set {_list1::*} to mj_editfiles_list("core.data", "data.storage.%{_id}%.storage")
-		if {_list1::*} doesn't contain "none":
-			set {_list2::*} to mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage")
-			add {_list1::*} to {_list2::*}
-			mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage", "modify", {_list2::*})
+		set {_list.1::*} to mj_editfiles_list("core.data", "data.storage.%{_id}%.storage")
+		if {_list.1::*} doesn't contain "none":
+			set {_list.2::*} to mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage")
+			add {_list.1::*} to {_list.2::*}
+			mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage", "modify", {_list.2::*})
 		if {_broadcast} is true:
 			loop all players:
 				mj_manager_message(loop-player, "core", "data.prefix", "core", "data.storage.broadcast", "%{_player}%", {_name})
@@ -1343,18 +1363,18 @@ function mj_core_storage_reward(player: player):
 		mj_editfiles("temp", "data.%{_player}'s uuid%.storage.rank", "modify", "none")
 		mj_core_logger(2, "%{_player}% to collect his reward %{_rank}%")
 		set {_reward} to true
-	set {_list1::*} to mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage")
-	if {_list1::*} is set:
+	set {_list.1::*} to mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage")
+	if {_list.1::*} is set:
 		mj_editfiles("temp", "data.%{_player}'s uuid%.storage.storage", "modify", "")
-		loop {_list1::*}:
+		loop {_list.1::*}:
 			if {_player}'s inventory has space for loop-value:
 				give loop-value to {_player}
 				mj_core_logger(2, "%{_player}% to collect his reward %loop-value%")
 				set {_reward} to true
 			else:
-				add loop-value to {_list2::*}
-		if {_list2::*} is set:
-			mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage", "modify", {_list2::*})
+				add loop-value to {_list.2::*}
+		if {_list.2::*} is set:
+			mj_editfiles_list("temp", "data.%{_player}'s uuid%.storage.storage", "modify", {_list.2::*})
 	if {_reward} is true:
 		mj_manager_message({_player}, "core", "data.prefix", "core", "data.storage.give_reward")
 	else:
@@ -1797,21 +1817,21 @@ function mj_core_id_checker(source: text, find: text="data", name: text) :: text
 	return {_id}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_id_converter(source: text, find: text="data", head: text="name") :: objects:
-	set {_list1::*} to mj_manager_nodes({_source}, {_find})
-	loop {_list1::*}:
+	set {_list.1::*} to mj_manager_nodes({_source}, {_find})
+	loop {_list.1::*}:
 		set {_name} to mj_editfiles({_source}, "%{_find}%.%loop-value%.%{_head}%")
 		if {_head} is loop-value:
 			set {_name} to mj_editfiles({_source}, "%{_find}%.%loop-value%")
-		add {_name} to {_list2::*}
-	return {_list2::*}
+		add {_name} to {_list.2::*}
+	return {_list.2::*}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_core_reset_database():
 	set {_send} to mj_editfiles_gettext("core", "data.database.reset")
 	kick all players due to "%{_send}%"
-	set {_list1::*} to mj_manager_nodes("directory")
-	loop {_list1::*}:
-		set {_list2::*} to mj_manager_nodes("directory", "data.%loop-value-1%.reset")
-		loop {_list2::*}:
+	set {_list.1::*} to mj_manager_nodes("directory")
+	loop {_list.1::*}:
+		set {_list.2::*} to mj_manager_nodes("directory", "data.%loop-value-1%.reset")
+		loop {_list.2::*}:
 			set {_file} to mj_editfiles("directory", "data.%loop-value-1%.reset.%loop-value-2%.file")
 			if {_file} is set:
 				set {_source} to mj_editfiles("directory", "data.%loop-value-1%.reset.%loop-value-2%.source")
@@ -1971,10 +1991,10 @@ function mj_core_data_memory(source: text, find: text, info: text):
 	mj_core_logger(3, "Memory data : &3%{_date}% &e%{_time}% &6- &r%{_info}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_data_read(player: player, source: text, find: text="data"):
-	set {_list1::*} to mj_manager_nodes({_source}, {_find})
-	if {_list1::*} is set:
-		loop {_list1::*}:
+function mj_core_data_read(player: player, source: text, find: text="data", cmd: text="/console /dataeditor delete"):
+	set {_list::*} to mj_manager_nodes({_source}, {_find})
+	if {_list::*} is set:
+		loop {_list::*}:
 			set {_info} to mj_editfiles({_source}, "%{_find}%.%loop-value%")
 			send formatted "&6- <cmd:/console /dataeditor delete mj.%{_source}% %{_find}%.%loop-value%>&c✗<reset> &f%{_info}%" to {_player}
 	else:
@@ -2132,28 +2152,28 @@ function mj_core_hour() :: text:
 	set {_minute} to now formatted with "mm"
 	return "%{_hour}%h%{_minute}%"
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_sorter_board(name: text="default", source: text="none", find: text="data", head1: text="value", head2: text="none", time: number=10):
+function mj_core_sorter_board(name: text="default", source: text="none", find: text="data", head.1: text="value", head.2: text="none", time: number=10):
 	if {_source} isn't "none":
 		mj_editfiles("temp", "data.sorterboard.%{_name}%", "delete")
-		set {_list1::*} to mj_manager_nodes({_source}, {_find})
-		loop {_list1::*}:
-			set {_value1} to mj_editfiles_number({_source}, "%{_find}%.%loop-value%.%{_head1}%")
-			if {_head2} isn't "none":
-				set {_value2} to mj_editfiles_number({_source}, "%{_find}%.%loop-value%.%{_head2}%")
-				add {_value2} to {_value1}
-			add {_value1} to {_list2::%loop-value%}
+		set {_list.1::*} to mj_manager_nodes({_source}, {_find})
+		loop {_list.1::*}:
+			set {_value.1} to mj_editfiles_number({_source}, "%{_find}%.%loop-value%.%{_head.1}%")
+			if {_head.2} isn't "none":
+				set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.%loop-value%.%{_head.2}%")
+				add {_value.2} to {_value.1}
+			add {_value.1} to {_list.2::%loop-value%}
 		set {_count} to 1
 		loop {_time} times:
-			loop {_list2::*}:
-				if {_value3} isn't set:
-					set {_value3} to loop-value-2
-				if loop-value-2 >= {_value3}:
-					set {_value3} to loop-value-2
+			loop {_list.2::*}:
+				if {_value.3} isn't set:
+					set {_value.3} to loop-value-2
+				if loop-value-2 >= {_value.3}:
+					set {_value.3} to loop-value-2
 					set {_index} to loop-index-1
 					mj_editfiles("temp", "data.sorterboard.%{_name}%.%{_count}%.id", "modify", loop-index-1)
 					mj_editfiles_number("temp", "data.sorterboard.%{_name}%.%{_count}%.value", "modify", loop-value-2)
-			clear {_list2::%{_index}%}
-			delete {_value3}
+			clear {_list.2::%{_index}%}
+			delete {_value.3}
 			add 1 to {_count}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

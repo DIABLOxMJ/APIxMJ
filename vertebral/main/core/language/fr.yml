@@ -29,6 +29,7 @@ data:
     report:
         prefix: "&6[&c&lReport&6]&r"
         message: "&7Vous avez signalé &6: &a$0"
+        remove: "&7Suppresion de &a$0 &7réussi !"
         alert: "&7Vous avez un signalement de &a$0 &7faites &a/reports &7pour le voir."
         news: "&7Vous avez des signalements en attente faites &a/reports &7pour le voir."
         error: "&cVeuillez spécifier quelque chose pour le signalement"

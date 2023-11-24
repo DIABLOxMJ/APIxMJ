@@ -2,6 +2,7 @@ data:
     prefix: "&6[&2&lShop&6]&r"
     return: "&6Retour"
     money: "&eVotre argent &6: $0"
+    quantity: "&eObjet en stock &6: &a$0"
     admin_info:
         title: "&eInformation caché &6:&r"
         total: "&6- &7Quantité total &6:&r"
@@ -40,5 +41,3 @@ data:
                 lore:
                     '1': "&aYour description one"
                     '2': "&aYour description two"
-        cobblestone:
-            name: "&acobblestone"

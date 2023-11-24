@@ -10,8 +10,6 @@ function mj_files_spawner():
 		loop {_list::*}:
 			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.spawner.language.%loop-value%"
 			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.spawner.help.%loop-value%"
-	loop all players:
-		mj_spawner_playerdata(loop-player)
 	wait 5 ticks
 	mj_check_spawner_data()
 	stop
@@ -158,11 +156,11 @@ on place of mob spawner:
 		set {_count} to 0
 		wait 1 tick
 		loop blocks within chunk at location of block:
-			if loop-block is mob spawner:
+			if type of loop-block is mob spawner:
 				add 1 to {_count}
 				set {_check.2} to mj_editfiles_number("spawner.config", "data.chunk_limit")
 				if {_count} >= {_check.2}:
-					set {_check1} to true
+					set {_check.1} to true
 		if {_check.1} is true:
 			mj_manager_message(player, "spawner", "data.prefix", "spawner", "data.chunk_limit", "%{_count}%")
 		else:

@@ -86,7 +86,7 @@ command /faction [<text>] [<text>]:
 					if arg-2 is set:
 						mj_faction_info_inspect(player, arg-2)
 					else:
-						set {_id} to mj_editfiles("userdata", "data.%player's uuid%.faction.guild")
+						set {_id} to mj_editfiles("userdata", "data.%player's uuid%.source.faction.guild")
 						if {_id} is set:
 							mj_faction_info(player, {_id})
 						else:
@@ -444,7 +444,7 @@ function mj_faction_create(player: player, value: text):
 			if {_money} >= {_price}:
 				mj_faction_create_result({_player}, {_name})
 			else:
-				set {_view} to mj_core_format_money(false, {_price})
+				set {_view} to mj_core_money_viewer({_price})
 				mj_manager_message({_player}, "faction", "data.prefix", "essentials", "data.money.no_enough", {_view})
 		else:
 			mj_manager_message({_player}, "faction", "data.prefix", "faction", "data.create.character_limit", "%{_limit}%")
@@ -1333,7 +1333,7 @@ function mj_faction_map_chunk(player: player) :: objects:
 function mj_faction_money(player: offlineplayer, mode: text="deposit", value: number=0):
 	set {_rank} to mj_editfiles("userdata", "data.%{_player}'s uuid%.source.faction.rank")
 	if {_rank} is "leader" or "officer" or "member":
-		set {_view} to mj_core_format_money(false, {_value})
+		set {_view} to mj_core_money_viewer({_value})
 		if {_mode} is "deposit":
 			set {_money} to mj_essentials_money_modify({_player}, "all")
 			if {_money} >= {_value}:
@@ -1376,7 +1376,7 @@ function mj_faction_money_edit(player: offlineplayer, type: text="add", value: n
 			if {_result} >= {_limit} + 1:
 				set {_lost} to {_result} - {_limit}
 				set {_result} to {_limit}
-				set {_view} to mj_core_format_money(false, {_lost})
+				set {_view} to mj_core_money_viewer({_lost})
 				mj_essentials_money_system({_player}, {_lost}, true, "Withdraw guild lost money")
 				wait 1 tick
 				mj_manager_message({_player}, "faction", "data.prefix", "essentials", "data.bank.lost", {_view})

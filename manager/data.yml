@@ -183,6 +183,24 @@ data:
             item: chest
             gui_background:
                 item: cyan stained glass pane
+        experimental_main:
+            name: data.index.experimental_main.name
+            visible: true
+            menu_back: main
+            menu_next: experimental_main
+            slot: 41
+            item: chest
+            gui_background:
+                item: gray stained glass pane
+        experimental_extension:
+            name: data.index.experimental_extension.name
+            visible: true
+            menu_back: experimental_main
+            menu_next: experimental_extension
+            slot: 16
+            item: chest
+            gui_background:
+                item: gray stained glass pane
         editor:
             name: data.index.editor.name
             visible: true
@@ -385,76 +403,6 @@ data:
                 item: command block
                 gui_background:
                     item: light blue stained glass pane
-            account:
-                name: data.addon.vertebral_main.account.name
-                experimental: true
-                visible: false
-                depends:
-                    '1': main.manager
-                    '2': vertebral_main.core
-                    '3': vertebral_main.ranker
-                variants:
-                    '1': none
-                conflicts:
-                    '1': none
-                optional:
-                    '1': none
-                source: none
-                github_folder: vertebral/main/account
-                folder: main/account
-                slot: 28
-                skript:
-                    '1': apixmj_account
-                yml:
-                    '1': config
-                file:
-                    '1': mj.account.config
-                    '2': mj.account.data
-                preset:
-                    '1': none
-                datapack:
-                    '1': none
-                reset:
-                    '1':
-                        file: none
-                        data: data
-                item: totem of undying
-                gui_background:
-                    item: magenta stained glass pane
-            encrypter:
-                name: data.addon.vertebral_main.encrypter.name
-                experimental: true
-                visible: false
-                depends:
-                    '1': main.manager
-                variants:
-                    '1': none
-                conflicts:
-                    '1': none
-                optional:
-                    '1': none
-                source: none
-                github_folder: vertebral/main/encrypter
-                folder: main/encrypter
-                slot: 29
-                skript:
-                    '1': apixmj_encrypter
-                yml:
-                    '1': config
-                file:
-                    '1': mj.encrypter.config
-                    '2': mj.encrypter.data
-                preset:
-                    '1': b16
-                datapack:
-                    '1': none
-                reset:
-                    '1':
-                        file: none
-                        data: data
-                item: redstone comparator item
-                gui_background:
-                    item: magenta stained glass pane
         vertebral_extension:
             achievement:
                 name: data.addon.vertebral_extension.achievement.name
@@ -1783,6 +1731,225 @@ data:
                 item: command block
                 gui_background:
                     item: cyan stained glass pane
+        experimental_main:
+            core:
+                name: data.addon.experimental_main.core.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: experimental/main/core
+                folder: main/core
+                slot: 10
+                skript:
+                    '1': apixmj_core
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.core.config
+                    '2': mj.core.data
+                    '4': mj.userdata
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.temp
+                        data: data
+                    '2':
+                        file: mj.userdata
+                        data: data
+                item: command block
+                gui_background:
+                    item: purple stained glass pane
+            ranker:
+                name: data.addon.experimental_main.ranker.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': experimental_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: experimental/main/ranker
+                folder: main/ranker
+                slot: 11
+                skript:
+                    '1': apixmj_ranker
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.config
+                    '2': mj.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: iron chestplate
+                gui_background:
+                    item: blue stained glass pane
+            essentials:
+                name: data.addon.experimental_main.essentials.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': experimental_main.core
+                    '3': experimental_main.ranker
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: experimental/main/essentials
+                folder: main/essentials
+                slot: 12
+                skript:
+                    '1': apixmj_essentials
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.essentials.config
+                    '2': mj.essentials.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: command block
+                gui_background:
+                    item: light blue stained glass pane
+            account:
+                name: data.addon.experimental_main.account.name
+                experimental: true
+                visible: false
+                depends:
+                    '1': main.manager
+                    '2': experimental_main.core
+                    '3': experimental_main.ranker
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: experimental/main/account
+                folder: main/account
+                slot: 28
+                skript:
+                    '1': apixmj_account
+                yml:
+                    '1': config
+                file:
+                    '1': mj.account.config
+                    '2': mj.account.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: totem of undying
+                gui_background:
+                    item: magenta stained glass pane
+            encrypter:
+                name: data.addon.experimental_main.encrypter.name
+                experimental: true
+                visible: false
+                depends:
+                    '1': main.manager
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: experimental/main/encrypter
+                folder: main/encrypter
+                slot: 29
+                skript:
+                    '1': apixmj_encrypter
+                yml:
+                    '1': config
+                file:
+                    '1': mj.encrypter.config
+                    '2': mj.encrypter.data
+                preset:
+                    '1': b16
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: redstone comparator item
+                gui_background:
+                    item: magenta stained glass pane
+        experimental_extension:
+            auction:
+                name: data.addon.vertebral_extension.auction.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/auction
+                folder: main/extension/auction
+                slot: 11
+                skript:
+                    '1': apixmj_auction
+                yml:
+                    '1': config
+                file:
+                    '1': mj.auction.config
+                    '2': mj.auction.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.auction.data
+                        data: data
+                item: emerald
+                gui_background:
+                    item: gray stained glass pane
         editor:
             bedwars_editor:
                 name: data.addon.editor.bedwars_editor.name

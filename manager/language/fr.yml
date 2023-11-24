@@ -268,6 +268,18 @@ data:
             lore:
                 '1': "&6- &7Des Skripts spécialement conçus pour"
                 '2': "&0- &7Développé et édité des paramètres particulier !"
+        experimental_main:
+            name: "&5Module centrale &e+"
+            name_lite: "&5Module centrale &e+"
+            lore:
+                '1': "&6- &7Les Skripts qui font fonctionner APIxMJ"
+                '2': "&0- &7sans lui rien de tout ça ne serait possible."
+        experimental_extension:
+            name: "&aExtension &e+"
+            name_lite: "&aExtension &e+"
+            lore:
+                '1': "&6- &7Des Skripts sous-dépendant des principaux"
+                '2': "&0- &7remplis de fonctionnalités très attirants !"
         control_condition:
             name: "&aContrôleur de Skript"
             name_lite: "&aContrôleur"
@@ -310,17 +322,6 @@ data:
                 lore:
                     '1': "&6- &7Essentielles et un outil de gestion de"
                     '2': "&0- &7serveur complet est parfait pour la modération."
-            account:
-                name: "&bCompte utilisateur"
-                name_lite: "&bCompte"
-                lore:
-                    '1': "&6- &7Un utilitaire pour du multi-compte"
-            encrypter:
-                name: "&bEncodeur"
-                name_lite: "&bEncodeur"
-                lore:
-                    '1': "&6- &7Un mini utilitaire pour convertir des données"
-                    '2': "&0- &7en donnée cripté."
         vertebral_extension:
             achievement:
                 name: "&aSystème de progression"
@@ -554,6 +555,46 @@ data:
                 name_lite: "&bCœur"
                 lore:
                     '1': "&6- &7Un module centrale pour le serveur."
+        experimental_main:
+            core:
+                name: "&5Cœur"
+                name_lite: "&5Cœur"
+                lore:
+                    '1': "&6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
+                    '2': "&0- &7de faire fonctionner son environnement de fonctionnalité."
+            ranker:
+                name: "&bRank Manager"
+                name_lite: "&bRank Manager"
+                lore:
+                    '1': "&6- &7Un utilitaire indispensable pour géré les grades,"
+                    '2': "&0- &7il est compatible avec GroupManager, LuckPerm, etc..."
+                    '3': "&6- &7Il dispose également de son propre système de gestion"
+                    '4': "&0- &7de grade donc plus besoin de GroupManager est autres..."
+            essentials:
+                name: "&bEssentielle"
+                name_lite: "&bEssentielle"
+                lore:
+                    '1': "&6- &7Essentielles et un outil de gestion de"
+                    '2': "&0- &7serveur complet est parfait pour la modération."
+            account:
+                name: "&bCompte utilisateur"
+                name_lite: "&bCompte"
+                lore:
+                    '1': "&6- &7Un utilitaire pour du multi-compte"
+            encrypter:
+                name: "&bEncodeur"
+                name_lite: "&bEncodeur"
+                lore:
+                    '1': "&6- &7Un mini utilitaire pour convertir des données"
+                    '2': "&0- &7en donnée cripté."
+        experimental_extension:
+            auction:
+                name: "&aHôtel des ventes"
+                name_lite: "&aHôtel des ventes"
+                lore:
+                    '1': "&6- &7Les poches pleines après une expédition ?"
+                    '2': "&0- &7Échangez vos ressources contre de l'argent,"
+                    '3': "&0- &7peut-être qu'un joueur vous rendra riche !"
         editor:
             bedwars_editor:
                 name: "&aÉditeur du Bedwars"

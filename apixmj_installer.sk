@@ -17,8 +17,8 @@ on load:
 		mj_install_setup()
 		wait 1 second
 		broadcast "&6[&cAPIxMJ&6] &aFinish!"
-		#delete file "plugins/Skript/scripts/apixmj_installer.sk"
-		#unload script file "apixmj_installer.sk"
+		delete file "plugins/Skript/scripts/apixmj_installer.sk"
+		unload script file "apixmj_installer.sk"
 	else:
 		wait 5 seconds
 		broadcast "&6[&cAPIxMJ&6] &cVerifying failed! Missing plugins error…"

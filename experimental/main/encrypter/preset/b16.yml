@@ -1,0 +1,412 @@
+data:
+    name: "b16"
+    size: 2
+    format:
+        space:
+            uppercase: false
+            normal: " "
+            formule: "00"
+        number_0:
+            uppercase: false
+            normal: "0"
+            formule: "01"
+        number_1:
+            uppercase: false
+            normal: "1"
+            formule: "02"
+        number_2:
+            uppercase: false
+            normal: "2"
+            formule: "03"
+        number_3:
+            uppercase: false
+            normal: "3"
+            formule: "04"
+        number_4:
+            uppercase: false
+            normal: "4"
+            formule: "05"
+        number_5:
+            uppercase: false
+            normal: "5"
+            formule: "06"
+        number_6:
+            uppercase: false
+            normal: "6"
+            formule: "07"
+        number_7:
+            uppercase: false
+            normal: "7"
+            formule: "08"
+        number_8:
+            uppercase: false
+            normal: "8"
+            formule: "09"
+        number_9:
+            uppercase: false
+            normal: "9"
+            formule: "0A"
+        letter_a_01:
+            uppercase: false
+            normal: "a"
+            formule: "0B"
+        letter_a_02:
+            uppercase: true
+            normal: "A"
+            formule: "0C"
+        letter_a_03:
+            uppercase: false
+            normal: "à"
+            formule: "0D"
+        letter_a_04:
+            uppercase: true
+            normal: "À"
+            formule: "0A"
+        letter_a_05:
+            uppercase: false
+            normal: "â"
+            formule: "0B"
+        letter_a_06:
+            uppercase: true
+            normal: "Â"
+            formule: "0C"
+        letter_a_07:
+            uppercase: false
+            normal: "â"
+            formule: "0D"
+        letter_a_08:
+            uppercase: true
+            normal: "Â"
+            formule: "0E"
+        letter_b_01:
+            uppercase: false
+            normal: "b"
+            formule: "0F"
+        letter_b_02:
+            uppercase: true
+            normal: "B"
+            formule: "10"
+        letter_c_01:
+            uppercase: false
+            normal: "c"
+            formule: "11"
+        letter_c_02:
+            uppercase: true
+            normal: "C"
+            formule: "12"
+        letter_c_03:
+            uppercase: false
+            normal: "ç"
+            formule: "13"
+        letter_c_04:
+            uppercase: true
+            normal: "Ç"
+            formule: "14"
+        letter_d_01:
+            uppercase: false
+            normal: "d"
+            formule: "15"
+        letter_d_02:
+            uppercase: true
+            normal: "D"
+            formule: "16"
+        letter_e_01:
+            uppercase: false
+            normal: "e"
+            formule: "17"
+        letter_e_02:
+            uppercase: true
+            normal: "E"
+            formule: "18"
+        letter_e_03:
+            uppercase: false
+            normal: "é"
+            formule: "19"
+        letter_e_04:
+            uppercase: true
+            normal: "É"
+            formule: "1A"
+        letter_e_05:
+            uppercase: false
+            normal: "è"
+            formule: "1B"
+        letter_e_06:
+            uppercase: true
+            normal: "È"
+            formule: "1C"
+        letter_e_07:
+            uppercase: false
+            normal: "ê"
+            formule: "1D"
+        letter_e_08:
+            uppercase: true
+            normal: "Ê"
+            formule: "1E"
+        letter_e_09:
+            uppercase: false
+            normal: "ë"
+            formule: "1F"
+        letter_e_10:
+            uppercase: true
+            normal: "Ë"
+            formule: "20"
+        letter_f_01:
+            uppercase: false
+            normal: "f"
+            formule: "21"
+        letter_f_02:
+            uppercase: true
+            normal: "F"
+            formule: "22"
+        letter_g_01:
+            uppercase: false
+            normal: "g"
+            formule: "23"
+        letter_g_02:
+            uppercase: true
+            normal: "G"
+            formule: "24"
+        letter_h_01:
+            uppercase: false
+            normal: "h"
+            formule: "25"
+        letter_h_02:
+            uppercase: true
+            normal: "H"
+            formule: "26"
+        letter_i_01:
+            uppercase: false
+            normal: "i"
+            formule: "27"
+        letter_i_02:
+            uppercase: true
+            normal: "I"
+            formule: "28"
+        letter_j_01:
+            uppercase: false
+            normal: "j"
+            formule: "29"
+        letter_j_02:
+            uppercase: true
+            normal: "J"
+            formule: "2A"
+        letter_k_01:
+            uppercase: false
+            normal: "k"
+            formule: "2B"
+        letter_k_02:
+            uppercase: true
+            normal: "K"
+            formule: "2C"
+        letter_l_01:
+            uppercase: false
+            normal: "l"
+            formule: "2D"
+        letter_l_02:
+            uppercase: true
+            normal: "L"
+            formule: "2E"
+        letter_m_01:
+            uppercase: false
+            normal: "m"
+            formule: "2F"
+        letter_m_02:
+            uppercase: true
+            normal: "M"
+            formule: "30"
+        letter_n_01:
+            uppercase: false
+            normal: "n"
+            formule: "31"
+        letter_n_02:
+            uppercase: true
+            normal: "N"
+            formule: "32"
+        letter_o_01:
+            uppercase: false
+            normal: "o"
+            formule: "33"
+        letter_o_02:
+            uppercase: true
+            normal: "O"
+            formule: "34"
+        letter_p_01:
+            uppercase: false
+            normal: "p"
+            formule: "35"
+        letter_p_02:
+            uppercase: true
+            normal: "P"
+            formule: "36"
+        letter_q_01:
+            uppercase: false
+            normal: "q"
+            formule: "37"
+        letter_q_02:
+            uppercase: true
+            normal: "Q"
+            formule: "38"
+        letter_r_01:
+            uppercase: false
+            normal: "r"
+            formule: "39"
+        letter_r_02:
+            uppercase: true
+            normal: "R"
+            formule: "3A"
+        letter_s_01:
+            uppercase: false
+            normal: "s"
+            formule: "3B"
+        letter_s_02:
+            uppercase: true
+            normal: "S"
+            formule: "3C"
+        letter_t_01:
+            uppercase: false
+            normal: "t"
+            formule: "3D"
+        letter_t_02:
+            uppercase: true
+            normal: "T"
+            formule: "3E"
+        letter_u_01:
+            uppercase: false
+            normal: "u"
+            formule: "3F"
+        letter_u_02:
+            uppercase: true
+            normal: "U"
+            formule: "40"
+        letter_u_03:
+            uppercase: false
+            normal: "ù"
+            formule: "41"
+        letter_v_01:
+            uppercase: false
+            normal: "v"
+            formule: "42"
+        letter_v_02:
+            uppercase: true
+            normal: "V"
+            formule: "43"
+        letter_w_01:
+            uppercase: false
+            normal: "w"
+            formule: "44"
+        letter_w_02:
+            uppercase: true
+            normal: "W"
+            formule: "45"
+        letter_x_01:
+            uppercase: false
+            normal: "x"
+            formule: "46"
+        letter_x_02:
+            uppercase: true
+            normal: "X"
+            formule: "47"
+        letter_y_01:
+            uppercase: false
+            normal: "y"
+            formule: "48"
+        letter_y_02:
+            uppercase: true
+            normal: "Y"
+            formule: "49"
+        letter_z_01:
+            uppercase: false
+            normal: "z"
+            formule: "4A"
+        letter_z_02:
+            uppercase: true
+            normal: "Z"
+            formule: "4B"
+        stop:
+            uppercase: false
+            normal: "."
+            formule: "70"
+        comma:
+            uppercase: false
+            normal: ","
+            formule: "71"
+        colon:
+            uppercase: false
+            normal: ":"
+            formule: "72"
+        semicolon:
+            uppercase: false
+            normal: ";"
+            formule: "73"
+        apostrophe:
+            uppercase: false
+            normal: "'"
+            formule: "74"
+        slash:
+            uppercase: false
+            normal: "/"
+            formule: "75"
+        backslash:
+            uppercase: false
+            normal: "\\"
+            formule: "76"
+        hyphen_minus:
+            uppercase: false
+            normal: "-"
+            formule: "77"
+        underline:
+            uppercase: false
+            normal: "_"
+            formule: "78"
+        question:
+            uppercase: false
+            normal: "?"
+            formule: "79"
+        exclamation:
+            uppercase: false
+            normal: "!"
+            formule: "7A"
+        at_sign:
+            uppercase: false
+            normal: "@"
+            formule: "7B"
+        sharp:
+            uppercase: false
+            normal: "#"
+            formule: "7C"
+        percent:
+            uppercase: false
+            normal: "%%"
+            formule: "7D"
+        ampersand:
+            uppercase: false
+            normal: "&"
+            formule: "7E"
+        asterix:
+            uppercase: false
+            normal: "*"
+            formule: "7F"
+        left_parenthesis:
+            uppercase: false
+            normal: "("
+            formule: "80"
+        right_parenthesis:
+            uppercase: false
+            normal: ")"
+            formule: "81"
+        less_than:
+            uppercase: false
+            normal: "<"
+            formule: "82"
+        greater_than:
+            uppercase: false
+            normal: ">"
+            formule: "83"
+        plus:
+            uppercase: false
+            normal: "+"
+            formule: "84"
+        equal:
+            uppercase: false
+            normal: "="
+            formule: "85"

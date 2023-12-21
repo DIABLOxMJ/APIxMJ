@@ -1,0 +1,15 @@
+data:
+    kits:
+    - nokit
+    report: none
+    spawn: none
+    warp: none
+    upgrade:
+        money:
+            '0':
+                price: 20000
+                value: 25000
+        bank:
+            '0':
+                price: 45000
+                value: 50000

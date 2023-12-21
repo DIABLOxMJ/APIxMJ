@@ -1,0 +1,7 @@
+data:
+    # A simple system to identify which system to use for ranks
+    system:
+        # Find out if it's native or an external plugin, default : apixmj
+        use: apixmj
+        # Know the version in case of significant change, default : 0000.00.00.0000
+        version: 0000.00.00.0000

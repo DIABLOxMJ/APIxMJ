@@ -1,0 +1,541 @@
+data:
+    recipe:
+        bundle_1:
+            name: "&aBundle"
+            shapeless: false
+            group: bundle
+            item: bundle
+            give: bundle
+            count: 1
+            method:
+                slot_1: string
+                slot_2: leather
+                slot_3: string
+                slot_4: leather
+                slot_5: air
+                slot_6: leather
+                slot_7: leather
+                slot_8: leather
+                slot_9: leather
+        bundle_2:
+            name: "&aBundle"
+            shapeless: false
+            group: bundle
+            item: bundle
+            give: bundle
+            count: 1
+            method:
+                slot_1: string
+                slot_2: rabbit hide
+                slot_3: string
+                slot_4: rabbit hide
+                slot_5: air
+                slot_6: rabbit hide
+                slot_7: rabbit hide
+                slot_8: rabbit hide
+                slot_9: rabbit hide
+        quartz_1:
+            name: "&aBloc de quartz"
+            shapeless: true
+            group: quartz
+            item:
+                ==: org.bukkit.inventory.ItemStack
+                v: 2975
+                type: QUARTZ_BLOCK
+            give:
+                ==: org.bukkit.inventory.ItemStack
+                v: 2975
+                type: QUARTZ_BLOCK
+            count: 2
+            method:
+                slot_1: raw diorite
+                slot_2: raw diorite
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        quartz_2:
+            name: "&aPoudre de quartz"
+            shapeless: true
+            group: quartz
+            item: quartz
+            give: quartz
+            count: 4
+            method:
+                slot_1:
+                    ==: org.bukkit.inventory.ItemStack
+                    v: 2975
+                    type: QUARTZ_BLOCK
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        chest_1:
+            name: "&a4 Coffres (Oak)"
+            shapeless: false
+            group: chest
+            item: chest
+            give: chest
+            count: 4
+            method:
+                slot_1: oak log
+                slot_2: oak log
+                slot_3: oak log
+                slot_4: oak log
+                slot_5: air
+                slot_6: oak log
+                slot_7: oak log
+                slot_8: oak log
+                slot_9: oak log
+        chest_2:
+            name: "&a4 Coffres (Spruce)"
+            shapeless: false
+            group: chest
+            item: chest
+            give: chest
+            count: 4
+            method:
+                slot_1: spruce log
+                slot_2: spruce log
+                slot_3: spruce log
+                slot_4: spruce log
+                slot_5: air
+                slot_6: spruce log
+                slot_7: spruce log
+                slot_8: spruce log
+                slot_9: spruce log
+        chest_3:
+            name: "&a4 Coffres (Birch)"
+            shapeless: false
+            group: chest
+            item: chest
+            give: chest
+            count: 4
+            method:
+                slot_1: birch log
+                slot_2: birch log
+                slot_3: birch log
+                slot_4: birch log
+                slot_5: air
+                slot_6: birch log
+                slot_7: birch log
+                slot_8: birch log
+                slot_9: birch log
+        chest_4:
+            name: "&a4 Coffres (Jungle)"
+            shapeless: false
+            group: chest
+            item: chest
+            give: chest
+            count: 4
+            method:
+                slot_1: jungle log
+                slot_2: jungle log
+                slot_3: jungle log
+                slot_4: jungle log
+                slot_5: air
+                slot_6: jungle log
+                slot_7: jungle log
+                slot_8: jungle log
+                slot_9: jungle log
+        chest_5:
+            name: "&a4 Coffres (Acacia)"
+            shapeless: false
+            group: chest
+            item: chest
+            give: chest
+            count: 4
+            method:
+                slot_1: acacia log
+                slot_2: acacia log
+                slot_3: acacia log
+                slot_4: acacia log
+                slot_5: air
+                slot_6: acacia log
+                slot_7: acacia log
+                slot_8: acacia log
+                slot_9: acacia log
+        chest_6:
+            name: "&a4 Coffres (Dark Oak)"
+            shapeless: false
+            group: chest
+            item: chest
+            give: chest
+            count: 4
+            method:
+                slot_1: dark oak log
+                slot_2: dark oak log
+                slot_3: dark oak log
+                slot_4: dark oak log
+                slot_5: air
+                slot_6: dark oak log
+                slot_7: dark oak log
+                slot_8: dark oak log
+                slot_9: dark oak log
+        chest_7:
+            name: "&a4 Coffres (Crimson)"
+            shapeless: false
+            group: chest
+            item: chest
+            give: chest
+            count: 4
+            method:
+                slot_1: crimson stem
+                slot_2: crimson stem
+                slot_3: crimson stem
+                slot_4: crimson stem
+                slot_5: air
+                slot_6: crimson stem
+                slot_7: crimson stem
+                slot_8: crimson stem
+                slot_9: crimson stem
+        chest_8:
+            name: "&a4 Coffres (Warped)"
+            shapeless: false
+            group: chest
+            item: chest
+            give: chest
+            count: 4
+            method:
+                slot_1: warped stem
+                slot_2: warped stem
+                slot_3: warped stem
+                slot_4: warped stem
+                slot_5: air
+                slot_6: warped stem
+                slot_7: warped stem
+                slot_8: warped stem
+                slot_9: warped stem
+        wool_1:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: white wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_1:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: white wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_2:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: light gray wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_3:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: dark gray wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_4:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: black wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_5:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: brown wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_6:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: red wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_7:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: orange wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_8:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: yellow wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_9:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: lime wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_10:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: green wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_11:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: cyan wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_12:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: light blue wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_13:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: blue wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_14:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: purple wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_15:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: magenta wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        wool_16:
+            name: "&a4 Ficelles"
+            shapeless: true
+            group: wool
+            item: string
+            give: string
+            count: 4
+            method:
+                slot_1: pink wool block
+                slot_2: air
+                slot_3: air
+                slot_4: air
+                slot_5: air
+                slot_6: air
+                slot_7: air
+                slot_8: air
+                slot_9: air
+        backpack_1:
+            name: "&aBackpack"
+            shapeless: false
+            group: backpack
+            item: knowledge book
+            give: air
+            count: 1
+            method:
+                slot_1: string
+                slot_2: leather
+                slot_3: string
+                slot_4: leather
+                slot_5: emerald
+                slot_6: leather
+                slot_7: leather
+                slot_8: leather
+                slot_9: leather
+        backpack_2:
+            name: "&aRecover Backpack"
+            shapeless: false
+            group: backpack
+            item: knowledge book
+            give: air
+            count: 1
+            method:
+                slot_1: string
+                slot_2: leather
+                slot_3: string
+                slot_4: leather
+                slot_5: diamond
+                slot_6: leather
+                slot_7: leather
+                slot_8: leather
+                slot_9: leather
+    admin_storage: "rO0ABXcEAAAANnNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFw\r\ndAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFi\r\nbGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVj\r\ndDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAA\r\nBHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5\r\nLkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2\r\nYS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAAufdAANVFJJUFdJUkVfSE9PS3NxAH4AAHNxAH4A\r\nA3VxAH4ABgAAAARxAH4ACHQACW1ldGEtdHlwZXQADGRpc3BsYXktbmFtZXQABGxvcmV1cQB+AAYA\r\nAAAEdAAISXRlbU1ldGF0AApVTlNQRUNJRklDdACXeyJleHRyYSI6W3siYm9sZCI6ZmFsc2UsIml0\r\nYWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwib2Jm\r\ndXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoieWVsbG93IiwidGV4dCI6IkNsw6kgTXlzdMOocmUifV0s\r\nInRleHQiOiIifXNyADZjb20uZ29vZ2xlLmNvbW1vbi5jb2xsZWN0LkltbXV0YWJsZUxpc3QkU2Vy\r\naWFsaXplZEZvcm0AAAAAAAAAAAIAAVsACGVsZW1lbnRzdAATW0xqYXZhL2xhbmcvT2JqZWN0O3hw\r\ndXEAfgAGAAAABHQAo3siZXh0cmEiOlt7ImJvbGQiOmZhbHNlLCJpdGFsaWMiOmZhbHNlLCJ1bmRl\r\ncmxpbmVkIjpmYWxzZSwic3RyaWtldGhyb3VnaCI6ZmFsc2UsIm9iZnVzY2F0ZWQiOmZhbHNlLCJj\r\nb2xvciI6ImdyZWVuIiwidGV4dCI6IkNldHRlIGNsw6kgZXN0IG7DqWNlc3NhaXJlIn1dLCJ0ZXh0\r\nIjoiIn10AJ57ImV4dHJhIjpbeyJib2xkIjpmYWxzZSwiaXRhbGljIjpmYWxzZSwidW5kZXJsaW5l\r\nZCI6ZmFsc2UsInN0cmlrZXRocm91Z2giOmZhbHNlLCJvYmZ1c2NhdGVkIjpmYWxzZSwiY29sb3Ii\r\nOiJncmVlbiIsInRleHQiOiJwb3VyIG91dnJpciBsZSBjb2ZmcmUifV0sInRleHQiOiIifXQAoXsi\r\nZXh0cmEiOlt7ImJvbGQiOmZhbHNlLCJpdGFsaWMiOmZhbHNlLCJ1bmRlcmxpbmVkIjpmYWxzZSwi\r\nc3RyaWtldGhyb3VnaCI6ZmFsc2UsIm9iZnVzY2F0ZWQiOmZhbHNlLCJjb2xvciI6ImdyZWVuIiwi\r\ndGV4dCI6Im15c3TDqHJlIGRhbnMgbGEgY2FudGluZSJ9XSwidGV4dCI6IiJ9dACTeyJleHRyYSI6\r\nW3siYm9sZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0\r\naHJvdWdoIjpmYWxzZSwib2JmdXNjYXRlZCI6ZmFsc2UsImNvbG9yIjoiZ3JlZW4iLCJ0ZXh0Ijoi\r\nZGUgbCdhYnJpLiJ9XSwidGV4dCI6IiJ9cHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBw\r\ncHBwcHBwcHBwcHBwcHBwcHBwcHA=\r\n"
+    report:
+        mj-20230717181013-3065: "&317/07/2023 &e18h10 &6- &r&aDIABLOxMJ &6: &cmultiplier bottle 16x4 4 bottle for 16 level"

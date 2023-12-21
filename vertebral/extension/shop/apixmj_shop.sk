@@ -205,6 +205,7 @@ function mj_shop_data_new_category(player: player, id: text, item: item):
 			set yaml value "data.index.category.%{_id}%.lore.2" from "mj.shop.language.%loop-value%" to "&a&aYour description two"
 			save yaml "mj.shop.language.%loop-value%"
 	send "[APIxMJ] SHOP : data %{_id}% is added in index" to {_player}
+	mj_files_shop()
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_shop_data_new_product(player: player, source: text, id: text, item: item):

@@ -1,0 +1,29 @@
+data:
+    prefix: "&6[&c&lHDV&6]&r"
+    return: "&eRetour"
+    product: "&eMes Articles"
+    title:
+        main:
+            default: "&aHôtel des ventes"
+            page: "&aHDV &6(&7page &6: &a$0&6)"
+        product: "&aHDV &6(&ames articles&6)"
+        confirm: "&aHDV &6(&aconfirmation&6)"
+    viewer:
+        owner: "&7Vendeur &6: &a$0"
+        price: "&7Prix d'achat &6: &a$0"
+        expiry: "&7Expire &6: &a$0"
+        expired: "&7Expiré &6: &c$0"
+    button:
+        buy: "&aAcheter l'article pour $0"
+        confirm: "&aConfirmer l'achat de cette article"
+        remove: "&cPour le retirer du HDV"
+        next: "&6Suivant"
+        previous: "&6Précédent"
+    sender:
+        no_product: "&cLe produit n'existe pas…"
+        buy: "&7Vous avez acheté &a$0 &7pour $1"
+        selled: "&7Vous avez vendu &a$0 &7pour $1 &7à &a$2"
+        full: "&cVous avez atteint la limite d'objet en cours de vente.."
+        empty_hand: "&cVous devez avoir un objet dans la main pour le vendre."
+        low_value: "&cVous pouvez envoyer qu'un nombre supérieur a 1"
+        deposit: "&7Vous avez déposé à l'hôtel des ventes &a$0 &7pour $1"

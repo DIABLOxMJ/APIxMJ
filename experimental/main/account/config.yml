@@ -1,4 +1,0 @@
-data:
-    # Automatically withdraw the right to create an account after creating a new account, default : true
-    create:
-        auto_disable: true

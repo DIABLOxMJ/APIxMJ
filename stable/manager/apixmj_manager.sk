@@ -45,7 +45,7 @@ function mj_editfiles(source: text, find: text="data", mode: text="extract", dat
 		if {_find} is "space":
 			set {_result} to "‌"
 	else:
-		set {_result} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ"
+		set {_result} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_boolean(source: text, find: text="data", mode: text="extract", data: boolean=false) :: boolean:
@@ -429,7 +429,7 @@ function mj_manager_menu_control_installer(player: player, source: text, id: tex
 	delete file "plugins/APIxMJ/%{_folder}%/language/log.txt"
 	create script "plugins/APIxMJ/%{_folder}%/help/log.txt"
 	delete file "plugins/APIxMJ/%{_folder}%/help/log.txt"
-	set {_version} to text from "%{_link}%/main/%{_github}%/version.txt"
+	set {_version} to text from "%{_link}%/main/stable/%{_github}%/version.txt"
 	mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.version", "modify", {_version})
 	mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.installed", "modify", true)
 	mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", true)
@@ -453,7 +453,7 @@ function mj_manager_menu_control_installer_skript(player: player, source: text, 
 		if {_list::*} contains {_skript}:
 			delete file "plugins/Skript/scripts/%{_skript}%.sk"
 			wait 2 ticks
-		download file from "%{_link}%/main/%{_github}%/%{_skript}%.sk" to file "plugins/Skript/scripts/%{_skript}%.sk"
+		download file from "%{_link}%/main/stable/%{_github}%/%{_skript}%.sk" to file "plugins/Skript/scripts/%{_skript}%.sk"
 	if {_option} is "install" or "reinstall":	
 		mj_manager_menu_control_installer_file({_player}, {_source}, {_id})
 	wait 2 seconds
@@ -469,7 +469,7 @@ function mj_manager_menu_control_installer_file(player: player, source: text, id
 	loop {_list.1::*}:
 		set {_file} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.yml.%loop-value%")
 		if {_file} isn't "none":
-			download file from "%{_link}%/main/%{_github}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
+			download file from "%{_link}%/main/stable/%{_github}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
 	set {_list.2::*} to mj_manager_nodes("manager.data", "data.addon.%{_source}%.%{_id}%.preset")
 	loop {_list.2::*}:
 		set {_file} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.preset.%loop-value%")
@@ -477,11 +477,11 @@ function mj_manager_menu_control_installer_file(player: player, source: text, id
 			create script "plugins/APIxMJ/%{_folder}%/preset/log.txt"
 			delete file "plugins/APIxMJ/%{_folder}%/preset/log.txt"
 			wait 2 ticks
-			download file from "%{_link}%/main/%{_github}%/preset/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/preset/%{_file}%.yml"
+			download file from "%{_link}%/main/stable/%{_github}%/preset/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/preset/%{_file}%.yml"
 	set {_list.3::*} to mj_editfiles_list("manager.config", "data.language.list")
 	loop {_list.3::*}:
-		download file from "%{_link}%/main/%{_github}%/language/%loop-value%.yml" to file "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml"
-		download file from "%{_link}%/main/%{_github}%/help/%loop-value%.yml" to file "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml"
+		download file from "%{_link}%/main/stable/%{_github}%/language/%loop-value%.yml" to file "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml"
+		download file from "%{_link}%/main/stable/%{_github}%/help/%loop-value%.yml" to file "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Control (Installer)
@@ -511,7 +511,7 @@ function mj_manager_menu_control_button_update(player: player, source: text, id:
 		set line {_count} of lore of {_item} to "%{_version.3}%"
 		if {_choice} is 3:
 			set {_link} to mj_editfiles("github")
-			set {_version.3} to text from "%{_link}%/main/%{_github}%/version.txt"
+			set {_version.3} to text from "%{_link}%/main/stable/%{_github}%/version.txt"
 			set {_version.4} to mj_editfiles_gettext("manager", "data.category.version.3", {_player}, {_version.3})
 			set line {_count} of lore of {_item} to "%{_version.4}%"
 		set {_item} to mj_manager_item_description({_player}, {_item}, "data.button.update")
@@ -537,7 +537,7 @@ function mj_manager_menu_control_button_update_check(player: player, source: tex
 		wait 2 seconds
 		set {_version} to mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.version")
 		set {_github} to mj_editfiles("manager.data", "data.addon.%{_source}%.%{_id}%.github_folder")
-		set {_check} to text from "%{_link}%/main/%{_github}%/version.txt"
+		set {_check} to text from "%{_link}%/main/stable/%{_github}%/version.txt"
 		if "%{_check}%" isn't "%{_version}%":
 			mj_manager_menu_control_button_update({_player}, {_source}, {_id}, 3)
 		else:
@@ -571,9 +571,9 @@ function mj_manager_update_data():
 	delete file "plugins/APIxMJ/manager/language/fr.yml"
 	delete file "plugins/APIxMJ/manager/help/fr.yml"
 	wait 2 ticks
-	download file from "%{_link}%/main/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
-	download file from "%{_link}%/main/manager/language/fr.yml" to file "plugins/APIxMJ/manager/language/fr.yml"
-	download file from "%{_link}%/main/manager/help/fr.yml" to file "plugins/APIxMJ/manager/help/fr.yml"
+	download file from "%{_link}%/main/stable/manager/data.yml" to file "plugins/APIxMJ/manager/data.yml"
+	download file from "%{_link}%/main/stable/manager/language/fr.yml" to file "plugins/APIxMJ/manager/language/fr.yml"
+	download file from "%{_link}%/main/stable/manager/help/fr.yml" to file "plugins/APIxMJ/manager/help/fr.yml"
 	wait 1 second
 	mj_files_manager()
 	send "[APIxMJ] Database for Manager Updated !" to console
@@ -872,12 +872,12 @@ function mj_manager_file_reset(folder: text, file: text, language: boolean=false
 	set {_link} to mj_editfiles("github")
 	if {_language} is true:
 		delete file "plugins/APIxMJ/%{_folder}%/language/%{_file}%.yml"
-		download file from "%{_link}%/main/%{_folder}%/language/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/language/%{_file}%.yml"
+		download file from "%{_link}%/main/stable/%{_folder}%/language/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/language/%{_file}%.yml"
 		delete file "plugins/APIxMJ/%{_folder}%/help/%{_file}%.yml"
-		download file from "%{_link}%/main/%{_folder}%/help/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/help/%{_file}%.yml"
+		download file from "%{_link}%/main/stable/%{_folder}%/help/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/help/%{_file}%.yml"
 	else:
 		delete file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
-		download file from "%{_link}%/main/%{_folder}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
+		download file from "%{_link}%/main/stable/%{_folder}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_userdata_profil(data: text="none", name: boolean=false) :: text:

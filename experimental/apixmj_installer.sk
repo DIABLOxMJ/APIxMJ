@@ -1,0 +1,52 @@
+# =====================================================================================================================
+# APIxMJ - Installer
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	wait 1 second
+	broadcast "&6[&cAPIxMJ&6] &fVerifying installation…"
+	loop plugins list:
+		add loop-value to {_value.1::*}
+	add "GroupManager", "Vault", "ProtocolLib", "WorldEdit" and "WorldGuard" to {_value.2::*}
+	add "Skript", "SkBee", "skUtilities", "SkQuery", "Skellett", "skript-yaml", "Tablisknu", "skRayFall" and "TuSKe" to {_value.2::*}
+	if {_value.1::*} contains {_value.2::*}:
+		wait 5 seconds
+		broadcast "&6[&cAPIxMJ&6] &aVerifying success!"
+		wait 1 second
+		broadcast "&6[&cAPIxMJ&6] &fInstalling manager…"
+		broadcast "&6[&cAPIxMJ&6] &aSetup…"
+		mj_install_setup()
+		wait 1 second
+		broadcast "&6[&cAPIxMJ&6] &aFinish!"
+		delete file "plugins/Skript/scripts/apixmj_installer.sk"
+		unload script file "apixmj_installer.sk"
+	else:
+		wait 5 seconds
+		broadcast "&6[&cAPIxMJ&6] &cVerifying failed! Missing plugins error…"
+		broadcast "&6- (&f%{_value.2::*}%&6)"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_install_setup():
+	create script "plugins/APIxMJ/supervisor/help/log.txt"
+	create script "plugins/APIxMJ/supervisor/help_custom/log.txt"
+	create script "plugins/APIxMJ/supervisor/rules/log.txt"
+	create script "plugins/APIxMJ/supervisor/language/log.txt"
+	delete file "plugins/APIxMJ/supervisor/help/log.txt"
+	delete file "plugins/APIxMJ/supervisor/help_custom/log.txt"
+	delete file "plugins/APIxMJ/supervisor/rules/log.txt"
+	delete file "plugins/APIxMJ/supervisor/language/log.txt"
+	wait 1 tick
+	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main/experimental"
+	download file from "%{_link}%/supervisor/config.yml" to file "plugins/APIxMJ/supervisor/config.yml"
+	download file from "%{_link}%/supervisor/data.yml" to file "plugins/APIxMJ/supervisor/data.yml"
+	download file from "%{_link}%/supervisor/help/fr.yml" to file "plugins/APIxMJ/supervisor/help/fr.yml"
+	download file from "%{_link}%/supervisor/help_custom/fr.yml" to file "plugins/APIxMJ/supervisor/help_custom/fr.yml"
+	download file from "%{_link}%/supervisor/rules/fr.yml" to file "plugins/APIxMJ/supervisor/rules/fr.yml"
+	download file from "%{_link}%/supervisor/language/fr.yml" to file "plugins/APIxMJ/supervisor/language/fr.yml"
+	download file from "%{_link}%/supervisor/apixmj_sv_manager.sk" to file "plugins/Skript/scripts/-apixmj_sv_manager.sk"
+	download file from "%{_link}%/supervisor/apixmj_sv_core.sk" to file "plugins/Skript/scripts/apixmj_sv_core.sk"
+	wait 1 seconds
+	reload script "apixmj_sv_core"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Installer
+# =====================================================================================================================

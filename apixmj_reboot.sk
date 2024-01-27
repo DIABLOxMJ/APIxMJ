@@ -1,0 +1,20 @@
+# =====================================================================================================================
+# APIxMJ - Download
+# ---------------------------------------------------------------------------------------------------------------------
+command /install [<number=1>]:
+	executable by: player
+	trigger:
+		if player is op:
+			if arg-1 is 2:
+				set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main/experimental"
+			else:
+				set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main/stable"
+			download file from "%{_link}%/apixmj_installer.sk" to file "plugins/Skript/scripts/apixmj_installer.sk"
+			wait 1 seconds
+			reload script "apixmj_installer"
+		else:
+			send "?"
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Download
+# =====================================================================================================================

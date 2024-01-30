@@ -1,0 +1,557 @@
+data:
+    prefix: "&6[&c&lAPIxMJ&6]&r"
+    menu:
+        main: "&eAPIxMJ - Menu Manager"
+        name: "&cAPIxMJ &6:&r $0"
+        menu: "&eMenu &6:&r $0"
+        menu_lite: "&eM. &6:&r $0"
+        manager: "&eGestion &6:&r $0"
+        manager_lite: "&eG. &6:&r $0"
+        confirm: "&eDemande de confirmation"
+        rules: "&eRèglement"
+    category:
+        info: "&eInformation &6:&r"
+        description: "&eDescription &6:&r"
+        depends: "&eDépendance &6:&r"
+        version:
+            '1': "&eVersion &6:&r &a$0"
+            '2': "&eVersion actuelle &6:&r &a$0"
+            '3': "&eNouvelle version &6:&r &a$0"
+        skript: "&eSkript &6:&r"
+        file: "&eFichier &6:&r"
+        type: "&eType &6:&r $0"
+    none: "&cAucune"
+    process:
+        updated: "&eMise à jour du Skript &a$0 &eTerminé !"
+        installed: "&eInstallation du Skript &a$0 &eTerminé !"
+        uninstalled: "&eDésinstallation du Skript &a$0 &eTerminé !"
+        reinstalled: "&eRéinstallation du Skript &a$0 &eTerminé !"
+        condition: "&eVous avez &r$0 &ele Skript &6: &r$1"
+    kick_install: "&aInstallation de &r$0&a..\n&aConnectez-vous dans un instant pour générer vos données !"
+    data_update: "&aMise à jour des données terminé !"
+    experimental: 
+        stable: "&a&l✓"
+        instable: "&e&l[Expérimentale]"
+    button:
+        return: "&eRetour"
+        argument: " &6- &a$0"
+        installer:
+            name: "&eInstaller"
+            request: "&eInstallation nécessite &6: &a$0&r"
+            lore:
+                '1': "&7Si vous avez besoin de ce Skript, vous pouvez"
+                '2': "&7l'installer facilement prenez juste en compte"
+                '3': "&7qui il y a des dépendances donc vérifier."
+        uninstalled:
+            name: "&eDésinstallé"
+            lore:
+                '1': "&7Si vous n'avez plus besoin de ce Skript,"
+                '2': "&7vous pouvez le désinstaller à condition que"
+                '3': "&7ce ne soit pas une dépendance d'un autre Skript,"
+                '4': "&7veuillez à en être sûr de vous avant de le faire,"
+                '5': "&7cette désinstallation supprimera que le Skript,"
+                '6': "&7il préserve les données de votre serveur dans"
+                '7': "&7le cas où vous voudriez réinstaller plus tard."
+        reinstalled:
+            name: "&eRéinstaller"
+            lore:
+                '1': "&7Cette option va réinitialiser le Skript"
+                '2': "&7à l'état par défaut."
+        update:
+            name:
+                '1': "&eMise à jour"
+                '2': "&7Recherche d'une mise à jour en cours.."
+                '3': "&aMettre à jour"
+                '4': "&cAucune mise à jour disponible.."
+            lore:
+                '1': "&7Cliquer une fois pour savoir s'il y a une"
+                '2': "&7mise à jour disponible et si c'est le cas"
+                '3': "&7pouvez mettre à jour à n'importe quel moment."
+        condition:
+            enable:
+                name: "&aActiver le Skript &r$0"
+                lore:
+                    '1': "&7Si vous souhaitez rendre ce Skript"
+                    '2': "&7de nouveau fonctionnel activer ici."
+            disable:
+                name: "&cDésactiver le Skript &r$0"
+                lore:
+                    '1': "&7Si vous souhaitez rendre ce Skript"
+                    '2': "&7inactif désactiver ici."
+        helper:
+            name: "&eDocumentation"
+            lore:
+                '1': "&7Toutes les informations nécessaires"
+                '2': "&7se trouvent ici."
+        request:
+            confirm:
+                name: "&aConfirmer"
+                lore:
+                    '1': "&7Êtes-vous sûr de vous ?"
+                    '2': "&7Si vous confirmez, il ne sera pas"
+                    '3': "&7possible de revenir en arrière."
+                    '4': "&7Réfléchissez bien avant de"
+                    '5': "&7vouloir valider cette procédure."
+            cancel:
+                name: "&cAnnuler"
+                lore:
+                    '1': "&7Êtes-vous sûr de vous ?"
+                    '2': "&7Si vous annulez, rien ne sera changé,"
+                    '3': "&7votre demande ne sera pas prise en compte."
+    open:
+        install: "&7Installer le Skript"
+        uninstall: "&7Désinstaller le Skript"
+        reinstall: "&7Réinstaller le Skript"
+        update_check: "&7Rechercher une mise à jour"
+        update_now: "&7Installer la mise à jour"
+        condition_enable: "&7Activer le Skript"
+        condition_disable: "&7Désactiver le Skript"
+        helper: "&7Ouvrir la documentation"
+        choice: "&aConfirmer ce choix"
+        gui_panel: "&7Ouvrir le panneau de configuration"
+        gui_folder: "&7Ouvrir le répertoire"
+    reload:
+        success: "&aRechargement complet, bon jeu à vous !"
+        prevent: "&cRechargement du serveur, veuillez ne pas bouger et attendre dans un endroit sûr !"
+        timing: "&cRechargement dans $0 seconde(s)!"
+    argument:
+        no_permission: "&cVous n'avez pas l'autorisation pour cette commande.."
+        show_permission: "&cVous n'avez pas l'autorisation &6(&a$0&6) &cpour faire ceci.."
+        player: "&cVeuillez spécifier un joueur."
+        offline_player: "&cVous ne pouvez pas faire ceci, car le joueur est déconnecté.."
+        name: "&cVeuillez indiquer un nom."
+        text: "&cVeuillez indiquer un texte."
+        number: "&cVeuillez indiquer un nombre."
+        boolean: "&cVeuillez indiquer &a$0 &cou &a$1&c."
+        hand: "&cVous devrez avoir un item dans la main pour faire ceci."
+    type:
+        installed: "&aInstallé&r"
+        uninstalled: "&cDésinstallé&r"
+        not_installed: "&7Pas installé&r"
+        next: "&6Suivant"
+        previous: "&6Précédent"
+        enable: "&aActivé&r"
+        disable: "&cDésactivé&r"
+        accept: "&6[&aAccepter&6]&r"
+        refuse: "&6[&cRefuser&6]&r"
+        show: "&aVisible"
+        hide: "&cInvisible"
+        lock: "&6[&aVerrouiller&6]&r"
+        unlock: "&6[&aDéverrouiller&6]&r"
+        left_click: "&6[&aClic Gauche&6]&r"
+        left_click_shift: "&6[&aShift + CG&6]&r"
+        right_click: "&6[&aClic Droit&6]&r"
+        right_click_shift: "&6[&aShift + CD&6]&r"
+        middle_click: "&6[&aClic Molette&6]&r"
+    help:
+        border: "&6----- ----- ----- ----- ----- &a$0 &6----- ----- ----- ----- -----"
+        description: "  &eDescription &6:&r"
+        command: "  &eCommande/Fonctionnement &6:&r"
+        info: "  &eInformation &6:&r"
+        rule: "  &eRèglement &6:&r"
+        permission: "  &ePermission &6:&r"
+        argument: "&cSélectionnez un autre choix car celui-ci n'a pas été trouvé.."
+        request:
+            prefix: "&6[&c&lQuestion&6]&r"
+            button: "&6[&a&lRépondre&6]&r"
+            question: "Votre question ?"
+            answer: "Votre réponse"
+            sender: "&7Une question de &a$0 &6: &r$1"
+            successful: "&7Vous avez envoyé la question suivante &6: &r$0"
+            prevention: 
+                '1': "&c/!\\ Vérifier qu'un membre de la modération soit connecté,"
+                '2': "&c/!\\ Si la modération est là, patienter un moment pour avoir une réponse,"
+                '3': "&c/!\\ Ce n'est pas un canal de discussion, merci de ne pas l'utiliser en tant que tel…"
+            send: "&7Vous avez répondu à &a$0 &6: &r$1"
+            received: "&7Vous avez reçu une réponse de &a$0 &6: &r$1"
+            viewer: "&a$0 &7à répondu à la question de &a$1 &7avec &6: &r$2"
+        menu:
+            main: "&eAPIxMJ - Menu Support"
+            name: "&cAPIxMJ &6:&r $0"
+            manager: "&cAPIxMJ &6:&r &dGestionnaire"
+        button:
+            index: "&eRépertoire &6:&r &a$0"
+            manager: "&eRépertoire &6:&r &dGestionnaire"
+            addon: "&eAddon &6:&r &a$0"
+            command: "&eCommande &6:&r &a$0"
+            action: "&eInteraction &6:&r &a$0"
+            function: "&eFonctionnalité &6:&r &a$0"
+    index:
+        vertebral_main:
+            name: "&5Module centrale"
+            name_lite: "&5Module centrale"
+            lore:
+                '1': "&6- &7Les Skripts qui font fonctionner APIxMJ"
+                '2': "&0- &7sans lui rien de tout ça ne serait possible."
+        vertebral_extension:
+            name: "&aExtension"
+            name_lite: "&aExtension"
+            lore:
+                '1': "&6- &7Des Skripts sous-dépendant des principaux"
+                '2': "&0- &7remplis de fonctionnalités très attirants !"
+        gamemodes:
+            name: "&bMode de jeux"
+            name_lite: "&bMode de jeux"
+            lore:
+                '1': "&6- &7Une catégorie qui entrepose plusieurs"
+                '2': "&0- &7mode de jeux pour toujours plus de liberté !"
+        gamemodes_classic_main:
+            name: "&7Jeu classique"
+            name_lite: "&7Jeu classique"
+            lore:
+                '1': "&6- &7Une alternative sans permission donc"
+                '2': "&0- &7penser pour fonctionner en vanilla."
+        gamemodes_classic_extension:
+            name: "&aExtension"
+            name_lite: "&aExtension"
+            lore:
+                '1': "&6- &7Des Skripts sous-dépendant des principaux"
+                '2': "&0- &7remplis de fonctionnalités très attirants !"
+        gamemodes_skyblock_main:
+            name: "&bSkyblock"
+            name_lite: "&bSkyblock"
+            lore:
+                '1': "&6- &7Une survie pour les joueurs expérimentés en"
+                '2': "&0- &7monde céleste, un défi séduisante !"
+        gamemodes_skyblock_extension:
+            name: "&aExtension"
+            name_lite: "&aExtension"
+            lore:
+                '1': "&6- &7Des Skripts sous-dépendant des principaux"
+                '2': "&0- &7remplis de fonctionnalités très attirants !"
+        gamemodes_faction_main:
+            name: "&4PVP-Faction"
+            name_lite: "&4PVP-Faction"
+            lore:
+                '1': "&6- &7Du combat, du sang, de la rivalité, du challenge"
+                '2': "&0- &7tout se qu'on aime on appelle-ça du Faction !"
+        gamemodes_minigames:
+            name: "&bMini-jeux"
+            name_lite: "&bMini-jeux"
+            lore:
+                '1': "&6- &7Au coeur des mini-jeux, pour encore"
+                '2': "&0- &7plus de plaisir à jouer."
+        gamemodes_minigames_main:
+            name: "&eUtilitaire"
+            name_lite: "&eUtilitaire"
+            lore:
+                '1': "&6- &7Des modules nécessaires pour faire vivre les"
+                '2': "&0- &7mini-jeux correctement."
+        gamemodes_minigames_games:
+            name: "&dListe de mini-jeux"
+            name_lite: "&dMini-jeux"
+            lore:
+                '1': "&6- &7Le catalogue des mini-jeux disponibles."
+        server_dedicated:
+            name: "&dServeur Dédié"
+            name_lite: "&dServ.. Dédié"
+            lore:
+                '1': "&6- &7Un tas de Skript destiné à des serveurs dédiés."
+        server_dedicated_diamond_city:
+            name: "&bDiamond City"
+            name_lite: "&bDiamond City"
+            lore:
+                '1': "&6- &7Le serveur survie de &eDIABLOxMJ&7."
+        server_dedicated_tactical:
+            name: "&2Escape From Fallout"
+            name_lite: "&2EFF"
+            lore:
+                '1': "&6- &7Le serveur tactique de &eDIABLOxMJ&7."
+        server_dedicated_enderium:
+            name: "&9Enderium"
+            name_lite: "&9Enderium"
+            lore:
+                '1': "&6- &7Le serveur PVP-Faction."
+        editor:
+            name: "&aÉditeur"
+            name_lite: "&aÉditeur"
+            lore:
+                '1': "&6- &7Des Skripts spécialement conçus pour"
+                '2': "&0- &7Développé et édité des paramètres particulier !"
+        control_condition:
+            name: "&aContrôleur de Skript"
+            name_lite: "&aContrôleur"
+            lore:
+                '1': "&6- &7Activer où désactiver des Skripts"
+                '2': "&0- &7n'as jamais était si simple !"
+    addon:
+        main:
+            custom:
+                name: "&eInformation du serveur"
+                name_lite: "&eInformation"
+                lore:
+                    '1': "&6- &7None"
+            supervisor:
+                name: "&eGestionnaire"
+                name_lite: "&eGestionnaire"
+                lore:
+                    '1': "&6- &7Un gestionnaire d'installation, mise à jour et de"
+                    '2': "&0- &7suppression de Skript dans l'environnement d'APIxMJ."
+                    '3': "&6- &7Il est simple et efficace donc très accessible"
+                    '4': "&0- &7pour n'importe qui !"
+        vertebral_main:
+            core:
+                name: "&5Cœur"
+                name_lite: "&5Cœur"
+                lore:
+                    '1': "&6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
+                    '2': "&0- &7de faire fonctionner son environnement de fonctionnalité."
+            ranker:
+                name: "&bRank Manager"
+                name_lite: "&bRank Manager"
+                lore:
+                    '1': "&6- &7Un utilitaire indispensable pour géré les grades,"
+                    '2': "&0- &7il est compatible avec GroupManager, LuckPerm, etc..."
+                    '3': "&6- &7Il dispose également de son propre système de gestion"
+                    '4': "&0- &7de grade donc plus besoin de GroupManager est autres..."
+            essentials:
+                name: "&bEssentielle"
+                name_lite: "&bEssentielle"
+                lore:
+                    '1': "&6- &7Essentielles et un outil de gestion de"
+                    '2': "&0- &7serveur complet est parfait pour la modération."
+        vertebral_extension:
+            achievement:
+                name: "&aSystème de progression"
+                name_lite: "&aSys… Progression"
+                lore:
+                    '1': "&6- &7Voici ce que les joueurs en recherche d'objectif"
+                    '2': "&0- &7désirent, Un tableau de mission qui ne demande"
+                    '3': "&0- &7qu'à être remplis !"
+            auction:
+                name: "&aHôtel des ventes"
+                name_lite: "&aHôtel des ventes"
+                lore:
+                    '1': "&6- &7Les poches pleines après une expédition ?"
+                    '2': "&0- &7Échangez vos ressources contre de l'argent,"
+                    '3': "&0- &7peut-être qu'un joueur vous rendra riche !"
+            backpack:
+                name: "&aSac à dos"
+                name_lite: "&aSac à dos"
+                lore:
+                    '1': "&6- &7Quel est ton meilleur ami ?"
+                    '2': "&0- &7Ton fidèle sac à dos voyons…"
+            calendar:
+                name: "&aCalendrier"
+                name_lite: "&aCalendrier"
+                lore:
+                    '1': "&6- &7Tu as était sage pour avoir ton cadeau du jour ?"
+            dangerous:
+                name: "&aRisque supérieur"
+                name_lite: "&aRisque sup…"
+                lore:
+                    '1': "&6- &7Envie de casser les traditions vanilla ?"
+                    '2': "&0- &7Ceci semble être parfait pour varier les petits"
+                    '3': "&0- &7plaisirs !"
+            drawer:
+                name: "&aConteneur"
+                name_lite: "&aConteneur"
+                lore:
+                    '1': "&6- &7Un moyen de stockage révolutionnaire et sans limites ?"
+                    '2': "&0- &7Utiliser désormais le Super Conteneur 3000 !"
+            duel:
+                name: "&aDuel"
+                name_lite: "&aDuel"
+                lore:
+                    '1': "&6- &7Vous aimez parier et affronter des joueurs ?"
+                    '2': "&0- &7Affrontez en duel dans un environnement contrôlé !"
+            expbank:
+                name: "&aBanque d'expérience"
+                name_lite: "&aBanque d'expérience"
+                lore:
+                    '1': "&6- &7Un système de stockage est de gestion de point"
+                    '2': "&0- &7d'expérience."
+            jobs:
+                name: "&aSystème de métier"
+                name_lite: "&aSys… métier"
+                lore:
+                    '1': "&6- &7Envie de remplir vos poches d'argent ?"
+                    '2': "&0- &7Travailler dur et vous serez récompensé."
+            levels:
+                name: "&aSystème de niveaux"
+                name_lite: "&aSys… niveaux"
+                lore:
+                    '1': "&6- &7Envie de faire grimper vos niveaux ?"
+                    '2': "&0- &7Ceci est exactement ce qu'il vous faut."
+            lobby:
+                name: "&aLobby"
+                name_lite: "&aLobby"
+                lore:
+                    '1': "&6- &7Un gestionnaire pour les lobbys de serveur."
+            menu:
+                name: "&aMenu"
+                name_lite: "&aMenu"
+                lore:
+                    '1': "&6- &7Un menu permettent de tout réunir dans un seul"
+                    '2': "&0- &7et même endroit idéal pour s'y retrouver en jeu."
+            missions:
+                name: "&aSystème de missions"
+                name_lite: "&aSys… missions"
+                lore:
+                    '1': "&6- &7Ta mission sera la suivante…"
+                    '2': "&0- &7Tu as lu ceci, ta mission a échoué."
+            moderator:
+                name: "&aModération"
+                name_lite: "&aModération"
+                lore:
+                    '1': "&6- &7Difficile de modérer les joueurs ?"
+                    '2': "&0- &7Ceci sera la solution à tous vos problèmes."
+            multitools:
+                name: "&aBoite à outils"
+                name_lite: "&aBoite à outils"
+                lore:
+                    '1': "&6- &7Une petite boîte à outils pour améliorer les"
+                    '2': "&0- &7possibilités en jeu et améliorer le spawn."
+            mystery_box:
+                name: "&aBoîte mystère"
+                name_lite: "&aBoîte mystère"
+                lore:
+                    '1': "&6- &7Avez-vous des clés? Jouez à la boîte mystère et"
+                    '2': "&0- &7obtenez des récompenses diverses et variées."
+            ore_generator:
+                name: "&aGénérateur à minerais"
+                name_lite: "&aMinerais Gén…"
+                lore:
+                    '1': "&6- &7Besoin d'un générateur à minerais ?"
+                    '2': "&0- &7Ceci devrait vous satisfaire."
+            portal:
+                name: "&aPortail"
+                name_lite: "&aPortail"
+                lore:
+                    '1': "&6- &7Créer des portails à travers l'univers le moyen"
+                    '2': "&0- &7de transport le plus rapide qui existe."
+            quest:
+                name: "&aSystème de quête"
+                name_lite: "&aSys… quête"
+                lore:
+                    '1': "&6- &7Envie d'aventure ? de résoudre des quêtes."
+                    '2': "&0- &7Le monde du RPG s'ouvre à vous."
+            rankup:
+                name: "&aRankUP"
+                name_lite: "&aRankUP"
+                lore:
+                    '1': "&6- &7Un système de progression en achetant des rangs"
+                    '2': "&0- &7et en s'améliorant en jouant."
+            shop:
+                name: "&aMagasin"
+                name_lite: "&aMagasin"
+                lore:
+                    '1': "&6- &7Un système de commerce virtuel capable au joueur"
+                    '2': "&0- &7d'acheter où vendre toute sorte d'objet catalogué."
+            spawner:
+                name: "&aSpawner"
+                name_lite: "&aSpawner"
+                lore:
+                    '1': "&6- &7Un système de gestion à spawner puissant capable"
+                    '2': "&0- &7de géré la limite de spawner par chunk, et de"
+                    '3': "&0- &7comment les récupérer en bref tout est gérable."
+            store:
+                name: "&aMagasin virtuel"
+                name_lite: "&aMagasin virtuel"
+                lore:
+                    '1': "&6- &7Un système de magasin virtuel inter-compatible"
+                    '2': "&0- &7avec un magasin en ligne."
+            waystone:
+                name: "&aTotem de téléportation"
+                name_lite: "&aTotem de télép…"
+                lore:
+                    '1': "&6- &7Un moyen de téléportation, qui s'intègre mieux"
+                    '2': "&0- &7que des commandes."
+        gamemodes_classic_main:
+            core:
+                name: "&5Cœur"
+                name_lite: "&5Cœur"
+                lore:
+                    '1': "&6- &7Le cœur des skript d'APIxMJ sans lui, il est serait impossible"
+                    '2': "&0- &7de faire fonctionner son environnement de fonctionnalité."
+        gamemodes_classic_extension:
+            expbank:
+                name: "&aBanque d'expérience"
+                name_lite: "&aBanque d'expérience"
+                lore:
+                    '1': "&6- &7Un système de stockage est de gestion de point d'expérience."
+            spawner:
+                name: "&aSpawner"
+                name_lite: "&aSpawner"
+                lore:
+                    '1': "&6- &7Un système de gestion à spawner puissant capable"
+                    '2': "&0- &7de géré la limite de spawner par chunk, et de"
+                    '3': "&0- &7comment les récupérer en bref tout est gérable."
+        gamemodes_skyblock_main:
+            sb_core:
+                name: "&5Cœur"
+                name_lite: "&5Cœur"
+                lore:
+                    '1': "&6- &7Le centre de contrôle qui fournira les"
+                    '2': "&0- &7fondation du skyblock, pour offrir une"
+                    '3': "&0- &7expérience sans limite."
+        gamemodes_skyblock_extension:
+            sb_ore:
+                name: "&aGénérateur à minerais"
+                name_lite: "&aMinerais Gén…"
+                lore:
+                    '1': "&6- &7Besoin d'un générateur à minerais ?"
+                    '2': "&0- &7Ceci devrait vous satisfaire."
+        gamemodes_faction_main:
+            faction:
+                name: "&cFaction"
+                name_lite: "&cFaction"
+                lore:
+                    '1': "&6- &7Le système de faction est plus qu'une extension"
+                    '2': "&0- &7est un mode de jeu a par en tiers idéal pour"
+                    '3': "&0- &7créer un serveur type PVP-Faction."
+        gamemodes_minigames_main:
+            teams:
+                name: "&bÉquipe"
+                name_lite: "&bÉquipe"
+                lore:
+                    '1': "&6- &7Un utilitaire pour les modes de jeu,"
+                    '2': "&0- &7nécessitant un système d'équipe."
+        gamemodes_minigames_games:
+            bedwars:
+                name: "&bBedwars"
+                name_lite: "&bBedwars"
+                lore:
+                    '1': "&6- &7Un mode de jeu où le but est simple"
+                    '2': "&0- &7détruire les lits adverses."
+        server_dedicated_diamond_city:
+            dc_core:
+                name: "&bCœur"
+                name_lite: "&bCœur"
+                lore:
+                    '1': "&6- &7Un module centrale pour le serveur."
+            dc_event:
+                name: "&bÉvènement"
+                name_lite: "&bÉvent"
+                lore:
+                    '1': "&6- &7Un module générative d'évènement."
+            dc_menu:
+                name: "&dMenu"
+                name_lite: "&dMenu"
+                lore:
+                    '1': "&6- &7Un module interactif pour réunir"
+                    '2': "&0- &7l'ensemble du contenu en une commande."
+        server_dedicated_tactical:
+            ttc_core:
+                name: "&bCœur"
+                name_lite: "&bCœur"
+                lore:
+                    '1': "&6- &7Un module centrale pour le serveur."
+        server_dedicated_enderium:
+            edr_core:
+                name: "&bCœur"
+                name_lite: "&bCœur"
+                lore:
+                    '1': "&6- &7Un module centrale pour le serveur."
+        editor:
+            bedwars_editor:
+                name: "&aÉditeur du Bedwars"
+                name_lite: "&aBedwars Edit.."
+                lore:
+                    '1': "&6- &7Un éditeur conçu pour créer des cartes de jeu,"
+                    '2': "&0- &7pour le bedwars."
+            faction_editor:
+                name: "&aÉditeur du faction"
+                name_lite: "&aFaction Edit.."
+                lore:
+                    '1': "&6- &7Un éditeur conçu pour gérer un serveur faction."

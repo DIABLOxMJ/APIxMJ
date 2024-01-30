@@ -1,0 +1,30 @@
+data:
+    # Does it have to make backups of the entire APIxMJ environment, default : false
+    backup: false
+    # Does it manage the whitelist during server restarts, it acts as a protection, default : false
+    auto_whitelist: false
+    # Should it update APIxMJ automatically, default : false
+    auto_update: false
+    # In the event of a major error, you must put a "/" if the server isn't local, otherwise do not touch, default : \
+    slash_option: \
+    # Show required permissions to player when trying to run command or feature, default : true
+    show_permission: true
+    # This is the path to store datapacks, default : world/datapacks
+    datapack_folder: world/datapacks
+    # A method of using the help menu, default : false
+    normal_help_menu: false
+    # If the server is under Bungeecord and you have a Lobby/Hub it is advisable to activate it
+    bungeecord:
+        # Do we have to take into account a bungeecord, default : false
+        condition: false
+        # What is the name of the server that serves as the lobby/hub, default : lobby
+        server: lobby
+    language:
+        # What is the language used by the server and its community, default : fr
+        use: fr
+        # The available language list can be used on the server, default : fr
+        list:
+        - fr
+    gui_background:
+        # The default interface color, default : black stained glass pane
+        item: black stained glass pane

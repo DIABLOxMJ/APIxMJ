@@ -1,0 +1,1791 @@
+data:
+    button:
+        installer:
+            name: data.button.installer.name
+            slot: 12
+        update:
+            name: data.button.update.name
+            slot: 14
+        uninstalled:
+            name: data.button.uninstalled.name
+            slot: 21
+        reinstalled:
+            name: data.button.reinstalled.name
+            slot: 23
+        condition:
+            enable:
+                name: data.button.condition.enable.name
+                slot: 28
+            disable:
+                name: data.button.condition.disable.name
+                slot: 28
+        helper:
+            name: data.button.helper.name
+            slot: 16
+        request:
+            confirm:
+                name: data.button.request.confirm.name
+                slot: 11
+                item: lime wool
+            cancel:
+                name: data.button.request.cancel.name
+                slot: 15
+                item: red wool
+        help:
+            index:
+                name: data.help.button.index
+                item: book
+            addon:
+                name: data.help.button.addon
+                item: book
+            command:
+                name: data.help.button.command
+                item: command block
+            action:
+                name: data.help.button.action
+                item: shears
+            function:
+                name: data.help.button.function
+                item: paper
+    index:
+        vertebral_main:
+            name: data.index.vertebral_main.name
+            visible: true
+            menu_back: main
+            menu_next: vertebral_main
+            slot: 11
+            item: chest
+            gui_background:
+                item: gray stained glass pane
+        vertebral_extension:
+            name: data.index.vertebral_extension.name
+            visible: true
+            menu_back: vertebral_main
+            menu_next: vertebral_extension
+            slot: 16
+            item: chest
+            gui_background:
+                item: gray stained glass pane
+        gamemodes:
+            name: data.index.gamemodes.name
+            visible: true
+            menu_back: main
+            menu_next: gamemodes
+            slot: 14
+            item: chest
+            gui_background:
+                item: black stained glass pane
+        gamemodes_classic_main:
+            name: data.index.gamemodes_classic_main.name
+            visible: true
+            menu_back: gamemodes
+            menu_next: gamemodes_classic_main
+            slot: 10
+            item: chest
+            gui_background:
+                item: black stained glass pane
+        gamemodes_classic_extension:
+            name: data.index.gamemodes_classic_extension.name
+            visible: true
+            menu_back: gamemodes_classic_main
+            menu_next: gamemodes_classic_extension
+            slot: 16
+            item: chest
+            gui_background:
+                item: black stained glass pane
+        gamemodes_skyblock_main:
+            name: data.index.gamemodes_skyblock_main.name
+            visible: true
+            menu_back: gamemodes
+            menu_next: gamemodes_skyblock_main
+            slot: 11
+            item: chest
+            gui_background:
+                item: light blue stained glass pane
+        gamemodes_skyblock_extension:
+            name: data.index.gamemodes_skyblock_extension.name
+            visible: true
+            menu_back: gamemodes_skyblock_main
+            menu_next: gamemodes_skyblock_extension
+            slot: 16
+            item: chest
+            gui_background:
+                item: light blue stained glass pane
+        gamemodes_faction_main:
+            name: data.index.gamemodes_faction_main.name
+            visible: true
+            menu_back: gamemodes
+            menu_next: gamemodes_faction_main
+            slot: 12
+            item: chest
+            gui_background:
+                item: red stained glass pane
+        gamemodes_minigames:
+            name: data.index.gamemodes_minigames.name
+            visible: true
+            menu_back: gamemodes
+            menu_next: gamemodes_minigames
+            slot: 13
+            item: chest
+            gui_background:
+                item: red stained glass pane
+        gamemodes_minigames_main:
+            name: data.index.gamemodes_minigames_main.name
+            visible: true
+            menu_back: gamemodes_minigames
+            menu_next: gamemodes_minigames_main
+            slot: 10
+            item: chest
+            gui_background:
+                item: red stained glass pane
+        gamemodes_minigames_games:
+            name: data.index.gamemodes_minigames_games.name
+            visible: true
+            menu_back: gamemodes_minigames
+            menu_next: gamemodes_minigames_games
+            slot: 11
+            item: chest
+            gui_background:
+                item: red stained glass pane
+        server_dedicated:
+            name: data.index.server_dedicated.name
+            visible: true
+            menu_back: main
+            menu_next: server_dedicated
+            slot: 15
+            item: chest
+            gui_background:
+                item: lime stained glass pane
+        server_dedicated_diamond_city:
+            name: data.index.server_dedicated_diamond_city.name
+            visible: true
+            menu_back: server_dedicated
+            menu_next: server_dedicated_diamond_city
+            slot: 10
+            item: chest
+            gui_background:
+                item: light blue stained glass pane
+        server_dedicated_tactical:
+            name: data.index.server_dedicated_tactical.name
+            visible: true
+            menu_back: server_dedicated
+            menu_next: server_dedicated_tactical
+            slot: 11
+            item: chest
+            gui_background:
+                item: dark green stained glass pane
+        server_dedicated_enderium:
+            name: data.index.server_dedicated_enderium.name
+            visible: true
+            menu_back: server_dedicated
+            menu_next: server_dedicated_enderium
+            slot: 12
+            item: chest
+            gui_background:
+                item: cyan stained glass pane
+        editor:
+            name: data.index.editor.name
+            visible: true
+            menu_back: main
+            menu_next: editor
+            slot: 16
+            item: ender chest
+            gui_background:
+                item: black stained glass pane
+        control_condition:
+            name: data.index.control_condition.name
+            visible: true
+            menu_back: main
+            menu_next: control_condition
+            slot: 43
+            item: tripwire hook
+            gui_background:
+                item: black stained glass pane
+    addon:
+        main:
+            custom:
+                name: data.addon.main.custom.name
+                experimental: false
+                visible: false
+                depends:
+                    '1': none
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: none
+                folder: none
+                slot: 0
+                skript:
+                    '1': none
+                yml:
+                    '1': none
+                file:
+                    '1': none
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: command block
+                gui_background:
+                    item: yellow stained glass pane
+            supervisor:
+                name: data.addon.main.supervisor.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': none
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: supervisor
+                folder: supervisor
+                slot: 10
+                skript:
+                    '1': apixmj_sv_core
+                    '2': apixmj_sv_manager
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.supervisor.config
+                    '2': mj.supervisor.data
+                    '3': mj.temp
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.temp
+                        data: data
+                item: command block
+                gui_background:
+                    item: yellow stained glass pane
+        vertebral_main:
+            core:
+                name: data.addon.vertebral_main.core.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: vertebral/main/core
+                folder: main/core
+                slot: 10
+                skript:
+                    '1': apixmj_core
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.core.config
+                    '2': mj.core.data
+                    '4': mj.userdata
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.temp
+                        data: data
+                    '2':
+                        file: mj.userdata
+                        data: data
+                item: command block
+                gui_background:
+                    item: purple stained glass pane
+            ranker:
+                name: data.addon.vertebral_main.ranker.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: vertebral/main/ranker
+                folder: main/ranker
+                slot: 11
+                skript:
+                    '1': apixmj_ranker
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.config
+                    '2': mj.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: iron chestplate
+                gui_background:
+                    item: blue stained glass pane
+            essentials:
+                name: data.addon.vertebral_main.essentials.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.ranker
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: vertebral/main/essentials
+                folder: main/essentials
+                slot: 12
+                skript:
+                    '1': apixmj_essentials
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.essentials.config
+                    '2': mj.essentials.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: command block
+                gui_background:
+                    item: light blue stained glass pane
+        vertebral_extension:
+            achievement:
+                name: data.addon.vertebral_extension.achievement.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/achievement
+                folder: main/extension/achievement
+                slot: 10
+                skript:
+                    '1': apixmj_achievement
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.achievement.config
+                    '2': mj.achievement.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: nether star
+                gui_background:
+                    item: lime stained glass pane
+            auction:
+                name: data.addon.vertebral_extension.auction.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/auction
+                folder: main/extension/auction
+                slot: 11
+                skript:
+                    '1': apixmj_auction
+                yml:
+                    '1': config
+                file:
+                    '1': mj.auction.config
+                    '2': mj.auction.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.auction.data
+                        data: data
+                item: emerald
+                gui_background:
+                    item: gray stained glass pane
+            backpack:
+                name: data.addon.vertebral_extension.backpack.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/backpack
+                folder: main/extension/backpack
+                slot: 12
+                open_gui: manager
+                skript:
+                    '1': apixmj_backpack
+                yml:
+                    '1': config
+                file:
+                    '1': mj.backpack.config
+                    '2': mj.backpack.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: chest
+                gui_background:
+                    item: red stained glass pane
+            calendar:
+                name: data.addon.vertebral_extension.calendar.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/calendar
+                folder: main/extension/calendar
+                slot: 13
+                open_gui: manager
+                skript:
+                    '1': apixmj_calendar
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.calendar.config
+                    '2': mj.calendar.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: gold clock
+                gui_background:
+                    item: red stained glass pane
+            dangerous:
+                name: data.addon.vertebral_extension.dangerous.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/dangerous
+                folder: main/extension/dangerous
+                slot: 14
+                open_gui: manager
+                skript:
+                    '1': apixmj_dangerous
+                yml:
+                    '1': config
+                file:
+                    '1': mj.dangerous.config
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: tnt block
+                gui_background:
+                    item: red stained glass pane
+            drawer:
+                name: data.addon.vertebral_extension.drawer.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/drawer
+                folder: main/extension/drawer
+                slot: 15
+                open_gui: manager
+                skript:
+                    '1': apixmj_drawer
+                yml:
+                    '1': config
+                file:
+                    '1': mj.drawer.config
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: oak wood floor sign
+                gui_background:
+                    item: blue stained glass pane
+            duel:
+                name: data.addon.vertebral_extension.duel.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/duel
+                folder: main/extension/duel
+                slot: 16
+                open_gui: manager
+                skript:
+                    '1': apixmj_duel
+                yml:
+                    '1': config
+                file:
+                    '1': mj.duel.config
+                    '2': mj.duel.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: shield
+                gui_background:
+                    item: red stained glass pane
+            expbank:
+                name: data.addon.vertebral_extension.expbank.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': vertebral_main.essentials
+                github_folder: vertebral/extension/expbank
+                folder: main/extension/expbank
+                slot: 19
+                skript:
+                    '1': apixmj_expbank
+                yml:
+                    '1': config
+                file:
+                    '1': mj.expbank.config
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: bottle o' enchanting
+                gui_background:
+                    item: lime stained glass pane
+            jobs:
+                name: data.addon.vertebral_extension.jobs.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/jobs
+                folder: main/extension/jobs
+                slot: 20
+                skript:
+                    '1': apixmj_jobs
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.jobs.config
+                    '2': mj.jobs.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: workbench
+                gui_background:
+                    item: lime stained glass pane
+            levels:
+                name: data.addon.vertebral_extension.levels.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/levels
+                folder: main/extension/levels
+                slot: 21
+                skript:
+                    '1': apixmj_levels
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.levels.config
+                    '2': mj.levels.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: bottle o' enchanting
+                gui_background:
+                    item: lime stained glass pane
+            lobby:
+                name: data.addon.vertebral_extension.lobby.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/lobby
+                folder: main/extension/lobby
+                slot: 22
+                skript:
+                    '1': apixmj_lobby
+                yml:
+                    '1': config
+                file:
+                    '1': mj.lobby.config
+                    '2': mj.lobby.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: beacon
+                gui_background:
+                    item: green stained glass pane
+            menu:
+                name: data.addon.vertebral_extension.menu.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/menu
+                folder: main/extension/menu
+                slot: 23
+                skript:
+                    '1': apixmj_menu
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.menu.config
+                    '2': mj.menu.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: paper
+                gui_background:
+                    item: black stained glass pane
+            missions:
+                name: data.addon.vertebral_extension.missions.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/missions
+                folder: main/extension/missions
+                slot: 24
+                skript:
+                    '1': apixmj_missions
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.missions.config
+                    '2': mj.missions.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: book
+                gui_background:
+                    item: lime stained glass pane
+            moderator:
+                name: data.addon.vertebral_extension.moderator.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.ranker
+                    '4': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/moderator
+                folder: main/extension/moderator
+                slot: 25
+                skript:
+                    '1': apixmj_moderator
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.moderator.config
+                    '2': mj.moderator.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: barrier block
+                gui_background:
+                    item: red stained glass pane
+            multitools:
+                name: data.addon.vertebral_extension.multitools.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/multitools
+                folder: main/extension/multitools
+                slot: 28
+                skript:
+                    '1': apixmj_multitools
+                yml:
+                    '1': config
+                file:
+                    '1': mj.multitools.config
+                    '2': mj.multitools.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: oak log
+                gui_background:
+                    item: light gray stained glass pane
+            mystery_box:
+                name: data.addon.vertebral_extension.mystery_box.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/mystery_box
+                folder: main/extension/mystery_box
+                slot: 29
+                skript:
+                    '1': apixmj_mystery_box
+                yml:
+                    '1': config
+                file:
+                    '1': mj.mystery_box.config
+                    '2': mj.mystery_box.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: leather
+                gui_background:
+                    item: light blue stained glass pane
+            ore_generator:
+                name: data.addon.vertebral_extension.ore_generator.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/ore_generator
+                folder: main/extension/ore_generator
+                slot: 30
+                skript:
+                    '1': apixmj_ore_generator
+                yml:
+                    '1': config
+                file:
+                    '1': mj.ore_generator.config
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: coal ore
+                gui_background:
+                    item: black stained glass pane
+            portal:
+                name: data.addon.vertebral_extension.portal.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/portal
+                folder: main/extension/portal
+                slot: 31
+                skript:
+                    '1': apixmj_portal
+                yml:
+                    '1': config
+                file:
+                    '1': mj.portal.config
+                    '2': mj.portal.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: obsidian
+                gui_background:
+                    item: purple stained glass pane
+            quest:
+                name: data.addon.vertebral_extension.quest.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/quest
+                folder: main/extension/quest
+                slot: 32
+                skript:
+                    '1': apixmj_quest
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.quest.config
+                    '2': mj.quest.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: writable book
+                gui_background:
+                    item: lime stained glass pane
+            rankup:
+                name: data.addon.vertebral_extension.rankup.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/rankup
+                folder: main/extension/rankup
+                slot: 33
+                skript:
+                    '1': apixmj_rankup
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.rankup.config
+                    '2': mj.rankup.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: netherite ingot
+                gui_background:
+                    item: lime stained glass pane
+            shop:
+                name: data.addon.vertebral_extension.shop.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/shop
+                folder: main/extension/shop
+                slot: 34
+                skript:
+                    '1': apixmj_shop
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.shop.config
+                    '2': mj.shop.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: gold ingot
+                gui_background:
+                    item: lime stained glass pane
+            spawner:
+                name: data.addon.vertebral_extension.spawner.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/spawner
+                folder: main/extension/spawner
+                slot: 37
+                skript:
+                    '1': apixmj_spawner
+                yml:
+                    '1': config
+                file:
+                    '1': mj.spawner.config
+                    '2': mj.spawner.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: mob spawner
+                gui_background:
+                    item: black stained glass pane
+            store:
+                name: data.addon.vertebral_extension.store.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.ranker
+                    '4': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/store
+                folder: main/extension/store
+                slot: 38
+                skript:
+                    '1': apixmj_store
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.store.config
+                    '2': mj.store.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: gold nugget
+                gui_background:
+                    item: green stained glass pane
+            waystone:
+                name: data.addon.vertebral_extension.waystone.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.ranker
+                    '4': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: vertebral/extension/waystone
+                folder: main/extension/waystone
+                slot: 39
+                skript:
+                    '1': apixmj_waystone
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.waystone.config
+                    '2': mj.waystone.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: cobblestone wall
+                gui_background:
+                    item: gray stained glass pane
+        gamemodes_classic_main:
+            core:
+                name: data.addon.gamemodes_classic_main.core.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: gamemodes/classic/main/core
+                folder: gamemodes/classic/main/core
+                slot: 10
+                skript:
+                    '1': apixmj
+                yml:
+                    '1': config
+                file:
+                    '1': mj.config
+                    '2': mj.data
+                    '3': mj.temp
+                    '4': mj.stats
+                    '5': mj.inventory
+                    '6': mj.userdata
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.temp
+                        data: data
+                    '2':
+                        file: mj.stats
+                        data: data
+                    '3':
+                        file: mj.inventory
+                        data: data
+                    '4':
+                        file: mj.userdata
+                        data: data
+                item: command block
+                gui_background:
+                    item: purple stained glass pane
+        gamemodes_classic_extension:
+            expbank:
+                name: data.addon.gamemodes_classic_extension.expbank.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': gamemodes_classic_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: gamemodes/classic/extension/expbank
+                folder: gamemodes/classic/extension/expbank
+                slot: 10
+                skript:
+                    '1': apixmj_expbank
+                yml:
+                    '1': config
+                file:
+                    '1': mj.expbank.config
+                    '2': mj.expbank.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: bottle o' enchanting
+                gui_background:
+                    item: lime stained glass pane
+            spawner:
+                name: data.addon.gamemodes_classic_extension.spawner.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': gamemodes_classic_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: gamemodes/classic/extension/spawner
+                folder: gamemodes/classic/extension/spawner
+                slot: 11
+                skript:
+                    '1': apixmj_spawner
+                yml:
+                    '1': config
+                file:
+                    '1': mj.spawner.config
+                    '2': mj.spawner.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: mob spawner
+                gui_background:
+                    item: black stained glass pane
+        gamemodes_skyblock_main:
+            sb_core:
+                name: data.addon.gamemodes_skyblock_main.sb_core.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: gamemodes/skyblock/main/sb_core
+                folder: gamemodes/skyblock/main/sb_core
+                slot: 10
+                skript:
+                    '1': apixmj_sb_core
+                yml:
+                    '1': config
+                    '2': menu
+                    '3': upgrade
+                file:
+                    '1': mj.sb_core.config
+                    '2': mj.sb_core.data
+                    '3': mj.sb_core.temp
+                    '4': mj.sb_core.menu
+                    '5': mj.sb_core.upgrade
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.sb_core.data
+                        data: data
+                item: command block
+                gui_background:
+                    item: red stained glass pane
+        gamemodes_skyblock_extension:
+            sb_ore:
+                name: data.addon.gamemodes_skyblock_extension.sb_ore.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': gamemodes_skyblock_main.sb_core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                github_folder: gamemodes/skyblock/extension/sb_ore
+                folder: gamemodes/skyblock/extension/sb_ore
+                slot: 30
+                skript:
+                    '1': apixmj_sb_ore
+                yml:
+                    '1': config
+                file:
+                    '1': mj.sb_ore.config
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: coal ore
+                gui_background:
+                    item: black stained glass pane
+        gamemodes_faction_main:
+            faction:
+                name: data.addon.gamemodes_faction_main.faction.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.essentials
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: faction
+                github_folder: gamemodes/faction/main/faction
+                folder: gamemodes/faction/main/
+                slot: 10
+                skript:
+                    '1': apixmj_faction
+                yml:
+                    '1': config
+                file:
+                    '1': mj.faction.config
+                    '2': mj.faction.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.faction.data
+                        data: data
+                item: iron sword
+                gui_background:
+                    item: red stained glass pane
+        gamemodes_minigames_main:
+            teams:
+                name: data.addon.gamemodes_minigames_main.teams.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: gamemodes/minigames/main/teams
+                folder: gamemodes/minigames/main/teams
+                slot: 10
+                skript:
+                    '1': apixmj_teams
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.teams.config
+                    '2': mj.teams.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: iron chestplate
+                gui_background:
+                    item: white stained glass pane
+        gamemodes_minigames_games:
+            bedwars:
+                name: data.addon.gamemodes_minigames_games.bedwars.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': gamemodes_minigames_main.teams
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: bedwars
+                github_folder: gamemodes/bedwars/games/bedwars
+                folder: gamemodes/bedwars/games/bedwars
+                slot: 10
+                skript:
+                    '1': apixmj_bedwars
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.bedwars.config
+                    '2': mj.bedwars.data
+                    '3': mj.bedwars.player
+                    '4': mj.bedwars.temp
+                preset:
+                    '1': default
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.bedwars.temp
+                        data: data
+                item: red bed
+                gui_background:
+                    item: light blue stained glass pane
+        server_dedicated_diamond_city:
+            dc_core:
+                name: data.addon.server_dedicated_diamond_city.dc_core.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: server_dedicated/diamond_city/dc_core
+                folder: server_dedicated/diamond_city/dc_core
+                slot: 10
+                skript:
+                    '1': apixmj_dc_core
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.diamond_city.config
+                    '2': mj.diamond_city.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.diamond_city.data
+                        data: data
+                item: command block
+                gui_background:
+                    item: light blue stained glass pane
+            dc_event:
+                name: data.addon.server_dedicated_diamond_city.dc_event.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': server_dedicated_diamond_city.dc_core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: server_dedicated/diamond_city/dc_event
+                folder: server_dedicated/diamond_city/dc_event
+                slot: 11
+                skript:
+                    '1': apixmj_dc_event
+                yml:
+                    '1': none
+                file:
+                    '1': mj.diamond_city.config
+                    '2': mj.diamond_city.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.diamond_city.data
+                        data: data
+                item: cake
+                gui_background:
+                    item: lime stained glass pane
+            dc_menu:
+                name: data.addon.server_dedicated_diamond_city.dc_menu.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': server_dedicated_diamond_city.dc_core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: server_dedicated/diamond_city/dc_menu
+                folder: server_dedicated/diamond_city/dc_menu
+                slot: 12
+                skript:
+                    '1': apixmj_dc_menu
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.menu.config
+                    '2': mj.menu.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: paper
+                gui_background:
+                    item: lime stained glass pane
+        server_dedicated_tactical:
+            ttc_core:
+                name: data.addon.server_dedicated_tactical.ttc_core.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: server_dedicated/tactical/ttc_core
+                folder: server_dedicated/tactical/ttc_core
+                slot: 10
+                skript:
+                    '1': apixmj_ttc_core
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.ttc_core.config
+                    '2': mj.ttc_core.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.ttc_core.data
+                        data: data
+                item: command block
+                gui_background:
+                    item: dark green stained glass pane
+        server_dedicated_enderium:
+            edr_core:
+                name: data.addon.server_dedicated_enderium.edr_core.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: server_dedicated/enderium/edr_core
+                folder: server_dedicated/enderium/edr_core
+                slot: 10
+                skript:
+                    '1': apixmj_edr_core
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.edr_core.config
+                    '2': mj.edr_core.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.edr_core.data
+                        data: data
+                item: command block
+                gui_background:
+                    item: cyan stained glass pane
+        editor:
+            bedwars_editor:
+                name: data.addon.editor.bedwars_editor.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': gamemodes_minigames_games.bedwars
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: bedwars
+                github_folder: editor/bedwars_editor
+                folder: editor/bedwars_editor
+                slot: 10
+                skript:
+                    '1': apixmj_bedwars_editor
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.bedwars_editor.config
+                    '2': mj.bedwars_editor.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.bedwars_editor.temp
+                        data: data
+                item: red bed
+                gui_background:
+                    item: light blue stained glass pane
+            faction_editor:
+                name: data.addon.editor.faction_editor.name
+                experimental: true
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': gamemodes_faction_main.faction
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: faction
+                github_folder: editor/faction_editor
+                folder: editor/faction_editor
+                slot: 11
+                skript:
+                    '1': apixmj_faction_editor
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.faction_editor.config
+                    '2': mj.faction_editor.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: iron sword
+                gui_background:
+                    item: red stained glass pane

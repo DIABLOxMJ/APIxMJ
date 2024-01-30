@@ -1,0 +1,19 @@
+data:
+    # "none" and a unique identifier to store help, default : none
+    none:
+        # The title that will be displayed, default : "&aTitre"
+        name: "&aTitre"
+        # The type of information there is "command", "function" and "action", default : action
+        type: action
+        page: 1
+        description:
+            # The description that will summarize the information, default : "&0- &aUne description."
+            '1': "&0- &aUne description."
+            '2': "&0- &aUne autre ligne de description."
+        # It's permissions to limit the display by default we give "none" to show it to everyone, default : "none"
+        permission:
+        - "none"
+        info:
+            # Information you need to know like how it works or how to use it, default : "&0- &aUne description."
+            '1': "&0- &aUne description."
+            '2': "&0- &aUne autre ligne de description."

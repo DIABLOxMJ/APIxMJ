@@ -1,0 +1,7 @@
+data:
+    rule_01:
+        name: "&aRèglement"
+        description:
+            '1': "&6- &aLa triche"
+            '2': "&0- &7C'EST LE MAL INCARNÉE !"
+        item: paper

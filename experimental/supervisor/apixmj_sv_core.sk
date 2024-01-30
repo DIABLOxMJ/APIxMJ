@@ -1,0 +1,439 @@
+# =====================================================================================================================
+# APIxMJ - Files ✓ ✗ ← ↖ ↑ ↗ → ↘ ↓ ↙ ➢ ➣ ➤ ⚠ ❤
+# ---------------------------------------------------------------------------------------------------------------------
+# PREMIUM - DIABLOxMJ: fa743dc8-450e-4f1b-a75c-8ae7e52b6f17 - Nyceidu: edcda98f-ed98-41c6-ba2c-77bc313ed248
+# CRACK   - DIABLOxMJ: b00cadd2-6497-3134-93d5-5be9512e9f48 - Nyceidu: 1412f834-ede6-34f1-aeaa-84467fc1f237
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_sv_core():
+	load yaml "plugins/APIxMJ/supervisor/config.yml" as "mj.supervisor.config"
+	load yaml "plugins/APIxMJ/supervisor/data.yml" as "mj.supervisor.data"
+	load yaml "plugins/APIxMJ/supervisor/temp.yml" as "mj.temp"
+	wait 1 second
+	set {_list::*} to mj_editfiles_list("supervisor.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/supervisor/language/%loop-value%.yml" as "mj.supervisor.language.%loop-value%"
+			load yaml "plugins/APIxMJ/supervisor/help/%loop-value%.yml" as "mj.supervisor.help.%loop-value%"
+			load yaml "plugins/APIxMJ/supervisor/help_custom/%loop-value%.yml" as "mj.custom.help.%loop-value%"
+			load yaml "plugins/APIxMJ/supervisor/rules/%loop-value%.yml" as "mj.custom.rules.%loop-value%"
+	mj_editfiles("temp", "data.supervisor.addon.main.manager.version", "modify", "2023.07.03.0001")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	send "[APIxMJ] Loading supervisor_core…" to console
+	mj_files_sv_core()
+	load script file "apixmj_sv_manager.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - EditFiles
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles(source: text, find: text="data", mode: text="extract", data: text="") :: text:
+	if {_source} isn't "github" or "unicode":
+		if {_source} contains "userdata.":
+			set {_source} to mj_userdata_profil({_source})
+		if {_mode} is "extract":
+			set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+			if {_result} isn't set:
+				if {_data} isn't empty:
+					set {_result} to {_data}
+		else if {_mode} is "delete":
+			set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+			if {_result} is set:
+				delete yaml value "%{_find}%" from "mj.%{_source}%"
+				save yaml "mj.%{_source}%"
+		else:
+			set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+			save yaml "mj.%{_source}%"
+	else if {_source} is "unicode":
+		if {_find} is "space":
+			set {_result} to "‌"
+	else:
+		set {_result} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_boolean(source: text, find: text="data", mode: text="extract", data: boolean=false) :: boolean:
+	if {_source} contains "userdata.":
+		set {_source} to mj_userdata_profil({_source})
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_number(source: text, find: text="data", mode: text="extract", data: number=0) :: number:
+	if {_source} contains "userdata.":
+		set {_source} to mj_userdata_profil({_source})
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_list(source: text, find: text="data", mode: text="extract", data: objects="") :: objects:
+	if {_source} contains "userdata.":
+		set {_source} to mj_userdata_profil({_source})
+	if {_mode} is "extract":
+		set {_list::*} to yaml list "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml list "%{_find}%" from "mj.%{_source}%" to {_data::*}
+		save yaml "mj.%{_source}%"
+	return {_list::*}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_stock(source: text, find: text="data", mode: text="extract", data: object="") :: object:
+	if {_source} contains "userdata.":
+		set {_source} to mj_userdata_profil({_source})
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_timespan(source: text, find: text="data", mode: text="extract", data: timespan="") :: timespan:
+	if {_source} contains "userdata.":
+		set {_source} to mj_userdata_profil({_source})
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_date(source: text, find: text="data", mode: text="extract", data: date="") :: date:
+	if {_source} contains "userdata.":
+		set {_source} to mj_userdata_profil({_source})
+	if {_mode} is "extract":
+		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
+		if {_result} isn't set:
+			if {_data} isn't empty:
+				set {_result} to {_data}
+	else:
+		set yaml value "%{_find}%" from "mj.%{_source}%" to {_data}
+		save yaml "mj.%{_source}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_editfiles_gettext(source: text, find: text="data", player: player="none", info.1: text="none", info.2: text="none", info.3: text="none") :: text:
+	set {_lang} to mj_userdata_language({_player})
+	set {_result} to yaml value "%{_find}%" from "mj.%{_source}%.language.%{_lang}%"
+	if {_info.1} isn't "none":
+		replace "$0" with {_info.1} in {_result}
+	if {_info.2} isn't "none":
+		replace "$1" with {_info.2} in {_result}
+	if {_info.3} isn't "none":
+		replace "$2" with {_info.3} in {_result}
+	if {_result} isn't set:
+		set {_result} to {_find}
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - EditFiles
+# =====================================================================================================================
+# APIxMJ - Nodes
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_nodes(source: text, find: text="data") :: objects:
+	if {_source} contains "userdata.":
+		set {_source} to mj_userdata_profil({_source})
+	loop yaml node keys "%{_find}%" from "mj.%{_source}%":
+		add loop-node to {_list::*}
+	replace all "%{_find}%." with "" in {_list::*}
+	return {_list::*}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_nodes_count(source: text, find: text="data") :: number:
+	set {_count} to 0
+	loop yaml node keys "%{_find}%" from "mj.%{_source}%":
+		add 1 to {_count}
+	return {_count}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Nodes
+# =====================================================================================================================
+# APIxMJ - Item
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_item_convert(source: text, find: text, nbt: boolean=false) :: item:
+	set {_item} to yaml value "%{_find}%" from "mj.%{_source}%"
+	if {_item} isn't a item:
+		set {_item} to {_item} parsed as item
+	if {_nbt} is true:
+		set {_item} to {_item} with no nbt
+	if {_item} isn't set:
+		set {_item} to air
+	set {_find.2} to {_find}
+	replace ".item" with "" in {_find.2}
+	set {_model} to mj_editfiles_number({_source}, "%{_find.2}%.custom_data_model")
+	if {_model} >= 1:
+		add "{CustomModelData:%{_model}%}" to nbt of {_item}
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_item_name(player: player, source: text, find: text, variante: text="", int.0: text="", int.1: text="") :: text:
+	set {_value.1} to mj_editfiles({_source}, {_find})
+	set {_list::*} to {_source} split at "."
+	set {_value.2} to mj_editfiles_gettext({_list::1}, "%{_value.1}%%{_variante}%", {_player}, {_int.0}, {_int.1})
+	return {_value.2}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_item_description(player: player, item: item, source: text, file: text="supervisor") :: item:
+	set {_lang} to mj_userdata_language({_player})
+	set {_count} to mj_item_lore_count({_item})
+	set {_data.1} to mj_editfiles_gettext("supervisor", "data.category.description")
+	set line {_count} of lore of {_item} to "%{_data.1}%"
+	add 2 to {_count}
+	set {_list::*} to mj_nodes("%{_file}%.language.%{_lang}%", "%{_source}%.lore")
+	loop {_list::*}:
+		set {_data.2} to mj_editfiles_gettext({_file}, "%{_source}%.lore.%loop-value%")
+		set line {_count} of lore of {_item} to "%{_data.2}%"
+		add 1 to {_count}
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_item_lore(player: player, item: item, slot: number=1, source: text="supervisor", find: text="data", replace1: text="none", replace2: text="none") :: item:
+	set {_text} to mj_editfiles_gettext({_source}, {_find}, {_player}, {_replace1}, {_replace2})
+	set line {_slot} of lore of {_item} to {_text}
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_item_lore_count(item: item) :: number:
+	set {_count} to 1
+	set {_list::*} to lore of {_item}
+	loop {_list::*}:
+		add 1 to {_count}
+	add 1 to {_count}
+	return {_count}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_item_give(player: player, item: item):
+	if {_player}'s inventory has space for {_item}:
+		give {_item} to {_player}
+	else:
+		drop {_item} at {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_item_button(player: player, item: item, type: text, source: text, find: text, space: boolean=false, int.0: text="", int.1: text="") :: item:
+	set {_count} to 1
+	set {_list::*} to lore of {_item}
+	loop {_list::*}:
+		add 1 to {_count}
+	if {_space} isn't true:
+		add 1 to {_count}
+	set {_click} to mj_editfiles_gettext("supervisor", "data.type.%{_type}%", {_player})
+	set {_lore} to mj_editfiles_gettext({_source}, {_find}, {_player}, {_int.0}, {_int.1})
+	set line {_count} of lore of {_item} to "%{_click}% %{_lore}%"
+	return {_item}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Item
+# =====================================================================================================================
+# APIxMJ - Message
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_message(player: player, source.1: text, prefix.1: text, source.2: text, send.1: text, int.0: text="", int.1: text="", int.2: text="", int.3: text="", int.4: text=""):
+	set {_lang} to mj_userdata_language({_player})
+	set {_prefix} to yaml value "%{_prefix.1}%" from "mj.%{_source.1}%.language.%{_lang}%"
+	set {_send} to yaml value "%{_send.1}%" from "mj.%{_source.2}%.language.%{_lang}%"
+	replace "$0" with {_int.0} in {_send}
+	replace "$1" with {_int.1} in {_send}
+	replace "$2" with {_int.2} in {_send}
+	replace "$3" with {_int.3} in {_send}
+	replace "$4" with {_int.4} in {_send}
+	if {_prefix} isn't set:
+		set {_prefix} to {_prefix.1}
+	if {_send} isn't set:
+		set {_send} to {_send.1}
+	send formatted "%{_prefix}% %{_send}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_message_simple(player: player, source.1: text, send.1: text, int.0: text="", int.1: text="", int.2: text="", int.3: text="", int.4: text=""):
+	set {_lang} to mj_userdata_language({_player})
+	set {_send} to yaml value "%{_send.1}%" from "mj.%{_source.1}%.language.%{_lang}%"
+	replace "$0" with {_int.0} in {_send}
+	replace "$1" with {_int.1} in {_send}
+	replace "$2" with {_int.2} in {_send}
+	replace "$3" with {_int.3} in {_send}
+	replace "$4" with {_int.4} in {_send}
+	if {_send} isn't set:
+		set {_send} to {_send.1}
+	send formatted "%{_send}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Message
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_skript_list() :: objects:
+	set {_slash} to mj_editfiles("supervisor.config", "data.slash_option")
+	loop files in dir "plugins%{_slash}%Skript%{_slash}%scripts":
+		set {_value} to loop-value-1
+		set {_list1::*} to {_value} split at "%{_slash}%"
+		loop {_list1::*}:
+			if loop-value-2 contains ".sk":
+				add loop-value-2 to {_list2::*}
+	#replace all ".sk" with "" in {_list2::*}
+	return {_list2::*}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_skript_start():
+	set {_list.1::*} to mj_nodes("supervisor.data", "data.addon")
+	loop {_list.1::*}:
+		set {_value.1} to loop-value-1
+		if {_value.1} isn't "main":
+			set {_list.2::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%")
+			loop {_list.2::*}:
+				set {_value.2} to loop-value-2
+				set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.condition")
+				if {_check} is true:
+					set {_list.3::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%.%{_value.2}%.skript")
+					loop {_list.3::*}:
+						set {_value.3} to loop-value-3
+						set {_skript} to mj_editfiles("supervisor.data", "data.addon.%{_value.1}%.%{_value.2}%.skript.%{_value.3}%")
+						enable script file {_skript}
+						wait 4 seconds
+	set {_prefix} to mj_editfiles_gettext("supervisor", "data.prefix")
+	set {_send} to mj_editfiles_gettext("supervisor", "data.reload.success")
+	broadcast "%{_prefix}% %{_send}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Function
+# =====================================================================================================================
+# APIxMJ - ID
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_id_generator() :: text:
+	set {_code} to "mj-"
+	set {_date} to now formatted with "yyyyMMddHHmmss-"
+	set {_code} to "%{_code}%%{_date}%"
+	loop 4 times:
+		set {_random} to a random integer from 0 to 9
+		set {_code} to "%{_code}%%{_random}%"
+	return {_code}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_id_checker(source: text, find: text="data", name: text) :: text:
+	set {_id} to "none"
+	set {_list::*} to mj_nodes({_source}, {_find})
+	loop {_list::*}:
+		set {_id} to "%loop-value%"
+		set {_check} to mj_editfiles({_source}, "%{_find}%.%{_id}%.name")
+		if "%{_name}%" is "%{_check}%":
+			exit loop
+		else:
+			set {_id} to "none"
+	return {_id}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_id_converter(source: text, find: text="data", head: text="name") :: objects:
+	set {_list.1::*} to mj_nodes({_source}, {_find})
+	loop {_list.1::*}:
+		set {_name} to mj_editfiles({_source}, "%{_find}%.%loop-value%.%{_head}%")
+		if {_head} is loop-value:
+			set {_name} to mj_editfiles({_source}, "%{_find}%.%loop-value%")
+		add {_name} to {_list.2::*}
+	return {_list.2::*}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - ID
+# =====================================================================================================================
+# APIxMJ - Userdata
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_userdata_profil(data: text="none", name: boolean=false) :: text:
+	if {_data} contains "userdata.":
+		set {_list::*} to mj_manager_skript_list()
+		if {_list::*} contains "apixmj_core.sk":
+			replace "userdata." with "" in {_data}
+			set {_profil} to yaml value "data.%{_data}%.profil" from "mj.userdata"
+			if {_name} is true:
+				set {_result} to {_profil}
+			else:
+				set {_result} to "userdata.%{_data}%.%{_profil}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_userdata_language(player: offlineplayer="none") :: text:
+	if {_player} is set:
+		if {_player} isn't "none":
+			set {_list::*} to mj_manager_skript_list()
+			if {_list::*} contains "apixmj_core.sk":
+				set {_profil} to mj_userdata_profil("userdata.%{_player}'s uuid%", true)
+				set {_result} to yaml value "data.language" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+	if {_result} isn't set:
+		set {_result} to mj_editfiles("supervisor.config", "data.language.use")
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Userdata
+# =====================================================================================================================
+# APIxMJ - GUI
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_gui_generator(player: player, size: number=1, locked: boolean=true, type: text="default", title: text="No gui name", gui: text="none", item: item=barrier block):
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_core.sk":
+		mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui", "modify", {_gui})
+		if {_locked} is true:
+			mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.temp.gui_protect", "modify", true)
+		if {_item} is barrier block:
+			set {_item} to mj_item_convert("supervisor.config", "data.gui_background.item")
+	open virtual chest inventory with size {_size} named formatted {_title} to {_player}
+	if {_type} is "default" or "border":
+		set {_time} to 9*{_size}
+		set {_slot} to 0
+		loop {_time} times:
+			make a gui slot {_slot} of {_player} with {_item} named " " to run:
+				stop
+			add 1 to {_slot}
+		if {_type} is "border":
+			if {_size} >= 3:
+				make a gui slot 10, 11, 12, 13, 14, 15 and 16 of {_player} with air to run:
+					stop
+			if {_size} >= 4:
+				make a gui slot 19, 20, 21, 22, 23, 24 and 25 of {_player} with air to run:
+					stop
+			if {_size} >= 5:
+				make a gui slot 28, 29, 30, 31, 32, 33 and 34 of {_player} with air to run:
+					stop
+			if {_size} >= 6:
+				make a gui slot 37, 38, 39, 40, 41, 42 and 43 of {_player} with air to run:
+					stop
+	if {_type} is "toolbar":
+		if {_size} >= 6:
+			make a gui slot 45, 46, 47, 48, 49, 50, 51, 52 and 53 of {_player} with {_item} named " " to run:
+				stop
+		else if {_size} >= 5:
+			make a gui slot 36, 37, 38, 39, 40, 41, 42, 43 and 44 of {_player} with {_item} named " " to run:
+				stop
+		else if {_size} >= 4:
+			make a gui slot 27, 28, 29, 30, 31, 32, 33, 34 and 35 of {_player} with {_item} named " " to run:
+				stop
+		else if {_size} >= 3:
+			make a gui slot 18, 19, 20, 21, 22, 23, 24, 25 and 26 of {_player} with {_item} named " " to run:
+				stop
+		else if {_size} >= 2:
+			make a gui slot 9, 10, 11, 12, 13, 14, 15, 16 and 17 of {_player} with {_item} named " " to run:
+				stop
+		else:
+			make a gui slot 0, 1, 2, 3, 4, 5, 6, 7 and 8 of {_player} with {_item} named " " to run:
+				stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - GUI
+# =====================================================================================================================
+# APIxMJ - Permission
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_permission(player: player, source: text="manager", prefix.1: text="data.prefix", int.0: text="*"):
+	set {_lang} to mj_userdata_language({_player})
+	set {_prefix} to yaml value "%{_prefix.1}%" from "mj.%{_source}%.language.%{_lang}%"
+	set {_send} to yaml value "data.argument.no_permission" from "mj.supervisor.language.%{_lang}%"
+	if {_send} isn't set:
+		set {_send} to "data.argument.no_permission"
+	set {_check} to yaml value "data.show_permission" from "mj.supervisor.config"
+	if {_check} is true:
+		set {_send} to yaml value "data.argument.show_permission" from "mj.supervisor.language.%{_lang}%"
+		replace "$0" with {_int.0} in {_send}
+		if {_send} isn't set:
+			set {_send} to "data.argument.show_permission"
+	send formatted "%{_prefix}% %{_send}%" to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Permission
+# =====================================================================================================================

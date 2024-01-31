@@ -1057,48 +1057,6 @@ on tab complete of "/loglevel":
 			set tab completions for position 2 to {_player::*}
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_logger(level: number=0, message: text, silent: boolean=false):
-	set {_prefix} to mj_editfiles_gettext("supervisor", "data.logger.prefix")
-	#send "%{_prefix}% &r%{_message}%" to console
-	set {_date} to mj_logger_id_generator()
-	set {_log} to uncolored {_message}
-	if {_silent} is false:
-		mj_logger_save_data("%{_log}%")
-	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_userdata.sk":
-		loop all players:
-			if loop-player has permission "*" or "mj.*" or "mj.logger.*" or "mj.logger":
-				set {_check} to mj_editfiles_number("userdata.data", "data.%loop-player's uuid%.log")
-				if {_check} >= {_level}:
-					send "%{_prefix}% &r%{_message}%" to loop-player
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_logger_save_data(info: text):
-	set {_date} to now formatted with "yyyy-MM-dd/HH"
-	set {_calc} to now formatted with "yyyy-MM-dd"
-	set {_id} to mj_logger_id_generator()
-	set {_count.1} to -1
-	loop files in dir "plugins/APIxMJ/logs/%{_calc}%":
-		add 1 to {_count.1}
-	set {_count.2} to line count of file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log"
-	set {_count.2} to {_count.2} parsed as number
-	if {_count.2} >= 500:
-		add 1 to {_count.1}
-	if file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log" doesn't exist:
-		create file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log"
-	write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log"'s line count + 1) to file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log"
-	wait 2 ticks
-	mj_logger(5, "%{_info}%", true)
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_logger_id_generator() :: text:
-	set {_date} to now formatted with "yyyy-MM-dd_HH-mm-ss_"
-	set {_code} to "%{_date}%"
-	loop 4 times:
-		set {_random} to a random integer from 0 to 9
-		set {_code} to "%{_code}%%{_random}%"
-	return {_code}
-# ---------------------------------------------------------------------------------------------------------------------
 on command:
 	mj_logger_save_data("%sender% has execute command (/%complete command%) at %event-location%")
 	stop

@@ -200,6 +200,54 @@ function mj_nodes_count(source: text, find: text="data") :: number:
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Nodes
 # =====================================================================================================================
+# APIxMJ - Logger
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_logger(level: number=0, message: text, silent: boolean=false):
+	set {_prefix} to mj_editfiles_gettext("supervisor", "data.logger.prefix")
+	#send "%{_prefix}% &r%{_message}%" to console
+	set {_date} to mj_logger_id_generator()
+	set {_log} to uncolored {_message}
+	if {_silent} is false:
+		mj_logger_save_data("%{_log}%")
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_userdata.sk":
+		loop all players:
+			if loop-player has permission "*" or "mj.*" or "mj.logger.*" or "mj.logger":
+				set {_check} to mj_editfiles_number("userdata.data", "data.%loop-player's uuid%.log")
+				if {_check} >= {_level}:
+					send "%{_prefix}% &r%{_message}%" to loop-player
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_logger_save_data(info: text):
+	set {_date} to now formatted with "yyyy-MM-dd/HH"
+	set {_calc} to now formatted with "yyyy-MM-dd"
+	set {_id} to mj_logger_id_generator()
+	set {_count.1} to -1
+	if file "plugins/APIxMJ/logs/%{_date}%-0.log" doesn't exist:
+		create file "plugins/APIxMJ/logs/%{_date}%-0.log"
+	loop files in dir "plugins/APIxMJ/logs/%{_calc}%":
+		set {_name} to name of file "plugins/APIxMJ/logs/%{_calc}%/%loop-value%"
+		if {_name} contains now formatted with "HH":
+			add 1 to {_count.1}
+	set {_count.2} to line count of file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log"
+	if {_count.2} >= 500:
+		add 1 to {_count.1}
+		if file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log" doesn't exist:
+			create file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log"
+	write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log"'s line count + 1) to file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log"
+	mj_logger(5, "%{_info}%", true)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_logger_id_generator() :: text:
+	set {_date} to now formatted with "yyyy-MM-dd_HH-mm-ss_"
+	set {_code} to "%{_date}%"
+	loop 4 times:
+		set {_random} to a random integer from 0 to 9
+		set {_code} to "%{_code}%%{_random}%"
+	return {_code}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Logger
+# =====================================================================================================================
 # APIxMJ - Item
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_item_convert(source: text, find: text, nbt: boolean=false) :: item:
@@ -436,4 +484,43 @@ function mj_permission(player: player, source: text="manager", prefix.1: text="d
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Permission
+# =====================================================================================================================
+# APIxMJ - Location
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_location(source: text, find: text, mode: text="extract", data: location="", type: boolean=false) :: location:
+	if {_source} contains "userdata.user":
+		set {_source} to mj_userdata_profil({_source})
+	if {_mode} is "extract":
+		set {_x} to yaml value "%{_find}%.location.x" from "mj.%{_source}%"
+		set {_y} to yaml value "%{_find}%.location.y" from "mj.%{_source}%"
+		set {_z} to yaml value "%{_find}%.location.z" from "mj.%{_source}%"
+		set {_world} to yaml value "%{_find}%.location.world" from "mj.%{_source}%"
+		if {_type} is true:
+			set {_ya} to yaml value "%{_find}%.location.yaw" from "mj.%{_source}%"
+			set {_pi} to yaml value "%{_find}%.location.pitch" from "mj.%{_source}%"
+			set {_result} to location({_x}, {_y}, {_z}, ({_world} parsed as world), {_ya}, {_pi})
+		else:
+			set {_result} to location({_x}, {_y}, {_z}, ({_world} parsed as world))
+	else:
+		set yaml value "%{_find}%.location.x" from "mj.%{_source}%" to {_data}'s x-coordinate
+		set yaml value "%{_find}%.location.y" from "mj.%{_source}%" to {_data}'s y-coordinate
+		set yaml value "%{_find}%.location.z" from "mj.%{_source}%" to {_data}'s z-coordinate
+		set yaml value "%{_find}%.location.world" from "mj.%{_source}%" to "%{_data}'s world%"
+		if {_type} is true:
+			set yaml value "%{_find}%.location.yaw" from "mj.%{_source}%" to {_data}'s yaw
+			set yaml value "%{_find}%.location.pitch" from "mj.%{_source}%" to {_data}'s pitch	
+		save yaml "mj.%{_source}%"
+		mj_logger(2, "%{_find}%.location for %{_data}% in mj.%{_source}%")
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_location_viewer(target: player, mode: text="compare") :: text:
+	set {_x} to round down x-coordinate of {_target}
+	set {_y} to round down y-coordinate of {_target}
+	set {_z} to round down z-coordinate of {_target}
+	set {_result} to "%{_x}% %{_y}% %{_z}%"
+	if {_mode} is "show":
+		set {_result} to "&7X&6:&a%{_x}%&6, &7Y&6:&a%{_y}%&6, &7Z&6:&a%{_z}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Location
 # =====================================================================================================================

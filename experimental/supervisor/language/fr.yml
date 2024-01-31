@@ -21,6 +21,7 @@ data:
         file: "&eFichier &6:&r"
         type: "&eType &6:&r $0"
     none: "&cAucune"
+    empty: "&cVide…"
     process:
         updated: "&eMise à jour du Skript &a$0 &eTerminé !"
         installed: "&eInstallation du Skript &a$0 &eTerminé !"

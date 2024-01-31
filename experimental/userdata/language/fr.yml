@@ -1,6 +1,4 @@
 data:
-    prefix: "&6[&c&lAPIxMJ&6]&r"
-    empty: "&cVide.."
     logger:
         prefix: "&6[&c&lLogs&6]&r"
         enable: "&7Vous avez changé l'affichage des logs en &6: &a$0"

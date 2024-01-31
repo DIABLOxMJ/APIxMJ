@@ -236,6 +236,42 @@ data:
                 item: command block
                 gui_background:
                     item: yellow stained glass pane
+            devtools:
+                name: data.addon.main.devtools.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.supervisor
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: devtools
+                folder: devtools
+                slot: 19
+                skript:
+                    '1': apixmj_devtools
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.devtools.config
+                    '2': mj.devtools.data
+                    '3': mj.temp
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: mj.temp
+                        data: data
+                item: command block
+                gui_background:
+                    item: yellow stained glass pane
             supervisor:
                 name: data.addon.main.supervisor.name
                 experimental: false
@@ -288,7 +324,7 @@ data:
                 source: none
                 github_folder: userdata
                 folder: userdata
-                slot: 19
+                slot: 28
                 skript:
                     '1': apixmj_userdata
                 yml:

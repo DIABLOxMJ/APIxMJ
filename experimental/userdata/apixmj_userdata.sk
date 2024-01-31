@@ -198,7 +198,7 @@ function mj_userdata_profil_migration(player: offlineplayer, value: text):
 	set {_list::*} to mj_editfiles_list("userdata.data", "data.%{_player}'s uuid%.profil_list")
 	if {_list::*} contains {_value}:
 		set {_profil} to mj_editfiles("userdata.data", "data.%{_player}'s uuid%.profil")
-		mj_location("userdata.user.%{_player}'s uuid%", "data", "modify", {_player}'s location, true)
+		mj_location("userdata.user.%{_player}'s uuid%", "data", "modify", {_player}player's location, true)
 		mj_editfiles("userdata.data", "data.%{_player}'s uuid%.playtime", "modify", "%{_player}'s time played%")
 		mj_userdata_inventory_save({_player}, "last")
 		wait 1 second
@@ -323,6 +323,25 @@ function mj_userdata_inventory_restore(player: player, type: text):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Inventory
+# =====================================================================================================================
+# APIxMJ - Keep Inventory
+# ---------------------------------------------------------------------------------------------------------------------
+on death of player:
+	if victim has permission "*" or "mj.*" or "mj.keepinv" or "mj.keepinventory":
+		set {_check} to mj_editfiles_boolean("userdata.config", "data.inventory.keep")
+		if {_check} is true:
+			keep inventory
+			clear drops
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on death of player:
+	if victim has permission "*" or "mj.*" or "mj.keepexp" or "mj.keepexperience":
+		set {_check} to mj_editfiles_boolean("userdata.config", "data.inventory.keep")
+		if {_check} is true:
+			keep experience
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Keep Inventory
 # =====================================================================================================================
 # APIxMJ - Stats
 # ---------------------------------------------------------------------------------------------------------------------

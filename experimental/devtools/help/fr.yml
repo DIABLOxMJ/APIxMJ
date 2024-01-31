@@ -1,0 +1,327 @@
+data:
+    apixmj:
+        name: "&aAPIxMJ"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUne commande centrale pour gérer l'environnement d'APIxMJ"
+            '2': "&0- &aune gestion sans précédent."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7La commande possède deux préfixes &a/apixmj &7où &a/mj"
+            '2': "&0"
+            '3': "&6- &a/apixmj"
+            '4': "&0- &7Ouvre une interface pour les personnes spéciales"
+            '5': "&0- &7on retrouve la liste dans le fichier &aconfig &7dans &aaccess&7."
+            '6': "&0"
+            '7': "&6- &a/apixmj reload [<files/skript>]"
+            '8': "&0- &7Sans préciser, il recharge le &aCoeur&7, où seulement les"
+            '9': "&0- &7fichiers sinon un autre Skript entièrement."
+    debug1:
+        name: "&aOutils de dépannage"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn moyen de dépanner rapidement lors d'un souci technique."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7La commande possède deux préfixes &a/apixmj &7où &a/mj"
+            '2': "&0"
+            '3': "&6- &a/apixmj debug"
+            '4': "&0- &7Donne la liste des fichiers actifs d'APIxMJ."
+            '5': "&6- &a/apixmj debug uuid <uuid/player>"
+            '6': "&0- &7Indiquer un UUID ou un nom de joueur"
+            '7': "&0- &7pour vérifier l'information."
+            '8': "&6- &a/apixmj debug unload <skript>"
+            '9': "&0- &7Décharge un fichier yml."
+            '10': "&6- &a/apixmj debug loadskript <skript>"
+            '11': "&0- &7Charge un skript."
+            '12': "&6- &a/apixmj debug unloadskript <skript>"
+            '13': "&0- &7Décharge un skript."
+            '14': "&6- &a/apixmj check hand"
+            '15': "&0- &7Donne des informations sur l'item en main."
+            '16': "&6- &a/apixmj check target"
+            '17': "&0- &7Donne des informations sur le bloc visé."
+            '18': "&6- &a/apixmj chechnbt hand"
+            '19': "&0- &7Donne la source NBT de l'item en main."
+            '20': "&6- &a/apixmj checknbt target"
+            '21': "&0- &7Donne la source NBT du bloc/entité visé."
+    debug2:
+        name: "&aOutils de dépannage"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn moyen de dépanner rapidement lors d'un souci technique."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7La commande possède deux préfixes &a/apixmj &7où &a/mj"
+            '2': "&0"
+            '3': "&6- &a/apixmj debug online <player>"
+            '4': "&0- &7Il permet de vérifier la présence d'un joueur."
+            '5': "&6- &a/apixmj debug checkslot <number>"
+            '6': "&0- &7Indiquer un chiffre, il donnera des informations"
+            '7': "&0- &7sur le slot d'inventaire."
+            '8': "&6- &a/apixmj debug checkentity <number>"
+            '9': "&0- &7Vérifie les entités dans un rayon autour du joueur."
+            '10': "&6- &a/apixmj debug rename <text>"
+            '11': "&0- &7Change le nom d'un item en main."
+    dataeditor1:
+        name: "&aÉditeur de données"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn éditeur révolutionnaire, plus besoin de sortir un"
+            '2': "&0- &aprogramme FTP pour modifier quelques valeurs."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7La commande possède deux préfixes &a/dataeditor &7où &a/dae"
+            '2': "&0"
+            '3': "&6- &a/dataeditor text <file name> <path> <value>"
+            '4': "&0- &7Il permet de changer une valeur de type texte."
+            '5': "&6- &a/dataeditor number <file name> <path> <value>"
+            '6': "&0- &7Il permet de changer une valeur de type chiffre."
+            '7': "&6- &a/dataeditor boolean <file name> <path> <value>"
+            '8': "&0- &7Il permet de changer une valeur de type VRAI/FAUX."
+            '9': "&6- &a/dataeditor delete <file name> <path> <value>"
+            '10': "&0- &7Il permet de supprimer une valeur."
+            '11': "&6- &a/dataeditor list <file name> <path> <value>"
+            '12': "&0- &7Il permet de changer une valeur de type liste."
+            '13': "&6- &a/dataeditor item <file name> <path>"
+            '14': "&0- &7Il permet de changer une valeur de type item."
+    dataeditor2:
+        name: "&aÉditeur de données"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn éditeur révolutionnaire plus besoin de sortir un"
+            '2': "&0- &aprogramme FTP pour modifier quelques valeurs."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7La commande possède deux préfixes &a/dataeditor &7où &a/dae"
+            '2': "&0"
+            '3': "&6- &a/dataeditor item_name <text>"
+            '4': "&0- &7Il permet de changer le nom d'un item."
+            '5': "&6- &a/dataeditor item_lore <number> <text>"
+            '6': "&0- &7Il permet de changer la description d'un item."
+            '7': "&6- &a/dataeditor item_enchant <text>"
+            '8': "&0- &7Il permet de modifier l'enchantement d'un item."
+            '9': "&6- &a/dataeditor editgui"
+            '10': "&0- &7Il permet de sauvegarder un stockage d'item,"
+            '11': "&0- &7et dupliquer comme item custom à préserver."
+            '12': "&6- &a/dataeditor gui"
+            '13': "&0- &7Ouvre ce même menu pour récupérer"
+            '14': "&0- &7sans perdre l'item d'origine."
+            '15': "&6- &a/dataeditor sign [<number>] [<text>]"
+            '16': "&0- &7Un éditeur de texte pour modifier"
+            '17': "&0- &7les panneaux ciblés."
+    console:
+        name: "&aConsole de commandes"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn émulateur de commande, pour exécuter une commande"
+            '2': "&0- &aréservée à la console en tant que joueur."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &a/console <command>"
+            '2': "&0- &7Émule une commande de la console en tant que joueur."
+    operator:
+        name: "&aMode Super-Admin"
+        type: command
+        description:
+            '1': "&0- &aAvoir le rôle le plus important pour un gérant."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &a/op <player>"
+            '2': "&0- &a/deop <player>"
+            '3': "&0- &7Pareil qu'en vanilla de base, mais limité à une personne spécifique."
+    report:
+        name: "&aSystème de rapports"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn signalement de joueur, des problèmes techniques ?"
+            '2': "&0- &aJ'ai la solution !"
+        permission:
+        - "none"
+        info:
+            '1': "&6- &a/report <text>"
+            '2': "&0- &7Cette commande permet de signaler la moindre"
+            '3': "&0- &7chose, au nom de toute l'équipe de modération"
+            '4': "&0- &7essayez d'être clair, de faire comprendre en"
+            '5': "&0- &7une fois ce que vous dites !"
+            '6': "&0"
+            '7': "&6- &a/reports"
+            '8': "&0- &7Voir la liste de signalements et de supprimées."
+    nick:
+        name: "&aSystème de surnoms"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aDevenir anonyme avec un surnom"
+            '2': "&0- &adevient possible avec cette commande."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.nick.*"
+        - "mj.nick"
+        info:
+            '1': "&6- &a/nick <text>"
+            '2': "&0- &7Cette commande permet de remplacer son"
+            '3': "&0- &7pseudo par un surnom choisi."
+            '4': "&0"
+            '5': "&6- &a/nick reset [pseudo]"
+            '6': "&0- &7Il permet de supprimer et restaurer le"
+            '7': "&0- &7pseudo par défaut du joueur."
+            '8': "&0"
+            '9': "&6- &a/nick reveal"
+            '10': "&0- &7Il permet de connaître tous les joueurs"
+            '11': "&0- &7qui utilisent un surnom."
+    storage1:
+        name: "&aSystème de stockage"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn gestionnaire sans précédent, ultra moderne et universel."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &a/storage create <name>"
+            '2': "&0- &7Créer une nouvelle base de données de stockage."
+            '3': "&6- &a/storage set <storage name> price <number>"
+            '4': "&0- &7Définir un prix à payer pour acheter ce stockage."
+            '5': "&6- &a/storage set <storage name> quantity <number>"
+            '6': "&0- &7Définir une quantité limitée de ce stockage."
+            '7': "&6- &a/storage set <storage name> limit <number>"
+            '8': "&0- &7Définir la limite possible par joueur."
+            '9': "&6- &a/storage set <storage name> timer_second <number>"
+            '10': "&0- &7Définir le temps en seconde avant la prochaine récupération."
+            '11': "&6- &a/storage set <storage name> timer_minute <number>"
+            '12': "&0- &7Définir le temps en minute avant la prochaine récupération."
+            '13': "&6- &a/storage set <storage name> timer_hour <number>"
+            '14': "&0- &7Définir le temps en heure avant la prochaine récupération."
+            '15': "&0- &7Le temps secondes, minutes et heures sont liés"
+            '16': "&0- &7lié par exemple 1h5m30s."
+            '17': "&6- &a/storage set <storage name> money <number>"
+            '18': "&0- &7Définir la quantité d'argent obtenable à la"
+            '19': "&0- &7récupération du stockage."
+    storage2:
+        name: "&aSystème de stockage"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn gestionnaire sans précédent, ultra moderne et universel."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &a/storage set <storage name> permission <true/false>"
+            '2': "&0- &7Définir si le joueur doit avoir la permission"
+            '3': "&0- &7ou non pour y avoir accès à la"
+            '4': "&0- &7récupération du stockage &amj.storage.<storage name>&7."
+            '5': "&6- &a/storage set <storage name> command <text>"
+            '6': "&0- &7Définir une commande a exécuter à la récupération."
+            '7': "&6- &a/storage set <storage name> time <number>"
+            '8': "&0- &7Définir un temps à afficher."
+            '9': "&6- &a/storage set <storage name> rank <text>"
+            '10': "&0- &7Définir le rang à donner au joueur."
+            '11': "&6- &a/storage edit <storage name>"
+            '12': "&0- &7Ouvre un menu dans lequel on peut déposer et"
+            '13': "&0- &7récupérer des items."
+            '14': "&6- &a/storage give <storage name> [<player/all>]"
+            '15': "&0- &7Il permet de donner le stockage à un joueur ou"
+            '16': "&0- &7à tout le serveur."
+    recipes:
+        name: "&aVisualiseur de recettes"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aBesoin de voir une recipe personnalisée ?"
+            '2': "&0- &aNous avons la solution."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &a/recipes <name>"
+            '2': "&0- &7Il ouvre un menu avec la recette dedans."
+    bat:
+        name: "&aChauve-souris"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aOn dit stop aux entités inutiles du jeu comme"
+            '2': "&0- &ales chauves-souris, ADIEU !"
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7On peut changer le mode dans le fichier config du &aCore"
+            '2': "&0- &7avec l'option &ano_spawn_bat&7."
+    enderman:
+        name: "&aEnderman"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aOn dit stop à la destruction massive"
+            '2': "&0- &adu monde par les Endermans !"
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7On peut changer le mode dans le fichier config du &aCore"
+            '2': "&0- &7avec l'option &ano_enderman_griefing&7."
+    explode:
+        name: "&aAnti-Explosion"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aOn dit stop aux explosions !"
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7On peut changer le mode dans le fichier config du &aCore"
+            '2': "&0- &7avec l'option &aanti-explode&7."
+            '3': "&0"
+            '5': "&6- &eSi la région WorldGuard contient &aspawn &eoù &asafe &eil sera actif."
+    crafting:
+        name: "&aRecette personnalisée"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aDésormais possible de rajouter de"
+            '2': "&0- &anouvelle recette en jeu."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7C'est une action réservée au administrateur"
+            '2': "&0- &7pour cela, il faut aller dans le fichier"
+            '3': "&0- &7&aData &7du &aCoeur&7."
+    godmode_core:
+        name: "&aImmortalité"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aUn temps d'immortalité pour protéger le joueur dans des"
+            '2': "&0- &asituations, comme sortir du spawn pendant 5 secondes."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7Si la région WorldGuard contient &aspawn&7, &asafe &7où &acenter"
+            '2': "&0- &7il sera protégé pendant 5 secondes."
+    security:
+        name: "&aSécurité"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aUn moyen de bloquer les soucis présents dans le jeu."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7Faire un clic droit sur un bloc contenant le"
+            '2': "&0- &7nom &acommand &7et bloquer pour les joueurs."
+            '3': "&0"
+            '4': "&6- &7Faire apparaitre un minecart commande block avec"
+            '5': "&0- &7un dispenseur et bloquer pour tout le monde."

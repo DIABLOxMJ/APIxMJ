@@ -11,7 +11,7 @@ on load:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on skript stop:
-	rename file "plugins/Skript/scripts/apixmj_sv_core.sk" to "-apixmj_sv_core.sk"
+	rename file "plugins/Skript/scripts/apixmj_sv_manager.sk" to "-apixmj_sv_manager.sk"
 	send "[APIxMJ] Unloading supervisor_manager…"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -1018,4 +1018,161 @@ function mj_manager_rules_menu_viewer_data_lore(player: player, item: item, inde
 	return {_item}
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Rules
+# =====================================================================================================================
+# APIxMJ - Logger
+# ---------------------------------------------------------------------------------------------------------------------
+command /log [<text>]:
+	executable by: console
+	trigger:
+		mj_logger(1, arg-1)
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /loglevel [<number=0>] [<offlineplayer>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.logger.*" or "mj.logger":
+			if arg-1 is set:
+				if arg-2 is set:
+					mj_editfiles_number("userdata.data", "data.%arg-2's uuid%.log", "modify", arg-1)
+					mj_message(player, "core", "data.prefix", "core", "data.logger.other_me", "%arg-2%", "%arg-1%")
+					if arg-2 is online:
+						mj_message(arg-2, "core", "data.prefix", "core", "data.logger.other_it", "%arg-1%", "%arg-2%")
+				else if arg-1 is 0:
+					mj_editfiles_number("userdata.data", "data.%player's uuid%.log", "modify", arg-1)
+					mj_message(player, "core", "data.prefix", "core", "data.logger.disable")
+				else:
+					mj_editfiles_number("userdata.data", "data.%player's uuid%.log", "modify", arg-1)
+					mj_message(player, "core", "data.prefix", "core", "data.logger.enable", "%arg-1%")
+			else:
+				mj_message(player, "core", "data.prefix", "manager", "data.argument.number")
+		else:
+			mj_permission(player, "core", "data.prefix", "mj.logger")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/loglevel":
+	if player has permission "*" or "mj.*" or "mj.logger.*" or "mj.logger":
+		set tab completions for position 1 to "0", "1", "2", "3", "4" and "5"
+		if tab arg-1 is set:
+			set {_player::*} to mj_id_converter("userdata.data", "data", "pseudo")
+			set tab completions for position 2 to {_player::*}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_logger(level: number=0, message: text, silent: boolean=false):
+	set {_prefix} to mj_editfiles_gettext("supervisor", "data.logger.prefix")
+	#send "%{_prefix}% &r%{_message}%" to console
+	set {_date} to mj_logger_id_generator()
+	set {_log} to uncolored {_message}
+	if {_silent} is false:
+		mj_logger_save_data("%{_log}%")
+	loop all players:
+		if loop-player has permission "*" or "mj.*" or "mj.logger.*" or "mj.logger":
+			set {_check} to mj_editfiles_number("userdata.data", "data.%loop-player's uuid%.log")
+			if {_check} >= {_level}:
+				send "%{_prefix}% &r%{_message}%" to loop-player
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_logger_save_data(info: text):
+	set {_date.1} to now formatted with "yyyy-MM-dd/HH"
+	set {_id} to mj_logger_id_generator()
+	set {_count.1} to mj_editfiles_number("temp", "data.logs.file_count")
+	set {_date.2} to mj_editfiles_number("temp", "data.logs.file_date")
+	mj_editfiles("temp", "data.logs.file_date", "modify", {_date.1})
+	if file "plugins/APIxMJ/logs/%{_date.1}%-%{_count.1}%.log" doesn't exist:
+		create file "plugins/APIxMJ/logs/%{_date.1}%-%{_count.1}%.log"
+	write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/logs/%{_date.1}%-%{_count.1}%.log"'s line count + 1) to file "plugins/APIxMJ/logs/%{_date.1}%-%{_count.1}%.log"
+	set {_count.2} to file "plugins/APIxMJ/logs/%{_date}%-%{_count.1}%.log"'s line count
+	if {_count.2} >= 500:
+		if {_date.1} isn't {_date.2}:
+			mj_editfiles_number("temp", "data.logs.file_count", "modify", 0)
+		else:
+			add 1 to {_count.1}
+			mj_editfiles_number("temp", "data.logs.file_count", "modify", {_count.1})
+	mj_logger(5, "%{_info}%", true)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_logger_id_generator() :: text:
+	set {_date} to now formatted with "yyyy-MM-dd_HH-mm-ss_"
+	set {_code} to "%{_date}%"
+	loop 4 times:
+		set {_random} to a random integer from 0 to 9
+		set {_code} to "%{_code}%%{_random}%"
+	return {_code}
+# ---------------------------------------------------------------------------------------------------------------------
+on command:
+	mj_logger_save_data("%sender% has execute command (/%complete command%) at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	mj_logger_save_data("%event-entity% has join the server at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on quit:
+	mj_logger_save_data("%event-entity% has quit the server at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on chat:
+	mj_logger_save_data("%player% sended message : %message% (%event-location%)")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on pickup:
+	mj_logger_save_data("%event-entity% has pickup item %event-item% at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory click:
+	mj_logger_save_data("%player% has click item %event-item% at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on drop:
+	mj_logger_save_data("%event-entity% is dropped at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on portal:
+	mj_logger_save_data("%event-entity% used portal %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on craft:
+	mj_logger_save_data("%player% has crafted item %event-item% at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on consume:
+	mj_logger_save_data("%event-entity% used item %event-item% at %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on teleport:
+	mj_logger_save_data("%event-entity% teleported to %event-location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on gamemode change:
+	mj_logger_save_data("%player% has changed gamemode to %player's gamemode%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+#on region enter:
+	#mj_logger_save_data("%event-entity% enter on region %event-region% at %location%")
+	#stop
+# ---------------------------------------------------------------------------------------------------------------------
+#on region exit:
+	#mj_logger_save_data("%event-entity% exit a region %event-region% at %location%")
+	#stop
+# ---------------------------------------------------------------------------------------------------------------------
+on rightclick:
+	if "%event-block%" contains "chest" or "trapped chest" or "shulker box" or "enderchest":
+		mj_logger_save_data("%player% has open %event-block% is %location of event-block%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on place:
+	mj_logger_save_data("%event-entity% on place block %event-block%") #at %location of event-block%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on break:
+	mj_logger_save_data("%event-entity% on break block %event-block%") #at %location of event-block%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on death:
+	if attacker is set:
+		mj_logger_save_data("%victim% has killed by %attacker% in %victim's location%")
+	else:
+		mj_logger_save_data("%victim% is die in %victim's location%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Logger
 # =====================================================================================================================

@@ -48,3 +48,33 @@ data:
             '1': "&6- &a/answer <player> <message>"
             '2': "&0- &7Il permet de répondre à une question,"
             '3': "&0- &7poser avec le &a/help&7."
+    log:
+        name: "&aHistorique"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aAvoir les logs directement en jeu et récupérer aussi,"
+            '2': "&0- &adans le dossier logs d'APIxMJ."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &a/log <text>"
+            '2': "&0- &7Ajoute une information dans les logs."
+            '3': "&0- &7Réservé à la console et autres plugins."
+            '4': "&0"
+            '5': "&6- &a/loglevel <number> [<player>]"
+            '6': "&0- &7Active le degrès d'affichage pour recevoir les"
+            '7': "&0- &7logs en jeu réservé à la console et autres plugins."
+    log_action:
+        name: "&aInteraction avec l'historique"
+        type: action
+        page: 1
+        description:
+            '1': "&0- &aLes interactions possibles."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &aCommande&6, &aConnexion&6, &aDéconnexion&6, &aMessage&6,"
+            '2': "&0- &aRamasser&6, &aJeter&6, &aPortail&6, &aCraft&6, &aUtiliser&6,"
+            '3': "&0- &aTéléportation&6, &aGamemode&6, &aRégion&6, &aClic droit&6,"
+            '4': "&0- &aPlacer&6, &aCasser &7et &aMourir&6."

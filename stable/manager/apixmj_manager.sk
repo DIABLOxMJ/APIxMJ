@@ -45,7 +45,7 @@ function mj_editfiles(source: text, find: text="data", mode: text="extract", dat
 		if {_find} is "space":
 			set {_result} to "‌"
 	else:
-		set {_result} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/"
+		set {_result} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_boolean(source: text, find: text="data", mode: text="extract", data: boolean=false) :: boolean:

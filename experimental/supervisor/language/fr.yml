@@ -143,6 +143,18 @@ data:
         right_click: "&6[&aClic Droit&6]&r"
         right_click_shift: "&6[&aShift + CD&6]&r"
         middle_click: "&6[&aClic Molette&6]&r"
+    logger:
+        prefix: "&6[&c&lLogs&6]&r"
+        enable: "&7Vous avez changé l'affichage des logs en &6: &a$0"
+        disable: "&aVous avez désactivé l'affichage des logs !"
+        other_me: "&7Vous avez changé l'affichage des logs de &a$0 &7en &a$1"
+        other_it: "&7Votre niveau d'affichage des logs est désormais à &a$0 &7par &a$1"
+    time:
+        wait: "&cVous devez attendre &a$0 &cpour utiliser cette commande"
+        unknown: "&aTemps inconnu"
+        hour: "&a$2h:$1m:$0s&r"
+        minute: "&a$1m:$0s&r"
+        second: "&a$0 secondes&r"
     help:
         border: "&6----- ----- ----- ----- ----- &a$0 &6----- ----- ----- ----- -----"
         description: "  &eDescription &6:&r"
@@ -289,6 +301,11 @@ data:
                     '2': "&0- &7suppression de Skript dans l'environnement d'APIxMJ."
                     '3': "&6- &7Il est simple et efficace donc très accessible"
                     '4': "&0- &7pour n'importe qui !"
+            userdata:
+                name: "&5Base de donnée &6(&aJoueur&6)"
+                name_lite: "&5BDD &6(&aJoueur&6)"
+                lore:
+                    '1': "&6- &7Un utilitaire pour gérer les données joueurs."
         vertebral_main:
             core:
                 name: "&5Cœur"

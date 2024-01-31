@@ -1,0 +1,20 @@
+data:
+    prefix: "&6[&c&lAPIxMJ&6]&r"
+    empty: "&cVide.."
+    logger:
+        prefix: "&6[&c&lLogs&6]&r"
+        enable: "&7Vous avez changé l'affichage des logs en &6: &a$0"
+        disable: "&aVous avez désactivé l'affichage des logs !"
+        other_me: "&7Vous avez changé l'affichage des logs de &a$0 &7en &a$1"
+        other_it: "&7Votre niveau d'affichage des logs est désormais à &a$0 &7par &a$1"
+    profil:
+        create: "&7Vous avez un nouveau profil de jeu sous le nom de &a$0"
+        create_other: "&7Vous avez créé un profil pour le joueur &a$0 &7sous le nom de &a$1"
+        migration: "&7Vous avez migré du profil &a$0 &7vers &a$1"
+    inventory:
+        save: "&7Vous avez sauvegardé l'inventaire de &a$0 &7sous le nom &a$1"
+        restore: "&7Vous avez restauré l'inventaire de &a$0 &7à partir de &a$1"
+        help: "&cVeuillez indiquer plutôt &asave &cou &arestore"
+    playtime:
+        player: "&a$0 &7S'est connecté ces &a$1 &7derniers jours &6(&a$2&6) &6(&a$3&6)"
+        total: "&7Au total, il y a eu &a$0 &7joueurs sur &a$1 &7joueurs."

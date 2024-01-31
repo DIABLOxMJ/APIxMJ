@@ -1,0 +1,6 @@
+data:
+    inventory:
+        # It allows to know if the players who have the authorization to keep their inventory after their death, default : false
+        keep: false
+        # Enable or disable the auto-save system every 5 minutes, default : false
+        backup: false

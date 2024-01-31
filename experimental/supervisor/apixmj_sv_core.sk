@@ -16,7 +16,7 @@ function mj_files_sv_core():
 			load yaml "plugins/APIxMJ/supervisor/help/%loop-value%.yml" as "mj.supervisor.help.%loop-value%"
 			load yaml "plugins/APIxMJ/supervisor/help_custom/%loop-value%.yml" as "mj.custom.help.%loop-value%"
 			load yaml "plugins/APIxMJ/supervisor/rules/%loop-value%.yml" as "mj.custom.rules.%loop-value%"
-	mj_editfiles("temp", "data.supervisor.addon.main.manager.version", "modify", "2023.07.03.0001")
+	mj_editfiles("temp", "data.manager.addon.main.supervisor.version", "modify", "2024.01.30.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
@@ -31,7 +31,7 @@ on load:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles(source: text, find: text="data", mode: text="extract", data: text="") :: text:
 	if {_source} isn't "github" or "unicode":
-		if {_source} contains "userdata.":
+		if {_source} contains "userdata.user":
 			set {_source} to mj_userdata_profil({_source})
 		if {_mode} is "extract":
 			set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
@@ -54,7 +54,7 @@ function mj_editfiles(source: text, find: text="data", mode: text="extract", dat
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_boolean(source: text, find: text="data", mode: text="extract", data: boolean=false) :: boolean:
-	if {_source} contains "userdata.":
+	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
@@ -67,7 +67,7 @@ function mj_editfiles_boolean(source: text, find: text="data", mode: text="extra
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_number(source: text, find: text="data", mode: text="extract", data: number=0) :: number:
-	if {_source} contains "userdata.":
+	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
@@ -80,7 +80,7 @@ function mj_editfiles_number(source: text, find: text="data", mode: text="extrac
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_list(source: text, find: text="data", mode: text="extract", data: objects="") :: objects:
-	if {_source} contains "userdata.":
+	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_list::*} to yaml list "%{_find}%" from "mj.%{_source}%"
@@ -93,7 +93,7 @@ function mj_editfiles_list(source: text, find: text="data", mode: text="extract"
 	return {_list::*}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_stock(source: text, find: text="data", mode: text="extract", data: object="") :: object:
-	if {_source} contains "userdata.":
+	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
@@ -106,7 +106,7 @@ function mj_editfiles_stock(source: text, find: text="data", mode: text="extract
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_timespan(source: text, find: text="data", mode: text="extract", data: timespan="") :: timespan:
-	if {_source} contains "userdata.":
+	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
@@ -119,7 +119,7 @@ function mj_editfiles_timespan(source: text, find: text="data", mode: text="extr
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_date(source: text, find: text="data", mode: text="extract", data: date="") :: date:
-	if {_source} contains "userdata.":
+	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
 		set {_result} to yaml value "%{_find}%" from "mj.%{_source}%"
@@ -146,10 +146,46 @@ function mj_editfiles_gettext(source: text, find: text="data", player: player="n
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - EditFiles
 # =====================================================================================================================
+# APIxMJ - Manager
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_skript_list() :: objects:
+	set {_slash} to mj_editfiles("supervisor.config", "data.slash_option")
+	loop files in dir "plugins%{_slash}%Skript%{_slash}%scripts":
+		set {_value} to loop-value-1
+		set {_list1::*} to {_value} split at "%{_slash}%"
+		loop {_list1::*}:
+			if loop-value-2 contains ".sk":
+				add loop-value-2 to {_list2::*}
+	#replace all ".sk" with "" in {_list2::*}
+	return {_list2::*}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_manager_skript_start():
+	set {_list.1::*} to mj_nodes("supervisor.data", "data.addon")
+	loop {_list.1::*}:
+		set {_value.1} to loop-value-1
+		if {_value.1} isn't "main":
+			set {_list.2::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%")
+			loop {_list.2::*}:
+				set {_value.2} to loop-value-2
+				set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.condition")
+				if {_check} is true:
+					set {_list.3::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%.%{_value.2}%.skript")
+					loop {_list.3::*}:
+						set {_value.3} to loop-value-3
+						set {_skript} to mj_editfiles("supervisor.data", "data.addon.%{_value.1}%.%{_value.2}%.skript.%{_value.3}%")
+						enable script file {_skript}
+						wait 4 seconds
+	set {_prefix} to mj_editfiles_gettext("supervisor", "data.prefix")
+	set {_send} to mj_editfiles_gettext("supervisor", "data.reload.success")
+	broadcast "%{_prefix}% %{_send}%"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Manager
+# =====================================================================================================================
 # APIxMJ - Nodes
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_nodes(source: text, find: text="data") :: objects:
-	if {_source} contains "userdata.":
+	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	loop yaml node keys "%{_find}%" from "mj.%{_source}%":
 		add loop-node to {_list::*}
@@ -267,42 +303,6 @@ function mj_message_simple(player: player, source.1: text, send.1: text, int.0: 
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Message
 # =====================================================================================================================
-# APIxMJ - Function
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_skript_list() :: objects:
-	set {_slash} to mj_editfiles("supervisor.config", "data.slash_option")
-	loop files in dir "plugins%{_slash}%Skript%{_slash}%scripts":
-		set {_value} to loop-value-1
-		set {_list1::*} to {_value} split at "%{_slash}%"
-		loop {_list1::*}:
-			if loop-value-2 contains ".sk":
-				add loop-value-2 to {_list2::*}
-	#replace all ".sk" with "" in {_list2::*}
-	return {_list2::*}
-# ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_skript_start():
-	set {_list.1::*} to mj_nodes("supervisor.data", "data.addon")
-	loop {_list.1::*}:
-		set {_value.1} to loop-value-1
-		if {_value.1} isn't "main":
-			set {_list.2::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%")
-			loop {_list.2::*}:
-				set {_value.2} to loop-value-2
-				set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.condition")
-				if {_check} is true:
-					set {_list.3::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%.%{_value.2}%.skript")
-					loop {_list.3::*}:
-						set {_value.3} to loop-value-3
-						set {_skript} to mj_editfiles("supervisor.data", "data.addon.%{_value.1}%.%{_value.2}%.skript.%{_value.3}%")
-						enable script file {_skript}
-						wait 4 seconds
-	set {_prefix} to mj_editfiles_gettext("supervisor", "data.prefix")
-	set {_send} to mj_editfiles_gettext("supervisor", "data.reload.success")
-	broadcast "%{_prefix}% %{_send}%"
-	stop
-# ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Function
-# =====================================================================================================================
 # APIxMJ - ID
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_id_generator() :: text:
@@ -340,24 +340,24 @@ function mj_id_converter(source: text, find: text="data", head: text="name") :: 
 # APIxMJ - Userdata
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_userdata_profil(data: text="none", name: boolean=false) :: text:
-	if {_data} contains "userdata.":
+	if {_data} contains "userdata.user":
 		set {_list::*} to mj_manager_skript_list()
-		if {_list::*} contains "apixmj_core.sk":
-			replace "userdata." with "" in {_data}
-			set {_profil} to yaml value "data.%{_data}%.profil" from "mj.userdata"
+		if {_list::*} contains "apixmj_userdata.sk":
+			replace "userdata.user." with "" in {_data}
+			set {_profil} to mj_editfiles("userdata.data", "data.%{_data}%.profil")
 			if {_name} is true:
 				set {_result} to {_profil}
 			else:
-				set {_result} to "userdata.%{_data}%.%{_profil}%"
+				set {_result} to "userdata.user.%{_data}%.%{_profil}%"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_userdata_language(player: offlineplayer="none") :: text:
 	if {_player} is set:
 		if {_player} isn't "none":
 			set {_list::*} to mj_manager_skript_list()
-			if {_list::*} contains "apixmj_core.sk":
-				set {_profil} to mj_userdata_profil("userdata.%{_player}'s uuid%", true)
-				set {_result} to yaml value "data.language" from "mj.userdata.%{_player}'s uuid%.%{_profil}%"
+			if {_list::*} contains "apixmj_userdata.sk":
+				set {_profil} to mj_userdata_profil("userdata.user.%{_player}'s uuid%", true)
+				set {_result} to yaml value "data.language" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%"
 	if {_result} isn't set:
 		set {_result} to mj_editfiles("supervisor.config", "data.language.use")
 	return {_result}
@@ -369,9 +369,9 @@ function mj_userdata_language(player: offlineplayer="none") :: text:
 function mj_gui_generator(player: player, size: number=1, locked: boolean=true, type: text="default", title: text="No gui name", gui: text="none", item: item=barrier block):
 	set {_list::*} to mj_manager_skript_list()
 	if {_list::*} contains "apixmj_core.sk":
-		mj_editfiles("userdata.%{_player}'s uuid%", "data.temp.gui", "modify", {_gui})
+		mj_editfiles("userdata.user.%{_player}'s uuid%", "data.temp.gui", "modify", {_gui})
 		if {_locked} is true:
-			mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.temp.gui_protect", "modify", true)
+			mj_editfiles_boolean("userdata.user.%{_player}'s uuid%", "data.temp.gui_protect", "modify", true)
 		if {_item} is barrier block:
 			set {_item} to mj_item_convert("supervisor.config", "data.gui_background.item")
 	open virtual chest inventory with size {_size} named formatted {_title} to {_player}

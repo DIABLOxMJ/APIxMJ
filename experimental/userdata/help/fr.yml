@@ -1,0 +1,100 @@
+data:
+    userdata:
+        name: "&aDonnées de joueur"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aUn gestionnaire de fichier de données sur les joueurs."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7Il faut se connecter au moins une fois pour générer les données"
+            '2': "&0- &7du joueur afin de suivre son activité sur le serveur."
+            '3': "&0"
+            '4': "&6- &7A chaque reconnexion on vérifie si il a changé ou non"
+            '5': "&0- &7son pseudo &6(&aPREMIUM&6)&7, il garde en mémoire le dernier"
+            '6': "&0- &7pseudo si il y a eu un changement, il faut vérifier également"
+            '7': "&0- &7l'adresse IP du joueur, si il utilise un VPN, changement de"
+            '8': "&0- &7connexion où si il a la même IP d'un autre joueur."
+            '9': "&0"
+            '10': "&6- &7Puis à la déconnexion on mets à jour son temps de jeu et"
+            '11': "&0- &7ses coordonnées pour savoir où il se trouve en jeu."
+    profil_create:
+        name: "&aCréation de profil"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUne méthode pour avoir plusieurs profils de jeux"
+            '2': "&0- &asans pour autant ajouter un autre compte Minecraft."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.profil.*"
+        - "mj.profil.create"
+        info:
+            '1': "&6- &a/profil create <name> [<player>]"
+            '2': "&0- &7Cette commande permet de générer un nouveau profil,"
+            '3': "&0- &7Il n'y a pas de limite de profils."
+            '4': "&0- &c/!\\ Il n'est pas recommandé de laisser les joueurs"
+            '5': "&0- &cy avoir accès."
+    profil_migration:
+        name: "&aMigration de profil"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUne méthode pour avoir plusieurs profils de jeux"
+            '2': "&0- &asans pour autant ajouter un autre compte Minecraft."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.profil.*"
+        - "mj.profil"
+        info:
+            '1': "&6- &a/profil change <name>"
+            '2': "&0- &a/profil migration <name>"
+            '3': "&0- &7Cette commande permet de changer de profil."
+    inventory:
+        name: "&aSystème d'inventaire"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn gestionnaire d'inventaire révolutionnaire capable"
+            '2': "&0- &ade faire une copie complète de l'inventaire du joueur,"
+            '3': "&0- &ade sa barre d'expérience et de son coffre du néant."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.inventory.*"
+        - "mj.inventory"
+        info:
+            '1': "&6- &a/inventory save <player> <inventory name>"
+            '2': "&0- &7Cette commande permet de créer une sauvegarde,"
+            '3': "&0- &7par défaut le joueur à une sauvegarde à sa mort &6(&adeath&6)"
+            '4': "&0- &7aussi à la déconnexion &6(&alast&6)&7, et toutes les 5 minutes"
+            '5': "&0- &7automatiquement &6(&abackup&6)&7, la commande permet d'en"
+            '6': "&0- &7faire autant qu'on le souhaite avec le nom qu'on désire"
+            '7': "&0- &7mettre."
+            '8': "&0"
+            '9': "&6- &a/inventory restore <player> <inventory name>"
+            '10': "&0- &7Cette commande permet de rendre l'inventaire ainsi que"
+            '11': "&0- &7l'expérience et le coffre du néant sauvegardé"
+            '12': "&0- &7précédemment."
+    keep:
+        name: "&aPréserver"
+        type: function
+        page: 1
+        description:
+            '1': "&0- &aUne obligation pour l'équipe de modération, il permet"
+            '2': "&0- &ade conserver l'inventaire et la barre d'expérience"
+            '3': "&0- &aséparément à la mort du joueur."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.keepinv"
+        - "mj.keepexp"
+        - "mj.keepinventory"
+        - "mj.keepexperience"
+        info:
+            '1': "&6- &7Pour l'inventaire &6: &amj.keepinv &7où &amj.keepinventory"
+            '2': "&0"
+            '3': "&6- &7Pour l'expérience &6: &amj.keepexp &7où &amj.keepexperience"

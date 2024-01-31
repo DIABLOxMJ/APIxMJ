@@ -5,6 +5,11 @@ function mj_files_userdata():
 	set {_folder} to mj_editfiles("supervisor.data", "data.addon.main.userdata.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.userdata.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.userdata.data"
+	set {_list::*} to mj_editfiles_list("supervisor.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.userdata.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.userdata.help.%loop-value%"
 	loop all players:
 		set {_profil} to mj_editfiles("userdata.data", "data.%loop-player's uuid%.profil")
 		if {_profil} isn't "none":

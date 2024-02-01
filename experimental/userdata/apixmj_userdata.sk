@@ -101,9 +101,9 @@ function mj_userdata_playerdata(player: offlineplayer):
 		set yaml value "data.language" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "fr"
 		set yaml value "data.location" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
 		set yaml value "data.source" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
+		set yaml value "data.gui.name" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
+		set yaml value "data.gui.protect" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to false
 		set yaml value "data.temp.mute" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to false
-		set yaml value "data.temp.gui" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
-		set yaml value "data.temp.gui_protect" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to false
 		set yaml value "data.support.stats" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
 		set yaml value "data.support.inventory" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
 		save yaml "mj.userdata.user.%{_player}'s uuid%.%{_profil}%"
@@ -342,6 +342,83 @@ on death of player:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Keep Inventory
+# =====================================================================================================================
+# APIxMJ - Nick
+# ---------------------------------------------------------------------------------------------------------------------
+command /nick [<text>] [<text>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.nick.*" or "mj.nick":
+			if arg-1 is set:
+				if arg-1 is "reveal":
+					if player has permission "*" or "mj.*" or "mj.nick.*" or "mj.nick.admin":
+						mj_userdata_nick_reveal(player)
+					else:
+						mj_permission(player, "supervisor", "data.prefix", "mj.nick.admin")
+				else if arg-1 is "reset":
+					if arg-2 is set:
+						if player has permission "*" or "mj.*" or "mj.nick.*" or "mj.nick.admin":
+							mj_userdata_nick_change(arg-2 parsed as player, "%arg-2%")
+							mj_message(player, "userdata", "data.nick.prefix", "userdata", "data.nick.reset", arg-2)
+						else:
+							mj_permission(player, "supervisor", "data.prefix", "mj.nick.admin")
+					else:
+						mj_userdata_nick_change(player, "%player%")
+				else:
+					if arg-2 is set:
+						mj_userdata_nick_change(player, "%arg-1% %arg-2%")
+					else:
+						mj_userdata_nick_change(player, arg-1)
+			else:
+				mj_userdata_nick_change(player, "%player%")
+		else:
+			mj_permission(player, "supervisor", "data.prefix", "mj.nick")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/nick":
+	set {_name} to mj_editfiles("userdata.user.%player's uuid%", "data.pseudo")
+	if player has permission "*" or "mj.*" or "mj.nick.*" or "mj.nick.admin":
+		set tab completions for position 1 to "reveal", "reset", "%{_name}%" and "new_pseudo"
+		if tab arg-1 is "reset":
+			set tab completions for position 2 to all players
+	else:
+		set tab completions for position 1 to "reset", "%{_name}%" and "new_pseudo"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		wait 5 seconds
+		mj_userdata_nick(player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_userdata_nick(player: player):
+	set {_name} to mj_editfiles("userdata.user.%{_player}'s uuid%", "data.pseudo")
+	set {_player}'s tab name to {_name}
+	set {_player}'s nametag to {_name}
+	set {_player}'s display name to {_name}
+	#mj_message({_player}, "core", "data.nick.prefix", "core", "data.nick.viewer", {_name})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_userdata_nick_change(player: player, value: text):
+	set {_name} to mj_converter_name({_value}) 
+	mj_editfiles("userdata.user.%{_player}'s uuid%", "data.pseudo", "modify", {_name})
+	mj_message({_player}, "userdata", "data.nick.prefix", "userdata", "data.nick.change", {_name})
+	mj_userdata_nick({_player})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_userdata_nick_reveal(player: player):
+	set {_count} to 0
+	loop all players:
+		set {_name.1} to mj_editfiles("userdata.data", "data.%loop-player's uuid%.pseudo")
+		set {_name.2} to mj_editfiles("userdata.user.%loop-player's uuid%", "data.pseudo")
+		if {_name.1} isn't {_name.2}:
+			mj_message({_player}, "userdata", "data.nick.prefix", "userdata", "data.nick.reveal", {_name.1}, {_name.2})
+			add 1 to {_count}
+	if {_count} is 0:
+		mj_message({_player}, "userdata", "data.nick.prefix", "userdata", "data.nick.not_found")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Nick
 # =====================================================================================================================
 # APIxMJ - Stats
 # ---------------------------------------------------------------------------------------------------------------------

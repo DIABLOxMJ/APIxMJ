@@ -13,13 +13,6 @@ data:
         error: "&cVeuillez spécifier quelque chose pour le signalement"
         empty: "&cIl y a aucun signalement dans la liste"
         read: "&7Liste de signalements\n&7Nombre de signalements &6: &a$0"
-    nick:
-        prefix: "&6[&b&lNick&6]&r"
-        viewer: "&7Votre nom de joueur a été remplacé par &a$0"
-        change: "&7Vous avez désormais le surnom &a$0"
-        reveal: "&7Le joueur &a$0 &7utilise le surnom &a$1"
-        reset: "&7Vous avez enlevé le surnom de &a$0"
-        not_found: "&cAucun joueur utilise de surnoms"
     recipes:
         title:
             group: "&eListe &6: &a$0"

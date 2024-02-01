@@ -416,10 +416,10 @@ function mj_userdata_language(player: offlineplayer="none") :: text:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_gui_generator(player: player, size: number=1, locked: boolean=true, type: text="default", title: text="No gui name", gui: text="none", item: item=barrier block):
 	set {_list::*} to mj_manager_skript_list()
-	if {_list::*} contains "apixmj_core.sk":
-		mj_editfiles("userdata.user.%{_player}'s uuid%", "data.temp.gui", "modify", {_gui})
+	if {_list::*} contains "apixmj_userdata.sk":
+		mj_editfiles("userdata.user.%{_player}'s uuid%", "data.gui.name", "modify", {_gui})
 		if {_locked} is true:
-			mj_editfiles_boolean("userdata.user.%{_player}'s uuid%", "data.temp.gui_protect", "modify", true)
+			mj_editfiles_boolean("userdata.user.%{_player}'s uuid%", "data.gui.protect", "modify", true)
 		if {_item} is barrier block:
 			set {_item} to mj_item_convert("supervisor.config", "data.gui_background.item")
 	open virtual chest inventory with size {_size} named formatted {_title} to {_player}
@@ -462,6 +462,30 @@ function mj_gui_generator(player: player, size: number=1, locked: boolean=true, 
 		else:
 			make a gui slot 0, 1, 2, 3, 4, 5, 6, 7 and 8 of {_player} with {_item} named " " to run:
 				stop
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory click:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_userdata.sk":
+		set {_check} to mj_editfiles_boolean("userdata.user.%player's uuid%", "data.gui.protect")
+		if {_check} is true:
+			cancel event
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory close:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_userdata.sk":
+		set {_check} to mj_editfiles_boolean("userdata.user.%player's uuid%", "data.gui.protect")
+		if {_check} is true:
+			mj_editfiles_boolean("userdata.user.%player's uuid%", "data.gui.protect", "modify", false)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on inventory close:
+	set {_list::*} to mj_manager_skript_list()
+	if {_list::*} contains "apixmj_userdata.sk":
+		set {_check} to mj_editfiles("userdata.user.%player's uuid%", "data.gui.name")
+		if {_check} is set:
+			mj_editfiles("userdata.user.%player's uuid%", "data.gui.name", "modify", "none")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - GUI
@@ -523,4 +547,40 @@ function mj_location_viewer(target: player, mode: text="compare") :: text:
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Location
+# =====================================================================================================================
+# APIxMJ - Converter
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_converter_name(name: text) :: text:
+	replace all " <none>" with "" in {_name}
+	replace all " " with "_" in {_name}
+	set {_list::*} to regex replace all "[^a-z_A-Z_0-9_-]" with "" in {_name}
+	loop {_list::*}:
+		if {_rename} is set:
+			set {_rename} to "%{_rename}%%loop-value%"
+		else:
+			set {_rename} to "%loop-value%"
+	return {_rename}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_converter_time(time: text) :: timespan:
+	if {_time} contains "s":
+		replace "s" with "" in {_time}
+		set {_time} to "%{_time}% second" parsed as timespan
+	if {_time} contains "m":
+		replace "m" with "" in {_time}
+		set {_time} to "%{_time}% minute" parsed as timespan
+	if {_time} contains "h":
+		replace "h" with "" in {_time}
+		set {_time} to "%{_time}% hour" parsed as timespan
+	if {_time} contains "d" or "j":
+		replace "d" or "j" with "" in {_time}
+		set {_time} to "%{_time}% day" parsed as timespan
+	if {_time} contains "mo":
+		replace "mo" with "" in {_time}
+		set {_time} to "%{_time}% month" parsed as timespan
+	if {_time} contains "y" or "a":
+		replace "y" or "a" with "" in {_time}
+		set {_time} to "%{_time}% year" parsed as timespan
+	return {_time}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Converter
 # =====================================================================================================================

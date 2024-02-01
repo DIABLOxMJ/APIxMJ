@@ -294,6 +294,12 @@ data:
                 name_lite: "&eInformation"
                 lore:
                     '1': "&6- &7None"
+            devtools:
+                name: "&7Outils de développement"
+                name_lite: "&7Outils de dév…"
+                lore:
+                    '1': "&6- &7Pour travailler sur Skript, rien de mieux que"
+                    '2': "&0- &7d'avoir tous les outils en main."
             supervisor:
                 name: "&eGestionnaire"
                 name_lite: "&eGestionnaire"

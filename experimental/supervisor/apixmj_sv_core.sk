@@ -29,8 +29,9 @@ on load:
 # =====================================================================================================================
 # APIxMJ - EditFiles
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_editfiles(source: text, find: text="data", mode: text="extract", data: text="") :: text:
-	mj_logger(5, "Request editfiles TEXT : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
+function mj_editfiles(source: text, find: text="data", mode: text="extract", data: text="none") :: text:
+	send "Request editfiles TEXT : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)" to console
+	#mj_logger(5, "Request editfiles TEXT : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
 	if {_source} isn't "github" or "unicode":
 		if {_source} contains "userdata.user":
 			set {_source} to mj_userdata_profil({_source})
@@ -55,7 +56,8 @@ function mj_editfiles(source: text, find: text="data", mode: text="extract", dat
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_boolean(source: text, find: text="data", mode: text="extract", data: boolean=false) :: boolean:
-	mj_logger(5, "Request editfiles BOOLEAN : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
+	send "Request editfiles BOOLEAN : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)" to console
+	#mj_logger(5, "Request editfiles BOOLEAN : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
 	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
@@ -69,7 +71,8 @@ function mj_editfiles_boolean(source: text, find: text="data", mode: text="extra
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_number(source: text, find: text="data", mode: text="extract", data: number=0) :: number:
-	mj_logger(5, "Request editfiles NUMBER : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
+	send "Request editfiles NUMBER : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)" to console
+	#mj_logger(5, "Request editfiles NUMBER : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
 	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
@@ -82,8 +85,9 @@ function mj_editfiles_number(source: text, find: text="data", mode: text="extrac
 		save yaml "mj.%{_source}%"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_editfiles_list(source: text, find: text="data", mode: text="extract", data: objects="") :: objects:
-	mj_logger(5, "Request editfiles LIST : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
+function mj_editfiles_list(source: text, find: text="data", mode: text="extract", data: objects="none") :: objects:
+	send "Request editfiles LIST : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)" to console
+	#mj_logger(5, "Request editfiles LIST : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
 	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
@@ -96,8 +100,9 @@ function mj_editfiles_list(source: text, find: text="data", mode: text="extract"
 		save yaml "mj.%{_source}%"
 	return {_list::*}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_editfiles_stock(source: text, find: text="data", mode: text="extract", data: object="") :: object:
-	mj_logger(5, "Request editfiles STOCK : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
+function mj_editfiles_stock(source: text, find: text="data", mode: text="extract", data: object="none") :: object:
+	send "Request editfiles STOCK : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)" to console
+	#mj_logger(5, "Request editfiles STOCK : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
 	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
@@ -110,8 +115,9 @@ function mj_editfiles_stock(source: text, find: text="data", mode: text="extract
 		save yaml "mj.%{_source}%"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_editfiles_timespan(source: text, find: text="data", mode: text="extract", data: timespan="") :: timespan:
-	mj_logger(5, "Request editfiles TIMESPAN : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
+function mj_editfiles_timespan(source: text, find: text="data", mode: text="extract", data: timespan="none") :: timespan:
+	send "Request editfiles TIMESPAN : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)" to console
+	#mj_logger(5, "Request editfiles TIMESPAN : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
 	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
@@ -124,8 +130,9 @@ function mj_editfiles_timespan(source: text, find: text="data", mode: text="extr
 		save yaml "mj.%{_source}%"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_editfiles_date(source: text, find: text="data", mode: text="extract", data: date="") :: date:
-	mj_logger(5, "Request editfiles DATE : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
+function mj_editfiles_date(source: text, find: text="data", mode: text="extract", data: date="none") :: date:
+	send "Request editfiles DATE : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)" to console
+	#mj_logger(5, "Request editfiles DATE : source=(%{_source}%), find=(%{_find}%), mode=(%{_mode}%) and data=(%{_data}%)")
 	if {_source} contains "userdata.user":
 		set {_source} to mj_userdata_profil({_source})
 	if {_mode} is "extract":
@@ -139,7 +146,8 @@ function mj_editfiles_date(source: text, find: text="data", mode: text="extract"
 	return {_result}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_editfiles_gettext(source: text, find: text="data", player: player="none", info.1: text="none", info.2: text="none", info.3: text="none") :: text:
-	mj_logger(5, "Request editfiles GETTEXT : source=(%{_source}%), find=(%{_find}%), player=(%{_player}%), info.1=(%{_info.1}%), info.2=(%{_info.2}%) and info.3=(%{_info.3}%)")
+	send "Request editfiles GETTEXT : source=(%{_source}%), find=(%{_find}%), player=(%{_player}%), info.1=(%{_info.1}%), info.2=(%{_info.2}%) and info.3=(%{_info.3}%)" to console
+	#mj_logger(5, "Request editfiles GETTEXT : source=(%{_source}%), find=(%{_find}%), player=(%{_player}%), info.1=(%{_info.1}%), info.2=(%{_info.2}%) and info.3=(%{_info.3}%)")
 	set {_lang} to mj_userdata_language({_player})
 	set {_result} to yaml value "%{_find}%" from "mj.%{_source}%.language.%{_lang}%"
 	if {_info.1} isn't "none":
@@ -560,7 +568,8 @@ function mj_location_viewer(target: player, mode: text="compare") :: text:
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_converter_name(name: text) :: text:
 	replace all " <none>" with "" in {_name}
-	replace all " " with "_" in {_name}
+	#replace all " " with "_" in {_name}
+	set {_name} to {_name} in snake case
 	set {_list::*} to regex replace all "[^a-z_A-Z_0-9_-]" with "" in {_name}
 	loop {_list::*}:
 		if {_rename} is set:

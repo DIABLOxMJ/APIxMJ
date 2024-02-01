@@ -433,11 +433,11 @@ function mj_userdata_language(player: offlineplayer="none") :: text:
 function mj_gui_generator(player: player, size: number=1, locked: boolean=true, type: text="default", title: text="No gui name", gui: text="none", item: item=barrier block):
 	set {_list::*} to mj_manager_skript_list()
 	if {_list::*} contains "apixmj_userdata.sk":
-		mj_editfiles("userdata.user.%{_player}'s uuid%", "data.gui.name", "modify", {_gui})
+		mj_editfiles("userdata.user.%{_player}'s uuid%", "data.settings.gui.name", "modify", {_gui})
 		if {_locked} is true:
-			mj_editfiles_boolean("userdata.user.%{_player}'s uuid%", "data.gui.protect", "modify", true)
+			mj_editfiles_boolean("userdata.user.%{_player}'s uuid%", "data.settings.gui.protect", "modify", true)
 		if {_item} is barrier block:
-			set {_item} to mj_item_convert("supervisor.config", "data.gui_background.item")
+			set {_item} to mj_item_convert("supervisor.config", "data.settings.gui_background.item")
 	open virtual chest inventory with size {_size} named formatted {_title} to {_player}
 	if {_type} is "default" or "border":
 		set {_time} to 9*{_size}
@@ -483,7 +483,7 @@ function mj_gui_generator(player: player, size: number=1, locked: boolean=true, 
 on inventory click:
 	set {_list::*} to mj_manager_skript_list()
 	if {_list::*} contains "apixmj_userdata.sk":
-		set {_check} to mj_editfiles_boolean("userdata.user.%player's uuid%", "data.gui.protect")
+		set {_check} to mj_editfiles_boolean("userdata.user.%player's uuid%", "data.settings.gui.protect")
 		if {_check} is true:
 			cancel event
 	stop
@@ -491,17 +491,17 @@ on inventory click:
 on inventory close:
 	set {_list::*} to mj_manager_skript_list()
 	if {_list::*} contains "apixmj_userdata.sk":
-		set {_check} to mj_editfiles_boolean("userdata.user.%player's uuid%", "data.gui.protect")
+		set {_check} to mj_editfiles_boolean("userdata.user.%player's uuid%", "data.settings.gui.protect")
 		if {_check} is true:
-			mj_editfiles_boolean("userdata.user.%player's uuid%", "data.gui.protect", "modify", false)
+			mj_editfiles_boolean("userdata.user.%player's uuid%", "data.settings.gui.protect", "modify", false)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on inventory close:
 	set {_list::*} to mj_manager_skript_list()
 	if {_list::*} contains "apixmj_userdata.sk":
-		set {_check} to mj_editfiles("userdata.user.%player's uuid%", "data.gui.name")
+		set {_check} to mj_editfiles("userdata.user.%player's uuid%", "data.settings.gui.name")
 		if {_check} is set:
-			mj_editfiles("userdata.user.%player's uuid%", "data.gui.name", "modify", "none")
+			mj_editfiles("userdata.user.%player's uuid%", "data.settings.gui.name", "modify", "none")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - GUI

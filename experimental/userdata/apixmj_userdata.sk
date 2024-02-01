@@ -100,9 +100,9 @@ function mj_userdata_playerdata(player: offlineplayer):
 		set yaml value "data.pseudo" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "%{_player}%"
 		set yaml value "data.language" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "fr"
 		set yaml value "data.location" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
+		set yaml value "data.settings.gui.name" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
+		set yaml value "data.settings.gui.protect" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to false
 		set yaml value "data.source" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
-		set yaml value "data.gui.name" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
-		set yaml value "data.gui.protect" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to false
 		set yaml value "data.temp.mute" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to false
 		set yaml value "data.support.stats" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"
 		set yaml value "data.support.inventory" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to "none"

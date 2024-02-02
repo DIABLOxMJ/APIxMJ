@@ -609,6 +609,34 @@ function mj_converter_name(name: text) :: text:
 			set {_rename} to "%loop-value%"
 	return {_rename}
 # ---------------------------------------------------------------------------------------------------------------------
+function mj_converter_number(value: number, type: text=" ") :: text:
+	set {_value} to "%{_value}%"
+	if {_value} contain ".":
+		set {_value.1::*} to {_value} split at "."
+		set {_unit} to "%{_value.1::2}%"
+		set {_value} to "%{_value.1::1}%"
+	set {_value.2::*} to {_value} split at ""
+	set {_number} to ""
+	set {_count} to 0
+	loop {_value.2::*}:
+		add 1 to {_count}
+	loop {_value.2::*}:
+		if "%loop-value%" is "0" or "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8" or "9":
+			set {_value.3::%{_count}%} to loop-value
+			remove 1 from {_count}
+	set {_count} to 0
+	loop {_value.3::*}:
+		if {_count} >= 3:
+			set {_count} to 1
+			set {_number} to "%loop-value%%{_type}%%{_number}%"
+		else: 
+			add 1 to {_count}
+			set {_number} to "%loop-value%%{_number}%"
+	set {_result} to "%{_number}%"
+	if {_unit} is set:
+		set {_result} to "%{_number}%,%{_unit}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
 function mj_converter_time(time: text) :: timespan:
 	if {_time} contains "s":
 		replace "s" with "" in {_time}

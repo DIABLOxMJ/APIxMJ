@@ -613,7 +613,7 @@ command /reload:
 # ---------------------------------------------------------------------------------------------------------------------
 on skript start:
 	wait 1 second
-	mj_manager_skript_start()
+	mj_skript_start()
 	set {_check} to mj_editfiles_boolean("supervisor.config", "data.auto_whitelist")
 	if {_check} is true:
 		set whitelist to false

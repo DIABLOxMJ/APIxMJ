@@ -225,7 +225,7 @@ function mj_logger(level: number=0, message: text, silent: boolean=false):
 	set {_log} to uncolored {_message}
 	if {_silent} is false:
 		mj_logger_save_data("%{_log}%")
-	set {_list::*} to mj_manager_skript_list()
+	set {_list::*} to mj_skript_list()
 	if {_list::*} contains "apixmj_userdata.sk":
 		loop all players:
 			if loop-player has permission "*" or "mj.*" or "mj.logger.*" or "mj.logger":
@@ -405,7 +405,7 @@ function mj_id_converter(source: text, find: text="data", head: text="name") :: 
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_userdata_profil(data: text="none", name: boolean=false) :: text:
 	if {_data} contains "userdata.user":
-		set {_list::*} to mj_manager_skript_list()
+		set {_list::*} to mj_skript_list()
 		if {_list::*} contains "apixmj_userdata.sk":
 			replace "userdata.user." with "" in {_data}
 			set {_profil} to mj_editfiles("userdata.data", "data.%{_data}%.profil")
@@ -418,7 +418,7 @@ function mj_userdata_profil(data: text="none", name: boolean=false) :: text:
 function mj_userdata_language(player: offlineplayer="none") :: text:
 	if {_player} is set:
 		if {_player} isn't "none":
-			set {_list::*} to mj_manager_skript_list()
+			set {_list::*} to mj_skript_list()
 			if {_list::*} contains "apixmj_userdata.sk":
 				set {_profil} to mj_userdata_profil("userdata.user.%{_player}'s uuid%", true)
 				set {_result} to yaml value "data.language" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%"
@@ -431,7 +431,7 @@ function mj_userdata_language(player: offlineplayer="none") :: text:
 # APIxMJ - GUI
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_gui_generator(player: player, size: number=1, locked: boolean=true, type: text="default", title: text="No gui name", gui: text="none", item: item=barrier block):
-	set {_list::*} to mj_manager_skript_list()
+	set {_list::*} to mj_skript_list()
 	if {_list::*} contains "apixmj_userdata.sk":
 		mj_editfiles("userdata.user.%{_player}'s uuid%", "data.settings.gui.name", "modify", {_gui})
 		if {_locked} is true:
@@ -481,7 +481,7 @@ function mj_gui_generator(player: player, size: number=1, locked: boolean=true, 
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on inventory click:
-	set {_list::*} to mj_manager_skript_list()
+	set {_list::*} to mj_skript_list()
 	if {_list::*} contains "apixmj_userdata.sk":
 		set {_check} to mj_editfiles_boolean("userdata.user.%player's uuid%", "data.settings.gui.protect")
 		if {_check} is true:
@@ -489,7 +489,7 @@ on inventory click:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on inventory close:
-	set {_list::*} to mj_manager_skript_list()
+	set {_list::*} to mj_skript_list()
 	if {_list::*} contains "apixmj_userdata.sk":
 		set {_check} to mj_editfiles_boolean("userdata.user.%player's uuid%", "data.settings.gui.protect")
 		if {_check} is true:
@@ -497,7 +497,7 @@ on inventory close:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on inventory close:
-	set {_list::*} to mj_manager_skript_list()
+	set {_list::*} to mj_skript_list()
 	if {_list::*} contains "apixmj_userdata.sk":
 		set {_check} to mj_editfiles("userdata.user.%player's uuid%", "data.settings.gui.name")
 		if {_check} is set:

@@ -19,7 +19,7 @@ function mj_files_userdata():
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
-	set {_list::*} to mj_manager_skript_list()
+	set {_list::*} to mj_skript_list()
 	if {_list::*} contains "apixmj_sv_core.sk":
 		send "[APIxMJ] Loading userdata..." to console
 		mj_files_userdata()

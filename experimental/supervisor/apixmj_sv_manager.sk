@@ -2,7 +2,7 @@
 # APIxMJ - Files
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
-	set {_list::*} to mj_manager_skript_list()
+	set {_list::*} to mj_skript_list()
 	if {_list::*} contains "apixmj_sv_core.sk":
 		send "[APIxMJ] Loading supervisor_manager…" to console
 	else:

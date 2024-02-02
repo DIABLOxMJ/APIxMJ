@@ -162,9 +162,9 @@ function mj_editfiles_gettext(source: text, find: text="data", player: player="n
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - EditFiles
 # =====================================================================================================================
-# APIxMJ - Manager
+# APIxMJ - Skript
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_skript_list() :: objects:
+function mj_skript_list() :: objects:
 	set {_slash} to mj_editfiles("supervisor.config", "data.slash_option")
 	loop files in dir "plugins%{_slash}%Skript%{_slash}%scripts":
 		set {_value} to loop-value-1
@@ -175,7 +175,7 @@ function mj_manager_skript_list() :: objects:
 	#replace all ".sk" with "" in {_list2::*}
 	return {_list2::*}
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_manager_skript_start():
+function mj_skript_start():
 	set {_list.1::*} to mj_nodes("supervisor.data", "data.addon")
 	loop {_list.1::*}:
 		set {_value.1} to loop-value-1
@@ -196,7 +196,7 @@ function mj_manager_skript_start():
 	broadcast "%{_prefix}% %{_send}%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-# APIxMJ - Manager
+# APIxMJ - Skript
 # =====================================================================================================================
 # APIxMJ - Nodes
 # ---------------------------------------------------------------------------------------------------------------------

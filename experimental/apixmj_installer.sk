@@ -44,7 +44,7 @@ function mj_install_setup():
 	download file from "%{_link}%/supervisor/language/fr.yml" to file "plugins/APIxMJ/supervisor/language/fr.yml"
 	download file from "%{_link}%/supervisor/apixmj_sv_manager.sk" to file "plugins/Skript/scripts/-apixmj_sv_manager.sk"
 	download file from "%{_link}%/supervisor/apixmj_sv_core.sk" to file "plugins/Skript/scripts/apixmj_sv_core.sk"
-	wait 1 seconds
+	wait 1 second
 	reload script "apixmj_sv_core"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------

@@ -162,6 +162,37 @@ function mj_editfiles_gettext(source: text, find: text="data", player: player="n
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - EditFiles
 # =====================================================================================================================
+# APIxMJ - APIxMJ
+# ---------------------------------------------------------------------------------------------------------------------
+command /apixmj:
+	aliases: mj
+	executable by: player
+	trigger:
+		set {_list::*} to mj_editfiles_list("supervisor.config", "data.access")
+		if {_list::*} contains "%player%":
+			open virtual chest inventory with size 1 named "&8&k:&r &6APIxMJ &8&k:&r" to player
+			make a gui slot 0 of player with emerald block named "&7Become a &aAdmin" to close:
+				op the player
+				send "&6[&c&lAPIxMJ&6]&r &7Switch to mode &aAdmin"
+			make a gui slot 1 of player with dirt named "&7Become a &aJoueur" to close:
+				deop the player
+				send "&6[&c&lAPIxMJ&6]&r &7Switch to mode &aJoueur"
+			make a gui slot 4 of player with barrier named "&cSTOP" to close:
+				if gui-click-type is middle mouse button:
+					stop the server
+			make a gui slot 6 of player with iron pickaxe named "&7Switch to mode &aSurvival" to run:
+				set player's gamemode to survival
+				send "&6[&c&lAPIxMJ&6]&r &7Your game mode is set to &aSurvival"
+			make a gui slot 7 of player with barrier named "&7Switch to mode &aCreative" to run:
+				set player's gamemode to creative
+				send "&6[&c&lAPIxMJ&6]&r &7Your game mode is set to &aCreative"
+			make a gui slot 8 of player with glass pane named "&7Switch to mode &aSpectator" to run:
+				set player's gamemode to spectator
+				send "&6[&c&lAPIxMJ&6]&r &7Your game mode is set to &aSpectator"
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - APIxMJ
+# =====================================================================================================================
 # APIxMJ - Skript
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_skript_list() :: objects:

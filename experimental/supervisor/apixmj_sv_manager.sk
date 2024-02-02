@@ -25,9 +25,13 @@ command /manager [<text>] [<text>]:
 		if player is op:
 			if arg-1 is set:
 				if arg-1 is "reload":
-					if arg-2 is "files":
-						mj_files_sv_core()
-						send "[APIxMJ] Data reloaded"
+					if arg-2 is set:
+						if arg-2 is "files":
+							mj_files_sv_core()
+							send "[APIxMJ] Data reloaded"
+						else:
+							#reload script arg-2
+							player command "sk reload %arg-2%"
 					else:
 						unload script file "apixmj_sv_manager.sk"
 						player command "/sk reload apixmj_sv_core"
@@ -40,8 +44,9 @@ command /manager [<text>] [<text>]:
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/manager":
 	set tab completions for position 1 to "reload" and "data_update"
+	set {_list.1::*} to mj_skript_list()
 	if tab arg-1 is "reload":
-		set tab completions for position 2 to "files"
+		set tab completions for position 2 to {_list.1::*} and "files"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Command

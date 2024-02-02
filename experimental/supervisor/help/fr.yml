@@ -1,4 +1,19 @@
 data:
+    apixmj:
+        name: "&aAPIxMJ"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUne commande centrale pour gérer l'environnement d'APIxMJ"
+            '2': "&0- &aune gestion sans précédent."
+        permission:
+        - "*"
+        info:
+            '1': "&6- &7La commande possède deux préfixes &a/apixmj &7où &a/mj"
+            '2': "&0"
+            '3': "&6- &a/apixmj"
+            '4': "&0- &7Ouvre une interface pour les personnes spéciales"
+            '5': "&0- &7on retrouve la liste dans le fichier &aconfig &7dans &aaccess&7."
     manager:
         name: "&aGestionnaire d'APIxMJ"
         type: command

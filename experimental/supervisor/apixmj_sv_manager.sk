@@ -315,7 +315,7 @@ function mj_manager_menu_control_installer_skript(player: player, source: text, 
 	set {_list::*} to mj_nodes("supervisor.data", "data.addon.%{_source}%.%{_id}%.skript")
 	loop {_list::*}:
 		set {_skript} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.skript.%loop-value%")
-		set {_list::*} to mj_manager_skript_list()
+		set {_list::*} to mj_skript_list()
 		if {_list::*} contains {_skript}:
 			delete file "plugins/Skript/scripts/%{_skript}%.sk"
 			wait 2 ticks
@@ -544,7 +544,7 @@ function mj_manager_menu_control_button_condition_list(player: player, source: t
 				loop {_list.2::*}:
 					set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%loop-value-1%.%loop-value-2%.installed")
 					if {_check} is true:
-						set {_list.3::*} to mj_manager_skript_list()
+						set {_list.3::*} to mj_skript_list()
 						set {_skript} to mj_editfiles("supervisor.data", "data.addon.%loop-value-1%.%loop-value-2%.skript.1")
 						if {_list.3::*} contains "%{_skript}%.sk" or "-%{_skript}%.sk":
 							mj_manager_menu_control_button_condition({_player}, loop-value-1, loop-value-2, {_slot})

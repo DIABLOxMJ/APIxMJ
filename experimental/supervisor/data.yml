@@ -419,6 +419,79 @@ data:
                 item: iron chestplate
                 gui_background:
                     item: blue stained glass pane
+            money:
+                name: data.addon.vertebral_main.money.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: vertebral/main/money
+                folder: main/money
+                slot: 12
+                skript:
+                    '1': apixmj_money
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.money.config
+                    '2': mj.money.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: command block
+                gui_background:
+                    item: lime stained glass pane
+            moderator:
+                name: data.addon.vertebral_main.moderator.name
+                experimental: false
+                visible: true
+                depends:
+                    '1': main.manager
+                    '2': vertebral_main.core
+                    '3': vertebral_main.ranker
+                variants:
+                    '1': none
+                conflicts:
+                    '1': none
+                optional:
+                    '1': none
+                source: none
+                github_folder: vertebral/main/moderator
+                folder: main/moderator
+                slot: 12
+                skript:
+                    '1': apixmj_moderator
+                yml:
+                    '1': config
+                    '2': data
+                file:
+                    '1': mj.moderator.config
+                    '2': mj.moderator.data
+                preset:
+                    '1': none
+                datapack:
+                    '1': none
+                reset:
+                    '1':
+                        file: none
+                        data: data
+                item: command block
+                gui_background:
+                    item: light gray stained glass pane
             essentials:
                 name: data.addon.vertebral_main.essentials.name
                 experimental: false

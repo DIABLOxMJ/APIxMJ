@@ -38,6 +38,8 @@ function mj_install_setup():
 	set {_link} to "https://raw.githubusercontent.com/DIABLOxMJ/APIxMJ/main/experimental"
 	download file from "%{_link}%/supervisor/config.yml" to file "plugins/APIxMJ/supervisor/config.yml"
 	download file from "%{_link}%/supervisor/data.yml" to file "plugins/APIxMJ/supervisor/data.yml"
+	download file from "%{_link}%/supervisor/data_index.yml" to file "plugins/APIxMJ/supervisor/data_index.yml"
+	download file from "%{_link}%/supervisor/data_addons.yml" to file "plugins/APIxMJ/supervisor/data_addons.yml"
 	download file from "%{_link}%/supervisor/help/fr.yml" to file "plugins/APIxMJ/supervisor/help/fr.yml"
 	download file from "%{_link}%/supervisor/help_custom/fr.yml" to file "plugins/APIxMJ/supervisor/help_custom/fr.yml"
 	download file from "%{_link}%/supervisor/rules/fr.yml" to file "plugins/APIxMJ/supervisor/rules/fr.yml"

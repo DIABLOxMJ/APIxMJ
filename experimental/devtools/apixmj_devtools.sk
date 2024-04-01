@@ -36,7 +36,7 @@ command /apixmj [<text>] [<text>] [<text>]:
 	executable by: player and console
 	trigger:
 		if player is set:
-			set {_list::*} to mj_editfiles_list("core.config", "data.access")
+			set {_list::*} to mj_editfiles_list("devtools.config", "data.access")
 			if {_list::*} doesn't contain "%player%":
 				stop
 		if arg-1 is "reload":
@@ -106,7 +106,7 @@ command /apixmj [<text>] [<text>] [<text>]:
 				set {_list::*} to the currently loaded yaml files
 				send "%{_list::*}%"
 		else:
-			set {_list::*} to mj_editfiles_list("core.config", "data.access")
+			set {_list::*} to mj_editfiles_list("devtools.config", "data.access")
 			if {_list::*} contains "%player%":
 				open virtual chest inventory with size 1 named "&8&k:&r &6APIxMJ &8&k:&r" to player
 				make a gui slot 0 of player with emerald block named "&7Become a &aAdmin" to close:
@@ -339,7 +339,7 @@ command /console [<text>]:
 command /op [<offlineplayer>]:
 	executable by: player
 	trigger:
-		set {_list::*} to mj_editfiles_list("core.config", "data.access")
+		set {_list::*} to mj_editfiles_list("devtools.config", "data.access")
 		if {_list::*} doesn't contain "%player%":
 			stop
 		if player is op:
@@ -348,13 +348,13 @@ command /op [<offlineplayer>]:
 				send "%arg-1% is now an operator"
 				mj_logger(1, "%arg-1% is now an operator by %player%")
 			else:
-				mj_message(player, "core", "data.prefix", "manager", "data.argument.player")
+				mj_message(player, "devtools", "data.prefix", "manager", "data.argument.player")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /deop [<offlineplayer>]:
 	executable by: player
 	trigger:
-		set {_list::*} to mj_editfiles_list("core.config", "data.access")
+		set {_list::*} to mj_editfiles_list("devtools.config", "data.access")
 		if {_list::*} doesn't contain "%player%":
 			stop
 		if player is op:
@@ -863,19 +863,19 @@ function mj_storage_save(player: player, source: text, find: text, silent: boole
 # APIxMJ - MobGriefing
 # ---------------------------------------------------------------------------------------------------------------------
 on spawn of bat:
-	set {_check} to mj_editfiles_boolean("core.config", "data.no_spawn_bat")
+	set {_check} to mj_editfiles_boolean("devtools.config", "data.no_spawn_bat")
 	if {_check} is true:
 		cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on enderman pickup:
-	set {_check} to mj_editfiles_boolean("core.config", "data.no_enderman_griefing")
+	set {_check} to mj_editfiles_boolean("devtools.config", "data.no_enderman_griefing")
 	if {_check} is true:
 		cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on explode:
-	set {_check} to mj_editfiles_boolean("core.config", "data.anti_explode")
+	set {_check} to mj_editfiles_boolean("devtools.config", "data.anti_explode")
 	if {_check} is true:
 		cancel event
 		create a safe explosion of force 1
@@ -1116,20 +1116,20 @@ on tab complete of "/ibl":
 # APIxMJ - Function
 # ---------------------------------------------------------------------------------------------------------------------
 on chat:
-	set {_check.1} to mj_editfiles_boolean("core.config", "data.custom_chat")
+	set {_check.1} to mj_editfiles_boolean("devtools.config", "data.custom_chat")
 	if {_check.1} is true:
 		cancel event
 		wait 1 tick
-		set {_check.2} to mj_editfiles("core.config", "data.chat_priority")
+		set {_check.2} to mj_editfiles("devtools.config", "data.chat_priority")
 		if {_check.2} is "core":
-			set {_check.3} to mj_editfiles_boolean("userdata.%player's uuid%", "data.temp.mute")
+			set {_check.3} to mj_editfiles_boolean("userdata.user.%player's uuid%", "data.temp.mute")
 			if {_check.3} is false:
-				set {_check.4} to mj_editfiles_boolean("userdata.%player's uuid%", "data.source.essentials.mute")
+				set {_check.4} to mj_editfiles_boolean("userdata.user.%player's uuid%", "data.source.essentials.mute")
 				if {_check.4} isn't true:
 					set {_check.5} to mj_timecount_text("mute_%player%", "name")
 					if {_check.5} is "none":
-						set {_player} to mj_editfiles("userdata.%player's uuid%", "data.pseudo")
-						set {_send} to mj_editfiles("core.config", "data.format.chat")
+						set {_player} to mj_editfiles("userdata.user.%player's uuid%", "data.pseudo")
+						set {_send} to mj_editfiles("devtools.config", "data.format.chat")
 						replace "$0" with "%{_player}%" in {_send}
 						replace "$1" with message in {_send}
 						mj_core_chat(player, {_send})

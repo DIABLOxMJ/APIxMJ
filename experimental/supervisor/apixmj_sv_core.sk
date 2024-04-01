@@ -18,7 +18,7 @@ function mj_files_sv_core():
 			load yaml "plugins/APIxMJ/supervisor/help/%loop-value%.yml" as "mj.supervisor.help.%loop-value%"
 			load yaml "plugins/APIxMJ/supervisor/help_custom/%loop-value%.yml" as "mj.custom.help.%loop-value%"
 			load yaml "plugins/APIxMJ/supervisor/rules/%loop-value%.yml" as "mj.custom.rules.%loop-value%"
-	mj_editfiles("temp", "data.manager.addons.main.supervisor.version", "modify", "2024.01.30.0001")
+	mj_editfiles("temp", "data.manager.addons.main.supervisor.version", "modify", "2024.04.01.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:

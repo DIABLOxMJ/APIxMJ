@@ -1,0 +1,5 @@
+data:
+    upgrade:
+        '0':
+            price: 20000
+            value: 25000

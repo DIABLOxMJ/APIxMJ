@@ -1,0 +1,17 @@
+data:
+    # The starting money when the player logs in for the first time, default : 250
+    starting: 250
+    # If we impose a limit of possible money in its storage, it is possible to increase it thanks to the improvement in data.yml, default : false
+    limit: false
+    # If we have to display it in the infobar the activity of his money, default : false
+    infobar: false
+    # Whether or not to activate the automatic updating of the economic classification, default : false
+    economic_ranking_updater: false
+    # The server money symbol, default : $
+    symbol: $
+    # The server price pourcent model, default : "&a<money>&6/&a<limit> &6(&a<pourcent>%&6)"
+    pourcent: "&a<money>&6/&a<limit> &6(&a<pourcent>%&6)"
+    # The server price taxe model, default : "&a<money> &6(&7taxe of &a<pourcent>%&6)"
+    taxe: "&a<money> &6(&7taxe of &a<pourcent>%&6)"
+    # The server price discount model, default : "&a<money> &6(&7discount of &a<pourcent>%&6)"
+    discount: "&a<money> &6(&7discount of &a<pourcent>%&6)"

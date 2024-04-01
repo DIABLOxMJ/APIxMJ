@@ -1,0 +1,352 @@
+# =====================================================================================================================
+# APIxMJ - Files
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_files_money():
+	set {_folder} to mj_editfiles("supervisor.data", "data.addon.main.money.folder")
+	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.money.config"
+	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.money.data"
+	set {_list::*} to mj_editfiles_list("supervisor.config", "data.language.list")
+	if {_list::*} is set:
+		loop {_list::*}:
+			load yaml "plugins/APIxMJ/%{_folder}%/language/%loop-value%.yml" as "mj.money.language.%loop-value%"
+			load yaml "plugins/APIxMJ/%{_folder}%/help/%loop-value%.yml" as "mj.money.help.%loop-value%"
+	mj_money_playerdata(loop-player)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on load:
+	set {_list::*} to mj_skript_list()
+	if {_list::*} contains "apixmj_money.sk":
+		send "[APIxMJ] Loading money..." to console
+		mj_files_money()
+	else:
+		broadcast "[APIxMJ] Script loading cancel It requires (apixmj_money.sk)"
+		unload script file "apixmj_money.sk"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+on skript stop:
+	rename file "plugins/Skript/scripts/apixmj_money.sk" to "-apixmj_money.sk"
+	send "[APIxMJ] Unloading money.."
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Files
+# =====================================================================================================================
+# APIxMJ - Userdata
+# ---------------------------------------------------------------------------------------------------------------------
+on join:
+	if event-entity is player:
+		mj_money_playerdata(player)
+		wait 1 minute
+		set {_check.1} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.money")
+		if {_check.1} is set:
+			mj_money_edit({_player}, "add", {_check.1}, "restore cache at money to wallet")
+			mj_editfiles_number("temp", "data.%{_player}'s uuid%.money", "modify", 0)
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_money_playerdata(player: offlineplayer):
+	set {_profil} to mj_userdata_profil("userdata.user.%{_player}'s uuid%", true)
+	set {_check.1} to yaml value "data.%{_player}'s uuid%.source.money" from "mj.userdata.data"
+	if {_check.1} isn't set:
+		set yaml value "data.%{_player}'s uuid%.source.money" from "mj.userdata.data" to "none"
+		save yaml "mj.userdata.data"
+		mj_logger(1, "%{_player}% money data file was generated..")
+	set {_check.2} to yaml value "data.source.money.value" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%"
+	if {_check.2} isn't set:
+		set yaml value "data.source.money.value" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to 0
+		set yaml value "data.source.money.limit" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.money.bypass" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to false
+		set yaml value "data.source.money.upgrade" from "mj.userdata.user.%{_player}'s uuid%.%{_profil}%" to 0
+		save yaml "mj.userdata.user.%{_player}'s uuid%.%{_profil}%"
+		mj_logger(1, "%{_player}% money data was generated..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Userdata
+# =====================================================================================================================
+# APIxMJ - Command
+# ---------------------------------------------------------------------------------------------------------------------
+command /money [<text>] [<offlineplayer>] [<number>]:
+	executable by: player and console
+	trigger:
+		if sender is a player:
+			if player has permission "*" or "mj.*" or "mj.money.*" or "mj.money":
+				if arg-1 is "set" or "add" or "remove":
+					if player has permission "*" or "mj.*" or "mj.money.*" or "mj.money.modify":
+						if arg-2 is set:
+							if arg-3 is set:
+								mj_money_edit(arg-2, arg-1, arg-3, "edit /money")
+								set {_money} to mj_core_money_viewer(arg-3)
+								mj_manager_message(player, "money", "data.prefix", "money", "data.%arg-1%", {_money}, "%arg-2%")
+							else:
+								mj_manager_message(player, "money", "data.prefix", "manager", "data.argument.number")
+						else:
+							mj_manager_message(player, "money", "data.prefix", "manager", "data.argument.player")
+					else:
+						mj_manager_permission(player, "money", "data.money.prefix", "mj.money.modify")
+				else if arg-1 is "upgrade":
+					mj_money_upgrade(player, "money")
+				else:
+					mj_money(player)
+			else:
+				mj_manager_permission(player, "money", "data.money.prefix", "mj.money")
+		if sender is console:
+			mj_money_edit(arg-2, arg-1, arg-3, "edit /money")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+on tab complete of "/money":
+	set tab completions for position 1 to "upgrade"
+	if player has permission "*" or "mj.*" or "mj.money.*" or "mj.money.modify":
+		set tab completions for position 1 to "set", "add", "remove" and "upgrade"
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /pay [<player>] [<number>]:
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.money.*" or "mj.money":
+			if arg-1 is set:
+				if arg-2 is set:
+					if arg-2 >= 0.1:
+						set {_money} to mj_money_modify(player, "all")
+						if {_money} >= arg-2+0.01:
+							set {_view} to mj_core_money_viewer(arg-2)
+							mj_money_system(player, arg-2)
+							mj_money_system(arg-1, arg-2, true)
+							mj_manager_message(player, "money", "data.money.prefix", "money", "data.money.pay_me", {_view}, "%arg-1%")
+							mj_manager_message(arg-1, "money", "data.money.prefix", "money", "data.money.pay_it", {_view}, "%player%")
+						else:
+							mj_manager_message(player, "money", "data.money.prefix", "money", "data.money.high_value")
+					else:
+						mj_manager_message(player, "money", "data.money.prefix", "money", "data.money.low_value")
+				else:
+					mj_manager_message(player, "money", "data.money.prefix", "manager", "data.argument.number")
+			else:
+				mj_manager_message(player, "money", "data.money.prefix", "manager", "data.argument.player")
+		else:
+			mj_manager_permission(player, "money", "data.money.prefix", "mj.money")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+command /balance:
+	aliases: balancetop, bal, baltop
+	executable by: player
+	trigger:
+		if player has permission "*" or "mj.*" or "mj.*" or "mj.money.*" or "mj.money":
+			mj_money_balance(player)
+		else:
+			mj_manager_permission(player, "money", "data.money.prefix", "mj.money")
+		stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Command
+# =====================================================================================================================
+# APIxMJ - Logger
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_money_viewer(player: offlineplayer, extract: boolean=false, context: text="none") :: text:
+	set {_value} to mj_money({_player})
+	set {_result} to mj_money_format({_value})
+
+	set {_check1} to mj_editfiles_boolean("essentials.config", "data.money.limit")
+
+	if {_check1} is true:
+
+		set {_check2} to mj_editfiles_boolean("userdata.%{_player}'s uuid%", "data.source.essentials.money.bypass")
+
+		if {_check2} is false:
+
+			set {_limit} to mj_money_limit({_player}, "money")
+
+			set {_result} to mj_money_viewer(true, {_value}, {_limit})
+
+			mj_money_logger("%{_player}% has in this amount of money : %{_result}%", {_context})
+
+	if {_extract} is false:
+
+		mj_manager_message({_player}, "essentials", "data.money.prefix", "essentials", "data.money.view_money", {_result})
+
+		stop
+
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_money_format(value: number) :: text:
+	set {_icon} to mj_editfiles("supervisor.config", "data.format.money.symbol")
+	set {_view} to mj_converter_number({_value})
+	if "%{_value}%" contains "-":
+		set {_result} to "&c-%{_view}%%{_icon}%"
+	else:
+		set {_result} to "&a%{_view}%%{_icon}%"
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Logger
+# =====================================================================================================================
+# APIxMJ - Function
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_money(player: offlineplayer, mode: text="extract", value: number=0, context: text="none") :: number:
+	if {_mode} is "extract":
+		set {_result} to mj_editfiles_number("userdata.user.%{_player}'s uuid%", "data.source.money.value")
+	else:
+		#set {_old} to mj_editfiles_number("userdata.user.%{_player}'s uuid%", "data.source.money.value")
+		mj_editfiles_number("userdata.user.%{_player}'s uuid%", "data.source.money.value", "modify", {_value})
+		#mj_money_logger("%{_player}% money changed : %{_old}% to %{_value}%", {_context})
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_money_edit(player: offlineplayer, type: text="add", value: number=0, context: text="none"):
+	set {_money} to mj_money({_player})
+	if {_type} is "set" or "add" or "remove":
+		if {_type} is "add":
+			set {_result} to {_money} + {_value}
+		else if {_type} is "remove":
+			set {_result} to {_money} - {_value}
+		else:
+			set {_result} to {_value}
+	mj_money_logger("%{_player}% modified money : %{_money}% (%{_type}%=%{_value}%) = %{_result}%", {_context})
+	set {_check.1} to mj_editfiles_boolean("money.config", "data.money.limit")
+	if {_check.1} is true:
+		set {_check.2} to mj_editfiles_boolean("userdata.user.%{_player}'s uuid%", "data.source.money.bypass")
+		if {_check.2} is false:
+			set {_limit} to mj_money_limit({_player}, "money")
+			if {_result} >= {_limit} + 1:
+				#set {_lost} to {_result} - {_limit}
+				#set {_view} to mj_core_money_viewer({_lost})
+				set {_result} to {_limit}
+	mj_money({_player}, "modify", {_result}, {_context})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_money_system(player: offlineplayer, value: number=0, type: boolean=false, context: text="none", discount: number=0):
+	if {_type} is true: # add system (sell)
+		if {_player} is online:
+			set {_send} to mj_editfiles_gettext("money", "data.actionbar_add", {_player})
+			set {_view} to mj_money_format({_value})
+			mj_money_edit({_player}, "add", {_value}, {_context})
+			mj_money_logger("%{_player}% add money : %{_value}%", {_context})
+		else:
+			set {_cache} to mj_editfiles_number("temp", "data.%{_player}'s uuid%.money")
+			add {_value} to {_cache}
+			mj_editfiles_number("temp", "data.%{_player}'s uuid%.money", "modify", {_cache})
+	else: # remove system (buy)
+		set {_send} to mj_editfiles_gettext("money", "data.actionbar_remove", {_player})
+		set {_value.1} to "-%{_value}%" parsed as number
+		set {_view} to mj_money_format({_value.1})
+		set {_money} to mj_money({_player})
+		if {_discount} isn't 0:
+			set {_value.2} to ({_value}*{_discount}/100)
+			set {_value} to {_value}-{_value.2}
+		if {_money} >= {_value} + 1:
+			mj_money_edit({_player}, "remove", {_value}, {_context})
+			mj_money_logger("%{_player}% remove money : %{_value}%", {_context})
+		else:
+			mj_manager_message({_player}, "money", "data.prefix", "money", "data.high_value")
+	set {_check} to mj_editfiles_boolean("money.config", "data.infobar")
+	if {_check} is true:
+		mj_core_infobar({_player}, 2, {_send}, {_view})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_money_limit(player: offlineplayer) :: number:
+	set {_value} to mj_editfiles_number("userdata.user.%{_player}'s uuid%", "data.source.money.upgrade")
+	set {_result} to mj_editfiles_number("money.data", "data.upgrade.%{_value}%.value")
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Logger
+# =====================================================================================================================
+# APIxMJ - Logger
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_money_logger(info: text, context: text="none"):
+	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.folder")
+	set {_date} to now formatted with "yyyy-MM-dd"
+	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log" doesn't exist:
+		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
+	set {_id} to mj_core_logger_id_generator()
+	set {_info} to uncolored {_info}
+	if {_context} isn't "none":
+		write "%{_id}% : %{_info}% (%{_context}%)" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
+	else:
+		write "%{_id}% : %{_info}%" at line (file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"'s line count + 1) to file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"
+	mj_core_logger(3, {_info})
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Logger
+# =====================================================================================================================
+# APIxMJ - Money
+# ---------------------------------------------------------------------------------------------------------------------
+every 30 minutes:
+	set {_check} to mj_editfiles_boolean("money.config", "data.money.economic_ranking_updater")
+	if {_check} is true:
+		mj_core_sorter_board("money_balancetop", "userdata", "data", "source.money", "none", 9)
+		mj_logger(1, "Economic Ranking Update..")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_money_upgrade(player: offlineplayer, type: text):
+	set {_value} to mj_editfiles_number("userdata.user.%{_player}'s uuid%", "data.source.money.upgrade")
+	add 1 to {_value}
+	set {_price} to mj_editfiles_number("money.data", "data.upgrade.%{_value}%.price")
+	if {_price} is set:
+		set {_money} to mj_money({_player})
+		if {_money} >= {_price}:
+			mj_money_system({_player}, {_price})
+			mj_editfiles_number("userdata.user.%{_player}'s uuid%", "data.source.money.upgrade", "modify", {_value})
+			mj_manager_message({_player}, "money", "data.prefix", "money", "data.upgrade")
+		else:
+			set {_result} to {_price} - {_money}
+			set {_view} to mj_core_money_viewer({_result})
+			mj_manager_message({_player}, "money", "data.prefix", "money", "data.error_upgrade", {_view})
+	else:
+		mj_manager_message({_player}, "money", "data.prefix", "money", "data.no_upgrade")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_money_balance(player: player):
+	mj_manager_message({_player}, "money", "data.prefix", "essentials", "data.balance")
+	set {_list.1::*} to mj_manager_nodes("temp", "data.sorterboard.money_balancetop")
+	loop {_list.1::*}:
+		set {_count} to loop-value
+		set {_id} to mj_editfiles("temp", "data.sorterboard.money_balancetop.%loop-value%.id")
+		set {_target} to {_id} parsed as offlineplayer
+		set {_value} to mj_editfiles_number("temp", "data.sorterboard.money_balancetop.%loop-value%.value")
+		set {_money} to mj_core_money_viewer({_value})
+		set {_send} to mj_editfiles("money.config", "data.format.balance")
+		replace "$0" with "%{_count}%" in {_send}
+		replace "$1" with "%{_target}%" in {_send}
+		replace "$2" with "%{_money}%" in {_send}
+		send {_send} to {_player}
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - Money
+# =====================================================================================================================
+function mj_core_money(source: text, find: text, lite: boolean=false) :: text:
+	set {_value.1} to mj_editfiles_number({_source}, "%{_find}%.price")
+	set {_view.1} to mj_core_money_viewer({_value.1})
+	set {_result} to {_view.1}
+	set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.limit")
+	if {_value.2} isn't 0:
+		set {_result} to mj_editfiles("supervisor.config", "data.format.money.pourcent")
+		set {_view.2} to mj_core_money_viewer({_value.2})
+		set {_pourcent} to 100*{_value.1}/{_value.2}
+		set {_pourcent} to "%{_pourcent}%"
+		set {_pourcent::*} to {_pourcent} split at "."
+		replace "<money>" with "%{_view.1}%" in {_result}
+		replace "<limit>" with "%{_view.2}%" in {_result}
+		replace "<pourcent>" with "%{_pourcent::1}%" in {_result}
+	set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.discount")
+	if {_value.2} isn't 0:
+		set {_result} to mj_editfiles("supervisor.config", "data.format.money.discount")
+		set {_value.3} to ({_value.1}*{_value.2}/100)
+		set {_value.4} to {_value.1}-{_value.3}
+		set {_view.2} to mj_core_money_viewer({_value.4})
+		replace "<money>" with "%{_view.2}%" in {_result}
+		replace "<pourcent>" with "%{_value.2}%" in {_result}
+		if {_lite} is true:
+			set {_result} to {_view.2}
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_money_converter(source: text, find: text) :: number:
+	set {_value.1} to mj_editfiles_number({_source}, "%{_find}%.price")
+	set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.discount")
+	if {_value.2} isn't 0:
+		set {_value.3} to ({_value.1}*{_value.2}/100)
+		set {_result} to {_value.1}-{_value.3}
+	else:
+		set {_result} to {_value.1}
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_core_price(source: text, find: text, type: text="default") :: number:
+	set {_value.1} to mj_editfiles_number({_source}, "%{_find}%.price")
+	if {_type} is "discount":
+		set {_value.2} to mj_editfiles_number({_source}, "%{_find}%.discount")
+		set {_value.3} to ({_value.1}*{_value.2}/100)
+		set {_result} to {_value.1}-{_value.3}
+	return {_result}
+# ---------------------------------------------------------------------------------------------------------------------

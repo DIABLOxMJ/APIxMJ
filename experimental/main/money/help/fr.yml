@@ -1,0 +1,50 @@
+data:
+    money:
+        name: "&aSystème d'argent"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn système d'économie."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.*"
+        - "mj.money.*"
+        - "mj.money"
+        info:
+            '1': "&6- &a/money"
+            '2': "&0- &7Voir la somme d'argent actuelle."
+            '3': "&0"
+            '4': "&6- &a/money upgrade"
+            '5': "&0- &7Améliorer le stockage d'argent"
+            '6': "&0- &7si l'option est activé"
+            '7': "&0"
+            '8': "&6- &a/pay <player> <montant>"
+            '9': "&0- &7Payer un joueur."
+            '10': "&0"
+            '11': "&6- &a/balance"
+            '12': "&0- &a/balancetop"
+            '13': "&0- &a/bal"
+            '14': "&0- &a/baltop"
+            '15': "&0- &7Voir le classement économique."
+    money_modify:
+        name: "&aSystème d'argent"
+        type: command
+        page: 1
+        description:
+            '1': "&0- &aUn système d'économie."
+        permission:
+        - "*"
+        - "mj.*"
+        - "mj.*"
+        - "mj.money.*"
+        - "mj.money.modify"
+        info:
+            '1': "&6- &a/money set <player> <number>"
+            '2': "&0- &7Définir un montant au joueur."
+            '3': "&0"
+            '4': "&6- &a/money add <player> <number>"
+            '5': "&0- &7Ajouter un montant au joueur."
+            '6': "&0"
+            '7': "&6- &a/money remove <player> <number>"
+            '8': "&0- &7Retirer un montant au joueur."

@@ -2,7 +2,7 @@
 # APIxMJ - Files
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_files_userdata():
-	set {_folder} to mj_editfiles("supervisor.data", "data.addon.main.userdata.folder")
+	set {_folder} to mj_editfiles("supervisor.data.addons", "data.main.userdata.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.userdata.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.userdata.data"
 	set {_list::*} to mj_editfiles_list("supervisor.config", "data.language.list")
@@ -73,7 +73,7 @@ on quit:
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_userdata_playerdata(player: offlineplayer):
-	set {_folder} to mj_editfiles("supervisor.data", "data.addon.main.userdata.folder")
+	set {_folder} to mj_editfiles("supervisor.data.addons", "data.main.userdata.folder")
 	set {_profil} to yaml value "data.%{_player}'s uuid%.profil" from "mj.userdata.data"
 	if {_profil} isn't set:
 		set {_profil} to "default"

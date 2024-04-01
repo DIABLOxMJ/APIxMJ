@@ -62,26 +62,26 @@ function mj_manager_menu_return(player: player, id: text="main", slot: number=0)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_experimental(player: player, source: text, id: text) :: text:
 	set {_value} to mj_editfiles_gettext("supervisor", "data.experimental.stable", {_player})
-	set {_check} to mj_editfiles_boolean("supervisor.data", "data.addon.%{_source}%.%{_id}%.experimental")
+	set {_check} to mj_editfiles_boolean("supervisor.data.addons", "data.%{_source}%.%{_id}%.experimental")
 	if {_check} is true:
 		set {_value} to mj_editfiles_gettext("supervisor", "data.experimental.instable", {_player})
 	return {_value}
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
-	set {_list.1::*} to mj_nodes("supervisor.data", "data.addon")
+	set {_list.1::*} to mj_nodes("supervisor.data.addons")
 	loop {_list.1::*}:
 		set {_value.1} to loop-value-1
-		set {_list.2::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%")
+		set {_list.2::*} to mj_nodes("supervisor.data.addons", "data.%{_value.1}%")
 		loop {_list.2::*}:
 			set {_value.2} to loop-value-2
 			set {_check} to yaml value "data.manager.addon.%{_value.1}%.%{_value.2}%.installed" from "mj.temp"
 			if {_check} isn't set:
-				mj_editfiles("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.version", "modify", "0000.00.00.0000")
-				mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.installed", "modify", false)
-				mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.condition", "modify", false)
+				mj_editfiles("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.version", "modify", "0000.00.00.0000")
+				mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.installed", "modify", false)
+				mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.condition", "modify", false)
 				if {_value.2} is "supervisor":
-					mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.installed", "modify", true)
-					mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.condition", "modify", true)
+					mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.installed", "modify", true)
+					mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.condition", "modify", true)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Gui Function
@@ -130,54 +130,54 @@ function mj_manager_menu(player: player, id: text="main"):
 		if length of {_name} >= 16:
 			set {_name} to mj_editfiles_gettext("supervisor", "data.index.%{_id}%.name_lite", {_player})
 			set {_title} to mj_editfiles_gettext("supervisor", "data.menu.menu_lite", {_player}, {_name})
-		set {_item} to mj_item_convert("supervisor.data", "data.index.%{_id}%.gui_background.item")
+		set {_item} to mj_item_convert("supervisor.data.index", "data.%{_id}%.gui_background.item")
 	mj_gui_generator({_player}, 6, false, "default", {_title}, "none", {_item})
 	mj_manager_menu_index({_player}, {_id})
 	mj_manager_menu_addon({_player}, {_id})
 	if {_id} isn't "main":
 		mj_manager_menu_control_button_condition_list({_player}, {_id})
-		set {_return} to mj_editfiles("supervisor.data", "data.index.%{_id}%.menu_back")
+		set {_return} to mj_editfiles("supervisor.data.index", "data.%{_id}%.menu_back")
 		mj_manager_menu_return({_player}, {_return}, 49)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_index(player: player, id: text):
-	set {_list::*} to mj_nodes("supervisor.data", "data.index")
+	set {_list::*} to mj_nodes("supervisor.data.index", "data")
 	loop {_list::*}:
-		set {_value} to mj_editfiles("supervisor.data", "data.index.%loop-value%.menu_back")
+		set {_value} to mj_editfiles("supervisor.data.index", "data.%loop-value%.menu_back")
 		if {_id} is {_value}:
 			mj_manager_menu_index_button_generator({_player}, loop-value)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_addon(player: player, id: text):
-	set {_list::*} to mj_nodes("supervisor.data", "data.addon.%{_id}%")
+	set {_list::*} to mj_nodes("supervisor.data.addons", "data.%{_id}%")
 	loop {_list::*}:
 		mj_manager_menu_addon_button_generator({_player}, {_id}, loop-value)
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_index_button_generator(player: player, id: text):
-	set {_visible} to mj_editfiles_boolean("supervisor.data", "data.index.%{_id}%.visible")
+	set {_visible} to mj_editfiles_boolean("supervisor.data.index", "data.%{_id}%.visible")
 	if {_visible} is true:
 		set {_name} to mj_editfiles_gettext("supervisor", "data.index.%{_id}%.name", {_player})
 		set {_title} to mj_editfiles_gettext("supervisor", "data.menu.name", {_player}, {_name})
-		set {_slot} to mj_editfiles_number("supervisor.data", "data.index.%{_id}%.slot")
-		set {_item.1} to mj_item_convert("supervisor.data", "data.index.%{_id}%.item", true)
+		set {_slot} to mj_editfiles_number("supervisor.data.index", "data.%{_id}%.slot")
+		set {_item.1} to mj_item_convert("supervisor.data.index", "data.%{_id}%.item", true)
 		set {_item.2} to mj_item_description({_player}, {_item.1}, "data.index.%{_id}%")
 		set {_item.3} to mj_item_button({_player}, {_item.2}, "left_click", "supervisor", "data.open.gui_folder")
 		make a gui slot {_slot} of {_player} with {_item.3} named {_title} to run:
-			set {_next} to mj_editfiles("supervisor.data", "data.index.%{_id}%.menu_next")
+			set {_next} to mj_editfiles("supervisor.data.index", "data.%{_id}%.menu_next")
 			if {_next} isn't "none":
 				mj_manager_menu({_player}, {_next})
 			stop
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_addon_button_generator(player: player, source: text, id: text):
-	set {_visible} to mj_editfiles_boolean("supervisor.data", "data.addon.%{_source}%.%{_id}%.visible")
+	set {_visible} to mj_editfiles_boolean("supervisor.data.addons", "data.%{_source}%.%{_id}%.visible")
 	if {_visible} is true:
 		set {_name} to mj_editfiles_gettext("supervisor", "data.addon.%{_source}%.%{_id}%.name", {_player})
 		set {_title} to mj_editfiles_gettext("supervisor", "data.menu.name", {_player}, {_name})
 		set {_exp} to mj_manager_menu_experimental({_player}, {_source}, {_id})
-		set {_slot} to mj_editfiles_number("supervisor.data", "data.addon.%{_source}%.%{_id}%.slot")
-		set {_item.1} to mj_item_convert("supervisor.data", "data.addon.%{_source}%.%{_id}%.item", true)
+		set {_slot} to mj_editfiles_number("supervisor.data.addons", "data.%{_source}%.%{_id}%.slot")
+		set {_item.1} to mj_item_convert("supervisor.data.addons", "data.%{_source}%.%{_id}%.item", true)
 		set {_item.2} to mj_item_description({_player}, {_item.1}, "data.addon.%{_source}%.%{_id}%")
 		set {_item.3} to mj_item_button({_player}, {_item.2}, "left_click", "supervisor", "data.open.gui_panel")
 		make a gui slot {_slot} of {_player} with {_item.3} named "%{_title}% %{_exp}%" to run:
@@ -195,7 +195,7 @@ function mj_manager_menu_control(player: player, source: text, id: text):
 	if length of {_name} >= 16:
 		set {_name} to mj_editfiles_gettext("supervisor", "data.addon.%{_source}%.%{_id}%.name_lite", {_player})
 		set {_title} to mj_editfiles_gettext("supervisor", "data.menu.manager_lite", {_player}, {_name})
-	set {_item} to mj_item_convert("supervisor.data", "data.addon.%{_source}%.%{_id}%.gui_background.item")
+	set {_item} to mj_item_convert("supervisor.data.addons", "data.%{_source}%.%{_id}%.gui_background.item")
 	mj_gui_generator({_player}, 5, false, "default", {_title}, "none", {_item})
 	mj_manager_menu_control_button_status({_player}, {_source}, {_id}, 10)
 	mj_manager_menu_control_button_installer({_player}, {_source}, {_id})
@@ -230,19 +230,19 @@ function mj_manager_menu_control_button_status(player: player, source: text, id:
 function mj_manager_menu_control_button_status_data(player: player, source: text, id: text, item: item, type: text) :: item:
 	set {_count} to mj_item_lore_count({_item})
 	if {_type} is "version":
-		set {_data.1} to mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.%{_type}%")
+		set {_data.1} to mj_editfiles("temp", "data.manager.addons.%{_source}%.%{_id}%.%{_type}%")
 		set {_data.2} to mj_editfiles_gettext("supervisor", "data.category.%{_type}%.1", {_player}, {_data.1})
 		set line {_count} of lore of {_item} to "%{_data.2}%"
 		add 2 to {_count}
 	else:
-		set {_data.1} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.%{_type}%.1")
+		set {_data.1} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.%{_type}%.1")
 		if {_data.1} isn't "none":
 			set {_data.2} to mj_editfiles_gettext("supervisor", "data.category.%{_type}%", {_player})
 			set line {_count} of lore of {_item} to "%{_data.2}%"
 			add 1 to {_count}
-			set {_list::*} to mj_nodes("supervisor.data", "data.addon.%{_source}%.%{_id}%.%{_type}%")
+			set {_list::*} to mj_nodes("supervisor.data.addons", "data.%{_source}%.%{_id}%.%{_type}%")
 			loop {_list::*}:
-				set {_data.3} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.%{_type}%.%loop-value%")
+				set {_data.3} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.%{_type}%.%loop-value%")
 				set {_data.4} to mj_editfiles_gettext("supervisor", "data.button.argument", {_player}, {_data.3})
 				if {_type} is "depends":
 					set {_name.1} to mj_editfiles_gettext("supervisor", "data.addon.%{_data.3}%.name", {_player})
@@ -259,22 +259,22 @@ function mj_manager_menu_control_button_status_data(player: player, source: text
 function mj_manager_menu_control_button_installer(player: player, source: text, id: text):
 	set {_name} to mj_editfiles_gettext("supervisor", "data.button.installer.name", {_player})
 	set {_slot} to mj_editfiles_number("supervisor.data", "data.button.installer.slot")
-	set {_installed} to mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.installed")
+	set {_installed} to mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.installed")
 	set {_item} to minecart
 	set {_mode} to mj_editfiles_gettext("supervisor", "data.type.not_installed", {_player})
 	if {_installed} is true:
 		set {_item} to minecart with chest
 		set {_mode} to mj_editfiles_gettext("supervisor", "data.type.installed", {_player})
 	else:
-		set {_version} to mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.version")
+		set {_version} to mj_editfiles("temp", "data.manager.addons.%{_source}%.%{_id}%.version")
 		if {_version} isn't "0000.00.00.0000":
 			set {_mode} to mj_editfiles_gettext("supervisor", "data.type.uninstalled", {_player})
-	set {_value.1} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.depends.1")
+	set {_value.1} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.depends.1")
 	if {_value.1} isn't "none":
-		set {_list::*} to mj_nodes("supervisor.data", "data.addon.%{_source}%.%{_id}%.depends")
+		set {_list::*} to mj_nodes("supervisor.data.addons", "data.%{_source}%.%{_id}%.depends")
 		loop {_list::*}:
-			set {_value.1} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.depends.%loop-value%")
-			set {_value.2} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.installed")
+			set {_value.1} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.depends.%loop-value%")
+			set {_value.2} to mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.installed")
 			set {_value.3} to mj_editfiles_gettext("supervisor", "data.addon.%{_value.1}%.name", {_player})
 			if {_value.2} isn't true:
 				set {_name} to mj_editfiles_gettext("supervisor", "data.button.installer.request", {_player}, {_value.3})
@@ -293,17 +293,17 @@ function mj_manager_menu_control_button_installer(player: player, source: text, 
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_installer(player: player, source: text, id: text, option: text):
 	set {_name} to mj_editfiles_gettext("supervisor", "data.addon.%{_source}%.%{_id}%.name", {_player})
-	set {_github} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.github_folder")
-	set {_folder} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.folder")
+	set {_github} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.github_folder")
+	set {_folder} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.folder")
 	set {_link} to mj_editfiles("github")
 	create script "plugins/APIxMJ/%{_folder}%/language/log.txt"
 	delete file "plugins/APIxMJ/%{_folder}%/language/log.txt"
 	create script "plugins/APIxMJ/%{_folder}%/help/log.txt"
 	delete file "plugins/APIxMJ/%{_folder}%/help/log.txt"
 	set {_version} to text from "%{_link}%/main/experimental/%{_github}%/version.txt"
-	mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.version", "modify", {_version})
-	mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.installed", "modify", true)
-	mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", true)
+	mj_editfiles("temp", "data.manager.addons.%{_source}%.%{_id}%.version", "modify", {_version})
+	mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.installed", "modify", true)
+	mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.condition", "modify", true)
 	mj_manager_menu_control_installer_skript({_player}, {_source}, {_id}, {_option})
 	if {_option} is "install":	
 		mj_message({_player}, "supervisor", "data.prefix", "supervisor", "data.process.installed", {_name})
@@ -316,10 +316,10 @@ function mj_manager_menu_control_installer(player: player, source: text, id: tex
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_installer_skript(player: player, source: text, id: text, option: text):
 	set {_link} to mj_editfiles("github")
-	set {_github} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.github_folder")
-	set {_list::*} to mj_nodes("supervisor.data", "data.addon.%{_source}%.%{_id}%.skript")
+	set {_github} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.github_folder")
+	set {_list::*} to mj_nodes("supervisor.data.addons", "data.%{_source}%.%{_id}%.skript")
 	loop {_list::*}:
-		set {_skript} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.skript.%loop-value%")
+		set {_skript} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.skript.%loop-value%")
 		set {_list::*} to mj_skript_list()
 		if {_list::*} contains {_skript}:
 			delete file "plugins/Skript/scripts/%{_skript}%.sk"
@@ -328,22 +328,22 @@ function mj_manager_menu_control_installer_skript(player: player, source: text, 
 	if {_option} is "install" or "reinstall":	
 		mj_manager_menu_control_installer_file({_player}, {_source}, {_id})
 	wait 2 seconds
-	set {_start} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.skript.1")
+	set {_start} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.skript.1")
 	reload script "%{_start}%"
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_installer_file(player: player, source: text, id: text):
 	set {_link} to mj_editfiles("github")
-	set {_github} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.github_folder")
-	set {_folder} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.folder")
-	set {_list.1::*} to mj_nodes("supervisor.data", "data.addon.%{_source}%.%{_id}%.yml")
+	set {_github} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.github_folder")
+	set {_folder} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.folder")
+	set {_list.1::*} to mj_nodes("supervisor.data.addons", "data.%{_source}%.%{_id}%.yml")
 	loop {_list.1::*}:
-		set {_file} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.yml.%loop-value%")
+		set {_file} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.yml.%loop-value%")
 		if {_file} isn't "none":
 			download file from "%{_link}%/main/experimental/%{_github}%/%{_file}%.yml" to file "plugins/APIxMJ/%{_folder}%/%{_file}%.yml"
-	set {_list.2::*} to mj_nodes("supervisor.data", "data.addon.%{_source}%.%{_id}%.preset")
+	set {_list.2::*} to mj_nodes("supervisor.data.addons", "data.%{_source}%.%{_id}%.preset")
 	loop {_list.2::*}:
-		set {_file} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.preset.%loop-value%")
+		set {_file} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.preset.%loop-value%")
 		if {_file} isn't "none":
 			create script "plugins/APIxMJ/%{_folder}%/preset/log.txt"
 			delete file "plugins/APIxMJ/%{_folder}%/preset/log.txt"
@@ -360,9 +360,9 @@ function mj_manager_menu_control_installer_file(player: player, source: text, id
 # APIxMJ - Gui Control (Update)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_update(player: player, source: text, id: text, choice: number=1):
-	set {_github} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.github_folder")
-	set {_folder} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.folder")
-	set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.installed")
+	set {_github} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.github_folder")
+	set {_folder} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.folder")
+	set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.installed")
 	if {_check} is true:
 		set {_name} to mj_editfiles_gettext("supervisor", "data.button.update.name.%{_choice}%", {_player})
 		set {_slot} to mj_editfiles_number("supervisor.data", "data.button.update.slot")
@@ -373,7 +373,7 @@ function mj_manager_menu_control_button_update(player: player, source: text, id:
 		else:
 			set {_item} to minecart
 		set {_count} to 2
-		set {_version.1} to mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.version")
+		set {_version.1} to mj_editfiles("temp", "data.manager.addons.%{_source}%.%{_id}%.version")
 		set {_version.2} to mj_editfiles_gettext("supervisor", "data.category.version.2", {_player}, {_version.1})
 		set line {_count} of lore of {_item} to "%{_version.2}%"
 		add 1 to {_count}
@@ -406,8 +406,8 @@ function mj_manager_menu_control_button_update_check(player: player, source: tex
 	if {_choice} is 1:
 		mj_manager_menu_control_button_update({_player}, {_source}, {_id}, 2)
 		wait 2 seconds
-		set {_version} to mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.version")
-		set {_github} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.github_folder")
+		set {_version} to mj_editfiles("temp", "data.manager.addons.%{_source}%.%{_id}%.version")
+		set {_github} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.github_folder")
 		set {_check} to text from "%{_link}%/main/experimental/%{_github}%/version.txt"
 		if "%{_check}%" isn't "%{_version}%":
 			mj_manager_menu_control_button_update({_player}, {_source}, {_id}, 3)
@@ -424,12 +424,12 @@ function mj_manager_menu_control_button_update_check(player: player, source: tex
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_update():
 	set {_link} to mj_editfiles("github")
-	set {_list.1::*} to mj_nodes("supervisor.data", "data.addon")
+	set {_list.1::*} to mj_nodes("supervisor.data.addons")
 	loop {_list.1::*}:
-		set {_list.2::*} to mj_nodes("supervisor.data", "data.addon.%loop-value-1%")
+		set {_list.2::*} to mj_nodes("supervisor.data.addons", "data.%loop-value-1%")
 		loop {_list.2::*}:
-			set {_version} to mj_editfiles("temp", "data.manager.addon.%loop-value-1%.%loop-value-2%.version")
-			set {_github} to mj_editfiles("supervisor.data", "data.addon.%loop-value-1%.%loop-value-2%.github")
+			set {_version} to mj_editfiles("temp", "data.manager.addons.%loop-value-1%.%loop-value-2%.version")
+			set {_github} to mj_editfiles("supervisor.data.addons", "data.%loop-value-1%.%loop-value-2%.github")
 			set {_check} to text from "%{_link}%/%{_folder}%/version.txt"
 			if "%{_check}%" doesn't contain "%{_version}%":
 				mj_manager_menu_control_installer({_source}, loop-value-1, loop-value-2, "update")
@@ -455,7 +455,7 @@ function mj_manager_update_data():
 # APIxMJ - Gui Control (Uninstaller)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_uninstaller(player: player, source: text, id: text):
-	set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.installed")
+	set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.installed")
 	if {_check} is true:
 		set {_name} to mj_editfiles_gettext("supervisor", "data.button.uninstalled.name", {_player})
 		set {_slot} to mj_editfiles_number("supervisor.data", "data.button.uninstalled.slot")
@@ -468,13 +468,13 @@ function mj_manager_menu_control_button_uninstaller(player: player, source: text
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_uninstaller(player: player, source: text, id: text):
 	set {_name} to mj_editfiles_gettext("supervisor", "data.addon.%{_source}%.%{_id}%.name", {_player})
-	set {_list::*} to mj_nodes("supervisor.data", "data.addon.%{_source}%.%{_id}%.skript")
+	set {_list::*} to mj_nodes("supervisor.data.addons", "data.%{_source}%.%{_id}%.skript")
 	loop {_list::*}:
-		set {_skript} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.skript.%loop-value%")
+		set {_skript} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.skript.%loop-value%")
 		unload script file "%{_skript}%.sk"
 		delete file "plugins/Skript/scripts/-%{_skript}%.sk"
-	mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.installed", "modify", false)
-	mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", false)
+	mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.installed", "modify", false)
+	mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.condition", "modify", false)
 	mj_message({_player}, "supervisor", "data.prefix", "supervisor", "data.process.uninstalled", {_name})
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
@@ -483,7 +483,7 @@ function mj_manager_menu_control_uninstaller(player: player, source: text, id: t
 # APIxMJ - Gui Control (Reinstaller)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_reinstaller(player: player, source: text, id: text):
-	set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.installed")
+	set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.installed")
 	if {_check} is true:
 		set {_name} to mj_editfiles_gettext("supervisor", "data.button.reinstalled.name", {_player})
 		set {_slot} to mj_editfiles_number("supervisor.data", "data.button.reinstalled.slot")
@@ -495,10 +495,10 @@ function mj_manager_menu_control_button_reinstaller(player: player, source: text
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_reinstaller(player: player, source: text, id: text):
-	set {_folder} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.folder")
-	set {_list::*} to mj_nodes("supervisor.data", "data.addon.%{_source}%.%{_id}%.skript")
+	set {_folder} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.folder")
+	set {_list::*} to mj_nodes("supervisor.data.addons", "data.%{_source}%.%{_id}%.skript")
 	loop {_list::*}:
-		set {_skript} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.skript.%loop-value%")
+		set {_skript} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.skript.%loop-value%")
 		delete file "plugins/Skript/scripts/%{_skript}%.sk"
 	delete directory "plugins/APIxMJ/%{_folder}%"
 	mj_manager_menu_control_installer({_player}, {_source}, {_id}, "reinstall")
@@ -510,10 +510,10 @@ function mj_manager_menu_control_reinstaller(player: player, source: text, id: t
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_condition(player: player, source: text, id: text, slot: number=-1):
 	if {_source} isn't "main" or "vertebral_main":
-		set {_check.1} to mj_editfiles("temp", "data.manager.addon.%{_source}%.%{_id}%.version")
+		set {_check.1} to mj_editfiles("temp", "data.manager.addons.%{_source}%.%{_id}%.version")
 		if {_check.1} isn't "0000.00.00.0000":
 			set {_name.1} to mj_editfiles_gettext("supervisor", "data.addon.%{_source}%.%{_id}%.name", {_player})
-			set {_check.2} to mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition")
+			set {_check.2} to mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.condition")
 			if {_check.2} is true:
 				set {_type} to "disable"
 				set {_item.1} to red wool block
@@ -528,10 +528,10 @@ function mj_manager_menu_control_button_condition(player: player, source: text, 
 			set {_item.3} to mj_item_button({_player}, {_item.2}, "left_click", "supervisor", "data.open.condition_%{_type}%")
 			make a gui slot {_slot} of {_player} with {_item.3} named {_name.3} to run:
 				if {_check.2} is true:
-					mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", false)
+					mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.condition", "modify", false)
 					unload script file {_skript}
 				else:
-					mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.condition", "modify", true)
+					mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.condition", "modify", true)
 					enable script file {_skript}
 				set {_type.view} to mj_editfiles_gettext("supervisor", "data.type.%{_type}%", {_player})
 				mj_message({_player}, "supervisor", "data.prefix", "supervisor", "data.process.condition", {_type.view}, {_name.1})
@@ -542,15 +542,15 @@ function mj_manager_menu_control_button_condition(player: player, source: text, 
 function mj_manager_menu_control_button_condition_list(player: player, source: text):
 	if {_source} contain "condition":
 		set {_slot} to 0
-		set {_list.1::*} to mj_nodes("temp", "data.manager.addon")
+		set {_list.1::*} to mj_nodes("temp", "data.manager.addons")
 		loop {_list.1::*}:
 			if loop-value-1 isn't "main" or "vertebral_main":
-				set {_list.2::*} to mj_nodes("temp", "data.manager.addon.%loop-value-1%")
+				set {_list.2::*} to mj_nodes("temp", "data.manager.addons.%loop-value-1%")
 				loop {_list.2::*}:
-					set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%loop-value-1%.%loop-value-2%.installed")
+					set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%loop-value-1%.%loop-value-2%.installed")
 					if {_check} is true:
 						set {_list.3::*} to mj_skript_list()
-						set {_skript} to mj_editfiles("supervisor.data", "data.addon.%loop-value-1%.%loop-value-2%.skript.1")
+						set {_skript} to mj_editfiles("supervisor.data.addons", "data.%loop-value-1%.%loop-value-2%.skript.1")
 						if {_list.3::*} contains "%{_skript}%.sk" or "-%{_skript}%.sk":
 							mj_manager_menu_control_button_condition({_player}, loop-value-1, loop-value-2, {_slot})
 							add 1 to {_slot}
@@ -561,7 +561,7 @@ function mj_manager_menu_control_button_condition_list(player: player, source: t
 # APIxMJ - Gui Control (Help)
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_menu_control_button_help(player: player, source: text, id: text):
-	set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_source}%.%{_id}%.installed")
+	set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%{_source}%.%{_id}%.installed")
 	if {_check} is true:
 		set {_name} to mj_editfiles_gettext("supervisor", "data.button.helper.name", {_player})
 		set {_slot} to mj_editfiles_number("supervisor.data", "data.button.helper.slot")
@@ -649,15 +649,15 @@ every 1 hour:
 		create script "plugins/APIxMJ/backup/%{_date}%/%{_time}%/APIxMJ/%{_date}%_%{_time}%.log"
 		copy dir "plugins/Skript/scripts" to "plugins/APIxMJ/backup/%{_date}%/%{_time}%"
 		wait 2 ticks
-		set {_list.1::*} to mj_nodes("supervisor.data", "data.addon")
+		set {_list.1::*} to mj_nodes("supervisor.data.addons")
 		loop {_list.1::*}:
 			set {_value.1} to loop-value-1
-			set {_list.2::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%")
+			set {_list.2::*} to mj_nodes("supervisor.data.addons", "data.%{_value.1}%")
 			loop {_list.2::*}:
 				set {_value.2} to loop-value-2
-				set {_check.2} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.installed")
+				set {_check.2} to mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.installed")
 				if {_check.2} is true:
-					set {_folder} to mj_editfiles("supervisor.data", "data.addon.%{_value.1}%.%{_value.2}%.folder")
+					set {_folder} to mj_editfiles("supervisor.data.addons", "data.%{_value.1}%.%{_value.2}%.folder")
 					copy dir "plugins/APIxMJ/%{_folder}%" to "plugins/APIxMJ/backup/%{_date}%/%{_time}%/APIxMJ/"
 		#zip file "plugins/APIxMJ/backup/%{_date}%/%{_time}%/*" to zip "plugins/APIxMJ/backup/%{_date}%.zip"
 		#delete dir "plugins/APIxMJ/backup/APIxMJ/%{_date}%/"
@@ -778,18 +778,18 @@ function mj_manager_help_menu_index(player: player):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_index_button(player: player):
 	set {_slot} to 10
-	set {_list.1::*} to mj_nodes("supervisor.data", "data.addon")
+	set {_list.1::*} to mj_nodes("supervisor.data.addons")
 	loop {_list.1::*}:
 		set {_value.1} to loop-value-1
-		set {_list.2::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%")
+		set {_list.2::*} to mj_nodes("supervisor.data.addons", "data.%{_value.1}%")
 		loop {_list.2::*}:
 			set {_value.2} to loop-value-2
-			set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.installed")
+			set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.installed")
 			if {_check} is true:
 				set {_lang} to mj_userdata_language({_player})
 				set {_data} to mj_editfiles_stock("%{_value.2}%.help.%{_lang}%")
 				if {_data} is set:
-					set {_name.1} to mj_editfiles("supervisor.data", "data.index.%{_value.1}%.name")
+					set {_name.1} to mj_editfiles("supervisor.data.index", "data.%{_value.1}%.name")
 					set {_name.2} to mj_editfiles_gettext("supervisor", {_name.1}, {_player})
 					if {_value.1} is "main":
 						set {_title} to mj_editfiles_gettext("supervisor", "data.help.button.manager", {_player})
@@ -810,7 +810,7 @@ function mj_manager_help_menu_addon(player: player, id: text="main"):
 	if {_id} is "main":
 		set {_title} to mj_editfiles_gettext("supervisor", "data.help.menu.manager", {_player})
 	else:
-		set {_name.1} to mj_editfiles("supervisor.data", "data.index.%{_id}%.name")
+		set {_name.1} to mj_editfiles("supervisor.data.index", "data.%{_id}%.name")
 		set {_name.2} to mj_editfiles_gettext("supervisor", {_name.1}, {_player})
 		set {_title} to mj_editfiles_gettext("supervisor", "data.help.menu.name", {_player}, {_name.2})
 	set {_item} to mj_item_convert("supervisor.config", "data.gui_background.item")
@@ -821,12 +821,12 @@ function mj_manager_help_menu_addon(player: player, id: text="main"):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_addon_button(player: player, id: text="main"):
 	set {_slot} to 10
-	set {_list::*} to mj_nodes("supervisor.data", "data.addon.%{_id}%")
+	set {_list::*} to mj_nodes("supervisor.data.addons", "data.%{_id}%")
 	loop {_list::*}:
 		set {_value} to loop-value
-		set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_id}%.%{_value}%.installed")
+		set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%{_id}%.%{_value}%.installed")
 		if {_check} is true:
-			set {_name.1} to mj_editfiles("supervisor.data", "data.addon.%{_id}%.%{_value}%.name")
+			set {_name.1} to mj_editfiles("supervisor.data.addons", "data.%{_id}%.%{_value}%.name")
 			set {_name.2} to mj_editfiles_gettext("supervisor", {_name.1}, {_player})
 			set {_title} to mj_editfiles_gettext("supervisor", "data.help.button.addon", {_player}, {_name.2})
 			set {_item} to mj_item_convert("supervisor.data", "data.button.help.addon.item")
@@ -840,18 +840,18 @@ function mj_manager_help_menu_addon_button(player: player, id: text="main"):
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_addon_button_lite(player: player):
 	set {_slot} to 10
-	set {_list.1::*} to mj_nodes("supervisor.data", "data.addon")
+	set {_list.1::*} to mj_nodes("supervisor.data.addons")
 	loop {_list.1::*}:
 		set {_id} to loop-value-1
-		set {_list.2::*} to mj_nodes("supervisor.data", "data.addon.%{_id}%")
+		set {_list.2::*} to mj_nodes("supervisor.data.addons", "data.%{_id}%")
 		loop {_list.2::*}:
 			set {_value} to loop-value-2
-			set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_id}%.%{_value}%.installed")
+			set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%{_id}%.%{_value}%.installed")
 			if {_check} is true:
 				set {_lang} to mj_userdata_language({_player})
 				set {_data} to mj_editfiles_stock("%{_value}%.help.%{_lang}%")
 				if {_data} is set:
-					set {_name.1} to mj_editfiles("supervisor.data", "data.addon.%{_id}%.%{_value}%.name")
+					set {_name.1} to mj_editfiles("supervisor.data.addons", "data.%{_id}%.%{_value}%.name")
 					set {_name.2} to mj_editfiles_gettext("supervisor", {_name.1}, {_player})
 					set {_title} to mj_editfiles_gettext("supervisor", "data.help.button.addon", {_player}, {_name.2})
 					set {_item} to mj_item_convert("supervisor.data", "data.button.help.addon.item")
@@ -864,7 +864,7 @@ function mj_manager_help_menu_addon_button_lite(player: player):
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_manager_help_menu_viewer(player: player, source: text, id: text, page: number=1, manager: boolean=false):
-	set {_name.1} to mj_editfiles("supervisor.data", "data.addon.%{_source}%.%{_id}%.name")
+	set {_name.1} to mj_editfiles("supervisor.data.addons", "data.%{_source}%.%{_id}%.name")
 	set {_name.2} to mj_editfiles_gettext("supervisor", "%{_name.1}%_lite", {_player})
 	set {_title} to mj_editfiles_gettext("supervisor", "data.help.button.addon", {_player}, {_name.2})
 	if length of {_name} >= 16:

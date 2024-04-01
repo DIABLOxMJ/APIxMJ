@@ -2,7 +2,7 @@
 # APIxMJ - Files
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_files_money():
-	set {_folder} to mj_editfiles("supervisor.data", "data.addon.main.money.folder")
+	set {_folder} to mj_editfiles("supervisor.data.addons", "data.main.money.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.money.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.money.data"
 	set {_list::*} to mj_editfiles_list("supervisor.config", "data.language.list")
@@ -246,7 +246,7 @@ function mj_money_limit(player: offlineplayer) :: number:
 # APIxMJ - Logger
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_money_logger(info: text, context: text="none"):
-	set {_folder} to mj_editfiles("manager.data", "data.addon.vertebral_main.essentials.folder")
+	set {_folder} to mj_editfiles("manager.data.addons", "data.vertebral_main.essentials.folder")
 	set {_date} to now formatted with "yyyy-MM-dd"
 	if file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log" doesn't exist:
 		create file "plugins/APIxMJ/%{_folder}%/logs/%{_date}%.log"

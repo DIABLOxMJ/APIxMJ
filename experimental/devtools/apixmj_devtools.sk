@@ -2,7 +2,7 @@
 # APIxMJ - Files
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_files_devtools():
-	set {_folder} to mj_editfiles("supervisor.data", "data.addon.main.devtools.folder")
+	set {_folder} to mj_editfiles("supervisor.data.addons", "data.main.devtools.folder")
 	load yaml "plugins/APIxMJ/%{_folder}%/config.yml" as "mj.devtools.config"
 	load yaml "plugins/APIxMJ/%{_folder}%/data.yml" as "mj.devtools.data"
 	set {_list::*} to mj_editfiles_list("supervisor.config", "data.language.list")

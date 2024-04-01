@@ -1,0 +1,155 @@
+data:
+    index:
+        vertebral_main:
+            name: data.index.vertebral_main.name
+            visible: true
+            menu_back: main
+            menu_next: vertebral_main
+            slot: 11
+            item: chest
+            gui_background:
+                item: gray stained glass pane
+        vertebral_extension:
+            name: data.index.vertebral_extension.name
+            visible: true
+            menu_back: vertebral_main
+            menu_next: vertebral_extension
+            slot: 16
+            item: chest
+            gui_background:
+                item: gray stained glass pane
+        gamemodes:
+            name: data.index.gamemodes.name
+            visible: true
+            menu_back: main
+            menu_next: gamemodes
+            slot: 14
+            item: chest
+            gui_background:
+                item: black stained glass pane
+        gamemodes_classic_main:
+            name: data.index.gamemodes_classic_main.name
+            visible: true
+            menu_back: gamemodes
+            menu_next: gamemodes_classic_main
+            slot: 10
+            item: chest
+            gui_background:
+                item: black stained glass pane
+        gamemodes_classic_extension:
+            name: data.index.gamemodes_classic_extension.name
+            visible: true
+            menu_back: gamemodes_classic_main
+            menu_next: gamemodes_classic_extension
+            slot: 16
+            item: chest
+            gui_background:
+                item: black stained glass pane
+        gamemodes_skyblock_main:
+            name: data.index.gamemodes_skyblock_main.name
+            visible: true
+            menu_back: gamemodes
+            menu_next: gamemodes_skyblock_main
+            slot: 11
+            item: chest
+            gui_background:
+                item: light blue stained glass pane
+        gamemodes_skyblock_extension:
+            name: data.index.gamemodes_skyblock_extension.name
+            visible: true
+            menu_back: gamemodes_skyblock_main
+            menu_next: gamemodes_skyblock_extension
+            slot: 16
+            item: chest
+            gui_background:
+                item: light blue stained glass pane
+        gamemodes_faction_main:
+            name: data.index.gamemodes_faction_main.name
+            visible: true
+            menu_back: gamemodes
+            menu_next: gamemodes_faction_main
+            slot: 12
+            item: chest
+            gui_background:
+                item: red stained glass pane
+        gamemodes_minigames:
+            name: data.index.gamemodes_minigames.name
+            visible: true
+            menu_back: gamemodes
+            menu_next: gamemodes_minigames
+            slot: 13
+            item: chest
+            gui_background:
+                item: red stained glass pane
+        gamemodes_minigames_main:
+            name: data.index.gamemodes_minigames_main.name
+            visible: true
+            menu_back: gamemodes_minigames
+            menu_next: gamemodes_minigames_main
+            slot: 10
+            item: chest
+            gui_background:
+                item: red stained glass pane
+        gamemodes_minigames_games:
+            name: data.index.gamemodes_minigames_games.name
+            visible: true
+            menu_back: gamemodes_minigames
+            menu_next: gamemodes_minigames_games
+            slot: 11
+            item: chest
+            gui_background:
+                item: red stained glass pane
+        server_dedicated:
+            name: data.index.server_dedicated.name
+            visible: true
+            menu_back: main
+            menu_next: server_dedicated
+            slot: 15
+            item: chest
+            gui_background:
+                item: lime stained glass pane
+        server_dedicated_diamond_city:
+            name: data.index.server_dedicated_diamond_city.name
+            visible: true
+            menu_back: server_dedicated
+            menu_next: server_dedicated_diamond_city
+            slot: 10
+            item: chest
+            gui_background:
+                item: light blue stained glass pane
+        server_dedicated_tactical:
+            name: data.index.server_dedicated_tactical.name
+            visible: true
+            menu_back: server_dedicated
+            menu_next: server_dedicated_tactical
+            slot: 11
+            item: chest
+            gui_background:
+                item: dark green stained glass pane
+        server_dedicated_enderium:
+            name: data.index.server_dedicated_enderium.name
+            visible: true
+            menu_back: server_dedicated
+            menu_next: server_dedicated_enderium
+            slot: 12
+            item: chest
+            gui_background:
+                item: cyan stained glass pane
+        editor:
+            name: data.index.editor.name
+            visible: true
+            menu_back: main
+            menu_next: editor
+            slot: 16
+            item: ender chest
+            gui_background:
+                item: black stained glass pane
+        control_condition:
+            name: data.index.control_condition.name
+            visible: true
+            menu_back: main
+            menu_next: control_condition
+            slot: 43
+            item: tripwire hook
+            gui_background:
+                item: black stained glass pane

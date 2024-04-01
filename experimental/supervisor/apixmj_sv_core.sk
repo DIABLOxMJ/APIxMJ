@@ -7,6 +7,8 @@
 function mj_files_sv_core():
 	load yaml "plugins/APIxMJ/supervisor/config.yml" as "mj.supervisor.config"
 	load yaml "plugins/APIxMJ/supervisor/data.yml" as "mj.supervisor.data"
+	load yaml "plugins/APIxMJ/supervisor/data_index.yml" as "mj.supervisor.data.index"
+	load yaml "plugins/APIxMJ/supervisor/data_addons.yml" as "mj.supervisor.data.addons"
 	load yaml "plugins/APIxMJ/supervisor/temp.yml" as "mj.temp"
 	wait 1 second
 	set {_list::*} to mj_editfiles_list("supervisor.config", "data.language.list")
@@ -16,7 +18,7 @@ function mj_files_sv_core():
 			load yaml "plugins/APIxMJ/supervisor/help/%loop-value%.yml" as "mj.supervisor.help.%loop-value%"
 			load yaml "plugins/APIxMJ/supervisor/help_custom/%loop-value%.yml" as "mj.custom.help.%loop-value%"
 			load yaml "plugins/APIxMJ/supervisor/rules/%loop-value%.yml" as "mj.custom.rules.%loop-value%"
-	mj_editfiles("temp", "data.manager.addon.main.supervisor.version", "modify", "2024.01.30.0001")
+	mj_editfiles("temp", "data.manager.addons.main.supervisor.version", "modify", "2024.01.30.0001")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
@@ -207,19 +209,19 @@ function mj_skript_list() :: objects:
 	return {_list2::*}
 # ---------------------------------------------------------------------------------------------------------------------
 function mj_skript_start():
-	set {_list.1::*} to mj_nodes("supervisor.data", "data.addon")
+	set {_list.1::*} to mj_nodes("supervisor.data.addons")
 	loop {_list.1::*}:
 		set {_value.1} to loop-value-1
 		if {_value.1} isn't "main":
-			set {_list.2::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%")
+			set {_list.2::*} to mj_nodes("supervisor.data.addons", "data.%{_value.1}%")
 			loop {_list.2::*}:
 				set {_value.2} to loop-value-2
-				set {_check} to mj_editfiles_boolean("temp", "data.manager.addon.%{_value.1}%.%{_value.2}%.condition")
+				set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.condition")
 				if {_check} is true:
-					set {_list.3::*} to mj_nodes("supervisor.data", "data.addon.%{_value.1}%.%{_value.2}%.skript")
+					set {_list.3::*} to mj_nodes("supervisor.data.addons", "data.%{_value.1}%.%{_value.2}%.skript")
 					loop {_list.3::*}:
 						set {_value.3} to loop-value-3
-						set {_skript} to mj_editfiles("supervisor.data", "data.addon.%{_value.1}%.%{_value.2}%.skript.%{_value.3}%")
+						set {_skript} to mj_editfiles("supervisor.data.addons", "data.%{_value.1}%.%{_value.2}%.skript.%{_value.3}%")
 						enable script file {_skript}
 						wait 4 seconds
 	set {_prefix} to mj_editfiles_gettext("supervisor", "data.prefix")

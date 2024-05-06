@@ -13,7 +13,7 @@ function mj_files_devtools():
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on load:
-	set {_list::*} to mj_manager_skript_list()
+	set {_list::*} to mj_skript_list()
 	if {_list::*} contains "apixmj_sv_core.sk":
 		send "[APIxMJ] Loading devtools..." to console
 		mj_files_devtools()
@@ -31,8 +31,7 @@ on skript stop:
 # =====================================================================================================================
 # APIxMJ - Core
 # ---------------------------------------------------------------------------------------------------------------------
-command /apixmj [<text>] [<text>] [<text>]:
-	aliases: mj
+command /debug [<text>] [<text>] [<text>]:
 	executable by: player and console
 	trigger:
 		if player is set:
@@ -42,7 +41,7 @@ command /apixmj [<text>] [<text>] [<text>]:
 		if arg-1 is "reload":
 			if arg-2 is set:
 				if arg-2 is "files":
-					mj_files_core()
+					mj_files_devtools()
 					mj_core_recipes_loader()
 					send "[APIxMJ] Data reloaded"
 				else:
@@ -129,19 +128,19 @@ command /apixmj [<text>] [<text>] [<text>]:
 					send "&6[&c&lAPIxMJ&6]&r &7Your game mode is set to &aSpectator"
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
-on tab complete of "/mj" or "/apixmj":
+on tab complete of "/debug":
 	set tab completions for position 1 to "reload" and "debug"
 	set {_player::*} to mj_id_converter("userdata", "data", "pseudo")
-	set {_list1::*} to mj_manager_skript_list()
+	set {_list.1::*} to mj_skript_list()
 	if tab arg-1 is "reload":
-		set tab completions for position 2 to {_list1::*} and "files"
+		set tab completions for position 2 to {_list.1::*} and "files"
 	if tab arg-1 is "debug":
 		set tab completions for position 2 to "uuid", "list", "unload", "loadskript", "unloadskript", "check", "checknbt", "checkentity", "checkslot", "online" and "rename"
 		if tab arg-2 is "unload" or "delete":
-			set {_list3::*} to the currently loaded yaml files
-			set tab completions for position 3 to {_list3::*}
+			set {_list.2::*} to the currently loaded yaml files
+			set tab completions for position 3 to {_list.2::*}
 		if tab arg-2 is "loadskript" or "unloadskript":
-			set tab completions for position 3 to {_list1::*}
+			set tab completions for position 3 to {_list.1::*}
 		if tab arg-2 is "check":
 			set tab completions for position 3 to "hand" and "target"
 		if tab arg-2 is "checknbt":
@@ -200,7 +199,7 @@ command /dataeditor [<text>] [<text>] [<text>] [<text>]:
 					set name of player's tool to "%{_name}%"
 					send "[APIxMJ] Name set to item in hand : %{_name}%"
 				else:
-					mj_message(player, "core", "data.prefix", "manager", "data.argument.name")
+					mj_message(player, "devtools", "data.prefix", "manager", "data.argument.name")
 			else if arg-1 is "item_lore":
 				if arg-2 is set:
 					set {_slot} to arg-2 parsed as number
@@ -212,9 +211,9 @@ command /dataeditor [<text>] [<text>] [<text>] [<text>]:
 						set line {_slot} of lore of player's tool to {_name}
 						send "[APIxMJ] In slot %{_slot}% the lore is set to item in hand : %{_name}%"
 					else:
-						mj_message(player, "core", "data.prefix", "manager", "data.argument.name")
+						mj_message(player, "devtools", "data.prefix", "manager", "data.argument.name")
 				else:
-					mj_message(player, "core", "data.prefix", "manager", "data.argument.number")
+					mj_message(player, "devtools", "data.prefix", "manager", "data.argument.number")
 			else if arg-1 is "item_enchant":
 				if arg-2 is set:
 					if arg-3 is set:
@@ -224,9 +223,9 @@ command /dataeditor [<text>] [<text>] [<text>] [<text>]:
 							set {_enchant} to "%arg-2% %arg-3%" parsed as enchantment type
 						enchant player's tool with {_enchant}
 					else:
-						mj_message(player, "core", "data.prefix", "manager", "data.argument.number")
+						mj_message(player, "devtools", "data.prefix", "manager", "data.argument.number")
 				else:
-					mj_message(player, "core", "data.prefix", "manager", "data.argument.name")
+					mj_message(player, "devtools", "data.prefix", "manager", "data.argument.name")
 			else if arg-1 is "editgui":
 				mj_editor_storage_edit(player)
 			else if arg-1 is "gui":
@@ -239,15 +238,15 @@ command /dataeditor [<text>] [<text>] [<text>] [<text>]:
 							set line {_line} of targeted block to colored arg-3
 							send "[APIxMJ] Set line %arg-2% : %arg-3%"
 						else:
-							mj_message(player, "core", "data.prefix", "manager", "data.argument.name")
+							mj_message(player, "devtools", "data.prefix", "manager", "data.argument.name")
 					else:
 						open sign gui of target block to player
 				else:
 					send "[APIxMJ] No sign targeted.."
 			else:
-				mj_message(player, "core", "data.prefix", "manager", "data.argument.name")
+				mj_message(player, "devtools", "data.prefix", "manager", "data.argument.name")
 		else:
-			mj_permission(player, "core", "data.prefix", "operator")
+			mj_permission(player, "devtools", "data.prefix", "operator")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on tab complete of "/dataeditor" or "/dae":
@@ -533,9 +532,9 @@ command /report [<text>]:
 	executable by: player
 	trigger:
 		if arg-1 is set:
-			mj_core_report(player, arg-1)
+			mj_report(player, arg-1)
 		else:
-			mj_message(player, "core", "data.report.prefix", "core", "data.report.error")
+			mj_message(player, "devtools", "data.report.prefix", "devtools", "data.report.error")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 command /reports [<text>] [<text>]:
@@ -545,47 +544,47 @@ command /reports [<text>] [<text>]:
 			if arg-1 is set:
 				if arg-1 is "remove":
 					if arg-2 is set:
-						mj_editfiles("core.data", "data.report.%arg-2%", "delete")
-						mj_message(player, "core", "data.report.prefix", "core", "data.report.remove", arg-2)
+						mj_editfiles("devtools.data", "data.report.%arg-2%", "delete")
+						mj_message(player, "devtools", "data.report.prefix", "devtools", "data.report.remove", arg-2)
 					else:
-						mj_message(player, "core", "data.report.prefix", "manager", "data.argument.name")
+						mj_message(player, "devtools", "data.report.prefix", "manager", "data.argument.name")
 				else:
-					mj_message(player, "core", "data.report.prefix", "manager", "data.argument.name")
+					mj_message(player, "devtools", "data.report.prefix", "manager", "data.argument.name")
 			else:
-				set {_count} to mj_nodes_count("core.data", "data.report")
+				set {_count} to mj_nodes_count("devtools.data", "data.report")
 				if {_count} is set:
-					mj_message(player, "core", "data.report.prefix", "core", "data.report.read", "%{_count}%")
-					mj_core_reports(player)
+					mj_message(player, "devtools", "data.report.prefix", "devtools", "data.report.read", "%{_count}%")
+					mj_reports(player)
 				else:
-					mj_message(player, "core", "data.report.prefix", "core", "data.report.empty")
+					mj_message(player, "devtools", "data.report.prefix", "devtools", "data.report.empty")
 		else:
-			mj_permission(player, "core", "data.report.prefix", "mj.manager.report.admin")
+			mj_permission(player, "devtools", "data.report.prefix", "mj.manager.report.admin")
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on join:
 	wait 5 seconds
 	if player has permission "*" or "mj.*" or "mj.report.*" or "mj.report.admin":
-		set {_count} to mj_nodes_count("manager.data", "data.report")
+		set {_count} to mj_nodes_count("devtools.data", "data.report")
 		if {_count} is set:
-			mj_message(player, "core", "data.report.prefix", "core", "data.report.news")
+			mj_message(player, "devtools", "data.report.prefix", "devtools", "data.report.news")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_report(player: player, info: text):
-	mj_core_data_memory("core.data", "data.report", "&a%{_player}% &6: &c%{_info}%")
-	mj_message({_player}, "core", "data.report.prefix", "core", "data.report.message", {_info})
+function mj_report(player: player, info: text):
+	mj_data_memory("devtools.data", "data.report", "&a%{_player}% &6: &c%{_info}%")
+	mj_message({_player}, "devtools", "data.report.prefix", "devtools", "data.report.message", {_info})
 	loop all players:
 		if loop-player has permission "*" or "mj.*" or "mj.report.*" or "mj.report.admin":
-			mj_message(loop-player, "core", "data.report.prefix", "core", "data.report.alert", "%{_player}%")
+			mj_message(loop-player, "devtools", "data.report.prefix", "devtools", "data.report.alert", "%{_player}%")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
-function mj_core_reports(player: player):
-	set {_list::*} to mj_nodes("core.data", "data.report")
+function mj_reports(player: player):
+	set {_list::*} to mj_nodes("devtools.data", "data.report")
 	if {_list::*} is set:
 		loop {_list::*}:
-			set {_info} to mj_editfiles("core.data", "data.report.%loop-value%")
+			set {_info} to mj_editfiles("devtools.data", "data.report.%loop-value%")
 			send formatted "&6- <cmd:/reports remove %loop-value%>&c✗<reset> &f%{_info}%" to {_player}
 	else:
-		mj_message_simple({_player}, "core", "data.empty")
+		mj_message_simple({_player}, "devtools", "data.empty")
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Report
@@ -616,7 +615,7 @@ command /storage [<text>] [<text>] [<text>] [<text>]:
 				if arg-1 is set:
 					if arg-1 is "create":
 						if arg-2 is set:
-							set {_name} to mj_core_converter_name("%arg-2% %arg-3% %arg-4%")
+							set {_name} to mj_converter_name("%arg-2% %arg-3% %arg-4%")
 							mj_storage_data_generator({_name})
 							mj_message(player, "supervisor", "data.prefix", "devtools", "data.storage.create", {_name})
 						else:
@@ -863,15 +862,15 @@ function mj_storage_save(player: player, source: text, find: text, silent: boole
 # APIxMJ - MobGriefing
 # ---------------------------------------------------------------------------------------------------------------------
 on spawn of bat:
-	set {_check} to mj_editfiles_boolean("devtools.config", "data.no_spawn_bat")
-	if {_check} is true:
-		cancel event
+	#set {_check} to mj_editfiles_boolean("devtools.config", "data.no_spawn_bat")
+	#if {_check} is true:
+	cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on enderman pickup:
-	set {_check} to mj_editfiles_boolean("devtools.config", "data.no_enderman_griefing")
-	if {_check} is true:
-		cancel event
+	#set {_check} to mj_editfiles_boolean("devtools.config", "data.no_enderman_griefing")
+	#if {_check} is true:
+	cancel event
 	stop
 # ---------------------------------------------------------------------------------------------------------------------
 on explode:

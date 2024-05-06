@@ -187,8 +187,8 @@ function mj_userdata_profil_create(player: offlineplayer, value: text):
 	set {_player}'s health to 20
 	set {_player}'s food to 10
 	set {_player}'s gamemode to survival
-	set {_list2::*} to mj_manager_skript_list()
-	#if {_list2::*} contains "apixmj_essentials.sk":
+	#set {_list.2::*} to mj_skript_list()
+	#if {_list.2::*} contains "apixmj_essentials.sk":
 	#	set {_tp} to mj_location("essentials.config", "data.spawn")
 	#	teleport {_player} to {_tp}
 	mj_message({_player}, "userdata", "data.prefix", "userdata", "data.profil.create", {_value})

@@ -662,3 +662,27 @@ function mj_converter_time(time: text) :: timespan:
 # ---------------------------------------------------------------------------------------------------------------------
 # APIxMJ - Converter
 # =====================================================================================================================
+# APIxMJ - DataInfo
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_data_memory(source: text, find: text, info: text):
+	set {_id} to mj_id_generator()
+	set {_date} to now formatted with "dd/MM/yyyy"
+	set {_hour} to now formatted with "HH"
+	set {_minute} to now formatted with "mm"
+	set {_time} to "%{_hour}%h%{_minute}%"
+	mj_editfiles({_source}, "%{_find}%.%{_id}%", "modify", "&3%{_date}% &e%{_time}% &6- &r%{_info}%")
+	# mj_logger(3, "Memory data : &3%{_date}% &e%{_time}% &6- &r%{_info}%")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+function mj_data_read(player: player, source: text, find: text="data"):
+	set {_list::*} to mj_nodes({_source}, {_find})
+	if {_list::*} is set:
+		loop {_list::*}:
+			set {_info} to mj_editfiles({_source}, "%{_find}%.%loop-value%")
+			send formatted "&6- <cmd:/console /dataeditor delete mj.%{_source}% %{_find}%.%loop-value%>&c✗<reset> &f%{_info}%" to {_player}
+	else:
+		mj_message_simple({_player}, "supervisor", "data.empty")
+	stop
+# ---------------------------------------------------------------------------------------------------------------------
+# APIxMJ - DataInfo
+# =====================================================================================================================

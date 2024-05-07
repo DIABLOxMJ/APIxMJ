@@ -716,8 +716,8 @@ command /reward:
 		stop
 # ---------------------------------------------------------------------------------------------------------------------
 on inventory close:
-	set {_check1} to mj_editfiles("temp", "data.%player's uuid%.storage.edit")
-	if {_check1} is set:
+	set {_check.1} to mj_editfiles("temp", "data.%player's uuid%.storage.edit")
+	if {_check.1} isn't "none":
 		mj_editfiles("temp", "data.%player's uuid%.storage.edit", "delete")
 		set {_source} to mj_editfiles("temp", "data.%player's uuid%.storage.source")
 		set {_find} to mj_editfiles("temp", "data.%player's uuid%.storage.find")
@@ -731,9 +731,9 @@ on inventory close:
 			if {_list::*} is set:
 				mj_editfiles_list("%{_source}%", "%{_find}%.storage", "modify", {_list::*})
 			wait 2 ticks
-			set {_check2} to mj_editfiles_boolean("temp", "data.%player's uuid%.storage.silent")
-			if {_check2} is false:
-				set {_name} to mj_editfiles_gettext("core", "%{_check1}%", player)
+			set {_check.2} to mj_editfiles_boolean("temp", "data.%player's uuid%.storage.silent")
+			if {_check.2} is false:
+				set {_name} to mj_editfiles_gettext("core", "%{_check.1}%", player)
 				mj_message(player, "supervisor", "data.prefix", "devtools", "data.storage.saved", {_name})
 				mj_logger(2, "Saving storage mj.%{_source}% / %{_find}% (%{_name}%&r)")
 			else:

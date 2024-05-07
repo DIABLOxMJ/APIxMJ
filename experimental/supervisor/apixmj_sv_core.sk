@@ -212,10 +212,10 @@ function mj_skript_start():
 	set {_list.1::*} to mj_nodes("supervisor.data.addons")
 	loop {_list.1::*}:
 		set {_value.1} to loop-value-1
-		if {_value.1} isn't "main":
-			set {_list.2::*} to mj_nodes("supervisor.data.addons", "data.%{_value.1}%")
-			loop {_list.2::*}:
-				set {_value.2} to loop-value-2
+		set {_list.2::*} to mj_nodes("supervisor.data.addons", "data.%{_value.1}%")
+		loop {_list.2::*}:
+			set {_value.2} to loop-value-2
+			if {_value.2} isn't "custom" or "manager":
 				set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.condition")
 				if {_check} is true:
 					set {_list.3::*} to mj_nodes("supervisor.data.addons", "data.%{_value.1}%.%{_value.2}%.skript")

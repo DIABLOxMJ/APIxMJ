@@ -74,8 +74,8 @@ on load:
 		set {_list.2::*} to mj_nodes("supervisor.data.addons", "data.%{_value.1}%")
 		loop {_list.2::*}:
 			set {_value.2} to loop-value-2
-			set {_check} to yaml value "data.manager.addon.%{_value.1}%.%{_value.2}%.installed" from "mj.temp"
-			if {_check} isn't set:
+			set {_check} to mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.installed")
+			if {_check} is false:
 				mj_editfiles("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.version", "modify", "0000.00.00.0000")
 				mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.installed", "modify", false)
 				mj_editfiles_boolean("temp", "data.manager.addons.%{_value.1}%.%{_value.2}%.condition", "modify", false)
